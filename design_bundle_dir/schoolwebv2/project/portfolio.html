@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>ผลงานวิทยาลัย · นวัตกรรมและสิ่งประดิษฐ์ · EEC Engineer Laemchabang</title>
+  <meta name="description" content="รวมผลงานนักศึกษาและอาจารย์ — นวัตกรรม สิ่งประดิษฐ์ งานวิจัย จากการแข่งขันทักษะวิชาชีพและการประกวดระดับชาติ ปีการศึกษา 2568"/>
+  <meta name="keywords" content="ผลงานนักศึกษา ปวส, นวัตกรรมอาชีวศึกษา, สิ่งประดิษฐ์ ปวช, ผลงานวิทยาลัยแหลมฉบัง"/>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="homepage.css"/>
+  <link rel="stylesheet" href="subpages.css"/>
+  <link rel="stylesheet" href="mobile.css"/>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="text/babel" src="chrome.jsx"></script>
+  <script type="text/babel" src="homepage-sections.jsx"></script>
+  <script type="text/babel">
+    const { useState } = React;
+
+    const WORKS = [
+      { t: 'Mini Smart Farms ระบบควบคุมอัตโนมัติ', dept: 'ปวส. ไฟฟ้า', author: 'อ.พงษ์ศักดิ์ + ทีม', tone: 'green', icon: 'chip', cat: 'IoT', year: '2568' },
+      { t: 'หุ่นยนต์ขนส่ง AGV ในโรงงาน', dept: 'ปวส. เมคคาทรอนิกส์', author: 'นายชยพล + ทีม', tone: 'navy', icon: 'robot', cat: 'หุ่นยนต์', year: '2568' },
+      { t: 'แอปติดตามสถานะการส่งสินค้า', dept: 'ปวส. โลจิสติกส์', author: 'นางสาวบงกช + ทีม', tone: 'amber', icon: 'truck', cat: 'แอปพลิเคชัน', year: '2568' },
+      { t: 'รถยนต์ไฟฟ้าจำลอง EV-ED', dept: 'ปวช. ช่างยนต์', author: 'นายธีรพัฒน์ + ทีม', tone: 'red', icon: 'car', cat: 'ยานยนต์', year: '2568' },
+      { t: 'ระบบจ่ายไฟอัจฉริยะภายในอาคาร', dept: 'ปวช. ไฟฟ้ากำลัง', author: 'อ.ปิยะ + ทีม', tone: 'green', icon: 'bolt', cat: 'พลังงาน', year: '2567' },
+      { t: 'เกมส่งเสริมความรู้อาเซียน', dept: 'ปวส. ดิจิทัลกราฟิก', author: 'นางสาวภัทรา + ทีม', tone: 'purple', icon: 'palette', cat: 'การศึกษา', year: '2567' },
+      { t: 'เครื่อง CNC ขนาดเล็กสำหรับเรียนการสอน', dept: 'ปวส. เทคนิคการผลิต', author: 'อ.ทรงพล + ทีม', tone: 'navy', icon: 'gear', cat: 'การผลิต', year: '2568' },
+      { t: 'ระบบ Cybersecurity Lab', dept: 'ปวส. เครือข่ายคอมพิวเตอร์', author: 'อ.พงษ์ศักดิ์ + ทีม', tone: 'teal', icon: 'network', cat: 'ความปลอดภัย', year: '2568' },
+      { t: 'แบบจำลองท่าเรือแหลมฉบัง 3D', dept: 'ปวส. โลจิสติกส์', author: 'นางสาวปุณณภา + ทีม', tone: 'amber', icon: 'truck', cat: 'การออกแบบ', year: '2567' },
+    ];
+
+    function PortfolioApp() {
+      useReveal();
+      const [cat, setCat] = useState('ทั้งหมด');
+      const cats = ['ทั้งหมด', 'IoT', 'หุ่นยนต์', 'แอปพลิเคชัน', 'ยานยนต์', 'การผลิต', 'การศึกษา'];
+      const shown = cat === 'ทั้งหมด' ? WORKS : WORKS.filter(w => w.cat === cat);
+
+      return (
+        <>
+          <Nav active="portfolio"/>
+          <main>
+            <section className="page-hero">
+              <div className="container page-hero-inner">
+                <div className="crumbs">
+                  <a href="index.html">หน้าแรก</a>
+                  <Icon name="chevronRight" style={{ width: 12, height: 12 }}/>
+                  <span>ผลงานวิทยาลัย</span>
+                </div>
+                <span className="eyebrow">นวัตกรรม · สิ่งประดิษฐ์ · งานวิจัย</span>
+                <h1>ผลงาน<span className="grad">ฝีมือเยี่ยม</span> จากครูและนักศึกษา</h1>
+                <p>คัดเลือกผลงานเด่นจากการแข่งขันทักษะวิชาชีพ การประกวดนวัตกรรม และการประดิษฐ์ระดับชาติ ทั้งปี 2567 และ 2568</p>
+              </div>
+            </section>
+
+            <section className="section">
+              <div className="container">
+                <Reveal style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 40 }}>
+                  {cats.map(c => (
+                    <button key={c} className={`chip ${cat === c ? 'chip-active' : ''}`} onClick={() => setCat(c)}>{c}</button>
+                  ))}
+                </Reveal>
+
+                <div className="port-page-grid">
+                  {shown.map((w, i) => (
+                    <Reveal key={`${w.t}-${i}`} delay={Math.min(i * 0.05, 0.3)} dir="scale" className={`port-big tone-${w.tone}`}>
+                      <a href="#" style={{ display: 'contents' }}>
+                        <div className="img">
+                          <Icon name={w.icon} style={{ width: 72, height: 72, color: 'rgba(255,255,255,0.9)' }}/>
+                        </div>
+                        <div className="meta">
+                          <span className="tag">{w.cat} · {w.year}</span>
+                          <h3>{w.t}</h3>
+                          <p className="desc">{w.dept}</p>
+                          <div className="author">
+                            <span>{w.author}</span>
+                            <Icon name="arrow" style={{ width: 16, height: 16, color: 'var(--green-700)' }}/>
+                          </div>
+                        </div>
+                      </a>
+                    </Reveal>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <CTABanner/>
+          </main>
+          <Footer/>
+          <StickyCTA/>
+        </>
+      );
+    }
+
+    const mount = () => {
+      if (!window.Nav || !window.CTABanner) return setTimeout(mount, 80);
+      ReactDOM.createRoot(document.getElementById('app')).render(<PortfolioApp/>);
+    };
+    mount();
+  </script>
+</body>
+</html>

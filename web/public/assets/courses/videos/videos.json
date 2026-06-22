@@ -1,0 +1,50 @@
+{
+  "yon": {
+    "src": "/assets/courses/videos/yon.mp4",
+    "poster": "/assets/courses/videos/yon.jpg"
+  },
+  "gear": {
+    "src": "/assets/courses/videos/gear.mp4",
+    "poster": "/assets/courses/videos/gear.jpg"
+  },
+  "faifaa": {
+    "src": "/assets/courses/videos/faifaa.mp4",
+    "poster": "/assets/courses/videos/faifaa.jpg"
+  },
+  "ps-electrical": {
+    "src": "/assets/courses/videos/faifaa.mp4",
+    "poster": "/assets/courses/videos/faifaa.jpg"
+  },
+  "mecha": {
+    "src": "/assets/courses/videos/mecha.mp4",
+    "poster": "/assets/courses/videos/mecha.jpg"
+  },
+  "ps-mecha": {
+    "src": "/assets/courses/videos/mecha.mp4",
+    "poster": "/assets/courses/videos/mecha.jpg"
+  },
+  "graphic": {
+    "src": "/assets/courses/videos/graphic.mp4",
+    "poster": "/assets/courses/videos/graphic.jpg"
+  },
+  "ps-graphic": {
+    "src": "/assets/courses/videos/graphic.mp4",
+    "poster": "/assets/courses/videos/graphic.jpg"
+  },
+  "biz-digital": {
+    "src": "/assets/courses/videos/biz-digital.mp4",
+    "poster": "/assets/courses/videos/biz-digital.jpg"
+  },
+  "ps-logistics": {
+    "src": "/assets/courses/videos/ps-logistics.mp4",
+    "poster": "/assets/courses/videos/ps-logistics.jpg"
+  },
+  "accounting": {
+    "src": "/assets/courses/videos/accounting.mp4",
+    "poster": "/assets/courses/videos/accounting.jpg"
+  },
+  "ps-accounting": {
+    "src": "/assets/courses/videos/accounting.mp4",
+    "poster": "/assets/courses/videos/accounting.jpg"
+  }
+}

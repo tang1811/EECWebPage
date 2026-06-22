@@ -1,0 +1,471 @@
+/* ────────────────────────────────────────────────────────────
+   Course Detail Cinematic — additions to about-cinematic.css
+   ──────────────────────────────────────────────────────────── */
+
+.cd-main { background: #000; color: #fff; }
+
+/* ── Hero ────────────────────────────────────────────────── */
+.cd-hero {
+  min-height: 100vh;
+  padding: 120px 64px 80px;
+  display: grid; place-items: end start;
+}
+.cd-hero-content {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+}
+.cd-crumbs {
+  display: inline-flex; gap: 8px; align-items: center;
+  font-family: 'JetBrains Mono', ui-monospace, monospace;
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 20px;
+}
+.cd-crumbs a { color: rgba(255,255,255,0.6); text-decoration: none; }
+.cd-crumbs a:hover { color: white; }
+.cd-meta {
+  display: inline-flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.cd-meta span {
+  padding: 6px 14px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.cd-meta-code {
+  background: var(--dept) !important;
+  border-color: var(--dept) !important;
+  color: white;
+}
+.cd-meta-hot {
+  background: #f5b800 !important;
+  border-color: #f5b800 !important;
+  color: #01231c !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em;
+}
+.cd-h1 { font-size: clamp(48px, 8vw, 128px); margin: 16px 0 24px; }
+.cd-h1 em {
+  background: linear-gradient(120deg, #ffffff 0%, var(--dept) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: normal;
+  font-weight: 800;
+}
+.cd-overview {
+  font-size: clamp(17px, 1.5vw, 22px);
+  color: rgba(255,255,255,0.85);
+  max-width: 720px;
+  line-height: 1.65;
+  margin: 0 0 32px;
+}
+.cd-cta {
+  display: inline-flex; gap: 14px; flex-wrap: wrap;
+}
+
+/* ── Facts ──────────────────────────────────────────────── */
+.cd-facts {
+  padding: 160px 32px;
+  background: #000;
+  flex-direction: column;
+  display: flex;
+  gap: 80px;
+}
+.cd-facts-head {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.cd-facts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  gap: 8px;
+}
+.cd-fact {
+  padding: 48px 32px;
+  border-left: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+  transition: opacity .8s, transform .8s;
+}
+.cd-fact:first-child { border-left: none; }
+.cd-fact-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(255,255,255,0.5);
+}
+.cd-fact-value {
+  font-size: clamp(48px, 6vw, 96px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  background: linear-gradient(120deg, #fff 0%, #0aa183 90%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 18px 0 8px;
+  line-height: 1;
+}
+.cd-fact-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+}
+
+/* ── Skills ─────────────────────────────────────────────── */
+.cd-skills {
+  padding: 200px 64px;
+  background: linear-gradient(180deg, #000 0%, #050a08 100%);
+  flex-direction: column;
+  display: flex;
+  gap: 80px;
+}
+/* Heading clusters: plain block flow with explicit margins.
+   Override every previous strategy with !important so this always wins. */
+.cd-facts-head,
+.cd-skills-head,
+.cd-curr-head,
+.cd-related-head,
+.cd-careers-content {
+  display: block !important;
+  align-items: initial !important;
+  gap: 0 !important;
+}
+.cd-facts-head,
+.cd-curr-head,
+.cd-related-head,
+.cd-careers-content { text-align: center; }
+.cd-skills-head { text-align: left; max-width: 900px; }
+
+/* Eyebrow: inline-flex with explicit bottom margin */
+.cd-facts-head > .cine-stats-eyebrow,
+.cd-skills-head > .cine-stats-eyebrow,
+.cd-curr-head > .cine-stats-eyebrow,
+.cd-related-head > .cine-stats-eyebrow,
+.cd-careers-content > .cine-stats-eyebrow {
+  display: inline-flex !important;
+  margin: 0 0 28px 0 !important;
+  padding: 0;
+}
+
+/* h2: block, no margin, breathing line-height for Thai */
+.cd-facts-head > .cine-h2,
+.cd-skills-head > .cine-h2,
+.cd-curr-head > .cine-h2,
+.cd-related-head > .cine-h2,
+.cd-careers-content > .cine-h2 {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0;
+  line-height: 1.18 !important;
+}
+.cd-skills-head > .cine-h2 {
+  font-weight: 300 !important;
+}
+.cd-skills-head > .cine-h2 em {
+  font-weight: 800 !important;
+}
+.cd-careers-content > .cine-h2 {
+  font-weight: 400 !important;
+}
+.cd-careers-content > .cine-h2 em {
+  font-weight: 800 !important;
+}
+.cd-skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+.cd-skill {
+  padding: 40px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  transition: opacity .8s, transform .8s, border-color .3s;
+  position: relative;
+}
+.cd-skill:hover { border-color: var(--dept); }
+.cd-skill-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  letter-spacing: 0.18em;
+  color: var(--dept);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.cd-skill-t {
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+.cd-skill-d {
+  font-size: 16px;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── Curriculum ─────────────────────────────────────────── */
+.cd-curr {
+  padding: 200px 64px;
+  background: #000;
+  flex-direction: column;
+  display: flex;
+  gap: 80px;
+}
+.cd-curr-head {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.cd-curr-list {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.cd-curr-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 200px;
+  gap: 32px;
+  align-items: center;
+  padding: 32px 24px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  transition: opacity .8s, transform .8s;
+}
+.cd-curr-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.08); }
+.cd-curr-c {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 48px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.cd-curr-t {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+.cd-curr-sub {
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  margin: 0;
+}
+.cd-curr-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.cd-curr-bar > div {
+  height: 100%;
+  transition: width 1s var(--ease-out);
+}
+
+/* ── Careers ───────────────────────────────────────────── */
+.cd-careers {
+  min-height: 100vh;
+  padding: 200px 64px;
+  display: grid;
+  place-items: center;
+}
+.cd-careers-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  text-align: center;
+  transition: opacity .8s;
+}
+.cd-careers-tags {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 12px;
+  margin-top: 48px;
+}
+.cd-career-tag {
+  display: inline-block;
+  padding: 14px 28px;
+  background: rgba(255,255,255,0.95);
+  color: #0b1a13;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 999px;
+  transition: opacity .6s, transform .6s var(--ease-spring), background .25s;
+}
+.cd-career-tag:hover {
+  background: var(--dept);
+  color: white;
+  transform: scale(1.05) !important;
+}
+
+/* ── Related ───────────────────────────────────────────── */
+.cd-related {
+  padding: 200px 64px;
+  background: #000;
+  flex-direction: column;
+  display: flex;
+  gap: 80px;
+}
+.cd-related-head {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.cd-related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+.cd-related-card {
+  display: block;
+  text-decoration: none;
+  color: white;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: opacity .8s, transform .35s var(--ease-spring), border-color .3s;
+}
+.cd-related-card:hover {
+  transform: translateY(-6px) !important;
+  border-color: var(--dept);
+}
+.cd-related-img {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+.cd-related-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform .6s;
+}
+.cd-related-card:hover .cd-related-img img { transform: scale(1.08); }
+.cd-related-tint {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.cd-related-meta { padding: 24px; }
+.cd-related-code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--dept);
+  font-weight: 700;
+}
+.cd-related-n {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 8px 0 0;
+  letter-spacing: -0.01em;
+}
+
+/* ── Closing override ───────────────────────────────────── */
+.cd-closing em {
+  background: linear-gradient(120deg, #f5b800, var(--dept)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  .cd-hero { padding: 100px 24px 60px; min-height: auto; }
+  .cd-closing { min-height: auto !important; padding: 100px 24px !important; }
+  .cd-closing .cine-closing-head { text-shadow: 0 2px 18px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.9); }
+  .cd-closing .cine-closing-sub { text-shadow: 0 1px 10px rgba(0,0,0,0.8); }
+  .cd-facts-grid { grid-template-columns: repeat(2, 1fr); }
+  .cd-fact { padding: 32px 16px; border-left: none; border-top: 1px solid rgba(255,255,255,0.1); }
+  .cd-fact:first-child, .cd-fact:nth-child(2) { border-top: none; }
+  .cd-skills-grid { grid-template-columns: 1fr; }
+  .cd-skill { padding: 28px; }
+  .cd-curr-row { grid-template-columns: 60px 1fr; padding: 22px 0; }
+  .cd-curr-bar { grid-column: 1 / -1; }
+  .cd-curr-c { font-size: 32px; }
+  .cd-related-grid { grid-template-columns: 1fr; }
+  .cd-skills, .cd-curr, .cd-related, .cd-careers { padding: 120px 24px; }
+}
+
+@media (max-width: 640px) {
+  /* Hero — compact mobile (matches homepage hero: content-driven height) */
+  .cd-hero { padding: 88px 28px 48px; min-height: auto; }
+  .cd-hero-content { padding: 0 4px; }
+  .cd-crumbs { font-size: 12px; letter-spacing: 0.12em; margin-bottom: 14px; }
+  .cd-meta { gap: 6px; margin-bottom: 8px; }
+  .cd-meta span { padding: 5px 10px; font-size: 11px; }
+  .cd-h1 {
+    font-size: clamp(30px, 8vw, 42px) !important;
+    margin: 14px 0 18px;
+    line-height: 1.1;
+    word-break: keep-all;
+  }
+  .cd-overview {
+    font-size: 15px;
+    line-height: 1.55;
+    margin: 0 0 24px;
+    padding-right: 8px;
+  }
+  .cd-cta { width: 100%; gap: 10px; }
+  .cd-cta .cine-cta-btn {
+    flex: 1; min-width: 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    justify-content: center;
+  }
+  .cd-cta .cine-cta-btn.ghost { padding: 14px 16px; }
+
+  /* Facts */
+  .cd-facts { padding: 96px 16px; gap: 48px; }
+  .cd-facts-grid { gap: 4px; }
+  .cd-fact { padding: 24px 12px; }
+  .cd-fact-label { font-size: 10px; }
+  .cd-fact-value { font-size: 40px; margin: 12px 0 4px; }
+  .cd-fact-sub { font-size: 11px; }
+
+  /* Skills */
+  .cd-skills { padding: 96px 16px; gap: 48px; }
+  .cd-skill { padding: 24px 20px; border-radius: 16px; }
+  .cd-skill-t { font-size: 19px; }
+  .cd-skill-d { font-size: 14px; }
+
+  /* Curriculum */
+  .cd-curr { padding: 96px 16px; gap: 48px; }
+  .cd-curr-row { gap: 16px; padding: 18px 0; }
+  .cd-curr-c { font-size: 26px; }
+  .cd-curr-t { font-size: 17px; }
+  .cd-curr-sub { font-size: 12px; }
+
+  /* Closing — compact background like hero */
+  .cd-closing { min-height: auto !important; padding: 88px 20px !important; }
+  .cd-closing .cine-closing-head { text-shadow: 0 2px 18px rgba(0,0,0,0.9), 0 1px 4px rgba(0,0,0,0.95); }
+  .cd-closing .cine-closing-head em { filter: drop-shadow(0 2px 12px rgba(0,0,0,0.85)); }
+  .cd-closing .cine-closing-sub { text-shadow: 0 1px 10px rgba(0,0,0,0.85); }
+
+  /* Careers */
+  .cd-careers { padding: 96px 16px; min-height: 80vh; }
+  .cd-careers-tags { gap: 8px; margin-top: 28px; }
+  .cd-career-tag { padding: 10px 18px; font-size: 13px; }
+
+  /* Related */
+  .cd-related { padding: 96px 16px; gap: 48px; }
+  .cd-related-grid { gap: 14px; }
+  .cd-related-meta { padding: 18px; }
+  .cd-related-n { font-size: 17px; }
+}

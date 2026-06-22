@@ -1,0 +1,435 @@
+/* ────────────────────────────────────────────────────────────
+   Mobile-only refinements (≤ 768px)
+   Desktop layout is NOT affected — all rules scoped to media query.
+   Loaded LAST so it overrides everything earlier.
+   ──────────────────────────────────────────────────────────── */
+
+/* ── Tablet refinements (769px – 1024px) ─────────────────── */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container,
+  .container-narrow { padding-left: 32px !important; padding-right: 32px !important; }
+
+  .hero .container,
+  .hss-inner,
+  .page-hero .container { padding-left: 40px !important; padding-right: 40px !important; }
+
+  /* Nav: hide desktop links, show burger at tablet (original CSS uses 980px) */
+  .nav-links, .nav-cta, .nav-right { display: none !important; }
+  .nav-burger {
+    display: inline-flex !important;
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-900);
+    background: var(--green-50);
+    border: 1px solid var(--green-200);
+    cursor: pointer;
+    z-index: 5;
+    position: relative;
+  }
+
+  .hero-inner { grid-template-columns: 1fr 0.8fr !important; gap: 40px !important; }
+  .hero-title { font-size: clamp(38px, 5vw, 56px) !important; }
+  .cd-h1 { font-size: clamp(38px, 5vw, 56px) !important; }
+  .hero-sub { font-size: 17px !important; }
+  .hero-crest { max-width: 380px !important; }
+
+  .hero-slideshow { aspect-ratio: 16/10 !important; height: auto !important; min-height: 0 !important; max-height: 82vh !important; }
+  .hss-inner { min-height: 0 !important; height: 100% !important; padding: 100px 40px 40px !important; }
+  .hss-img { object-position: center 35% !important; }
+  .hss-content { max-width: 620px !important; }
+  .hss-title { font-size: clamp(38px, 5vw, 56px) !important; }
+  .hss-sub { font-size: 17px !important; padding-right: 0 !important; }
+  .hss-controls { padding-top: 24px !important; }
+  .hss-counter { top: 100px !important; right: 40px !important; }
+  .hss-counter strong { font-size: 30px !important; }
+
+  .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .course-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .portfolio-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .highlights-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .highlights-grid > *:first-child { grid-column: 1 / -1 !important; }
+  .leader-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  .footer-grid { grid-template-columns: 1fr 1fr 1fr !important; }
+  .footer-grid > .footer-brand { grid-column: 1 / -1 !important; }
+
+  .about-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .about-copy { max-width: 100% !important; }
+
+  .apply-grid { grid-template-columns: 1.5fr 1fr !important; }
+  .contact-grid { grid-template-columns: 1fr 1.2fr !important; }
+  .faq-grid { grid-template-columns: 0.9fr 1.3fr !important; gap: 48px !important; }
+
+  .section { padding: 80px 0 !important; }
+  .section-title { font-size: clamp(32px, 4vw, 44px) !important; }
+}
+
+@media (max-width: 768px) {
+
+  /* ── 1. Container padding · breathing room ──────────────── */
+  .container,
+  .container-narrow {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  /* Hero gets a bit more breathing room */
+  .hero .container,
+  .hss-inner,
+  .page-hero .container {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  /* ── 2. Images · responsive by default ──────────────────── */
+  img,
+  picture,
+  video {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+  /* Aspect-ratio image holders: keep object-fit cover */
+  .hl-img img,
+  .cc-photo img,
+  .port-card img,
+  .port-big img,
+  .testi-avatar img,
+  .leader-card img,
+  .hss-img,
+  .cd-related-img img,
+  .cine-bg-img,
+  .cine-tl-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── 3. Nav · compact mobile header ─────────────────────── */
+  .nav { box-shadow: 0 4px 14px -8px rgba(11,26,19,0.1); }
+  .nav-inner { height: 64px; gap: 12px; }
+  .brand img { height: 38px; width: 38px; }
+  .brand-text { max-width: calc(100vw - 140px); }
+  .brand-th { font-size: 14px; }
+  .brand-en { font-size: 10px; }
+  /* Hide desktop nav, show burger */
+  .nav-links, .nav-cta, .nav-right { display: none !important; }
+  .nav-burger {
+    display: inline-flex !important;
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-900);
+    background: var(--green-50);
+    border: 1px solid var(--green-200);
+    cursor: pointer;
+    z-index: 5;
+    position: relative;
+    pointer-events: auto;
+  }
+  .nav-burger:active { background: var(--green-100); }
+  /* Drawer must beat sticky bubble (z: 60) and any other overlays */
+  .mnav-scrim { z-index: 110 !important; }
+  .mnav-drawer { z-index: 111 !important; }
+
+  /* Mobile slide-in panel — overwrites inline JS-styled overlay */
+  body.has-mobile-nav { overflow: hidden; }
+
+  /* ── 4. Sections · less vertical padding ────────────────── */
+  .section { padding: 56px 0; }
+  .section-sm { padding: 40px 0; }
+  .section-title { font-size: clamp(26px, 7vw, 36px); }
+  .section-sub { font-size: 15px; margin-top: 12px; }
+  .section-head { margin-bottom: 32px; }
+
+  /* ── 5. Buttons · easier tap targets ───────────────────── */
+  .btn {
+    padding: 13px 22px;
+    font-size: 15px;
+    min-height: 44px;
+  }
+  .btn-lg { padding: 15px 26px; font-size: 15px; }
+  .hero-cta { gap: 10px; }
+  .hero-cta .btn { flex: 1 1 auto; min-width: 0; justify-content: center; }
+
+  /* ── 6. Hero layouts · cleaner mobile ──────────────────── */
+  .hero { padding: 64px 0 40px; min-height: auto; }
+  .hero-inner { gap: 28px; grid-template-columns: 1fr; }
+  .hero-title { font-size: clamp(30px, 8vw, 42px); margin: 18px 0 14px; line-height: 1.1; }
+  .cd-h1 { font-size: clamp(30px, 8vw, 42px) !important; margin: 18px 0 14px !important; line-height: 1.1 !important; }
+  .hero-sub { font-size: 15px; margin: 0 0 22px; }
+  .hero-trust { gap: 12px; margin-top: 22px; }
+  .hero-trust-line strong { font-size: 17px; }
+  .hero-eyebrow { padding: 6px 14px; font-size: 12px; }
+  .hero-crest { max-width: 220px; }
+  .crest-badge { font-size: 11px; padding: 6px 10px; }
+  .crest-badge.b1 { top: 0; left: -4%; }
+  .crest-badge.b4 { bottom: -2%; right: 0; }
+  .hero-scroll { display: none; }
+
+  /* Hero slideshow — overlay style with content over image */
+  .hero-slideshow {
+    min-height: 0;
+    height: 62vh;
+    max-height: 500px;
+    aspect-ratio: auto;
+    position: relative;
+    overflow: hidden;
+  }
+  .hss-stage {
+    position: absolute !important;
+    inset: 0;
+    height: auto;
+    max-height: none;
+    min-height: 0;
+  }
+  .hss-slide,
+  .hss-bg {
+    position: absolute;
+    inset: 0;
+  }
+  .hss-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .hss-tint,
+  .hss-vignette {
+    position: absolute; inset: 0;
+  }
+  /* Bold gradient: clear at top → fade to deep brand-dark at bottom for text legibility */
+  .hss-vignette {
+    background:
+      linear-gradient(180deg,
+        rgba(1,35,28,0.15) 0%,
+        rgba(1,35,28,0.0) 20%,
+        rgba(1,35,28,0.35) 55%,
+        rgba(1,35,28,0.85) 80%,
+        rgba(1,35,28,0.98) 100%);
+  }
+
+  /* Inner: position content at bottom of viewport, overlapping image */
+  .hss-inner {
+    position: relative !important;
+    min-height: 0;
+    height: 100%;
+    padding: 64px 20px 0;
+    box-sizing: border-box;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .hss-content {
+    position: relative;
+    max-width: 100%;
+    align-self: stretch;
+  }
+  .hss-copy {
+    position: static !important;
+    grid-column: auto !important;
+    grid-row: auto !important;
+    opacity: 0;
+    transform: none;
+    display: none;
+  }
+  .hss-copy.on {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+    animation: hss-copy-in .5s var(--ease-out) forwards;
+  }
+  @keyframes hss-copy-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hss-title {
+    font-size: clamp(20px, 5.5vw, 28px);
+    margin: 6px 0 8px;
+    padding-right: 0;
+    line-height: 1.2;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 1px 24px rgba(0,0,0,0.4);
+  }
+  .hss-sub {
+    font-size: 15px;
+    margin: 0 0 10px;
+    padding-right: 0;
+    line-height: 1.5;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.55);
+    color: rgba(255,255,255,0.95);
+  }
+  .hss-eyebrow {
+    font-size: 11px;
+    padding: 4px 10px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .hss-cta { width: 100%; }
+  .hss-cta .btn {
+    width: 100%;
+    padding: 11px 18px;
+    font-size: 13.5px;
+    min-height: 42px;
+  }
+  .hss-controls {
+    padding-top: 10px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    gap: 8px;
+    border-top-color: rgba(255,255,255,0.22);
+  }
+  .hss-controls .hss-nav {
+    width: 32px; height: 32px;
+    background: rgba(255,255,255,0.14);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .hss-counter { top: 72px; right: 18px; }
+  .hss-counter strong { font-size: 18px; }
+  .hss-counter span, .hss-counter em { font-size: 13px; }
+
+  /* Hero video layout */
+  .hero-video-layout { padding: 64px 0 40px; }
+  .hero-video-card { max-width: 100%; }
+
+  /* ── 7. Stats bar · 2 col mobile ───────────────────────── */
+  .stats-bar { padding: 40px 0; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .stat-item { border-right: none; padding: 0; }
+  .stat-v { font-size: 36px; }
+  .stat-l { font-size: 13px; }
+  .marquee-item { font-size: 13px; }
+
+  /* ── 8. Course grid · 1 col mobile ─────────────────────── */
+  .course-grid { grid-template-columns: 1fr; gap: 14px; }
+  .course-filters { gap: 6px; }
+  .chip { padding: 8px 14px; font-size: 13px; }
+  .cc-name { font-size: 17px; }
+  .cc-photo { aspect-ratio: 16/9; }
+
+  /* ── 9. About / Philosophy ─────────────────────────────── */
+  .about-grid { gap: 32px; }
+  .about-stats { gap: 20px; margin: 24px 0; padding: 20px 0; }
+  .about-stats strong { font-size: 28px; }
+  .philo-row { padding: 18px; gap: 14px; }
+  .philo-icon { width: 40px; height: 40px; }
+  .philo-t { font-size: 15px; }
+  .philo-d { font-size: 14px; }
+  .philo-num { font-size: 28px; }
+
+  /* ── 10. Portfolio ─────────────────────────────────────── */
+  .portfolio-grid { grid-template-columns: 1fr; gap: 16px; }
+  .port-t { font-size: 15px; padding-right: 28px; }
+  .port-meta { padding: 18px; }
+
+  /* ── 11. Testimonials ──────────────────────────────────── */
+  .testi-card { padding: 24px 20px; }
+  .testi-text { font-size: 15px; margin: 18px 0 22px; }
+  .testi-avatar { width: 44px; height: 44px; font-size: 18px; }
+  .testi-name { font-size: 15px; }
+  .testi-dept { font-size: 13px; }
+
+  /* ── 12. FAQ ───────────────────────────────────────────── */
+  .faq-grid { gap: 32px; }
+  .faq-side { position: static; }
+  .faq-q { padding: 18px; gap: 12px; grid-template-columns: auto 1fr auto; }
+  .faq-q-text { font-size: 15px; }
+  .faq-num { font-size: 12px; padding: 3px 8px; }
+  .faq-a-inner { padding: 0 18px 18px 18px; font-size: 14px; }
+
+  /* ── 13. CTA banner ────────────────────────────────────── */
+  .cta-banner { padding: 48px 20px; border-radius: 18px; }
+  .cta-title { font-size: clamp(26px, 7vw, 36px); }
+  .cta-sub { font-size: 15px; margin-bottom: 28px; }
+  .cta-actions .btn { width: 100%; }
+
+  /* ── 14. Highlights / News ─────────────────────────────── */
+  .highlights-grid { grid-template-columns: 1fr; gap: 16px; }
+  .hl-t { font-size: 15px; }
+  .hl-body { padding: 20px; }
+
+  /* ── 15. Footer ────────────────────────────────────────── */
+  .footer { padding: 56px 0 24px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 32px; padding-bottom: 32px; }
+  .footer-bottom { flex-direction: column; gap: 14px; text-align: center; font-size: 12px; padding-top: 20px; }
+  .footer-brand p { max-width: 100%; }
+
+  /* ── 16. Sticky FAB · tighter ──────────────────────────── */
+  .sticky-bubble { right: 14px; bottom: 14px; }
+  .bubble-teaser { max-width: calc(100vw - 100px); font-size: 13px; padding: 8px 12px 8px 14px; }
+  /* FAB stack: keep labels visible on mobile (no hover) */
+  .fab-label { opacity: 1 !important; transform: translateX(0) !important; pointer-events: auto !important; }
+  .bubble-fab.primary { max-width: calc(100vw - 96px); }
+  .bubble-fab.primary .fab-label strong { font-size: 14px; }
+  .bubble-fab.primary .fab-label em { font-size: 12px; }
+
+  /* ── 17. Subpage hero ──────────────────────────────────── */
+  .page-hero { padding: 80px 0 56px; }
+  .page-hero h1 { font-size: clamp(28px, 8vw, 42px); }
+  .page-hero p { font-size: 15px; margin-top: 14px; }
+  .page-hero .crumbs { font-size: 12px; margin-bottom: 18px; }
+
+  /* ── 18. Apply form ────────────────────────────────────── */
+  .apply-grid { grid-template-columns: 1fr; gap: 24px; }
+  .steps { gap: 6px; margin-bottom: 24px; }
+  .step { padding: 12px 14px; }
+  .step .label { font-size: 12px; }
+  .form-card { padding: 24px 20px; }
+  .form-grid { grid-template-columns: 1fr; gap: 14px; }
+  .form-actions { flex-direction: column-reverse; gap: 10px; }
+  .form-actions .btn { width: 100%; }
+  .apply-side { display: flex; flex-direction: column; gap: 14px; }
+
+  /* ── 19. Contact ───────────────────────────────────────── */
+  .contact-grid { grid-template-columns: 1fr; gap: 24px; }
+  .contact-row { padding: 18px; gap: 14px; grid-template-columns: 44px 1fr; }
+  .contact-row .icon { width: 40px; height: 40px; }
+  .contact-map { min-height: 360px; }
+  .contact-map iframe { min-height: 360px; }
+
+  /* ── 20. Course detail / About cinematic ────────────────── */
+  /* (handled in their own CSS files for cinematic) */
+
+  /* ── 21. Tweaks panel · don't squash content ──────────── */
+  body[data-edit-mode-active] { padding-right: 0; }
+}
+
+/* ── Smaller phones (≤ 380px): tighter still ───────────── */
+@media (max-width: 380px) {
+  .container, .container-narrow { padding-left: 16px; padding-right: 16px; }
+  .hero-title { font-size: clamp(28px, 9vw, 40px); }
+  .cd-h1 { font-size: clamp(28px, 9vw, 40px) !important; }
+  .nav-inner { height: 60px; }
+  .brand img { height: 34px; width: 34px; }
+  .brand-th { font-size: 15px; }
+  .brand-en { display: none; }
+}
+
+/* ── Cinematic pages override on mobile ─────────────────── */
+@media (max-width: 768px) {
+  .cine-main .nav-inner { background: rgba(0,0,0,0.6); }
+  .cine-main .nav-burger {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.18);
+    color: white;
+  }
+  .cine-main .nav .brand-th { color: white; }
+  .cine-main .nav .brand-en { color: rgba(255,255,255,0.6); }
+}
+
+/* ── Hero text & buttons: minimum 15px gutter from screen edge ──
+   Applies to every hero variant; keeps content ≥15px off both
+   edges on phones (overrides the larger default mobile gutters). */
+@media (max-width: 768px) {
+  .hero > .container,
+  .hero-slideshow .hss-inner,
+  .hero-spotlight > .container,
+  .hero-minimal > .container,
+  .hero-video-layout > .container {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+  }
+}

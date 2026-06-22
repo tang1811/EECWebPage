@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SEO Strategy · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</title>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green-700: #0f7a3e; --green-600: #14924b; --green-500: #22a85a;
+      --green-200: #c3edd2; --green-100: #e8f7ee; --green-50: #f4fbf6;
+      --ink-900: #0b1a13; --ink-700: #2a382f; --ink-600: #4a5a51;
+      --ink-500: #6b7a71; --ink-400: #97a299; --ink-300: #c8cfca;
+      --ink-200: #e4e8e5; --ink-100: #f1f3f1;
+      --bg: #ffffff; --bg-alt: #f6faf7;
+      --border: rgba(11,26,19,0.1);
+      --shadow: 0 8px 24px -8px rgba(11,26,19,0.12);
+      --r: 14px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; font-family: 'Prompt', sans-serif; color: var(--ink-900); background: var(--bg-alt); line-height: 1.7; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+
+    .doc {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 64px 32px 120px;
+    }
+    .doc-hero {
+      background: linear-gradient(135deg, #0a4d28 0%, #0f7a3e 45%, #22a85a 100%);
+      border-radius: 24px;
+      padding: 48px;
+      color: white;
+      margin-bottom: 48px;
+      position: relative; overflow: hidden;
+    }
+    .doc-hero::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(at 80% 30%, rgba(245,184,0,0.2) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .doc-hero .label {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 999px;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .doc-hero h1 {
+      font-size: 44px; font-weight: 800;
+      letter-spacing: -0.025em;
+      margin: 16px 0 12px;
+      line-height: 1.1;
+    }
+    .doc-hero p { font-size: 17px; opacity: 0.9; max-width: 600px; margin: 0; }
+    .meta-row {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-top: 32px; padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      font-size: 13px;
+    }
+    .meta-row strong { color: white; }
+    .meta-row span { color: rgba(255,255,255,0.7); }
+
+    .toc {
+      background: white;
+      border-radius: var(--r);
+      padding: 28px;
+      margin-bottom: 40px;
+      box-shadow: var(--shadow);
+    }
+    .toc h3 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-500); margin: 0 0 14px; font-weight: 700; }
+    .toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 32px; }
+    .toc a { color: var(--ink-700); text-decoration: none; font-weight: 500; font-size: 14px; }
+    .toc a:hover { color: var(--green-700); }
+    @media (max-width: 600px) { .toc ol { columns: 1; } }
+
+    section { background: white; border-radius: var(--r); padding: 40px; margin-bottom: 24px; box-shadow: var(--shadow); }
+    section h2 {
+      font-size: 28px; font-weight: 800;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+      display: flex; gap: 14px; align-items: center;
+    }
+    section h2 .num {
+      display: inline-grid; place-items: center;
+      width: 36px; height: 36px;
+      background: var(--green-100); color: var(--green-700);
+      border-radius: 10px;
+      font-size: 14px; font-weight: 800;
+    }
+    section .lede { color: var(--ink-600); font-size: 15px; margin: 0 0 28px; }
+    section h3 { font-size: 18px; font-weight: 700; margin: 32px 0 12px; }
+    section h4 { font-size: 14px; font-weight: 700; color: var(--green-800, var(--green-700)); margin: 18px 0 8px; text-transform: uppercase; letter-spacing: 0.04em; }
+    section p { color: var(--ink-700); margin: 0 0 12px; }
+    section ul, section ol { color: var(--ink-700); padding-left: 22px; margin: 0 0 16px; }
+    section li { margin-bottom: 6px; }
+
+    .kw-table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 16px 0; }
+    .kw-table th, .kw-table td { text-align: left; padding: 12px 16px; font-size: 14px; border-bottom: 1px solid var(--border); }
+    .kw-table thead th { background: var(--bg-alt); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-600); }
+    .kw-table tbody tr:hover { background: var(--green-50); }
+    .kw-table .kw { font-weight: 600; color: var(--ink-900); }
+    .kw-table .badge { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+    .badge-hot { background: #fee2e2; color: #b91c1c; }
+    .badge-med { background: #fef3c7; color: #92400e; }
+    .badge-low { background: var(--green-100); color: var(--green-800, var(--green-700)); }
+    .badge-pri { background: var(--ink-900); color: white; }
+    .badge-sec { background: var(--ink-100); color: var(--ink-700); }
+
+    pre, code.inline { background: var(--ink-900); color: #c3edd2; padding: 18px 20px; border-radius: 10px; font-size: 13px; line-height: 1.6; overflow-x: auto; }
+    code.inline { display: inline; padding: 2px 8px; font-size: 13px; }
+
+    .meta-example {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 20px 24px;
+      margin: 12px 0;
+    }
+    .meta-example .url { font-size: 13px; color: #1a73e8; word-break: break-all; }
+    .meta-example .title { font-size: 18px; color: #1a0dab; font-weight: 500; margin: 4px 0; cursor: pointer; }
+    .meta-example .title:hover { text-decoration: underline; }
+    .meta-example .desc { font-size: 14px; color: var(--ink-700); line-height: 1.5; }
+    .meta-example .meta-count { font-size: 11px; color: var(--ink-500); margin-top: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    .heading-tree {
+      background: var(--ink-900); color: white;
+      border-radius: 12px;
+      padding: 28px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.9;
+      overflow-x: auto;
+    }
+    .heading-tree .h1 { color: #22c55e; font-weight: 700; }
+    .heading-tree .h2 { color: #86dba6; font-weight: 600; }
+    .heading-tree .h3 { color: #c3edd2; }
+    .heading-tree .note { color: #6b7a71; font-style: italic; margin-left: 8px; }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .check-item {
+      background: var(--bg-alt);
+      border-left: 3px solid var(--green-500);
+      padding: 14px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .check-item strong { display: block; color: var(--ink-900); margin-bottom: 4px; font-weight: 700; }
+    .check-item span { color: var(--ink-600); font-size: 13px; }
+
+    .callout {
+      background: var(--green-50);
+      border: 1px solid var(--green-200);
+      border-left: 4px solid var(--green-700);
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin: 20px 0;
+    }
+    .callout strong { color: var(--green-800, var(--green-700)); }
+
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 16px;
+      background: white;
+      border-radius: 999px;
+      color: var(--green-700);
+      font-weight: 600; font-size: 14px;
+      text-decoration: none;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    .nav-back:hover { background: var(--green-50); }
+  </style>
+</head>
+<body>
+  <div class="doc">
+    <a href="index.html" class="nav-back">← กลับสู่หน้าเว็บ</a>
+
+    <header class="doc-hero">
+      <span class="label">SEO Strategy Document</span>
+      <h1>กลยุทธ์ SEO สำหรับเว็บไซต์<br/>วิทยาลัยเทคโนโลยี อีอีซี เอ็นจิเนีย แหลมฉบัง</h1>
+      <p>คำแนะนำการทำ On-Page SEO, การวางคีย์เวิร์ด, โครงสร้าง Heading และเทคนิคเพิ่มประสิทธิภาพเว็บไซต์โดยไม่กระทบต่อคะแนน Core Web Vitals</p>
+      <div class="meta-row">
+        <div><strong>เวอร์ชัน:</strong> <span>1.0 · พ.ค. 2569</span></div>
+        <div><strong>กลุ่มเป้าหมาย:</strong> <span>นักเรียน ม.3-ม.6 · ผู้ปกครอง</span></div>
+        <div><strong>พื้นที่:</strong> <span>ศรีราชา · แหลมฉบัง · ชลบุรี · EEC</span></div>
+      </div>
+    </header>
+
+    <nav class="toc">
+      <h3>สารบัญ</h3>
+      <ol>
+        <li><a href="#keywords">Keyword Strategy</a></li>
+        <li><a href="#meta">Meta Title & Description</a></li>
+        <li><a href="#headings">โครงสร้าง Heading Tags</a></li>
+        <li><a href="#performance">Performance & Core Web Vitals</a></li>
+        <li><a href="#local">Local SEO (Google Business)</a></li>
+        <li><a href="#technical">Technical SEO Checklist</a></li>
+      </ol>
+    </nav>
+
+    <!-- ── SECTION 1: KEYWORDS ──────────────────────────── -->
+    <section id="keywords">
+      <h2><span class="num">1</span>Keyword Strategy</h2>
+      <p class="lede">คีย์เวิร์ดถูกแบ่งตามเจตนาของผู้ค้นหา (Search Intent) — เริ่มจาก "Brand Keywords" (คนรู้จักวิทยาลัยแล้ว) ไปจนถึง "Long-tail" (คนกำลังตัดสินใจสมัคร)</p>
+
+      <h3>1.1 Brand Keywords (คนรู้จักชื่อแล้ว)</h3>
+      <table class="kw-table">
+        <thead><tr><th>คีย์เวิร์ด</th><th>Intent</th><th>ความสำคัญ</th><th>วางที่</th></tr></thead>
+        <tbody>
+          <tr><td class="kw">วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</td><td>Navigational</td><td><span class="badge badge-pri">PRIMARY</span></td><td>Title หน้าแรก, H1</td></tr>
+          <tr><td class="kw">EEC Engineer Laemchabang</td><td>Navigational</td><td><span class="badge badge-pri">PRIMARY</span></td><td>Title, Subtitle, ทุกหน้า</td></tr>
+          <tr><td class="kw">เทคโนโลยีแหลมฉบัง</td><td>Navigational</td><td><span class="badge badge-sec">SECONDARY</span></td><td>Body, Meta Desc</td></tr>
+          <tr><td class="kw">เทคโนแหลม</td><td>Navigational</td><td><span class="badge badge-sec">SECONDARY</span></td><td>Keywords meta, Alt text</td></tr>
+        </tbody>
+      </table>
+
+      <h3>1.2 Generic Keywords (คนค้นหาทั่วไป)</h3>
+      <table class="kw-table">
+        <thead><tr><th>คีย์เวิร์ด</th><th>ปริมาณค้นหา</th><th>ความยาก</th><th>วางที่</th></tr></thead>
+        <tbody>
+          <tr><td class="kw">เรียน ปวช ชลบุรี</td><td><span class="badge badge-hot">สูง</span></td><td>ปานกลาง</td><td>H2 หน้าหลักสูตร</td></tr>
+          <tr><td class="kw">เรียน ปวส แหลมฉบัง</td><td><span class="badge badge-hot">สูง</span></td><td>ต่ำ</td><td>H1 หน้าหลักสูตร ปวส.</td></tr>
+          <tr><td class="kw">วิทยาลัยเทคโนโลยี ชลบุรี</td><td><span class="badge badge-hot">สูง</span></td><td>สูง</td><td>Meta Desc หน้าแรก</td></tr>
+          <tr><td class="kw">อาชีวศึกษาเอกชน ศรีราชา</td><td><span class="badge badge-med">ปานกลาง</span></td><td>ต่ำ</td><td>About page, Body</td></tr>
+          <tr><td class="kw">สมัครเรียน ปวช ออนไลน์</td><td><span class="badge badge-hot">สูง</span></td><td>ปานกลาง</td><td>H1 หน้าสมัคร, CTA</td></tr>
+        </tbody>
+      </table>
+
+      <h3>1.3 Long-tail Keywords (ระบุชัดเจน · คอนเวอร์ชั่นสูง)</h3>
+      <table class="kw-table">
+        <thead><tr><th>คีย์เวิร์ด</th><th>กลุ่มเป้าหมาย</th><th>วางที่</th></tr></thead>
+        <tbody>
+          <tr><td class="kw">สมัครเรียน ปวส โลจิสติกส์ ศรีราชา</td><td>เด็กที่อยากทำงานท่าเรือ</td><td>หน้า course-detail (โลจิสติกส์)</td></tr>
+          <tr><td class="kw">เรียน เมคคาทรอนิกส์ ปวส ชลบุรี</td><td>เด็กสายช่าง</td><td>หน้า course-detail</td></tr>
+          <tr><td class="kw">ฝึกงาน นิคม EEC ทวิภาคี</td><td>นักศึกษา ปวส</td><td>About + Course pages</td></tr>
+          <tr><td class="kw">ค่าเทอม วิทยาลัยอาชีวะ ศรีราชา</td><td>ผู้ปกครอง</td><td>FAQ + Apply page</td></tr>
+          <tr><td class="kw">เรียน ปวช ไฟฟ้า แหลมฉบัง กยศ</td><td>เด็กที่ต้องการกู้ยืม</td><td>FAQ + ปวช ไฟฟ้า detail</td></tr>
+          <tr><td class="kw">สมัครเรียน 2569 ชลบุรี ปวช</td><td>ตามฤดูกาลรับสมัคร</td><td>Hero homepage + Apply</td></tr>
+        </tbody>
+      </table>
+
+      <h3>1.4 Local SEO Keywords (ภูมิศาสตร์)</h3>
+      <p>กระจายคำเหล่านี้ในเนื้อหา Footer, Contact page, และ Schema Markup:</p>
+      <ul>
+        <li><strong>ทุ่งสุขลา</strong>, <strong>ศรีราชา</strong>, <strong>แหลมฉบัง</strong>, <strong>ชลบุรี</strong></li>
+        <li><strong>นิคมอุตสาหกรรมแหลมฉบัง</strong>, <strong>ท่าเรือแหลมฉบัง</strong>, <strong>EEC</strong>, <strong>เขตพัฒนาพิเศษภาคตะวันออก</strong></li>
+        <li><strong>ใกล้นิคม Hemaraj</strong>, <strong>WHA Eastern Seaboard</strong>, <strong>อมตะนคร</strong>, <strong>อมตะซิตี้ ชลบุรี</strong></li>
+      </ul>
+
+      <div class="callout">
+        <strong>เคล็ดลับ:</strong> ห้ามยัด keyword (keyword stuffing) — Google ปี 2025+ จะลงโทษหนัก ใช้คีย์เวิร์ดธรรมชาติ 1-2 ครั้งต่อ 300 คำ และเน้น "Topical Authority" คือเขียนเนื้อหาให้ครอบคลุมหัวข้อจริงๆ
+      </div>
+    </section>
+
+    <!-- ── SECTION 2: META ──────────────────────────────── -->
+    <section id="meta">
+      <h2><span class="num">2</span>Meta Title & Description</h2>
+      <p class="lede">Meta Title (≤ 60 ตัวอักษร) และ Description (≤ 155 ตัวอักษร) เป็นปัจจัยที่ส่งผลต่อ CTR (Click-Through Rate) จากหน้าผลการค้นหา ควรเขียนให้ดึงดูดและตรงกับเจตนาผู้ค้นหา</p>
+
+      <h3>2.1 หน้าแรก (Homepage)</h3>
+      <div class="meta-example">
+        <div class="url">eec-laemchabang.ac.th</div>
+        <div class="title">วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · เปิดรับสมัคร ปวช. ปวส. ป.ตรี 2569</div>
+        <div class="desc">เรียน ปวช. ปวส. ป.ตรี ที่แหลมฉบัง ศรีราชา ชลบุรี — 18 สาขา ช่างยนต์ ไฟฟ้า เมคคาทรอนิกส์ โลจิสติกส์ พร้อมทวิภาคีกับ EEC สมัครออนไลน์ภายใน 5 นาที</div>
+        <div class="meta-count">Title 86 ตัวอักษร · Description 152 ตัวอักษร · มีคีย์เวิร์ดหลัก 5 ตัว · มี CTA "สมัครออนไลน์"</div>
+      </div>
+
+      <h3>2.2 หน้าหลักสูตร (Courses)</h3>
+      <div class="meta-example">
+        <div class="url">eec-laemchabang.ac.th/courses</div>
+        <div class="title">หลักสูตร ปวช. ปวส. ป.ตรี · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย</div>
+        <div class="desc">หลักสูตร 18 สาขาวิชา ครอบคลุมช่างยนต์ ไฟฟ้า เมคคาทรอนิกส์ โลจิสติกส์ ดิจิทัล และบริหาร ที่แหลมฉบัง ศรีราชา ชลบุรี อัปเดตหลักสูตร 2567</div>
+      </div>
+
+      <h3>2.3 หน้า Course Detail (ตัวอย่าง: โลจิสติกส์)</h3>
+      <div class="meta-example">
+        <div class="url">eec-laemchabang.ac.th/courses/logistics</div>
+        <div class="title">ปวส. การจัดการโลจิสติกส์ ศรีราชา · เรียน 2 ปี ฝึกงาน EEC</div>
+        <div class="desc">หลักสูตร ปวส. การจัดการโลจิสติกส์ ที่แหลมฉบัง เรียน 2 ปี ฝึกงานจริงในท่าเรือแหลมฉบังและนิคม EEC พร้อมโครงการทวิภาคี รับประกันมีงานทำ</div>
+      </div>
+
+      <h3>2.4 หน้าสมัครเรียน (Apply)</h3>
+      <div class="meta-example">
+        <div class="url">eec-laemchabang.ac.th/apply</div>
+        <div class="title">สมัครเรียนออนไลน์ 2569 · ปวช. ปวส. ป.ตรี ใน 5 นาที</div>
+        <div class="desc">สมัครเรียนปีการศึกษา 2569 ใช้เวลาเพียง 5 นาที — ทีมงานติดต่อกลับภายใน 24 ชั่วโมง เปิดรับ ปวช./ปวส./ป.ตรี ที่ศรีราชา ชลบุรี</div>
+      </div>
+
+      <h4>หลักการเขียน Meta ให้ได้ผล</h4>
+      <ul>
+        <li><strong>Title:</strong> วาง Primary Keyword ใน 60 ตัวอักษรแรก + เพิ่ม Brand ตอนท้าย</li>
+        <li><strong>Description:</strong> มี Action verb ("สมัคร", "เรียน", "ดู") + ตัวเลขที่ดึงดูด ("5 นาที", "18 สาขา", "100%")</li>
+        <li><strong>ห้าม:</strong> ใช้ Meta description ซ้ำกันหลายหน้า, ใช้ ALL CAPS, ใส่ emoji เยอะเกินไป</li>
+      </ul>
+    </section>
+
+    <!-- ── SECTION 3: HEADINGS ──────────────────────────── -->
+    <section id="headings">
+      <h2><span class="num">3</span>โครงสร้าง Heading Tags (H1-H3)</h2>
+      <p class="lede">Heading ที่ดีคือ Heading ที่อ่านแล้วเข้าใจ Content Outline ของหน้านั้นทั้งหมด — Google ใช้ Heading เป็นสัญญาณสำคัญในการเข้าใจโครงสร้างหน้า</p>
+
+      <h3>3.1 หน้าแรก (Homepage) — โครงสร้างที่แนะนำ</h3>
+      <div class="heading-tree">
+        <div class="h1">&lt;h1&gt; วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง — เปิดรับสมัครนักศึกษาใหม่ ปวช. ปวส. ป.ตรี ปีการศึกษา 2569<span class="note">// 1 ครั้งต่อหน้าเท่านั้น</span></div>
+        <div class="h2">  ├── &lt;h2&gt; 18 สาขาวิชา ครอบคลุมทุกสายอาชีพ <span class="note">// section: Courses</span></div>
+        <div class="h3">  │      ├── &lt;h3&gt; ปวช. ช่างยนต์</div>
+        <div class="h3">  │      ├── &lt;h3&gt; ปวช. ช่างไฟฟ้ากำลัง</div>
+        <div class="h3">  │      └── &lt;h3&gt; ... (อีก 14 สาขา)</div>
+        <div class="h2">  ├── &lt;h2&gt; เปี่ยมคุณธรรม มุ่งสร้างคนดี <span class="note">// section: Philosophy</span></div>
+        <div class="h3">  │      ├── &lt;h3&gt; เปี่ยมคุณธรรม</div>
+        <div class="h3">  │      └── &lt;h3&gt; ... (อีก 4 หลักธรรม)</div>
+        <div class="h2">  ├── &lt;h2&gt; นวัตกรรม สิ่งประดิษฐ์ ฝีมือเยี่ยมระดับชาติ <span class="note">// section: Portfolio</span></div>
+        <div class="h2">  ├── &lt;h2&gt; ครอบครัวที่ส่งเสริมให้คุณเติบโต <span class="note">// section: Testimonials</span></div>
+        <div class="h2">  ├── &lt;h2&gt; คำถามที่พบบ่อย <span class="note">// section: FAQ</span></div>
+        <div class="h3">  │      ├── &lt;h3&gt; รอบเรียน</div>
+        <div class="h3">  │      ├── &lt;h3&gt; เรียนสาขาไหนดี</div>
+        <div class="h3">  │      └── &lt;h3&gt; ... (FAQ items)</div>
+        <div class="h2">  └── &lt;h2&gt; พร้อมเริ่มต้นเส้นทางอาชีพที่ใช่หรือยัง? <span class="note">// CTA banner</span></div>
+      </div>
+
+      <div class="callout">
+        <strong>หมายเหตุการ implement:</strong> ในเว็บไซต์นี้ H1 ถูกซ่อนเชิง visual (sr-only) ในไฟล์ HTML — เพราะ Hero มีหลายเลย์เอาต์ การจัด H1 ในตำแหน่งเดียวกันทุกแบบจะรักษาความสม่ำเสมอของ SEO ได้ดี ส่วน Hero ที่ user เห็นจะใช้ H1 อีกใบ (ในกรณีจริงควรมี H1 เดียวเท่านั้น — ใช้ sr-only หรือ visible อันใดอันหนึ่งให้ตรงกัน)
+      </div>
+
+      <h3>3.2 หน้าหลักสูตร (Courses) — โครงสร้าง</h3>
+      <div class="heading-tree">
+        <div class="h1">&lt;h1&gt; 18 สาขาวิชา ครบทุกสายอาชีพ — ปวช. ปวส. ป.ตรี</div>
+        <div class="h2">  ├── &lt;h2&gt; หลักสูตร ปวช. (8 สาขา)</div>
+        <div class="h3">  │      └── &lt;h3&gt; ชื่อแต่ละสาขา</div>
+        <div class="h2">  ├── &lt;h2&gt; หลักสูตร ปวส. (10 สาขา)</div>
+        <div class="h2">  └── &lt;h2&gt; หลักสูตรปริญญาตรี</div>
+      </div>
+
+      <h3>3.3 หน้า Course Detail — โครงสร้าง</h3>
+      <div class="heading-tree">
+        <div class="h1">&lt;h1&gt; การจัดการโลจิสติกส์ <span class="note">// ชื่อสาขา</span></div>
+        <div class="h2">  ├── &lt;h2&gt; เกี่ยวกับหลักสูตร</div>
+        <div class="h2">  ├── &lt;h2&gt; สมรรถนะที่จะได้รับ</div>
+        <div class="h2">  ├── &lt;h2&gt; โครงสร้างหลักสูตร</div>
+        <div class="h2">  ├── &lt;h2&gt; คุณสมบัติผู้สมัคร</div>
+        <div class="h2">  └── &lt;h2&gt; เส้นทางอาชีพหลังเรียนจบ</div>
+      </div>
+
+      <h4>กฎทอง</h4>
+      <ul>
+        <li>มี <code class="inline">&lt;h1&gt;</code> เดียวต่อหน้า เท่านั้น</li>
+        <li>ห้ามข้ามลำดับ — เช่น <code class="inline">h2</code> แล้วกระโดดไป <code class="inline">h4</code></li>
+        <li>ใส่ Keyword หลักใน H1 และ H2 อย่างน้อย 1 ตัว</li>
+        <li>เขียน Heading ให้คนอ่านเข้าใจง่าย ไม่ใช่ "SEO-ish" จนน่ารำคาญ</li>
+      </ul>
+    </section>
+
+    <!-- ── SECTION 4: PERFORMANCE ──────────────────────── -->
+    <section id="performance">
+      <h2><span class="num">4</span>Performance & Core Web Vitals</h2>
+      <p class="lede">Animation (Hover, Scroll, Parallax) ทำได้ — แต่ต้องไม่ให้กระทบ Core Web Vitals: LCP &lt; 2.5s, INP &lt; 200ms, CLS &lt; 0.1</p>
+
+      <h3>4.1 หลักการ Animate ให้ "เบา"</h3>
+      <div class="checklist">
+        <div class="check-item"><strong>ใช้ transform & opacity เท่านั้น</strong><span>อย่า animate width / height / top / left — ทำให้ browser reflow ทั้งหน้า</span></div>
+        <div class="check-item"><strong>เพิ่ม will-change ให้ถูกที่</strong><span>เฉพาะ element ที่จะ animate จริง — ห้ามใส่ทั่วทั้งหน้า</span></div>
+        <div class="check-item"><strong>ใช้ IntersectionObserver</strong><span>ตรวจ scroll-trigger แทน scroll event listener (เร็วกว่า 10 เท่า)</span></div>
+        <div class="check-item"><strong>เคารพ prefers-reduced-motion</strong><span>ผู้ใช้บางคนปิด animation เพื่อสุขภาพ — ต้อง support</span></div>
+        <div class="check-item"><strong>Parallax ใช้ requestAnimationFrame</strong><span>อย่า bind scroll listener ตรงๆ — ใช้ rAF throttle</span></div>
+        <div class="check-item"><strong>ใส่ duration สั้น</strong><span>150-400ms สำหรับ hover, 600-900ms สำหรับ entry — ไม่เกินนี้</span></div>
+      </div>
+
+      <h3>4.2 รูปภาพ (สำคัญที่สุดต่อ LCP)</h3>
+      <pre><code>&lt;img src="hero.webp"
+     srcset="hero-480.webp 480w, hero-960.webp 960w, hero-1920.webp 1920w"
+     sizes="(max-width: 768px) 100vw, 50vw"
+     loading="lazy"
+     decoding="async"
+     width="960" height="640"
+     alt="นักศึกษาฝึกงานในนิคม EEC"/&gt;</code></pre>
+      <ul>
+        <li>ใช้ <strong>WebP/AVIF</strong> แทน JPEG/PNG (ขนาดเล็กกว่า 30-50%)</li>
+        <li>กำหนด <code class="inline">width</code> / <code class="inline">height</code> เพื่อป้องกัน CLS</li>
+        <li>รูป Hero ต้อง <strong>ไม่ lazy load</strong> (ใช้ <code class="inline">fetchpriority="high"</code> แทน)</li>
+        <li>รูปอื่นใส่ <code class="inline">loading="lazy"</code> + <code class="inline">decoding="async"</code></li>
+      </ul>
+
+      <h3>4.3 Font Loading</h3>
+      <pre><code>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;600;700&amp;display=swap" rel="stylesheet"&gt;</code></pre>
+      <ul>
+        <li>โหลดเฉพาะ font-weight ที่ใช้จริง (4-5 weights พอ)</li>
+        <li>ใช้ <code class="inline">display=swap</code> เพื่อแสดง fallback ก่อน</li>
+        <li>ใช้ <code class="inline">preconnect</code> เพื่อเตรียม TCP/TLS handshake</li>
+      </ul>
+
+      <h3>4.4 JS Bundle</h3>
+      <ul>
+        <li>โหลด analytics และ chat-widget แบบ <strong>defer / async</strong></li>
+        <li>หลีกเลี่ยง library ใหญ่ — ใช้ vanilla JS หรือ Web Components</li>
+        <li>Inline critical CSS &lt; 14KB ใน <code class="inline">&lt;head&gt;</code> เพื่อเรนเดอร์ above-the-fold ทันที</li>
+      </ul>
+
+      <div class="callout">
+        <strong>เป้าหมาย Core Web Vitals สำหรับเว็บไซต์นี้:</strong><br/>
+        • <strong>LCP</strong> &lt; 2.0s (hero image พร้อมตัวอักษร)<br/>
+        • <strong>INP</strong> &lt; 100ms (กดเมนู, เปิด FAQ, submit form)<br/>
+        • <strong>CLS</strong> &lt; 0.05 (ทุก image และ embed ต้องระบุขนาด)
+      </div>
+    </section>
+
+    <!-- ── SECTION 5: LOCAL SEO ──────────────────────── -->
+    <section id="local">
+      <h2><span class="num">5</span>Local SEO · Google Business Profile</h2>
+      <p class="lede">สำหรับสถาบันการศึกษา การติด Top 3 Map Pack คือเป้าหมายสำคัญ — มีนักเรียนกว่า 70% ค้นหาผ่าน Google Maps</p>
+
+      <h3>5.1 Google Business Profile (GBP)</h3>
+      <ul>
+        <li><strong>หมวด:</strong> "Technical school" + "Vocational school" + "College" (เลือก primary + secondary)</li>
+        <li><strong>ชื่อ:</strong> ใช้ชื่อเต็มเท่านั้น — ห้ามใส่ keyword (ผิดกฎ Google)</li>
+        <li><strong>รูปภาพ:</strong> อัปโหลดทุกสัปดาห์ — รูปอาคาร, ห้องปฏิบัติการ, กิจกรรม</li>
+        <li><strong>โพสต์:</strong> โพสต์ Update / Event / Offer สัปดาห์ละ 1-2 ครั้ง</li>
+        <li><strong>Q&A:</strong> ตอบคำถาม + Pre-fill คำถามเอง (รอบเรียน, ค่าเทอม, ทุน)</li>
+        <li><strong>รีวิว:</strong> ขอรีวิวจากศิษย์เก่า/ผู้ปกครอง อย่างน้อยเดือนละ 5-10 รีวิว</li>
+      </ul>
+
+      <h3>5.2 NAP Consistency</h3>
+      <p>ชื่อ-ที่อยู่-เบอร์โทร (NAP) ต้องเหมือนกัน <strong>ทุกที่</strong> — บนเว็บไซต์, Facebook, Google Business, ไดเรกทอรีอื่นๆ</p>
+      <pre><code>Name:    วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง
+Address: 75/2 หมู่ 10 ต.ทุ่งสุขลา อ.ศรีราชา จ.ชลบุรี 20230
+Phone:   038-494-066</code></pre>
+
+      <h3>5.3 Schema Markup (JSON-LD)</h3>
+      <p>ใส่ใน <code class="inline">&lt;head&gt;</code> ของหน้าแรก — ตัวอย่างถูก embed ไว้แล้ว ใช้ schema type <code class="inline">CollegeOrUniversity</code>:</p>
+      <pre><code>{
+  "@context": "https://schema.org",
+  "@type": "CollegeOrUniversity",
+  "name": "วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง",
+  "alternateName": "EEC Engineer Laemchabang Technological College",
+  "url": "https://eec-laemchabang.ac.th/",
+  "telephone": "+66-38-494-066",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "75/2 หมู่ 10 ต.ทุ่งสุขลา",
+    "addressLocality": "ศรีราชา",
+    "addressRegion": "ชลบุรี",
+    "postalCode": "20230",
+    "addressCountry": "TH"
+  },
+  "sameAs": ["https://www.facebook.com/eec.engineer.laemchabang"]
+}</code></pre>
+      <p>เพิ่ม schema เพิ่มเติม: <code class="inline">Course</code>, <code class="inline">FAQPage</code>, <code class="inline">BreadcrumbList</code></p>
+    </section>
+
+    <!-- ── SECTION 6: TECHNICAL ────────────────────── -->
+    <section id="technical">
+      <h2><span class="num">6</span>Technical SEO Checklist</h2>
+      <p class="lede">รายการตรวจสอบทางเทคนิคก่อนเปิดเว็บไซต์ และ maintenance ประจำเดือน</p>
+
+      <h4>ก่อน Launch (One-time)</h4>
+      <div class="checklist">
+        <div class="check-item"><strong>HTTPS + HSTS</strong><span>เปิด SSL ทุกหน้า + redirect HTTP → HTTPS</span></div>
+        <div class="check-item"><strong>sitemap.xml</strong><span>generate + submit ไปยัง Google Search Console</span></div>
+        <div class="check-item"><strong>robots.txt</strong><span>อนุญาตให้ crawl + ลิงก์ไปหา sitemap</span></div>
+        <div class="check-item"><strong>Canonical URL</strong><span>ทุกหน้ามี &lt;link rel="canonical"&gt;</span></div>
+        <div class="check-item"><strong>Mobile-friendly</strong><span>ผ่าน Mobile Usability test</span></div>
+        <div class="check-item"><strong>Open Graph</strong><span>มี og:title, og:description, og:image ทุกหน้า</span></div>
+        <div class="check-item"><strong>404 page</strong><span>มี custom 404 ที่ลิงก์กลับหน้าหลัก</span></div>
+        <div class="check-item"><strong>Favicon + App Icons</strong><span>เพิ่ม touch-icon, manifest.json</span></div>
+      </div>
+
+      <h4>รายเดือน (Maintenance)</h4>
+      <div class="checklist">
+        <div class="check-item"><strong>Google Search Console</strong><span>ตรวจ Coverage / Performance / Core Web Vitals</span></div>
+        <div class="check-item"><strong>Broken links</strong><span>scan ด้วย Screaming Frog หรือ Ahrefs</span></div>
+        <div class="check-item"><strong>Page speed</strong><span>วัด LCP, INP, CLS ใน PageSpeed Insights</span></div>
+        <div class="check-item"><strong>Backlinks</strong><span>หา link จากเว็บการศึกษา + Local directories</span></div>
+        <div class="check-item"><strong>Content fresh</strong><span>อัปเดตข่าวสาร ผลงาน รูปภาพ บ่อยๆ</span></div>
+        <div class="check-item"><strong>คำถาม Q&A</strong><span>เพิ่ม FAQ จากคำถามจริงของผู้ปกครอง</span></div>
+      </div>
+
+      <h3>6.1 Internal Linking Strategy</h3>
+      <ul>
+        <li>หน้าแรก → ลิงก์ไปหา Courses, About, Apply, Contact (Main Nav + Footer)</li>
+        <li>หน้า Courses → ลิงก์เข้าหา Course Detail ทุกสาขา</li>
+        <li>หน้า Course Detail → ลิงก์ไปหา Apply (CTA) + Related Courses</li>
+        <li>หน้า Apply → ลิงก์กลับไปหา Contact + FAQ</li>
+        <li>Anchor text: ใช้คำที่อธิบายชัดเจน เช่น "ดูหลักสูตร ปวส. โลจิสติกส์" ไม่ใช่ "คลิกที่นี่"</li>
+      </ul>
+
+      <h3>6.2 Mobile-First Optimization</h3>
+      <ul>
+        <li>Google ใช้ <strong>Mobile-first indexing</strong> — เนื้อหาในเวอร์ชันมือถือคือเวอร์ชันหลัก</li>
+        <li>ปุ่ม / Tap target ขนาด ≥ <strong>44×44 px</strong></li>
+        <li>ฟอนต์ขนาด ≥ <strong>16px</strong> สำหรับ body</li>
+        <li>ห้ามใช้ horizontal scroll</li>
+        <li>Sticky CTA "สมัครเรียน" ต้องเข้าถึงได้ตลอด (ตามที่ implement แล้ว)</li>
+      </ul>
+
+      <div class="callout">
+        <strong>Tools ที่แนะนำ (ฟรี):</strong> Google Search Console · PageSpeed Insights · Google Analytics 4 · Lighthouse · Mobile-Friendly Test · Rich Results Test
+      </div>
+    </section>
+
+    <footer style="margin-top: 40px; padding: 32px; text-align: center; color: var(--ink-500); font-size: 14px;">
+      <p>เอกสารนี้เป็นกลยุทธ์เริ่มต้น — ควรปรับตามผลลัพธ์จริงจาก Google Search Console และ Analytics ทุกไตรมาส</p>
+      <p style="margin-top: 8px;">© 2569 วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</p>
+    </footer>
+  </div>
+</body>
+</html>

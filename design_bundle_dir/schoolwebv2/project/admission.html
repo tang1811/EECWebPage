@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>สมัครเรียนออนไลน์ · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</title>
+  <meta name="description" content="ระบบรับสมัครนักศึกษาใหม่ออนไลน์ ปวช. ปวส. ป.ตรี — ยืนยันตัวตน กรอกใบสมัคร แนบเอกสาร และติดตามสถานะได้ในที่เดียว"/>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Anuphan:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="admission.css"/>
+  <style>
+    html, body { margin: 0; padding: 0; background: #eef3ef; }
+    #app:empty::after {
+      content: 'กำลังโหลดระบบรับสมัคร…';
+      position: fixed; inset: 0; display: grid; place-items: center;
+      font-family: 'Prompt', system-ui, sans-serif; color: #66766c; font-size: 15px;
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="text/babel" src="chrome.jsx"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="admission-data.jsx"></script>
+  <script type="text/babel" src="admission-flow.jsx"></script>
+  <script type="text/babel" src="admission-app.jsx"></script>
+</body>
+</html>

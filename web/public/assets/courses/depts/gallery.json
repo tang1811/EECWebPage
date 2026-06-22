@@ -1,0 +1,114 @@
+{
+  "yon": [
+    "/assets/courses/depts/yon/g1.webp",
+    "/assets/courses/depts/yon/g2.webp",
+    "/assets/courses/depts/yon/g3.webp",
+    "/assets/courses/depts/yon/g4.webp",
+    "/assets/courses/depts/yon/g5.webp"
+  ],
+  "faifaa": [
+    "/assets/courses/depts/faifaa/g1.webp",
+    "/assets/courses/depts/faifaa/g2.webp",
+    "/assets/courses/depts/faifaa/g3.webp",
+    "/assets/courses/depts/faifaa/g4.webp",
+    "/assets/courses/depts/faifaa/g5.webp"
+  ],
+  "gear": [
+    "/assets/courses/depts/gear/g1.webp",
+    "/assets/courses/depts/gear/g2.webp",
+    "/assets/courses/depts/gear/g3.webp",
+    "/assets/courses/depts/gear/g4.webp",
+    "/assets/courses/depts/gear/g5.webp"
+  ],
+  "mecha": [
+    "/assets/courses/depts/mecha/g1.webp",
+    "/assets/courses/depts/mecha/g2.webp",
+    "/assets/courses/depts/mecha/g3.webp",
+    "/assets/courses/depts/mecha/g4.webp",
+    "/assets/courses/depts/mecha/g5.webp"
+  ],
+  "graphic": [
+    "/assets/courses/depts/graphic/g1.webp",
+    "/assets/courses/depts/graphic/g2.webp",
+    "/assets/courses/depts/graphic/g3.webp",
+    "/assets/courses/depts/graphic/g4.webp",
+    "/assets/courses/depts/graphic/g5.webp"
+  ],
+  "biz-digital": [
+    "/assets/courses/depts/biz-digital/g1.webp",
+    "/assets/courses/depts/biz-digital/g2.webp",
+    "/assets/courses/depts/biz-digital/g3.webp",
+    "/assets/courses/depts/biz-digital/g4.webp",
+    "/assets/courses/depts/biz-digital/g5.webp"
+  ],
+  "ps-electrical": [
+    "/assets/courses/depts/ps-electrical/g1.webp",
+    "/assets/courses/depts/ps-electrical/g2.webp",
+    "/assets/courses/depts/ps-electrical/g3.webp",
+    "/assets/courses/depts/ps-electrical/g4.webp",
+    "/assets/courses/depts/ps-electrical/g5.webp"
+  ],
+  "ps-production": [
+    "/assets/courses/depts/ps-production/g1.webp",
+    "/assets/courses/depts/ps-production/g2.webp",
+    "/assets/courses/depts/ps-production/g3.webp",
+    "/assets/courses/depts/ps-production/g4.webp",
+    "/assets/courses/depts/ps-production/g5.webp"
+  ],
+  "ps-logistics": [
+    "/assets/courses/depts/ps-logistics/g1.webp",
+    "/assets/courses/depts/ps-logistics/g2.webp",
+    "/assets/courses/depts/ps-logistics/g3.webp",
+    "/assets/courses/depts/ps-logistics/g4.webp",
+    "/assets/courses/depts/ps-logistics/g5.webp"
+  ],
+  "ps-graphic": [
+    "/assets/courses/depts/ps-graphic/g1.webp",
+    "/assets/courses/depts/ps-graphic/g2.webp",
+    "/assets/courses/depts/ps-graphic/g3.webp",
+    "/assets/courses/depts/ps-graphic/g4.webp",
+    "/assets/courses/depts/ps-graphic/g5.webp"
+  ],
+  "ps-mecha": [
+    "/assets/courses/depts/ps-mecha/g1.webp",
+    "/assets/courses/depts/ps-mecha/g2.webp",
+    "/assets/courses/depts/ps-mecha/g3.webp",
+    "/assets/courses/depts/ps-mecha/g4.webp",
+    "/assets/courses/depts/ps-mecha/g5.webp"
+  ],
+  "electronic": [
+    "/assets/courses/depts/electronic/g1.webp",
+    "/assets/courses/depts/electronic/g2.webp",
+    "/assets/courses/depts/electronic/g3.webp",
+    "/assets/courses/depts/electronic/g4.webp",
+    "/assets/courses/depts/electronic/g5.webp"
+  ],
+  "ps-electronic": [
+    "/assets/courses/depts/ps-electronic/g1.webp",
+    "/assets/courses/depts/ps-electronic/g2.webp",
+    "/assets/courses/depts/ps-electronic/g3.webp",
+    "/assets/courses/depts/ps-electronic/g4.webp",
+    "/assets/courses/depts/ps-electronic/g5.webp"
+  ],
+  "accounting": [
+    "/assets/courses/depts/accounting/g1.webp",
+    "/assets/courses/depts/accounting/g2.webp",
+    "/assets/courses/depts/accounting/g3.webp",
+    "/assets/courses/depts/accounting/g4.webp",
+    "/assets/courses/depts/accounting/g5.webp"
+  ],
+  "ps-accounting": [
+    "/assets/courses/depts/ps-accounting/g1.webp",
+    "/assets/courses/depts/ps-accounting/g2.webp",
+    "/assets/courses/depts/ps-accounting/g3.webp",
+    "/assets/courses/depts/ps-accounting/g4.webp",
+    "/assets/courses/depts/ps-accounting/g5.webp"
+  ],
+  "ps-mech": [
+    "/assets/courses/depts/ps-mech/g1.webp",
+    "/assets/courses/depts/ps-mech/g2.webp",
+    "/assets/courses/depts/ps-mech/g3.webp",
+    "/assets/courses/depts/ps-mech/g4.webp",
+    "/assets/courses/depts/ps-mech/g5.webp"
+  ]
+}

@@ -1,0 +1,1233 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Media Placement Guide · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</title>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green-900: #0a4d28; --green-800: #0f6634; --green-700: #0f7a3e;
+      --green-600: #14924b; --green-500: #22a85a; --green-400: #4cc579;
+      --green-300: #86dba6; --green-200: #c3edd2; --green-100: #e8f7ee; --green-50: #f4fbf6;
+      --ink-900: #0b1a13; --ink-700: #2a382f; --ink-600: #4a5a51;
+      --ink-500: #6b7a71; --ink-400: #97a299; --ink-300: #c8cfca;
+      --ink-200: #e4e8e5; --ink-100: #f1f3f1; --ink-50: #fafbfa;
+      --bg: #f6f4ef;
+      --paper: #fdfcf8;
+      --accent-amber: #d97706;
+      --accent-rose:  #be185d;
+      --accent-blue:  #1d4ed8;
+      --accent-violet: #7c3aed;
+      --border: rgba(11,26,19,0.1);
+      --r: 16px;
+
+      /* Media type tokens */
+      --t-photo: #be185d;       /* รูปถ่ายจริง */
+      --t-video: #7c3aed;       /* วิดีโอ */
+      --t-illust: #1d4ed8;      /* SVG / Illustration */
+      --t-icon: #d97706;        /* ไอคอน */
+      --t-pattern: #14924b;     /* Pattern/background */
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink-900); font-family: 'Prompt', sans-serif; line-height: 1.65; }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .doc {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 56px 32px 160px;
+    }
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px;
+      background: white; border: 1px solid var(--border);
+      border-radius: 999px;
+      font-weight: 600; color: var(--ink-700); font-size: 14px;
+      text-decoration: none;
+      margin-bottom: 32px;
+    }
+    .nav-back:hover { border-color: var(--green-700); color: var(--green-700); }
+
+    .doc-hero {
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px;
+      align-items: end;
+      padding-bottom: 56px;
+      margin-bottom: 64px;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .doc-hero::before {
+      content: 'MPG'; position: absolute; right: 0; top: -40px;
+      font-family: 'Fraunces', serif; font-size: 220px; font-weight: 700;
+      color: var(--green-100); line-height: 1;
+      letter-spacing: -0.05em; pointer-events: none;
+      z-index: 0;
+    }
+    .doc-hero > * { position: relative; z-index: 1; }
+    .doc-hero .label {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--green-700);
+    }
+    .doc-hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      margin: 16px 0 0;
+      max-width: 12ch;
+      text-wrap: balance;
+    }
+    .doc-hero h1 em {
+      font-style: italic; color: var(--green-700);
+      font-weight: 500;
+    }
+    .doc-hero .lede {
+      font-size: 17px; color: var(--ink-600);
+      line-height: 1.7; max-width: 38ch;
+    }
+    .doc-hero .meta-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 20px 32px; margin-top: 24px;
+      padding-top: 24px; border-top: 1px dashed var(--border);
+    }
+    .doc-hero .meta-grid div { font-size: 13px; }
+    .doc-hero .meta-grid strong { display: block; color: var(--ink-900); font-weight: 700; margin-bottom: 2px; }
+    .doc-hero .meta-grid span { color: var(--ink-500); }
+
+    /* ── LEGEND ──────────────────────────────────────────── */
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 64px;
+    }
+    .legend-card {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 18px 20px;
+      position: relative; overflow: hidden;
+    }
+    .legend-card::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 4px; background: var(--col);
+    }
+    .legend-card .lc-icon {
+      width: 32px; height: 32px;
+      background: var(--col); color: white;
+      border-radius: 8px;
+      display: grid; place-items: center;
+      margin-bottom: 12px;
+      font-weight: 800; font-size: 14px;
+    }
+    .legend-card .lc-name { font-size: 14px; font-weight: 700; color: var(--ink-900); }
+    .legend-card .lc-desc { font-size: 12px; color: var(--ink-500); margin-top: 2px; line-height: 1.5; }
+
+    /* ── SECTION ─────────────────────────────────────────── */
+    .page-section {
+      margin-bottom: 96px;
+    }
+    .page-section .ps-head {
+      display: flex; justify-content: space-between; align-items: end;
+      padding-bottom: 24px;
+      margin-bottom: 36px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ps-head .ps-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px; color: var(--ink-400);
+      letter-spacing: 0.1em;
+    }
+    .ps-head h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 8px 0 0;
+      line-height: 1.05;
+    }
+    .ps-head h2 em { font-style: italic; color: var(--green-700); font-weight: 500; }
+    .ps-head .filename {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px; color: var(--ink-500);
+      background: var(--ink-100);
+      padding: 6px 12px; border-radius: 999px;
+    }
+
+    /* ── SLOT (the mockup + annotation row) ──────────────── */
+    .slot-row {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 32px;
+      margin-bottom: 32px;
+      align-items: start;
+    }
+    .slot-row.reverse { grid-template-columns: 1fr 1.4fr; }
+    .slot-row.reverse .mockup { order: 2; }
+    .slot-row.reverse .specs { order: 1; }
+    @media (max-width: 900px) {
+      .slot-row, .slot-row.reverse { grid-template-columns: 1fr; }
+      .slot-row.reverse .mockup { order: initial; }
+      .slot-row.reverse .specs { order: initial; }
+    }
+
+    .mockup {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 18px;
+      position: relative;
+    }
+    .mockup-toolbar {
+      display: flex; gap: 6px; align-items: center;
+      padding: 0 0 14px;
+      border-bottom: 1px dashed var(--border);
+      margin-bottom: 14px;
+      font-size: 11px; color: var(--ink-500);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .mockup-toolbar .dot { width: 8px; height: 8px; border-radius: 50%; }
+    .mockup-toolbar .d1 { background: #fb7185; }
+    .mockup-toolbar .d2 { background: #fbbf24; }
+    .mockup-toolbar .d3 { background: #34d399; }
+    .mockup-toolbar .url { margin-left: 12px; }
+
+    .frame {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+      border: 1px solid var(--border);
+    }
+
+    /* Slot annotation overlay */
+    .slot-marker {
+      position: absolute;
+      border: 2px dashed var(--col, var(--t-photo));
+      background: rgba(190, 24, 93, 0.04);
+      border-radius: 6px;
+      display: grid; place-items: center;
+      color: var(--col, var(--t-photo));
+      font-weight: 700; font-size: 11px;
+      letter-spacing: 0.06em;
+      cursor: default;
+      transition: background .2s;
+    }
+    .slot-marker:hover { background: rgba(190, 24, 93, 0.12); }
+    .slot-marker .pin {
+      position: absolute; left: -10px; top: -10px;
+      width: 22px; height: 22px;
+      background: var(--col, var(--t-photo)); color: white;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 11px; font-weight: 800;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .slot-marker .label-inside {
+      font-size: 10px; line-height: 1.3;
+      padding: 4px 10px;
+      background: var(--col, var(--t-photo));
+      color: white; border-radius: 4px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .slot-marker.video-slot::after {
+      content: '▶'; position: absolute;
+      background: var(--col); color: white;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: 11px;
+    }
+
+    /* Color variants */
+    .ph { --col: var(--t-photo); }
+    .vid { --col: var(--t-video); }
+    .ill { --col: var(--t-illust); }
+    .ico { --col: var(--t-icon); }
+    .pat { --col: var(--t-pattern); }
+
+    /* ── SPECS column ────────────────────────────────────── */
+    .specs { padding: 4px 4px 4px 0; }
+    .specs .specs-h3 {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ink-500);
+      margin: 0 0 16px;
+    }
+    .spec-card {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      background: white;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--col, var(--t-photo));
+    }
+    .spec-card .num {
+      display: grid; place-items: center;
+      width: 24px; height: 24px;
+      background: var(--col); color: white;
+      border-radius: 50%;
+      font-size: 11px; font-weight: 800;
+    }
+    .spec-card .name { font-size: 13px; font-weight: 700; color: var(--ink-900); }
+    .spec-card .meta {
+      display: inline-flex; gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px; color: var(--ink-500);
+      margin: 4px 0 6px;
+    }
+    .spec-card .meta span {
+      padding: 2px 8px;
+      background: var(--ink-100);
+      border-radius: 999px;
+    }
+    .spec-card .desc { font-size: 13px; color: var(--ink-700); line-height: 1.5; }
+    .spec-card .desc strong { color: var(--ink-900); font-weight: 600; }
+
+    /* Mockup frame inner: section render */
+    .frame-h { padding: 14px 18px; min-height: 220px; display: flex; flex-direction: column; }
+    .frame-section {
+      flex: 1;
+      display: flex; flex-direction: column;
+      gap: 8px;
+      position: relative;
+    }
+    .frame-title { font-size: 14px; font-weight: 700; color: var(--ink-900); }
+    .frame-eyebrow { font-size: 10px; font-weight: 700; color: var(--green-700); letter-spacing: 0.1em; text-transform: uppercase; }
+    .frame-body { font-size: 11px; color: var(--ink-500); line-height: 1.6; }
+    .stub-line {
+      background: var(--ink-200); height: 8px; border-radius: 4px;
+    }
+    .stub-line.short { width: 60%; }
+    .stub-line.tall { height: 14px; width: 80%; }
+    .stub-grid { display: grid; gap: 6px; }
+    .stub-block { background: var(--ink-100); border-radius: 6px; }
+
+    /* ── ASSET LIST table ────────────────────────────────── */
+    .asset-table {
+      background: var(--paper);
+      border-radius: var(--r);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-top: 16px;
+    }
+    .at-row {
+      display: grid;
+      grid-template-columns: 60px 1.2fr 2fr 0.8fr 0.8fr 0.6fr;
+      gap: 12px;
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      align-items: center;
+      font-size: 13px;
+    }
+    .at-row:first-child {
+      border-top: none;
+      background: var(--ink-100);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-600);
+    }
+    .at-id { font-family: 'JetBrains Mono', monospace; color: var(--ink-500); font-weight: 600; }
+    .at-type {
+      display: inline-flex; gap: 6px; align-items: center;
+      font-weight: 700;
+    }
+    .at-type::before {
+      content: ''; width: 8px; height: 8px;
+      border-radius: 2px;
+      background: var(--c);
+    }
+    .at-row .at-spec { font-family: 'JetBrains Mono', monospace; color: var(--ink-700); font-size: 12px; }
+    .at-pri {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px; font-weight: 700;
+    }
+    .pri-must { background: #fee2e2; color: #991b1b; }
+    .pri-nice { background: #fef3c7; color: #92400e; }
+    .pri-opt  { background: var(--green-100); color: var(--green-800); }
+    @media (max-width: 900px) {
+      .at-row { grid-template-columns: 1fr 1fr; }
+      .at-row:first-child { display: none; }
+    }
+
+    /* ── PRINCIPLES section ──────────────────────────────── */
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .principle {
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 28px;
+      position: relative;
+    }
+    .principle .p-num {
+      font-family: 'Fraunces', serif;
+      font-size: 56px; font-weight: 700;
+      color: var(--green-200);
+      line-height: 1;
+      position: absolute; top: 20px; right: 24px;
+    }
+    .principle h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 22px; font-weight: 600;
+      letter-spacing: -0.01em;
+      margin: 0 0 8px;
+      max-width: 14ch;
+      position: relative;
+    }
+    .principle p { font-size: 14px; color: var(--ink-600); margin: 0; line-height: 1.7; }
+    .principle ul { font-size: 13px; color: var(--ink-700); padding-left: 20px; margin: 12px 0 0; }
+    .principle ul li { margin-bottom: 4px; }
+    .principle code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: var(--ink-100);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    /* Footer */
+    .doc-foot {
+      margin-top: 96px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--ink-500);
+      font-size: 13px;
+    }
+
+    @media (max-width: 700px) {
+      .legend { grid-template-columns: repeat(2, 1fr); }
+      .principles { grid-template-columns: 1fr; }
+      .doc-hero { grid-template-columns: 1fr; gap: 24px; }
+      .doc-hero .meta-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="doc">
+    <a href="index.html" class="nav-back">← กลับสู่เว็บไซต์</a>
+
+    <header class="doc-hero">
+      <div>
+        <div class="label">Media Placement Guide</div>
+        <h1>คู่มือ<br/>วาง<em>รูปและวิดีโอ</em>ในเว็บไซต์</h1>
+      </div>
+      <div>
+        <p class="lede">เอกสารระบุตำแหน่งภาพถ่าย วิดีโอ และไอคอนทุกจุดในเว็บไซต์วิทยาลัย พร้อมสเปก คำแนะนำ และลิสต์รวบรวมไฟล์ที่ต้องเตรียม</p>
+        <div class="meta-grid">
+          <div><strong>เวอร์ชัน</strong><span>1.0 · พ.ค. 2569</span></div>
+          <div><strong>หน้าเว็บที่ครอบคลุม</strong><span>7 หน้า · 32+ จุด</span></div>
+          <div><strong>ต้องเตรียม</strong><span>20 รูป · 3 วิดีโอ</span></div>
+          <div><strong>กลุ่มเป้าหมาย</strong><span>ทีมถ่ายภาพ · นักออกแบบ</span></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── LEGEND ─────────────────────────────────────────── -->
+    <div class="legend">
+      <div class="legend-card ph">
+        <div class="lc-icon">P</div>
+        <div class="lc-name">PHOTO · รูปถ่ายจริง</div>
+        <div class="lc-desc">รูปถ่ายโดยกล้องโปร — บรรยากาศ คน อุปกรณ์</div>
+      </div>
+      <div class="legend-card vid">
+        <div class="lc-icon">V</div>
+        <div class="lc-name">VIDEO · วิดีโอ</div>
+        <div class="lc-desc">คลิป mp4/webm หรือ animated SVG</div>
+      </div>
+      <div class="legend-card ill">
+        <div class="lc-icon">I</div>
+        <div class="lc-name">ILLUSTRATION · SVG</div>
+        <div class="lc-desc">ภาพประกอบเวกเตอร์ แผนที่ กราฟิก</div>
+      </div>
+      <div class="legend-card ico">
+        <div class="lc-icon">N</div>
+        <div class="lc-name">ICON</div>
+        <div class="lc-desc">ไอคอน SVG ขนาดเล็ก สีเดียว</div>
+      </div>
+      <div class="legend-card pat">
+        <div class="lc-icon">B</div>
+        <div class="lc-name">BG · พื้นหลัง</div>
+        <div class="lc-desc">Pattern, gradient, texture</div>
+      </div>
+    </div>
+
+    <!-- ═════════════════════════════════════════════════════
+         SECTION 01 · HOMEPAGE
+         ═════════════════════════════════════════════════════ -->
+    <section class="page-section">
+      <div class="ps-head">
+        <div>
+          <div class="ps-num">PAGE 01 / 07</div>
+          <h2>หน้าแรก · <em>Homepage</em></h2>
+        </div>
+        <div class="filename">index.html</div>
+      </div>
+
+      <!-- HERO -->
+      <div class="slot-row">
+        <div class="mockup">
+          <div class="mockup-toolbar">
+            <span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span>
+            <span class="url">eec-laemchabang.ac.th/</span>
+            <span style="margin-left: auto;">section #hero</span>
+          </div>
+          <div class="frame" style="aspect-ratio: 16/9;">
+            <!-- BG pattern slot -->
+            <div class="slot-marker pat" style="inset: 0; border: none; background: linear-gradient(135deg, var(--green-100), var(--green-50));">
+              <span class="pin" style="left: 12px; top: 12px;">1</span>
+            </div>
+            <!-- Nav -->
+            <div style="position:absolute; top: 0; left: 0; right: 0; height: 32px; background: white; display: flex; align-items: center; padding: 0 16px; gap: 8px; border-bottom: 1px solid var(--border); font-size: 9px; color: var(--ink-500); font-weight: 600; z-index: 2;">
+              <div style="width: 16px; height: 16px; border-radius: 50%; background: var(--green-700);"></div>
+              EEC ENGINEER<span style="margin-left: auto;">เกี่ยวกับเรา · หลักสูตร · สมัครเรียน</span>
+            </div>
+            <!-- Hero content left -->
+            <div style="position: absolute; top: 50px; left: 24px; width: 48%; z-index: 2;">
+              <div style="font-size: 8px; padding: 3px 8px; background: white; border-radius: 999px; display: inline-block; border: 1px solid var(--green-200); color: var(--green-800); font-weight: 600;">เปิดรับสมัคร 2569</div>
+              <div style="font-size: 16px; font-weight: 800; color: var(--ink-900); margin-top: 8px; line-height: 1.1;">เริ่มต้นอาชีพ ในสายเทคโนโลยี</div>
+              <div style="font-size: 9px; color: var(--ink-600); margin-top: 8px;">ปวช. ปวส. ป.ตรี · 18 สาขา ฝึกงานจริงในนิคม EEC</div>
+              <div style="margin-top: 12px; display: flex; gap: 6px;">
+                <div style="font-size: 9px; padding: 6px 12px; background: var(--green-700); color: white; border-radius: 999px; font-weight: 700;">สมัครเรียน →</div>
+                <div style="font-size: 9px; padding: 6px 12px; background: white; color: var(--ink-700); border-radius: 999px; font-weight: 600; border: 1px solid var(--border);">▶ ดูทัวร์ 1 นาที</div>
+              </div>
+            </div>
+            <!-- Crest slot -->
+            <div class="slot-marker ill" style="right: 5%; top: 18%; width: 38%; aspect-ratio: 1; border-radius: 50%;">
+              <span class="pin">2</span>
+              <span class="label-inside">CREST<br/>(ใช้แล้ว)</span>
+            </div>
+            <!-- Video CTA hint -->
+            <div class="slot-marker vid" style="left: 12%; bottom: 8%; width: 24%; height: 14%; ">
+              <span class="pin">3</span>
+              <span style="font-size: 8px; padding: 2px 6px;">VIDEO LINK</span>
+            </div>
+          </div>
+        </div>
+        <div class="specs">
+          <div class="specs-h3">Hero · จุดต่างๆ</div>
+          <div class="spec-card pat">
+            <div class="num">1</div>
+            <div>
+              <div class="name">Background pattern</div>
+              <div class="meta"><span>SVG/CSS</span><span>full-bleed</span></div>
+              <div class="desc">Gradient mesh + grid lines — <strong>ใช้แล้ว</strong> (CSS) ไม่ต้องเตรียมรูป</div>
+            </div>
+          </div>
+          <div class="spec-card ill">
+            <div class="num">2</div>
+            <div>
+              <div class="name">ตราวิทยาลัย (Crest)</div>
+              <div class="meta"><span>PNG/SVG</span><span>520×520</span><span>≥1MB ห้าม</span></div>
+              <div class="desc">โลโก้วงกลม — <strong>มีแล้ว</strong> (assets/logo.png) ลอยเคลื่อนไหวกับ rings พื้นหลัง</div>
+            </div>
+          </div>
+          <div class="spec-card vid">
+            <div class="num">3</div>
+            <div>
+              <div class="name">CTA "ดูทัวร์ 1 นาที"</div>
+              <div class="meta"><span>ลิงก์</span><span>video.html</span></div>
+              <div class="desc">ปุ่มลิงก์ไปวิดีโอ explainer 60s — <strong>มีแล้ว</strong> (vector animation)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HIGHLIGHTS / NEWS -->
+      <div class="slot-row reverse">
+        <div class="specs">
+          <div class="specs-h3">ข่าวสารล่าสุด · 3 cards</div>
+          <div class="spec-card ph">
+            <div class="num">4</div>
+            <div>
+              <div class="name">รูปข่าวสาร · 3 รูป</div>
+              <div class="meta"><span>JPG/WebP</span><span>16:9</span><span>960×540</span></div>
+              <div class="desc">บรรยากาศกิจกรรม · MOU · พิธีรับใบประกาศ — <strong>ถ่ายจากกล้องจริง</strong> เน้นคน-อารมณ์ ห้ามใช้ Stock photo</div>
+            </div>
+          </div>
+          <div class="spec-card ph">
+            <div class="num">5</div>
+            <div>
+              <div class="name">Style guidelines</div>
+              <div class="meta"><span>Warm</span><span>Real</span></div>
+              <div class="desc">โทนอุ่น · มี depth of field · ผู้คนจริง · ไม่ใช้ฟิลเตอร์เกินจริง</div>
+            </div>
+          </div>
+        </div>
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/#highlights</span></div>
+          <div class="frame" style="padding: 16px;">
+            <div class="frame-eyebrow">ข่าวสารล่าสุด</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px;">
+              <div style="position: relative;">
+                <div class="slot-marker ph" style="position: relative; aspect-ratio: 16/9; inset: 0;"><span class="pin">4a</span></div>
+                <div style="font-size: 10px; font-weight: 700; margin-top: 6px;">ปฐมนิเทศ 2569</div>
+              </div>
+              <div style="position: relative;">
+                <div class="slot-marker ph" style="position: relative; aspect-ratio: 16/9; inset: 0;"><span class="pin">4b</span></div>
+                <div style="font-size: 10px; font-weight: 700; margin-top: 6px;">MOU Watsons</div>
+              </div>
+              <div style="position: relative;">
+                <div class="slot-marker ph" style="position: relative; aspect-ratio: 16/9; inset: 0;"><span class="pin">4c</span></div>
+                <div style="font-size: 10px; font-weight: 700; margin-top: 6px;">รางวัลระดับชาติ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS / MARQUEE -->
+      <div class="slot-row">
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/#stats</span></div>
+          <div class="frame" style="padding: 24px 16px; text-align: center;">
+            <div style="display: flex; justify-content: space-around; gap: 8px; margin-bottom: 16px;">
+              <div><div style="font-size: 22px; font-weight: 800; color: var(--green-700);">30+</div><div style="font-size: 9px; color: var(--ink-500);">ปี</div></div>
+              <div><div style="font-size: 22px; font-weight: 800; color: var(--green-700);">16</div><div style="font-size: 9px; color: var(--ink-500);">สาขา</div></div>
+              <div><div style="font-size: 22px; font-weight: 800; color: var(--green-700);">12K+</div><div style="font-size: 9px; color: var(--ink-500);">ศิษย์เก่า</div></div>
+              <div><div style="font-size: 22px; font-weight: 800; color: var(--green-700);">100%</div><div style="font-size: 9px; color: var(--ink-500);">มีงานทำ</div></div>
+            </div>
+            <div style="position: relative; padding: 14px 0; border-top: 1px dashed var(--border);">
+              <div class="slot-marker ico" style="position: relative; inset: auto; height: 28px; border-radius: 6px; display: flex; gap: 14px; align-items: center; justify-content: center; padding: 0 12px; font-size: 10px; color: var(--ink-600);"><span class="pin">6</span>Watsons · Toyota · Honda · PTT · SCG · WHA · ...</div>
+            </div>
+          </div>
+        </div>
+        <div class="specs">
+          <div class="specs-h3">Stats &amp; Partners marquee</div>
+          <div class="spec-card vid">
+            <div class="num">5</div>
+            <div>
+              <div class="name">Counter animation</div>
+              <div class="meta"><span>JS</span><span>built-in</span></div>
+              <div class="desc">ตัวเลขนับขึ้นเมื่อ scroll เข้ามา — <strong>ใช้แล้ว</strong> ไม่ต้องเตรียมอะไร</div>
+            </div>
+          </div>
+          <div class="spec-card ico">
+            <div class="num">6</div>
+            <div>
+              <div class="name">โลโก้พันธมิตร · 12 ไฟล์</div>
+              <div class="meta"><span>SVG</span><span>monochrome</span><span>40px tall</span></div>
+              <div class="desc">โลโก้บริษัทคู่ค้า สำหรับ marquee — <strong>ตอนนี้ใช้แค่ข้อความ</strong> ถ้ามีโลโก้จริงจะดูโปรขึ้นมาก</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURSES -->
+      <div class="slot-row reverse">
+        <div class="specs">
+          <div class="specs-h3">การ์ดหลักสูตร · 18 สาขา</div>
+          <div class="spec-card ico">
+            <div class="num">7</div>
+            <div>
+              <div class="name">ไอคอนสาขา · 16 แบบ</div>
+              <div class="meta"><span>SVG</span><span>40×40</span><span>currentColor</span></div>
+              <div class="desc">ไอคอนตัวแทนแต่ละสาขา — <strong>มีแล้ว</strong> ถ้าอยากให้เด่น แนะนำใช้ <strong>illustration พร้อมสี</strong> ขนาดใหญ่ขึ้น</div>
+            </div>
+          </div>
+          <div class="spec-card ph">
+            <div class="num">8</div>
+            <div>
+              <div class="name">รูปบรรยากาศห้องเรียน · 16 รูป</div>
+              <div class="meta"><span>JPG/WebP</span><span>4:3</span><span>800×600</span></div>
+              <div class="desc">รูปนักศึกษากำลังเรียน/ปฏิบัติงานในแต่ละสาขา — <strong>ใช้กับ Card Style "Gradient"</strong> ในมุมมือสะสมหลายๆ ปี ยังถ่ายภาพต่อได้</div>
+            </div>
+          </div>
+        </div>
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/#courses</span></div>
+          <div class="frame" style="padding: 16px;">
+            <div class="frame-eyebrow">หลักสูตรของเรา</div>
+            <div style="font-size: 13px; font-weight: 800; color: var(--ink-900); margin: 4px 0 12px;">18 สาขาวิชา</div>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+              <div style="position: relative; aspect-ratio: 4/5;">
+                <div class="slot-marker ph" style="position: absolute; inset: 0;"><span class="pin">8</span></div>
+              </div>
+              <div style="position: relative; aspect-ratio: 4/5; background: white; border: 1px solid var(--border); border-radius: 4px; padding: 8px;">
+                <div class="slot-marker ico" style="position: relative; width: 24px; height: 24px; inset: auto;"><span class="pin" style="font-size: 9px; width: 16px; height: 16px;">7</span></div>
+                <div style="font-size: 9px; font-weight: 700; margin-top: 22px;">ช่างไฟฟ้า</div>
+                <div style="font-size: 8px; color: var(--ink-500);">ปวช.</div>
+              </div>
+              <div style="position: relative; aspect-ratio: 4/5; background: white; border: 1px solid var(--border); border-radius: 4px; padding: 8px;">
+                <div class="slot-marker ico" style="position: relative; width: 24px; height: 24px; inset: auto;"><span class="pin" style="font-size: 9px; width: 16px; height: 16px;">7</span></div>
+                <div style="font-size: 9px; font-weight: 700; margin-top: 22px;">เมคคา</div>
+                <div style="font-size: 8px; color: var(--ink-500);">ปวส.</div>
+              </div>
+              <div style="position: relative; aspect-ratio: 4/5; background: white; border: 1px solid var(--border); border-radius: 4px; padding: 8px;">
+                <div class="slot-marker ico" style="position: relative; width: 24px; height: 24px; inset: auto;"><span class="pin" style="font-size: 9px; width: 16px; height: 16px;">7</span></div>
+                <div style="font-size: 9px; font-weight: 700; margin-top: 22px;">โลจิสติกส์</div>
+                <div style="font-size: 8px; color: var(--ink-500);">ปวส.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PARTNERS MAP -->
+      <div class="slot-row">
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/#partners</span></div>
+          <div class="frame" style="padding: 16px;">
+            <div class="frame-eyebrow" style="text-align: center;">พันธมิตรอุตสาหกรรม</div>
+            <div class="slot-marker ill" style="position: relative; aspect-ratio: 16/9; margin-top: 12px; inset: 0;">
+              <span class="pin">9</span>
+              <span class="label-inside">SVG MAP · 8 PING ANIMATIONS</span>
+            </div>
+          </div>
+        </div>
+        <div class="specs">
+          <div class="specs-h3">แผนที่พันธมิตร EEC</div>
+          <div class="spec-card ill">
+            <div class="num">9</div>
+            <div>
+              <div class="name">SVG Map + Ping animations</div>
+              <div class="meta"><span>SVG</span><span>built-in</span></div>
+              <div class="desc">แผนที่จำลองภูมิภาค EEC พร้อม ping animation 8 บริษัท — <strong>ใช้แล้ว</strong> · ถ้าต้องการแม่นยำกว่านี้ ใช้ภาพถ่ายดาวเทียมจาก Mapbox แทน</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PORTFOLIO -->
+      <div class="slot-row reverse">
+        <div class="specs">
+          <div class="specs-h3">ผลงาน · Portfolio Preview</div>
+          <div class="spec-card ph">
+            <div class="num">10</div>
+            <div>
+              <div class="name">รูปผลงาน/นวัตกรรม · 6 รูป</div>
+              <div class="meta"><span>JPG/WebP</span><span>4:3</span><span>1200×900</span></div>
+              <div class="desc">รูปสิ่งประดิษฐ์ของนักศึกษา ถ่ายในห้องปฏิบัติการหรือเวที — <strong>สำคัญที่สุด</strong> เพราะแสดงคุณภาพผลงานจริง</div>
+            </div>
+          </div>
+          <div class="spec-card vid">
+            <div class="num">11</div>
+            <div>
+              <div class="name">วิดีโอผลงาน (ทางเลือก)</div>
+              <div class="meta"><span>mp4</span><span>10-20s</span><span>720p</span></div>
+              <div class="desc">คลิปสั้นๆ แสดงนวัตกรรมทำงาน (เช่น Smart Farm ทำงาน, แขนหุ่นยนต์ขยับ) — ใช้แทน รูปนิ่งใน portfolio.html ได้</div>
+            </div>
+          </div>
+        </div>
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/#portfolio</span></div>
+          <div class="frame" style="padding: 16px;">
+            <div class="frame-eyebrow">ผลงานวิทยาลัย</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px;">
+              <div class="slot-marker ph" style="position: relative; aspect-ratio: 4/3; inset: 0;"><span class="pin">10a</span></div>
+              <div class="slot-marker vid video-slot" style="position: relative; aspect-ratio: 4/3; inset: 0;"><span class="pin">11</span></div>
+              <div class="slot-marker ph" style="position: relative; aspect-ratio: 4/3; inset: 0;"><span class="pin">10b</span></div>
+              <div class="slot-marker ph" style="position: relative; aspect-ratio: 4/3; inset: 0;"><span class="pin">10c</span></div>
+              <div class="slot-marker ph" style="position: relative; aspect-ratio: 4/3; inset: 0;"><span class="pin">10d</span></div>
+              <div class="slot-marker ph" style="position: relative; aspect-ratio: 4/3; inset: 0;"><span class="pin">10e</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TESTIMONIALS -->
+      <div class="slot-row">
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/#testimonials</span></div>
+          <div class="frame" style="padding: 24px 16px; background: var(--ink-900); border-radius: 8px;">
+            <div style="text-align: center;">
+              <div style="color: var(--green-300); font-size: 9px; font-weight: 700; letter-spacing: 0.1em;">FEEDBACK</div>
+              <div style="color: white; font-size: 13px; font-weight: 800; margin-top: 4px;">ครอบครัวที่ส่งเสริมให้คุณเติบโต</div>
+              <div style="background: rgba(255,255,255,0.05); padding: 14px; border-radius: 8px; margin: 14px auto 0; max-width: 80%; position: relative;">
+                <div style="color: white; font-size: 10px; line-height: 1.6;">"เรียนที่นี่เหมือนเรียนกับครอบครัวค่ะ..."</div>
+                <div style="display: flex; gap: 8px; align-items: center; justify-content: center; margin-top: 8px;">
+                  <div class="slot-marker ph" style="position: relative; width: 24px; height: 24px; inset: auto; border-radius: 50%;"><span class="pin" style="font-size: 9px; width: 14px; height: 14px;">12</span></div>
+                  <div>
+                    <div style="font-size: 9px; color: white; font-weight: 700;">บงกช สินฉาย</div>
+                    <div style="font-size: 8px; color: var(--green-300);">โลจิสติกส์</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="specs">
+          <div class="specs-h3">Testimonials · 4 นักศึกษา</div>
+          <div class="spec-card ph">
+            <div class="num">12</div>
+            <div>
+              <div class="name">รูปนักศึกษา · 4 รูป</div>
+              <div class="meta"><span>JPG</span><span>1:1</span><span>400×400</span></div>
+              <div class="desc">portrait shot ใส่ชุดนักศึกษา หน้าตายิ้มแย้ม — <strong>ขอความยินยอม</strong> ก่อนใช้ (มี Release form)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA banner -->
+      <div class="slot-row reverse">
+        <div class="specs">
+          <div class="specs-h3">CTA Banner</div>
+          <div class="spec-card pat">
+            <div class="num">13</div>
+            <div>
+              <div class="name">Gradient banner</div>
+              <div class="meta"><span>CSS</span><span>built-in</span></div>
+              <div class="desc">Gradient พื้นเขียว + mesh — <strong>ใช้แล้ว</strong> ไม่ต้องเตรียมรูป</div>
+            </div>
+          </div>
+        </div>
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/#cta</span></div>
+          <div class="frame" style="padding: 0;">
+            <div style="background: linear-gradient(135deg, var(--green-900), var(--green-700), var(--green-500)); padding: 24px; text-align: center; color: white; position: relative;">
+              <div class="slot-marker pat" style="inset: 0; border: 2px dashed white; background: transparent;"><span class="pin" style="background: white; color: var(--green-800);">13</span></div>
+              <div style="font-size: 9px; font-weight: 600; opacity: 0.85; position: relative;">เปิดรับสมัคร</div>
+              <div style="font-size: 16px; font-weight: 800; margin-top: 4px; position: relative;">พร้อมเริ่มต้นอนาคต?</div>
+              <div style="margin-top: 12px; font-size: 9px; padding: 6px 12px; background: white; color: var(--green-800); border-radius: 999px; font-weight: 700; display: inline-block; position: relative;">สมัครเรียนออนไลน์</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════════════════════════════════════════════════
+         SECTION 02 · ABOUT
+         ═════════════════════════════════════════════════════ -->
+    <section class="page-section">
+      <div class="ps-head">
+        <div>
+          <div class="ps-num">PAGE 02 / 07</div>
+          <h2>เกี่ยวกับเรา · <em>About</em></h2>
+        </div>
+        <div class="filename">about.html</div>
+      </div>
+
+      <div class="slot-row">
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/about.html</span></div>
+          <div class="frame" style="padding: 16px; min-height: 220px;">
+            <div class="frame-eyebrow">รู้จักวิทยาลัย</div>
+            <div style="font-size: 14px; font-weight: 800; margin: 6px 0;">กว่า 30 ปี แห่งการสร้างช่างฝีมือคุณภาพ</div>
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px; margin-top: 8px;">
+              <div>
+                <div class="stub-line tall"></div>
+                <div class="stub-line" style="margin-top: 6px;"></div>
+                <div class="stub-line short" style="margin-top: 6px;"></div>
+                <div class="slot-marker ph" style="position: relative; aspect-ratio: 21/9; margin-top: 10px; inset: 0;">
+                  <span class="pin">14</span>
+                  <span class="label-inside">รูปอาคารวิทยาลัย (Hero)</span>
+                </div>
+                <div style="font-size: 9px; font-weight: 700; margin-top: 12px;">เส้นทางการพัฒนา · Timeline</div>
+                <div class="stub-line" style="margin-top: 4px;"></div>
+                <div class="stub-line short" style="margin-top: 4px;"></div>
+              </div>
+              <div style="background: var(--ink-100); border-radius: 6px; padding: 8px;">
+                <div style="font-size: 9px; font-weight: 700;">ข้อมูลทั่วไป</div>
+                <div class="stub-line" style="margin-top: 6px;"></div>
+                <div class="stub-line short" style="margin-top: 4px;"></div>
+              </div>
+            </div>
+            <div style="margin-top: 12px;">
+              <div class="frame-eyebrow">คณะผู้บริหาร</div>
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 6px;">
+                <div class="slot-marker ph" style="position: relative; aspect-ratio: 1; border-radius: 50%; inset: 0;"><span class="pin" style="font-size: 9px; width: 14px; height: 14px;">15a</span></div>
+                <div class="slot-marker ph" style="position: relative; aspect-ratio: 1; border-radius: 50%; inset: 0;"><span class="pin" style="font-size: 9px; width: 14px; height: 14px;">15b</span></div>
+                <div class="slot-marker ph" style="position: relative; aspect-ratio: 1; border-radius: 50%; inset: 0;"><span class="pin" style="font-size: 9px; width: 14px; height: 14px;">15c</span></div>
+                <div class="slot-marker ph" style="position: relative; aspect-ratio: 1; border-radius: 50%; inset: 0;"><span class="pin" style="font-size: 9px; width: 14px; height: 14px;">15d</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="specs">
+          <div class="specs-h3">About page assets</div>
+          <div class="spec-card ph">
+            <div class="num">14</div>
+            <div>
+              <div class="name">รูป Hero อาคารวิทยาลัย</div>
+              <div class="meta"><span>JPG/WebP</span><span>21:9</span><span>2400×1030</span></div>
+              <div class="desc">รูป<strong>ภายนอกอาคาร</strong>มุมกว้าง ถ่ายในช่วง golden hour (เช้า/เย็น) — แสดงความใหญ่โต ทันสมัย</div>
+            </div>
+          </div>
+          <div class="spec-card ph">
+            <div class="num">15</div>
+            <div>
+              <div class="name">รูปผู้บริหาร 4 ท่าน</div>
+              <div class="meta"><span>JPG</span><span>1:1</span><span>600×600</span></div>
+              <div class="desc">portrait หัวไหล่ใส่ชุดสุภาพ พื้นหลังกลาง — <strong>โทนเดียวกันทั้ง 4 ท่าน</strong> · จัด lighting ให้นุ่ม</div>
+            </div>
+          </div>
+          <div class="spec-card vid">
+            <div class="num">16</div>
+            <div>
+              <div class="name">วิดีโอ Welcome จาก ผอ. (ทางเลือก)</div>
+              <div class="meta"><span>mp4</span><span>30s</span><span>1080p</span></div>
+              <div class="desc">ผู้อำนวยการพูดต้อนรับ · แทรกใต้ Timeline ได้ — ทำให้ดูเป็นทางการและสร้างความน่าเชื่อถือ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════════════════════════════════════════════════
+         SECTION 03 · COURSE DETAIL
+         ═════════════════════════════════════════════════════ -->
+    <section class="page-section">
+      <div class="ps-head">
+        <div>
+          <div class="ps-num">PAGE 03 / 07</div>
+          <h2>รายละเอียดหลักสูตร · <em>Course Detail</em></h2>
+        </div>
+        <div class="filename">course-detail.html</div>
+      </div>
+
+      <div class="slot-row reverse">
+        <div class="specs">
+          <div class="specs-h3">Course Detail (ใช้ × 18 สาขา)</div>
+          <div class="spec-card ph">
+            <div class="num">17</div>
+            <div>
+              <div class="name">Hero background image</div>
+              <div class="meta"><span>JPG/WebP</span><span>21:9</span><span>2400×1030</span></div>
+              <div class="desc">รูปบรรยากาศห้องปฏิบัติการ <strong>ของสาขานั้น</strong> — ใช้เป็นพื้นหลัง overlay gradient เขียวบนรูป</div>
+            </div>
+          </div>
+          <div class="spec-card vid">
+            <div class="num">18</div>
+            <div>
+              <div class="name">วิดีโอบรรยากาศการเรียน (ทางเลือก)</div>
+              <div class="meta"><span>mp4</span><span>15-30s</span><span>720p loop</span></div>
+              <div class="desc">วิดีโอ silent loop bg ใต้ Hero แสดงนักศึกษาฝึกปฏิบัติ — <strong>ทรงพลังมาก</strong> สำหรับสาขา ช่างยนต์/เมคคา/ไฟฟ้า</div>
+            </div>
+          </div>
+          <div class="spec-card ph">
+            <div class="num">19</div>
+            <div>
+              <div class="name">รูปประกอบ skills/อาชีพ</div>
+              <div class="meta"><span>JPG</span><span>16:9</span><span>720×405</span></div>
+              <div class="desc">รูปบรรยากาศ workplace ที่บัณฑิตไปทำงาน (โรงงาน, ท่าเรือ, สำนักงาน) — ช่วย visualize career path</div>
+            </div>
+          </div>
+        </div>
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/course-detail.html</span></div>
+          <div class="frame">
+            <div style="background: linear-gradient(135deg, var(--green-900), var(--green-700)); padding: 18px; color: white; position: relative;">
+              <div class="slot-marker vid video-slot" style="position: absolute; inset: 0; border: 2px dashed white; background: rgba(0,0,0,0.1);"><span class="pin" style="background: white; color: var(--t-video);">17/18</span></div>
+              <div style="font-size: 9px; opacity: 0.7; position: relative;">ปวส. · หลักสูตร 2567 · ทวิภาคี</div>
+              <div style="font-size: 14px; font-weight: 800; margin-top: 4px; position: relative;">การจัดการโลจิสติกส์</div>
+            </div>
+            <div style="padding: 14px;">
+              <div class="frame-body">เกี่ยวกับหลักสูตร...</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;">
+                <div class="slot-marker ph" style="position: relative; aspect-ratio: 16/9; inset: 0;"><span class="pin">19a</span></div>
+                <div class="slot-marker ph" style="position: relative; aspect-ratio: 16/9; inset: 0;"><span class="pin">19b</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════════════════════════════════════════════════
+         SECTION 04 · PORTFOLIO PAGE
+         ═════════════════════════════════════════════════════ -->
+    <section class="page-section">
+      <div class="ps-head">
+        <div>
+          <div class="ps-num">PAGE 04 / 07</div>
+          <h2>ผลงานวิทยาลัย · <em>Portfolio</em></h2>
+        </div>
+        <div class="filename">portfolio.html</div>
+      </div>
+
+      <div class="slot-row">
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/portfolio.html</span></div>
+          <div class="frame" style="padding: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;">
+              <div style="grid-row: span 2; aspect-ratio: 1; position: relative;">
+                <div class="slot-marker vid video-slot" style="position: absolute; inset: 0;"><span class="pin">20</span><span class="label-inside" style="margin-top: 30px;">FEATURED VIDEO</span></div>
+              </div>
+              <div class="slot-marker ph" style="position: relative; aspect-ratio: 4/3; inset: 0;"><span class="pin">21a</span></div>
+              <div class="slot-marker ph" style="position: relative; aspect-ratio: 4/3; inset: 0;"><span class="pin">21b</span></div>
+              <div class="slot-marker ph" style="position: relative; aspect-ratio: 4/3; inset: 0;"><span class="pin">21c</span></div>
+              <div class="slot-marker ph" style="position: relative; aspect-ratio: 4/3; inset: 0;"><span class="pin">21d</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="specs">
+          <div class="specs-h3">Portfolio gallery</div>
+          <div class="spec-card vid">
+            <div class="num">20</div>
+            <div>
+              <div class="name">Featured video (ผลงานเด่น)</div>
+              <div class="meta"><span>mp4</span><span>30-60s</span><span>1080p</span></div>
+              <div class="desc">วิดีโอเด่นที่สุดของปี — เช่น Mini Smart Farm ทำงาน, รถ EV จำลอง, AGV — <strong>มีปุ่ม Play ใหญ่</strong> ดึงดูดสุด</div>
+            </div>
+          </div>
+          <div class="spec-card ph">
+            <div class="num">21</div>
+            <div>
+              <div class="name">รูปผลงาน ≥ 16 รูป</div>
+              <div class="meta"><span>JPG</span><span>4:3</span><span>1200×900</span></div>
+              <div class="desc">รูปสิ่งประดิษฐ์ในแต่ละสาขา · ถ่ายใน studio หรือสนามแข่ง — <strong>ใส่ caption</strong> บอกชื่อสาขา + ทีมที่ทำ</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════════════════════════════════════════════════
+         SECTION 05 · APPLY
+         ═════════════════════════════════════════════════════ -->
+    <section class="page-section">
+      <div class="ps-head">
+        <div>
+          <div class="ps-num">PAGE 05 / 07</div>
+          <h2>สมัครเรียน · <em>Apply</em></h2>
+        </div>
+        <div class="filename">apply.html</div>
+      </div>
+
+      <div class="slot-row reverse">
+        <div class="specs">
+          <div class="specs-h3">Apply page · มินิมัล</div>
+          <div class="spec-card ill">
+            <div class="num">22</div>
+            <div>
+              <div class="name">Illustration sidebar (ทางเลือก)</div>
+              <div class="meta"><span>SVG</span><span>square</span></div>
+              <div class="desc">SVG illustration เล็กๆ ข้างฟอร์ม เช่น "ยินดีต้อนรับ" · ตัวการ์ตูนถือกระเป๋านักเรียน — <strong>ทางเลือก</strong> ถ้าไม่มีก็ดูสะอาดตา</div>
+            </div>
+          </div>
+          <div class="spec-card pat">
+            <div class="num">23</div>
+            <div>
+              <div class="name">Page hero bg</div>
+              <div class="meta"><span>CSS</span><span>built-in</span></div>
+              <div class="desc">Gradient mesh — <strong>ใช้แล้ว</strong> ไม่ต้องเตรียม</div>
+            </div>
+          </div>
+        </div>
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/apply.html</span></div>
+          <div class="frame" style="padding: 16px;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
+              <div>
+                <div style="display: flex; gap: 4px; margin-bottom: 10px;">
+                  <div style="flex: 1; height: 24px; background: var(--green-50); border: 1px solid var(--green-200); border-radius: 4px; font-size: 8px; padding: 4px;">1 · ส่วนตัว</div>
+                  <div style="flex: 1; height: 24px; background: white; border: 1px solid var(--border); border-radius: 4px; font-size: 8px; padding: 4px;">2 · สาขา</div>
+                  <div style="flex: 1; height: 24px; background: white; border: 1px solid var(--border); border-radius: 4px; font-size: 8px; padding: 4px;">3 · ยืนยัน</div>
+                </div>
+                <div style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 10px;">
+                  <div class="stub-line" style="margin-bottom: 6px;"></div>
+                  <div style="height: 14px; background: var(--ink-100); border-radius: 4px; margin-bottom: 8px;"></div>
+                  <div class="stub-line short" style="margin-bottom: 6px;"></div>
+                  <div style="height: 14px; background: var(--ink-100); border-radius: 4px; margin-bottom: 8px;"></div>
+                  <div class="stub-line" style="margin-bottom: 6px;"></div>
+                  <div style="height: 14px; background: var(--ink-100); border-radius: 4px;"></div>
+                </div>
+              </div>
+              <div style="position: relative;">
+                <div class="slot-marker ill" style="position: relative; aspect-ratio: 1; inset: 0;"><span class="pin">22</span><span class="label-inside" style="margin-top: 30px;">ILLUST.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════════════════════════════════════════════════
+         SECTION 06 · CONTACT
+         ═════════════════════════════════════════════════════ -->
+    <section class="page-section">
+      <div class="ps-head">
+        <div>
+          <div class="ps-num">PAGE 06 / 07</div>
+          <h2>ติดต่อเรา · <em>Contact</em></h2>
+        </div>
+        <div class="filename">contact.html</div>
+      </div>
+
+      <div class="slot-row">
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/contact.html</span></div>
+          <div class="frame" style="padding: 16px;">
+            <div style="display: grid; grid-template-columns: 1fr 1.4fr; gap: 12px;">
+              <div>
+                <div style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 9px;">📍 ที่อยู่</div>
+                <div style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 8px; margin-bottom: 6px; font-size: 9px;">📞 โทรศัพท์</div>
+                <div style="background: white; border: 1px solid var(--border); border-radius: 6px; padding: 8px; font-size: 9px;">✉ อีเมล</div>
+              </div>
+              <div class="slot-marker ill" style="position: relative; aspect-ratio: 4/3; inset: 0;">
+                <span class="pin">24</span>
+                <span class="label-inside">GOOGLE MAPS iframe</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="specs">
+          <div class="specs-h3">Contact page</div>
+          <div class="spec-card ill">
+            <div class="num">24</div>
+            <div>
+              <div class="name">Google Maps embed</div>
+              <div class="meta"><span>iframe</span><span>built-in</span></div>
+              <div class="desc">Google Maps แสดงจุดวิทยาลัย — <strong>ใช้แล้ว</strong> (มี pin ที่ 13.086485, 100.936589)</div>
+            </div>
+          </div>
+          <div class="spec-card ph">
+            <div class="num">25</div>
+            <div>
+              <div class="name">รูปอาคาร/หน้าวิทยาลัย (ทางเลือก)</div>
+              <div class="meta"><span>JPG</span><span>4:3</span><span>1200×900</span></div>
+              <div class="desc">รูปหน้าวิทยาลัย/ทางเข้า ใช้เป็น Hero รอง — ช่วยให้คนที่ไม่เคยมาเห็นว่ามาถึงแล้วจะเจอแบบไหน</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════════════════════════════════════════════════
+         SECTION 07 · VIDEO TOUR
+         ═════════════════════════════════════════════════════ -->
+    <section class="page-section">
+      <div class="ps-head">
+        <div>
+          <div class="ps-num">PAGE 07 / 07</div>
+          <h2>วิดีโอทัวร์ · <em>Video Tour (60s)</em></h2>
+        </div>
+        <div class="filename">video.html</div>
+      </div>
+
+      <div class="slot-row reverse">
+        <div class="specs">
+          <div class="specs-h3">Video tour · ใช้ animated SVG</div>
+          <div class="spec-card vid">
+            <div class="num">26</div>
+            <div>
+              <div class="name">Animated SVG scenes (มีอยู่แล้ว)</div>
+              <div class="meta"><span>SVG</span><span>60s loop</span></div>
+              <div class="desc">7 ฉากใน HTML — Title, Geographic, Trades, Partners, Stats, Philosophy, CTA — <strong>ใช้แล้ว</strong></div>
+            </div>
+          </div>
+          <div class="spec-card vid">
+            <div class="num">27</div>
+            <div>
+              <div class="name">B-roll footage (เพิ่มเติม)</div>
+              <div class="meta"><span>mp4</span><span>2-3min total</span><span>1080p</span></div>
+              <div class="desc">คลิปสั้นๆ ของ: นักศึกษากำลังเรียน · เครื่องจักรในห้องปฏิบัติการ · บรรยากาศวิทยาลัย · ผู้บริหารพูด — <strong>สามารถใช้แทนหรือเสริม SVG scenes</strong></div>
+            </div>
+          </div>
+        </div>
+        <div class="mockup">
+          <div class="mockup-toolbar"><span class="dot d1"></span><span class="dot d2"></span><span class="dot d3"></span><span class="url">/video.html</span></div>
+          <div class="frame" style="padding: 0; background: #0a0a0a;">
+            <div style="aspect-ratio: 16/9; position: relative; background: linear-gradient(135deg, #0a4d28, #0f7a3e); display: grid; place-items: center;">
+              <div class="slot-marker vid" style="position: absolute; inset: 0; border-color: white; background: rgba(0,0,0,0.2);"><span class="pin" style="background: white; color: var(--t-video);">26</span></div>
+              <div style="background: rgba(255,255,255,0.18); width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; color: white; font-size: 24px; position: relative;">▶</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═════════════════════════════════════════════════════
+         ASSET CHECKLIST
+         ═════════════════════════════════════════════════════ -->
+    <section class="page-section">
+      <div class="ps-head">
+        <div>
+          <div class="ps-num">CHECKLIST</div>
+          <h2><em>Asset</em> Checklist · รายการต้องเตรียม</h2>
+        </div>
+        <div class="filename">23 items</div>
+      </div>
+
+      <div class="asset-table">
+        <div class="at-row">
+          <div>ID</div><div>ชื่อ asset</div><div>คำอธิบาย</div><div>สเปก</div><div>ปริมาณ</div><div>ลำดับ</div>
+        </div>
+        <div class="at-row"><div class="at-id">A-01</div><div class="at-type" style="--c: var(--t-photo)">รูปข่าวสาร</div><div>กิจกรรม MOU พิธีรับวุฒิ ฯลฯ</div><div class="at-spec">JPG 1920×1080</div><div>3-6</div><div><span class="at-pri pri-must">MUST</span></div></div>
+        <div class="at-row"><div class="at-id">A-02</div><div class="at-type" style="--c: var(--t-photo)">รูปห้องเรียน 18 สาขา</div><div>นักศึกษาฝึกปฏิบัติในแต่ละสาขา</div><div class="at-spec">JPG 800×600</div><div>16</div><div><span class="at-pri pri-must">MUST</span></div></div>
+        <div class="at-row"><div class="at-id">A-03</div><div class="at-type" style="--c: var(--t-photo)">รูปผลงาน/นวัตกรรม</div><div>สิ่งประดิษฐ์ของนักศึกษา</div><div class="at-spec">JPG 1200×900</div><div>16+</div><div><span class="at-pri pri-must">MUST</span></div></div>
+        <div class="at-row"><div class="at-id">A-04</div><div class="at-type" style="--c: var(--t-photo)">Portrait นักศึกษา</div><div>สำหรับ Testimonials</div><div class="at-spec">JPG 400×400</div><div>4</div><div><span class="at-pri pri-must">MUST</span></div></div>
+        <div class="at-row"><div class="at-id">A-05</div><div class="at-type" style="--c: var(--t-photo)">Hero อาคาร About</div><div>มุมกว้าง golden hour</div><div class="at-spec">JPG 2400×1030</div><div>1</div><div><span class="at-pri pri-must">MUST</span></div></div>
+        <div class="at-row"><div class="at-id">A-06</div><div class="at-type" style="--c: var(--t-photo)">Portrait ผู้บริหาร</div><div>หัวไหล่ ชุดสุภาพ โทนเดียวกัน</div><div class="at-spec">JPG 600×600</div><div>4-8</div><div><span class="at-pri pri-must">MUST</span></div></div>
+        <div class="at-row"><div class="at-id">A-07</div><div class="at-type" style="--c: var(--t-photo)">Hero Course Detail</div><div>ห้องปฏิบัติการของแต่ละสาขา</div><div class="at-spec">JPG 2400×1030</div><div>16</div><div><span class="at-pri pri-nice">NICE</span></div></div>
+        <div class="at-row"><div class="at-id">A-08</div><div class="at-type" style="--c: var(--t-photo)">รูปอาชีพหลังเรียนจบ</div><div>โรงงาน ท่าเรือ สำนักงาน</div><div class="at-spec">JPG 720×405</div><div>8-16</div><div><span class="at-pri pri-nice">NICE</span></div></div>
+        <div class="at-row"><div class="at-id">A-09</div><div class="at-type" style="--c: var(--t-photo)">รูปทางเข้าวิทยาลัย</div><div>หน้า Contact page</div><div class="at-spec">JPG 1200×900</div><div>1-2</div><div><span class="at-pri pri-opt">OPT</span></div></div>
+        <div class="at-row"><div class="at-id">A-10</div><div class="at-type" style="--c: var(--t-video)">Featured video ผลงาน</div><div>วิดีโอเด่นในหน้า Portfolio</div><div class="at-spec">mp4 1080p · 30-60s</div><div>1</div><div><span class="at-pri pri-nice">NICE</span></div></div>
+        <div class="at-row"><div class="at-id">A-11</div><div class="at-type" style="--c: var(--t-video)">วิดีโอผลงานสาขา</div><div>คลิปสั้นๆ ของแต่ละสาขา</div><div class="at-spec">mp4 720p · 10-20s</div><div>5-8</div><div><span class="at-pri pri-opt">OPT</span></div></div>
+        <div class="at-row"><div class="at-id">A-12</div><div class="at-type" style="--c: var(--t-video)">วิดีโอ Welcome ผอ.</div><div>ผู้อำนวยการพูดต้อนรับ</div><div class="at-spec">mp4 1080p · 30s</div><div>1</div><div><span class="at-pri pri-opt">OPT</span></div></div>
+        <div class="at-row"><div class="at-id">A-13</div><div class="at-type" style="--c: var(--t-video)">B-roll footage วิทยาลัย</div><div>คลิปบรรยากาศ ใช้แทน SVG scenes</div><div class="at-spec">mp4 1080p · 2-3min</div><div>1 pack</div><div><span class="at-pri pri-opt">OPT</span></div></div>
+        <div class="at-row"><div class="at-id">A-14</div><div class="at-type" style="--c: var(--t-video)">วิดีโอ Hero loop</div><div>Bg video ใต้ Hero homepage</div><div class="at-spec">mp4 1080p · 15s loop</div><div>1</div><div><span class="at-pri pri-opt">OPT</span></div></div>
+        <div class="at-row"><div class="at-id">A-15</div><div class="at-type" style="--c: var(--t-icon)">โลโก้พันธมิตร 12 องค์กร</div><div>Watsons, Toyota, Honda, ฯลฯ</div><div class="at-spec">SVG monochrome</div><div>12</div><div><span class="at-pri pri-nice">NICE</span></div></div>
+        <div class="at-row"><div class="at-id">A-16</div><div class="at-type" style="--c: var(--t-illust)">SVG Illustration · welcome</div><div>การ์ตูนเด็กถือกระเป๋านักเรียน</div><div class="at-spec">SVG · 400×400</div><div>1</div><div><span class="at-pri pri-opt">OPT</span></div></div>
+        <div class="at-row"><div class="at-id">A-17</div><div class="at-type" style="--c: var(--t-illust)">ไอคอนสาขา 16 แบบ</div><div>ใช้แล้ว · อาจอัปเกรดเป็น colored illustration</div><div class="at-spec">SVG · 40×40</div><div>16</div><div><span class="at-pri pri-opt">OPT</span></div></div>
+        <div class="at-row"><div class="at-id">A-18</div><div class="at-type" style="--c: var(--t-photo)">Favicon / App icons</div><div>ตราวิทยาลัยขนาดเล็กหลายขนาด</div><div class="at-spec">PNG 16/32/180/512</div><div>4</div><div><span class="at-pri pri-must">MUST</span></div></div>
+        <div class="at-row"><div class="at-id">A-19</div><div class="at-type" style="--c: var(--t-photo)">OG / Social share image</div><div>รูปสำหรับแชร์ใน FB/LINE</div><div class="at-spec">JPG 1200×630</div><div>1</div><div><span class="at-pri pri-must">MUST</span></div></div>
+        <div class="at-row"><div class="at-id">A-20</div><div class="at-type" style="--c: var(--t-photo)">รูปบรรยากาศ 360°</div><div>VR tour ในอนาคต</div><div class="at-spec">JPG equirectangular</div><div>3-5</div><div><span class="at-pri pri-opt">OPT</span></div></div>
+      </div>
+    </section>
+
+    <!-- ═════════════════════════════════════════════════════
+         PRINCIPLES
+         ═════════════════════════════════════════════════════ -->
+    <section class="page-section">
+      <div class="ps-head">
+        <div>
+          <div class="ps-num">PRINCIPLES</div>
+          <h2>หลักการ<em> การถ่ายและเลือก</em>รูป-วิดีโอ</h2>
+        </div>
+      </div>
+
+      <div class="principles">
+        <div class="principle">
+          <span class="p-num">01</span>
+          <h3>คนจริง<br/>ไม่ใช่ Stock</h3>
+          <p>นักศึกษา อาจารย์ และผู้บริหารต้องเป็นบุคลากรจริง — ผู้ปกครองจะตรวจสอบได้ทันทีว่าเป็นรูปปลอม</p>
+        </div>
+        <div class="principle">
+          <span class="p-num">02</span>
+          <h3>โทนอุ่น<br/>มีความลึก</h3>
+          <p>ใช้แสงธรรมชาติ (golden hour, soft window light) · ห้ามฟิลเตอร์เกินจริง · เน้น depth of field ตัวคน-ฉากแยกชั้น</p>
+        </div>
+        <div class="principle">
+          <span class="p-num">03</span>
+          <h3>มีอารมณ์<br/>มีเรื่องเล่า</h3>
+          <p>ทุกรูปต้อง<strong>เล่าอะไรบางอย่าง</strong> — รอยยิ้ม ความตั้งใจ การลงมือทำ · ห้ามรูปคนยืนตรง วางมือข้างลำตัว แข็งเหมือนรูปบัตรประชาชน</p>
+        </div>
+        <div class="principle">
+          <span class="p-num">04</span>
+          <h3>คุณภาพ<br/>เน้น Performance</h3>
+          <p>ทุกรูปต้องอยู่ในรูป <code>.webp</code> หรือ <code>.avif</code> + กำหนด <code>width</code>/<code>height</code> + lazy load — เพื่อ Core Web Vitals</p>
+        </div>
+        <div class="principle">
+          <span class="p-num">05</span>
+          <h3>วิดีโอเงียบ<br/>เพิ่ม subtitle</h3>
+          <p>วิดีโอ autoplay ในเว็บ<strong>ต้อง mute เสมอ</strong> + ใส่ subtitle ภาษาไทย — เพราะคนเลื่อนดูในที่ทำงาน/รถไฟ</p>
+        </div>
+        <div class="principle">
+          <span class="p-num">06</span>
+          <h3>Release form<br/>ทุกคน</h3>
+          <p>ขอความยินยอมเป็นลายลักษณ์อักษรจากนักศึกษา/ผู้ปกครองที่ปรากฏในรูป/วิดีโอ · ครู PDPA ทาง legal ต้องตรวจสอบ</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="doc-foot">
+      <p>เอกสารนี้สามารถปรับปรุงตามจริง — จับคู่กับ <a href="SEO-Strategy.html" style="color: var(--green-700);">SEO Strategy</a> และ <a href="index.html" style="color: var(--green-700);">หน้าเว็บไซต์</a></p>
+      <p>© 2569 วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>หลักสูตร ปวช. ปวส. ป.ตรี · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</title>
+  <meta name="description" content="หลักสูตร ปวช. ปวส. และ ป.ตรี 18 สาขาวิชา ครอบคลุมช่างยนต์ ไฟฟ้า เมคคาทรอนิกส์ โลจิสติกส์ ดิจิทัล และบริหาร ที่แหลมฉบัง ศรีราชา ชลบุรี"/>
+  <meta name="keywords" content="หลักสูตร ปวช, หลักสูตร ปวส, ปริญญาตรี อาชีวศึกษา, สาขาช่างยนต์, สาขาไฟฟ้า, เมคคาทรอนิกส์, โลจิสติกส์"/>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="homepage.css"/>
+  <link rel="stylesheet" href="subpages.css"/>
+  <link rel="stylesheet" href="mobile.css"/>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="text/babel" src="chrome.jsx"></script>
+  <script type="text/babel" src="homepage-sections.jsx"></script>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function CoursesApp() {
+      useReveal();
+      const [level, setLevel] = useState('ทั้งหมด');
+      const levels = ['ทั้งหมด', 'ปวช.', 'ปวส.', 'ป.ตรี'];
+      const PT = [{ code: 'ป.ตรี', name: 'เทคโนโลยีบัณฑิต สาขาเทคโนโลยีไฟฟ้า', icon: 'bolt', cat: 'อุตสาหกรรม' }];
+      const ALL = [...COURSES, ...PT];
+      const shown = level === 'ทั้งหมด' ? ALL : ALL.filter(c => c.code === level);
+
+      return (
+        <>
+          <Nav active="courses"/>
+          <main>
+            <section className="page-hero">
+              <div className="container page-hero-inner">
+                <div className="crumbs">
+                  <a href="index.html">หน้าแรก</a>
+                  <Icon name="chevronRight" style={{ width: 12, height: 12 }}/>
+                  <span>หลักสูตร</span>
+                </div>
+                <span className="eyebrow">หลักสูตรปีการศึกษา 2567</span>
+                <h1>18 สาขาวิชา <span className="grad">ครบทุกสายอาชีพ</span></h1>
+                <p>เลือกเรียนตามที่สนใจ ปวช. 3 ปี · ปวส. 2 ปี · ปริญญาตรี — ทุกหลักสูตรอัปเดตตามมาตรฐาน 2567 พร้อมระบบทวิภาคีร่วมกับสถานประกอบการ</p>
+              </div>
+            </section>
+
+            <section className="section">
+              <div className="container">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 40, flexWrap: 'wrap', gap: 16 }}>
+                  <div className="tabs">
+                    {levels.map(l => (
+                      <button key={l} className={`tab ${level === l ? 'on' : ''}`} onClick={() => setLevel(l)}>{l}</button>
+                    ))}
+                  </div>
+                  <div style={{ fontSize: 14, color: 'var(--ink-500)' }}>
+                    แสดง <strong style={{ color: 'var(--ink-900)' }}>{shown.length}</strong> สาขา
+                  </div>
+                </div>
+
+                <Reveal>
+                  <table className="course-table">
+                    <thead>
+                      <tr>
+                        <th style={{ width: 56 }}></th>
+                        <th>ชื่อสาขา</th>
+                        <th>ระดับ</th>
+                        <th>ระยะเวลา</th>
+                        <th>ทวิภาคี</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {shown.map((c, i) => (
+                        <tr key={i}>
+                          <td><div className="row-icon"><Icon name={c.icon} style={{ width: 20, height: 20 }}/></div></td>
+                          <td>
+                            <div className="row-name">{c.name}</div>
+                            <div className="row-cat">{c.cat}</div>
+                          </td>
+                          <td>
+                            <span className="cc-code-pill" style={{ background: c.code === 'ปวช.' ? 'var(--green-700)' : c.code === 'ปวส.' ? 'var(--crest-navy)' : 'var(--crest-red)' }}>{c.code}</span>
+                          </td>
+                          <td>{c.code === 'ปวช.' ? '3 ปี' : c.code === 'ปวส.' ? '2 ปี' : '2 ปี'}</td>
+                          <td>{c.hot ? <span style={{ color: 'var(--green-700)', fontWeight: 700 }}>✓ รองรับ</span> : <span style={{ color: 'var(--ink-400)' }}>—</span>}</td>
+                          <td style={{ textAlign: 'right' }}>
+                            <a href="course-detail.html" className="row-cta">รายละเอียด <Icon name="arrow" style={{ width: 14, height: 14 }}/></a>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </Reveal>
+
+                <div style={{ marginTop: 56 }}>
+                  <Courses cardStyle="lift"/>
+                </div>
+              </div>
+            </section>
+
+            <CTABanner/>
+          </main>
+          <Footer/>
+          <StickyCTA/>
+        </>
+      );
+    }
+
+    const mount = () => {
+      if (!window.Nav || !window.Courses) return setTimeout(mount, 50);
+      ReactDOM.createRoot(document.getElementById('app')).render(<CoursesApp/>);
+    };
+    mount();
+  </script>
+</body>
+</html>

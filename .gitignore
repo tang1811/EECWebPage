@@ -1,0 +1,16 @@
+# dependencies / build (any subdir)
+**/node_modules/
+**/.next/
+**/out/
+**/build/
+**/.turbo/
+
+# env — keep .env.example, ignore real env
+**/.env.local
+**/.env*.local
+
+# misc
+.DS_Store
+*.tsbuildinfo
+*.pem
+npm-debug.log*

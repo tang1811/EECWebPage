@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <title>สมัครเรียนออนไลน์ · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</title>
+  <meta name="description" content="สมัครเรียน ปวช. ปวส. ป.ตรี ออนไลน์ ใช้เวลาเพียง 5 นาที ทีมงานติดต่อกลับภายใน 24 ชั่วโมง — วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง ศรีราชา ชลบุรี"/>
+  <meta name="keywords" content="สมัครเรียน ปวช ออนไลน์, สมัครเรียน ปวส แหลมฉบัง, ฟอร์มสมัครเรียนอาชีวะ ชลบุรี"/>
+  <link rel="icon" type="image/png" href="assets/logo.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="homepage.css"/>
+  <link rel="stylesheet" href="subpages.css"/>
+  <link rel="stylesheet" href="mobile.css"/>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="app"></div>
+  <script type="text/babel" src="chrome.jsx"></script>
+  <script type="text/babel">
+    const { useState } = React;
+
+    function ApplyApp() {
+      useReveal();
+      const [step, setStep] = useState(0);
+      const [form, setForm] = useState({
+        firstName: '', lastName: '', dob: '', phone: '', email: '', address: '',
+        level: 'ปวช.', major: '', prevSchool: '', gpa: '', round: 'รอบเช้า',
+        knew: 'Facebook', note: ''
+      });
+      const [errors, setErrors] = useState({});
+      const [submitted, setSubmitted] = useState(false);
+
+      const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+      const validate = (st) => {
+        const e = {};
+        if (st === 0) {
+          if (!form.firstName) e.firstName = 'กรุณากรอกชื่อ';
+          if (!form.lastName)  e.lastName  = 'กรุณากรอกนามสกุล';
+          if (!form.phone || form.phone.length < 9) e.phone = 'กรุณากรอกเบอร์ที่ถูกต้อง';
+          if (!form.email || !form.email.includes('@')) e.email = 'กรุณากรอกอีเมลที่ถูกต้อง';
+        }
+        if (st === 1) {
+          if (!form.major) e.major = 'กรุณาเลือกสาขาที่สนใจ';
+          if (!form.prevSchool) e.prevSchool = 'กรุณากรอกชื่อโรงเรียนเดิม';
+        }
+        setErrors(e);
+        return Object.keys(e).length === 0;
+      };
+
+      const next = () => { if (validate(step)) setStep(s => Math.min(s + 1, 2)); };
+      const prev = () => setStep(s => Math.max(s - 1, 0));
+      const submit = () => { if (validate(2)) setSubmitted(true); };
+
+      const labels = ['ข้อมูลส่วนตัว', 'สาขาที่สนใจ', 'ยืนยัน'];
+
+      const majors = {
+        'ปวช.': ['ช่างยนต์', 'ช่างไฟฟ้ากำลัง', 'ช่างกลโรงงาน', 'อิเล็กทรอนิกส์', 'เมคคาทรอนิกส์และหุ่นยนต์', 'ดิจิทัลกราฟิก', 'เทคโนโลยีธุรกิจดิจิทัล', 'การบัญชี'],
+        'ปวส.': ['เทคนิคเครื่องกล', 'ไฟฟ้า', 'เทคนิคการผลิต', 'เมคคาทรอนิกส์และหุ่นยนต์', 'เครือข่ายคอมฯ & ความปลอดภัย', 'ดิจิทัลกราฟิก', 'การจัดการโลจิสติกส์', 'การบัญชี'],
+        'ป.ตรี': ['เทคโนโลยีไฟฟ้า'],
+      };
+
+      return (
+        <>
+          <Nav active="apply"/>
+          <main>
+            <section className="page-hero">
+              <div className="container page-hero-inner">
+                <div className="crumbs">
+                  <a href="index.html">หน้าแรก</a>
+                  <Icon name="chevronRight" style={{ width: 12, height: 12 }}/>
+                  <span>สมัครเรียน</span>
+                </div>
+                <span className="eyebrow">รับสมัครปีการศึกษา 2569</span>
+                <h1>สมัครเรียน<span className="grad">ออนไลน์</span> ใน 5 นาที</h1>
+                <p>กรอกข้อมูลเบื้องต้น ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง พร้อมแจ้งรายละเอียดเอกสารและขั้นตอนถัดไป</p>
+              </div>
+            </section>
+
+            <section className="section">
+              <div className="container">
+                <div className="apply-grid">
+                  <div>
+                    {!submitted ? (
+                      <>
+                        <div className="steps">
+                          {labels.map((l, i) => (
+                            <div key={i} className={`step ${step === i ? 'on' : ''} ${step > i ? 'done' : ''}`} onClick={() => step > i && setStep(i)}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                <span className="num">{step > i ? <Icon name="check" style={{ width: 14, height: 14 }}/> : i + 1}</span>
+                                <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--ink-500)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>ขั้นที่ {i + 1}</span>
+                              </div>
+                              <span className="label">{l}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="contentcard form-card">
+                          {step === 0 && (
+                            <Reveal>
+                              <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 24 }}>ข้อมูลส่วนตัว</h2>
+                              <div className="form-grid">
+                                <div className="field">
+                                  <label>ชื่อ <span className="req">*</span></label>
+                                  <input value={form.firstName} onChange={e => set('firstName', e.target.value)} placeholder="ชื่อจริง"/>
+                                  {errors.firstName && <span className="field-err">{errors.firstName}</span>}
+                                </div>
+                                <div className="field">
+                                  <label>นามสกุล <span className="req">*</span></label>
+                                  <input value={form.lastName} onChange={e => set('lastName', e.target.value)} placeholder="นามสกุล"/>
+                                  {errors.lastName && <span className="field-err">{errors.lastName}</span>}
+                                </div>
+                                <div className="field">
+                                  <label>วันเดือนปีเกิด</label>
+                                  <input type="date" value={form.dob} onChange={e => set('dob', e.target.value)}/>
+                                </div>
+                                <div className="field">
+                                  <label>เบอร์โทรศัพท์ <span className="req">*</span></label>
+                                  <input value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="08X-XXX-XXXX"/>
+                                  {errors.phone && <span className="field-err">{errors.phone}</span>}
+                                </div>
+                                <div className="field full">
+                                  <label>อีเมล <span className="req">*</span></label>
+                                  <input type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="you@example.com"/>
+                                  {errors.email && <span className="field-err">{errors.email}</span>}
+                                </div>
+                                <div className="field full">
+                                  <label>ที่อยู่ปัจจุบัน</label>
+                                  <textarea value={form.address} onChange={e => set('address', e.target.value)} placeholder="บ้านเลขที่ ตำบล อำเภอ จังหวัด"/>
+                                </div>
+                              </div>
+                            </Reveal>
+                          )}
+
+                          {step === 1 && (
+                            <Reveal>
+                              <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 24 }}>สาขาที่สนใจ</h2>
+                              <div className="form-grid">
+                                <div className="field">
+                                  <label>ระดับที่ต้องการสมัคร <span className="req">*</span></label>
+                                  <select value={form.level} onChange={e => { set('level', e.target.value); set('major', ''); }}>
+                                    <option>ปวช.</option>
+                                    <option>ปวส.</option>
+                                    <option>ป.ตรี</option>
+                                  </select>
+                                </div>
+                                <div className="field">
+                                  <label>รอบเรียน <span className="req">*</span></label>
+                                  <select value={form.round} onChange={e => set('round', e.target.value)}>
+                                    <option>รอบเช้า</option>
+                                    <option>รอบบ่าย</option>
+                                  </select>
+                                </div>
+                                <div className="field full">
+                                  <label>สาขาวิชา <span className="req">*</span></label>
+                                  <select value={form.major} onChange={e => set('major', e.target.value)}>
+                                    <option value="">-- เลือกสาขา --</option>
+                                    {(majors[form.level] || []).map(m => <option key={m}>{m}</option>)}
+                                  </select>
+                                  {errors.major && <span className="field-err">{errors.major}</span>}
+                                </div>
+                                <div className="field">
+                                  <label>โรงเรียน/สถานศึกษาเดิม <span className="req">*</span></label>
+                                  <input value={form.prevSchool} onChange={e => set('prevSchool', e.target.value)} placeholder="ชื่อโรงเรียน"/>
+                                  {errors.prevSchool && <span className="field-err">{errors.prevSchool}</span>}
+                                </div>
+                                <div className="field">
+                                  <label>เกรดเฉลี่ยสะสม</label>
+                                  <input value={form.gpa} onChange={e => set('gpa', e.target.value)} placeholder="0.00 - 4.00"/>
+                                </div>
+                                <div className="field full">
+                                  <label>ทราบข่าวการรับสมัครจาก</label>
+                                  <select value={form.knew} onChange={e => set('knew', e.target.value)}>
+                                    <option>Facebook</option>
+                                    <option>เว็บไซต์วิทยาลัย</option>
+                                    <option>เพื่อน/รุ่นพี่</option>
+                                    <option>ครูแนะแนว</option>
+                                    <option>ป้ายโฆษณา</option>
+                                    <option>อื่นๆ</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </Reveal>
+                          )}
+
+                          {step === 2 && (
+                            <Reveal>
+                              <h2 style={{ fontSize: 22, fontWeight: 700, marginBottom: 8 }}>ยืนยันข้อมูล</h2>
+                              <p style={{ color: 'var(--ink-600)', fontSize: 14, marginBottom: 24 }}>โปรดตรวจสอบข้อมูลก่อนกดส่งใบสมัคร</p>
+                              <div style={{ background: 'var(--bg-alt)', borderRadius: 'var(--r-md)', padding: 24, marginBottom: 24 }}>
+                                <Summary label="ชื่อ-สกุล" value={`${form.firstName} ${form.lastName}`}/>
+                                <Summary label="วันเกิด" value={form.dob || '—'}/>
+                                <Summary label="โทร" value={form.phone}/>
+                                <Summary label="อีเมล" value={form.email}/>
+                                <Summary label="ที่อยู่" value={form.address || '—'}/>
+                                <Summary label="ระดับ"  value={form.level}/>
+                                <Summary label="สาขา" value={form.major}/>
+                                <Summary label="รอบเรียน" value={form.round}/>
+                                <Summary label="โรงเรียนเดิม" value={form.prevSchool}/>
+                                <Summary label="GPA" value={form.gpa || '—'}/>
+                                <Summary label="ทราบจาก" value={form.knew}/>
+                              </div>
+                              <div className="field">
+                                <label>หมายเหตุเพิ่มเติม</label>
+                                <textarea value={form.note} onChange={e => set('note', e.target.value)} placeholder="ข้อมูลเพิ่มเติมที่อยากให้ทางวิทยาลัยทราบ"/>
+                              </div>
+                            </Reveal>
+                          )}
+
+                          <div className="form-actions">
+                            {step > 0 ? <button className="btn btn-ghost" onClick={prev}>← ย้อนกลับ</button> : <span/>}
+                            {step < 2 ? (
+                              <button className="btn btn-primary" onClick={next}>ถัดไป <Icon name="arrow" className="btn-icon"/></button>
+                            ) : (
+                              <button className="btn btn-primary btn-lg" onClick={submit}>ส่งใบสมัคร <Icon name="check" style={{ width: 16, height: 16 }}/></button>
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <Reveal className="contentcard apply-success">
+                        <div className="success-icon"><Icon name="check" style={{ width: 48, height: 48 }}/></div>
+                        <h2>ส่งใบสมัครเรียบร้อย!</h2>
+                        <p>ทีมงานได้รับใบสมัครของ <strong>{form.firstName} {form.lastName}</strong> เรียบร้อยแล้ว — เราจะติดต่อกลับที่ <strong>{form.phone}</strong> ภายใน 24 ชั่วโมง</p>
+                        <p style={{ fontSize: 13, color: 'var(--ink-500)', marginTop: 24 }}>เลขที่ใบสมัคร: <strong style={{ color: 'var(--green-700)' }}>EEC-{Math.floor(Math.random() * 90000 + 10000)}</strong></p>
+                        <div style={{ marginTop: 32, display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                          <a href="index.html" className="btn btn-primary">กลับหน้าแรก</a>
+                          <a href="courses.html" className="btn btn-ghost">ดูหลักสูตรอื่น</a>
+                        </div>
+                      </Reveal>
+                    )}
+                  </div>
+
+                  <aside className="apply-side">
+                    <div className="contentcard">
+                      <h3>หลังจากส่งใบสมัคร</h3>
+                      <ul>
+                        <li><Icon name="check" style={{ width: 14, height: 14 }}/> ทีมงานติดต่อกลับภายใน 24 ชม.</li>
+                        <li><Icon name="check" style={{ width: 14, height: 14 }}/> นัดสัมภาษณ์ที่วิทยาลัย</li>
+                        <li><Icon name="check" style={{ width: 14, height: 14 }}/> เตรียมเอกสารการสมัคร</li>
+                        <li><Icon name="check" style={{ width: 14, height: 14 }}/> ชำระค่าธรรมเนียม (ผ่อนได้)</li>
+                        <li><Icon name="check" style={{ width: 14, height: 14 }}/> รอวันปฐมนิเทศ</li>
+                      </ul>
+                    </div>
+                    <div className="contentcard" style={{ marginTop: 16 }}>
+                      <h3>เอกสารที่ต้องเตรียม</h3>
+                      <ul>
+                        <li><Icon name="check" style={{ width: 14, height: 14 }}/> สำเนาบัตรประชาชน</li>
+                        <li><Icon name="check" style={{ width: 14, height: 14 }}/> สำเนาทะเบียนบ้าน</li>
+                        <li><Icon name="check" style={{ width: 14, height: 14 }}/> ใบ ปพ.1 / Transcript</li>
+                        <li><Icon name="check" style={{ width: 14, height: 14 }}/> รูปถ่าย 1 นิ้ว 2 ใบ</li>
+                        <li><Icon name="check" style={{ width: 14, height: 14 }}/> สำเนาบัตรผู้ปกครอง (กรณีอายุต่ำกว่า 18)</li>
+                      </ul>
+                    </div>
+                    <div className="contentcard" style={{ marginTop: 16, background: 'var(--green-50)', borderColor: 'var(--green-200)' }}>
+                      <h3 style={{ color: 'var(--green-800)' }}>มีคำถาม?</h3>
+                      <p style={{ fontSize: 14, color: 'var(--ink-700)', marginBottom: 14 }}>ติดต่อฝ่ายงานธุรการได้ทุกวัน จันทร์-ศุกร์ 8:00-17:00 น.</p>
+                      <a href="tel:038494066" style={{ fontWeight: 700, fontSize: 18, color: 'var(--green-800)' }}>
+                        <Icon name="phone" style={{ width: 16, height: 16, display: 'inline', verticalAlign: '-2px', marginRight: 6 }}/>
+                        038-494-066
+                      </a>
+                    </div>
+                  </aside>
+                </div>
+              </div>
+            </section>
+          </main>
+          <Footer/>
+          <StickyCTA/>
+        </>
+      );
+    }
+
+    function Summary({ label, value }) {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: '140px 1fr', gap: 16, padding: '10px 0', borderTop: '1px dashed var(--border-soft)' }}>
+          <span style={{ fontSize: 13, color: 'var(--ink-500)' }}>{label}</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--ink-900)' }}>{value}</span>
+        </div>
+      );
+    }
+
+    const mount = () => {
+      if (!window.Nav) return setTimeout(mount, 50);
+      ReactDOM.createRoot(document.getElementById('app')).render(<ApplyApp/>);
+    };
+    mount();
+  </script>
+</body>
+</html>
