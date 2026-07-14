@@ -1,0 +1,209 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/homepage.css';
+import '../../styles/subpages.css';
+import '../../styles/news.css';
+import { NEWS, NEWS_SLUGS, getNews } from '../../data/news-data';
+import { SITE_URL } from '../../config';
+
+export function getStaticPaths() {
+  return NEWS_SLUGS.map((slug) => ({ params: { slug } }));
+}
+
+const COLLEGE = 'วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง';
+
+const { slug } = Astro.params as { slug: string };
+const n = getNews(slug)!;
+
+const images = [n.image, ...(n.gallery ?? [])];
+const more = NEWS.filter((x) => x.slug !== slug).slice(0, 2);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NewsArticle',
+  headline: n.title,
+  image: [`${SITE_URL}${n.image}`],
+  datePublished: n.date,
+  dateModified: n.date,
+  articleSection: n.tag,
+  publisher: { '@type': 'Organization', name: COLLEGE, logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/logo.png` } },
+  mainEntityOfPage: `${SITE_URL}/news/${slug}`,
+};
+const breadcrumb = {
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: 'ข่าวสาร', item: `${SITE_URL}/news` },
+    { '@type': 'ListItem', position: 3, name: n.title, item: `${SITE_URL}/news/${slug}` },
+  ],
+};
+---
+
+<Base
+  title={n.title}
+  description={n.excerpt}
+  path={`/news/${slug}`}
+  og={{ title: n.title, description: n.excerpt, image: n.image, type: 'article' }}
+>
+  <main class="news-page">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumb)} />
+
+    <article class="news-article">
+      <div class="container news-article-inner">
+        <div class="crumbs">
+          <a href="/">หน้าแรก</a> <span>/</span> <a href="/news/">ข่าวสาร</a> <span>/</span> <span>{n.tag}</span>
+        </div>
+        <span class="news-tag">{n.tag}</span>
+        <h1 class="news-title">{n.title}</h1>
+        <time class="news-date" datetime={n.date}>{n.dateLabel}</time>
+        <button type="button" class="news-cover news-cover-btn" aria-label="ดูรูปขนาดเต็ม">
+          <img src={images[0]} alt={n.title} style={n.objectPosition ? `object-position:${n.objectPosition}` : undefined} />
+          <span class="news-cover-zoom" aria-hidden="true">⤢</span>
+        </button>
+        {images.length > 1 && (
+          <div class="news-thumbs">
+            {images.map((src, i) => (
+              <button type="button" class="news-thumb" aria-label={`ดูรูปที่ ${i + 1}`}>
+                <img src={src} alt="" loading="lazy" />
+              </button>
+            ))}
+          </div>
+        )}
+        <p class="news-cover-hint">คลิกที่รูปเพื่อดูขนาดเต็ม</p>
+        <div class="news-body">
+          {n.body.map((p) => <p>{p}</p>)}
+        </div>
+        <a href="/news/" class="news-back">← กลับไปหน้าข่าวสารทั้งหมด</a>
+      </div>
+    </article>
+
+    {more.length > 0 && (
+      <section class="section news-more">
+        <div class="container">
+          <h2 class="news-more-head">ข่าวอื่น ๆ</h2>
+          <div class="news-more-grid">
+            {more.map((m) => (
+              <a href={`/news/${m.slug}/`} class="news-card">
+                <div class="news-card-img"><img src={m.image} alt={m.title} loading="lazy" style={m.objectPosition ? `object-position:${m.objectPosition}` : undefined} /></div>
+                <div class="news-card-body">
+                  <span class="news-card-tag">{m.tag} · {m.dateLabel}</span>
+                  <h3>{m.title}</h3>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+
+  <script>
+    // NewsCover lightbox — vanilla port of web/app/news/NewsCover.tsx.
+    // Open overlay on cover/thumb click, prev/next, Esc/ArrowLeft/ArrowRight,
+    // body scroll lock, "i / n" counter. Overlay markup matches the old React
+    // output exactly (.pf-lb / .pf-lb-close / .pf-lb-nav / .pf-lb-stage).
+    const cover = document.querySelector<HTMLButtonElement>('.news-cover-btn');
+    if (cover) {
+      const coverImg = cover.querySelector('img');
+      const thumbsWrap = document.querySelector<HTMLElement>('.news-thumbs');
+      const thumbs = Array.from(document.querySelectorAll<HTMLButtonElement>('.news-thumb'));
+      const images: string[] = thumbs.length
+        ? thumbs.map((b) => b.querySelector('img')?.getAttribute('src') ?? '')
+        : [coverImg?.getAttribute('src') ?? ''];
+      const alt = coverImg?.getAttribute('alt') ?? '';
+      // In the old React tree the overlay renders right after the thumbs (or the
+      // cover button when there is a single image), before .news-cover-hint.
+      const anchor = thumbsWrap ?? cover;
+
+      let active: number | null = null;
+      let overlay: HTMLDivElement | null = null;
+      let stageImg: HTMLImageElement | null = null;
+      let caption: HTMLElement | null = null;
+
+      const render = () => {
+        if (active === null || !stageImg) return;
+        stageImg.src = images[active];
+        if (caption) caption.textContent = `${active + 1} / ${images.length}`;
+      };
+
+      const close = () => {
+        active = null;
+        overlay?.remove();
+        window.removeEventListener('keydown', onKey);
+        document.body.style.overflow = '';
+      };
+
+      const step = (d: number) => {
+        if (active === null) return;
+        active = (active + d + images.length) % images.length;
+        render();
+      };
+
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowRight') step(1);
+        else if (e.key === 'ArrowLeft') step(-1);
+      };
+
+      const build = () => {
+        overlay = document.createElement('div');
+        overlay.className = 'pf-lb';
+        overlay.setAttribute('role', 'dialog');
+        overlay.setAttribute('aria-modal', 'true');
+        overlay.setAttribute('aria-label', 'รูปข่าวขนาดเต็ม');
+        overlay.addEventListener('click', close);
+
+        const closeBtn = document.createElement('button');
+        closeBtn.className = 'pf-lb-close';
+        closeBtn.setAttribute('aria-label', 'ปิด');
+        closeBtn.textContent = '✕';
+        closeBtn.addEventListener('click', close);
+        overlay.appendChild(closeBtn);
+
+        if (images.length > 1) {
+          const prev = document.createElement('button');
+          prev.className = 'pf-lb-nav pf-lb-prev';
+          prev.setAttribute('aria-label', 'ก่อนหน้า');
+          prev.textContent = '‹';
+          prev.addEventListener('click', (e) => { e.stopPropagation(); step(-1); });
+          overlay.appendChild(prev);
+        }
+
+        const stage = document.createElement('figure');
+        stage.className = 'pf-lb-stage';
+        stage.addEventListener('click', (e) => e.stopPropagation());
+        stageImg = document.createElement('img');
+        stageImg.alt = alt;
+        stage.appendChild(stageImg);
+        if (images.length > 1) {
+          caption = document.createElement('figcaption');
+          stage.appendChild(caption);
+        }
+        overlay.appendChild(stage);
+
+        if (images.length > 1) {
+          const next = document.createElement('button');
+          next.className = 'pf-lb-nav pf-lb-next';
+          next.setAttribute('aria-label', 'ถัดไป');
+          next.textContent = '›';
+          next.addEventListener('click', (e) => { e.stopPropagation(); step(1); });
+          overlay.appendChild(next);
+        }
+      };
+
+      const open = (i: number) => {
+        if (!overlay) build();
+        if (!overlay) return;
+        active = i;
+        render();
+        anchor.insertAdjacentElement('afterend', overlay);
+        window.addEventListener('keydown', onKey);
+        document.body.style.overflow = 'hidden';
+      };
+
+      cover.addEventListener('click', () => open(0));
+      thumbs.forEach((b, i) => b.addEventListener('click', () => open(i)));
+    }
+  </script>
+</Base>

@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import VideoBody from '../components/react/VideoBody';
+import '../styles/homepage.css';
+import '../styles/subpages.css';
+---
+
+<Base
+  title="วิดีโอแนะนำวิทยาลัย"
+  description="วิดีโอแนะนำวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง — ทัวร์ 1 นาที รู้จักหลักสูตร 18 สาขา พันธมิตรในเขต EEC สถิติ และปรัชญาของเรา"
+  path="/video"
+  keywords={[
+    'วิดีโอแนะนำ วิทยาลัยแหลมฉบัง',
+    'ทัวร์ EEC Engineer',
+    'หลักสูตร อาชีวศึกษา ศรีราชา',
+    'วิทยาลัยเทคโนโลยี ชลบุรี',
+  ]}
+  mono600
+>
+  <VideoBody client:load />
+</Base>

@@ -1,0 +1,400 @@
+---
+// ─────────────────────────────────────────────────────────────
+// Personnel page — บุคลากร. Ported from web/app/personnel/page.tsx +
+// PersonnelBody.tsx. Executives · Teaching staff by department ·
+// Support staff. All cards render at build time; the search box,
+// dept chips, <mark> highlight, counts and empty states are a
+// vanilla script keyed off data-name / data-dept.
+// ─────────────────────────────────────────────────────────────
+import Base from '../layouts/Base.astro';
+import { Icon } from '../components/react/chrome-lite';
+import '../styles/homepage.css';
+import '../styles/subpages.css';
+import '../styles/personnel.css';
+
+// ─────────────────────────────────────────────────────────────
+// REAL PERSONNEL DATA — แก้ไขชื่อ/ตำแหน่ง/รูป ได้ที่นี่
+// รูปภาพแยกโฟลเดอร์: /assets/staff/{executives,teachers,support}/
+// ─────────────────────────────────────────────────────────────
+const EX = '/assets/staff/executives/';
+const TC = '/assets/staff/teachers/';
+const SP = '/assets/staff/support/';
+
+type Principal = { name: string; role: string; photo: string };
+type Deputy = { name: string; role: string; dept: string; photo: string; color: string };
+type Member = {
+  name: string;
+  role: string;
+  head?: 'faculty' | 'section';
+  photo?: string;
+  initial?: string;
+};
+type Department = { id: string; name: string; color: string; members: Member[] };
+type SupportStaff = { name: string; role: string; photo: string; color: string };
+
+// ── ผู้บริหารระดับสูง ──────────────────────────────────────
+const PRINCIPALS: Principal[] = [
+  { name: 'ดร.ยงลักษณ์ บุญจี๊ด', role: 'ผู้รับใบอนุญาต', photo: EX + 'license-yonglak.webp' },
+  { name: 'อ.ภาคภูมิ บุญจี๊ด',   role: 'ผู้จัดการ',      photo: EX + 'manager-phakphum.webp' },
+  { name: 'อ.ภาตะวัน บุญจี๊ด',   role: 'ผู้อำนวยการ',    photo: EX + 'director-phatawan.webp' },
+];
+
+// ── รองผู้อำนวยการ ────────────────────────────────────────
+const DEPUTIES: Deputy[] = [
+  { name: 'นายมานิต หอดขุนทด',       role: 'รองผู้อำนวยการ', dept: 'ฝ่ายวิชาการและประกันคุณภาพ', photo: EX + 'deputy-academic-manit.webp',  color: '#026451' },
+  { name: 'นายทรงพล แม้นชล',         role: 'รองผู้อำนวยการ', dept: 'ฝ่ายกิจการนักเรียนนักศึกษา', photo: EX + 'deputy-student-songphon.webp', color: '#385BF3' },
+  { name: 'นางสาวจิดาภา เพ็ชรรัตน์', role: 'รองผู้อำนวยการ', dept: 'ฝ่ายบริหาร',                 photo: EX + 'deputy-admin-jidapha.webp',   color: '#D6418A' },
+  { name: 'นายกอบศักดิ์ เจนวิถี',     role: 'รองผู้อำนวยการ', dept: 'ฝ่ายปกครอง',                 photo: EX + 'deputy-discipline-kobsak.webp', color: '#B12B25' },
+  { name: 'นายพงษ์ศักดิ์ ไสตะภาพ',   role: 'รองผู้อำนวยการ', dept: 'ฝ่ายวิจัยและพัฒนาสื่อ',       photo: EX + 'deputy-research-pongsak.webp', color: '#C28A05' },
+  { name: 'นายพันธ์จิต อิ่มรอ',       role: 'รองผู้อำนวยการ', dept: 'ฝ่ายอาคารสถานที่',           photo: EX + 'deputy-building-phanchit.webp', color: '#2D8FBF' },
+];
+
+// ── ครูผู้สอนแยกตามแผนก ──────────────────────────────────
+const TEACHERS: Department[] = [
+  { id: 'yon', name: 'ช่างยนต์', color: '#B12B25', members: [
+    { name: 'นายกอบศักดิ์ เจนวิถี', role: 'หัวหน้าแผนกช่างยนต์', head: 'section', photo: EX + 'deputy-discipline-kobsak.webp' },
+    { name: 'นายศุภวิชญ์ ทวีการไถ', role: 'ครูประจำแผนก', photo: TC + 'yon-supawit.webp' },
+  ]},
+  { id: 'faifaa', name: 'ช่างไฟฟ้ากำลัง', color: '#2D8FBF', members: [
+    { name: 'นายปิยะ ยิ้มเจริญ',  role: 'หัวหน้าภาคช่างไฟฟ้า', head: 'faculty', photo: TC + 'elec-faculty-piya.webp' },
+    { name: 'นายสุขใจ วงษ์คต',    role: 'หัวหน้าแผนกช่างไฟ', head: 'section', photo: TC + 'elec-head-sukjai.webp' },
+    { name: 'นายเอนก คณฑา',       role: 'ครูประจำแผนก', photo: TC + 'elec-anek.webp' },
+    { name: 'นายธนกฤต ทองสุข',    role: 'ครูประจำแผนก', photo: TC + 'elec-thanakrit.webp' },
+  ]},
+  { id: 'gear', name: 'ช่างกลโรงงาน', color: '#C28A05', members: [
+    { name: 'นายวัฒนา คงประเสริฐ',  role: 'หัวหน้าภาคเครื่องกล', head: 'faculty', photo: TC + 'gear-head-wattana.webp' },
+    { name: 'นายไพศาล จุ้ยเคน',     role: 'ครูประจำแผนก', photo: TC + 'gear-phaisan.webp' },
+    { name: 'นายพงษ์พัฒน์ สาธุพันธ์', role: 'ครูประจำแผนก', photo: TC + 'gear-pongphat.webp' },
+    { name: 'นายสุภวัฒน์ ลีลาด',     role: 'ครูประจำแผนก', photo: TC + 'gear-supawat.webp' },
+  ]},
+  { id: 'mecha', name: 'เมคคาทรอนิกส์และหุ่นยนต์', color: '#C9911F', members: [
+    { name: 'นายนัฐสิทธิ์ เสาะขุนทด', role: 'หัวหน้าแผนก', head: 'section', photo: TC + 'mecha-head-natthasit.webp' },
+    { name: 'นายอรรณพ แซ่เฮง',       role: 'ครูประจำแผนก', photo: TC + 'mecha-annop.webp' },
+  ]},
+  { id: 'logis', name: 'โลจิสติกส์', color: '#0a9d80', members: [
+    { name: 'นายประยูร พินิจเจริญ',    role: 'หัวหน้าแผนก', head: 'section', photo: TC + 'logis-head-prayoon.webp' },
+    { name: 'นางสาวจุฑามาศ จันทร์พวง', role: 'ครูประจำแผนก', photo: TC + 'logis-juthamas.webp' },
+    { name: 'นายณัฐพล มีเดช',          role: 'ครูประจำแผนก', photo: TC + 'logis-nattapon.webp' },
+  ]},
+  { id: 'com', name: 'คอมพิวเตอร์ธุรกิจ / คอมกราฟฟิก', color: '#385BF3', members: [
+    { name: 'นายฆหชาร์นนท์ ยิ้มฉ่ำ',     role: 'หัวหน้าแผนก', head: 'section', photo: TC + 'com-head-kahachan.webp' },
+    { name: 'นางสาวจีรารัตน์ รินสาร',    role: 'ครูประจำแผนก', photo: TC + 'com-jeerarat.webp' },
+    { name: 'นางสาวพลอยเพทาย ปัสสายะ', role: 'ครูประจำแผนก', photo: TC + 'com-ploypethai.webp' },
+    { name: 'นางสาวสุทธิพร หารลือชัย',   role: 'ครูประจำแผนก', photo: TC + 'com-sutthiporn.webp' },
+    { name: 'นายทินภัทร วงค์ใหญ่',       role: 'ครูประจำแผนก', photo: TC + 'com-tinnaphat.webp' },
+    { name: 'นายบุญไทย เพชรพระรักษา',   role: 'ครูประจำแผนก', photo: TC + 'com-bunthai.webp' },
+  ]},
+  { id: 'account', name: 'การบัญชี', color: '#7B5CA7', members: [
+    { name: 'นางสาวอุมาพร เกยเลื่อน', role: 'หัวหน้าภาคบริหาร', head: 'faculty', photo: TC + 'account-faculty-umaporn.webp' },
+    { name: 'นางสาวสุมาลี หดคำ',      role: 'หัวหน้าแผนกบัญชี', head: 'section', photo: TC + 'account-head-sumalee.webp' },
+    { name: 'นางสาวนิตชญาภร ใจคง',   role: 'ครูประจำแผนก', photo: TC + 'account-nitchayaphon.webp' },
+  ]},
+  { id: 'general', name: 'สามัญสัมพันธ์', color: '#048269', members: [
+    { name: 'นายเอกชัย แก้วทรัพย์',      role: 'หัวหน้าสายสามัญ', head: 'faculty', photo: TC + 'general-head-ekkachai.webp' },
+    { name: 'นางสาวศรสวรรค์ วงศ์ศรีกุล', role: 'ครูสายสามัญ', photo: TC + 'general-sornsawan.webp' },
+  ]},
+];
+
+// ── สายสนับสนุน ──────────────────────────────────────────
+const SUPPORT: SupportStaff[] = [
+  { name: 'นางสาวพรสุดา ผาลี',        role: 'หัวหน้างานกิจกรรม',   photo: SP + 'activity-phonsuda.webp', color: '#D6418A' },
+  { name: 'นางกัลยา เรืองฤทธิ์',       role: 'เจ้าหน้าที่การเงิน',    photo: SP + 'finance-kanlaya.webp',   color: '#7B5CA7' },
+  { name: 'นางสาวสุพัฒน์ ชุ่มมุณีรัตน์', role: 'เจ้าหน้าที่นายทะเบียน', photo: SP + 'registrar-suphat.webp',  color: '#026451' },
+];
+
+const totalTeachers = TEACHERS.reduce((s, d) => s + d.members.length, 0);
+
+// ── Fresh portrait set (2568) imported from share via scripts/import-portraits.mjs ──
+// Keyed by whitespace-normalized Thai name; overrides the older photo when a match exists.
+const PORTRAITS: Record<string, string> = {
+  'นางกัลยา เรืองฤทธิ์': 'p01', 'นางสาวจิดาภา เพ็ชรรัตน์': 'p02', 'นางสาวจีรารัตน์ รินสาร': 'p03',
+  'นางสาวจุฑามาศ จันทร์พวง': 'p04', 'นางสาวนิตชญาภร ใจคง': 'p05', 'นางสาวพรสุดา ผาลี': 'p06',
+  'นางสาวพลอยเพทาย ปัสสายะ': 'p07', 'นางสาวศรสวรรค์ วงศ์ศรีกุล': 'p08', 'นางสาวสุทธิพร หารลือชัย': 'p09',
+  'นางสาวสุพัฒน์ ชุ่มมุณีรัตน์': 'p10', 'นางสาวสุมาลี หดคำ': 'p11', 'นางสาวอรสา สมนันท์': 'p12',
+  'นางสาวอุมาพร เกยเลื่อน': 'p13', 'นายกอบศักดิ์ เจนวิถี': 'p14', 'นายฆหชาร์นนท์ ยิ้มฉ่ำ': 'p15',
+  'นายณัฐพล มีเดช': 'p16', 'นายทรงพล แม้นชล': 'p17', 'นายทินภัทร วงค์ใหญ่': 'p18',
+  'นายธนกฤต ทองสุข': 'p19', 'นายนัฐสิทธิ์ เสาะขุนทด': 'p20', 'นายบุญไทย เพชรพระรักษา': 'p21',
+  'นายประยูร พินิจเจริญ': 'p22', 'นายปิยะ ยิ้มเจริญ': 'p23', 'นายพงษ์พัฒน์ สาธุพันธ์': 'p24',
+  'นายพงษ์ศักดิ์ ไสตะภาพ': 'p25', 'นายพันธ์จิต อิ่มรอ': 'p26', 'นายมานิต หอดขุนทด': 'p27',
+  'นายวัฒนา คงประเสริฐ': 'p28', 'นายศุภวิชญ์ ทวีการไถ': 'p29', 'นายสุขใจ วงษ์คต': 'p30',
+  'นายสุภวัฒน์ ลีลาด': 'p31', 'นายอรรณพ แซ่เฮง': 'p32', 'นายเอกชัย แก้วทรัพย์': 'p33',
+  'นายเอนก คณฑา': 'p34', 'นายไพศาล จุ้ยเคน': 'p35',
+};
+function resolvePhoto(name?: string, fallback?: string): string | undefined {
+  if (name) {
+    const id = PORTRAITS[name.replace(/\s+/g, ' ').trim()];
+    if (id) return `/assets/staff/portraits/${id}.webp`;
+  }
+  return fallback;
+}
+
+// Hero stats (PersonnelBody rendered these inline).
+const STATS: { num: string; plus?: boolean; lbl: string }[] = [
+  { num: String(PRINCIPALS.length), lbl: 'ผู้บริหารระดับสูง' },
+  { num: String(DEPUTIES.length), lbl: 'รองผู้อำนวยการ' },
+  { num: String(totalTeachers), plus: true, lbl: 'ครูผู้สอน 8 แผนก' },
+  { num: String(SUPPORT.length), lbl: 'สายสนับสนุน' },
+];
+---
+
+<Base
+  title="บุคลากร"
+  description="ทำเนียบบุคลากรวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · คณะผู้บริหาร รองผู้อำนวยการ ครูผู้สอน 8 แผนกวิชา และบุคลากรสายสนับสนุน"
+  path="/personnel"
+  keywords={['บุคลากร วิทยาลัยแหลมฉบัง', 'ครูผู้สอน EEC Engineer', 'คณะผู้บริหาร อาชีวศึกษา ศรีราชา']}
+>
+  <main>
+    {/* Hero */}
+    <section class="page-hero ppl-hero">
+      <div class="container page-hero-inner">
+        <div class="crumbs"><a href="/">หน้าแรก</a><Icon name="chevronRight" style={{ width: 12, height: 12 }} /><span>บุคลากร</span></div>
+        <span class="eyebrow">ทำเนียบบุคลากร</span>
+        <h1>ทีมงานเบื้องหลัง<span class="grad">ช่างฝีมือ</span>ทุกคน</h1>
+        <p>คณะผู้บริหาร ครูผู้สอนทุกแผนกวิชา และบุคลากรสายสนับสนุน ที่ทุ่มเทพัฒนานักศึกษาให้พร้อมสู่โลกการทำงานจริง</p>
+        <div class="ppl-stats">
+          {STATS.map((s, i) => (
+            <div class="reveal ppl-stat" style={`--reveal-delay: ${i * 0.07}s`}>
+              <div class="num">{s.num}{s.plus && <span class="plus">+</span>}</div>
+              <div class="lbl">{s.lbl}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* Executives */}
+    <section class="section section-sm">
+      <div class="container">
+        <div class="reveal section-head" style="margin-bottom: 32px; --reveal-delay: 0s">
+          <span class="eyebrow">คณะผู้บริหาร</span>
+          <h2 class="section-title">ผู้นำองค์กร</h2>
+        </div>
+        <div class="principal-grid">
+          {PRINCIPALS.map((p, i) => (
+            <div class="reveal principal-card" style={`--reveal-delay: ${i * 0.08}s`}>
+              <div class="pc-photo"><img src={resolvePhoto(p.name, p.photo)} alt={p.name} /></div>
+              <div class="pc-role">{p.role}</div>
+              <div class="pc-name">{p.name}</div>
+            </div>
+          ))}
+        </div>
+
+        <div class="reveal exec-subhead" style="--reveal-delay: 0s"><span class="bar"></span><h3>รองผู้อำนวยการ</h3><span class="ct">{DEPUTIES.length} ฝ่าย</span></div>
+        <div class="exec-deputies">
+          {DEPUTIES.map((d, i) => {
+            const src = resolvePhoto(d.name, d.photo);
+            return (
+              <div class="reveal exec-card" style={`--dc: ${d.color}; --reveal-delay: ${i * 0.06}s`}>
+                {src ? (
+                  <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={d.name || ''} /></div>
+                ) : (
+                  <div class="staff-avatar" style={`--dc: ${d.color}`}></div>
+                )}
+                <div>
+                  <div class="name">{d.name}</div>
+                  <div class="role">{d.role}</div>
+                  <div class="dept">{d.dept}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    {/* Teaching staff */}
+    <section class="section section-sm" style="background: var(--bg-alt)">
+      <div class="container">
+        <div class="reveal section-head" style="margin-bottom: 24px; --reveal-delay: 0s">
+          <span class="eyebrow">คณะครู</span>
+          <h2 class="section-title">ครูผู้สอนแยกตามแผนก</h2>
+        </div>
+        <div class="staff-toolbar">
+          <div class="staff-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"></circle><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+            <input type="text" placeholder="ค้นหาชื่อบุคลากร…" value="" aria-label="ค้นหาบุคลากร" />
+            <button class="clear" aria-label="ล้างคำค้นหา" style="display: none"><Icon name="close" style={{ width: 14, height: 14 }} /></button>
+          </div>
+          <div class="chip-row" role="tablist" aria-label="กรองตามแผนก">
+            <button class="chip active" role="tab" aria-selected="true" data-dept="all">ทั้งหมด<span class="ct">{totalTeachers}</span></button>
+            {TEACHERS.map((d) => (
+              <button class="chip" style={`--cc: ${d.color}`} role="tab" aria-selected="false" data-dept={d.id}><span class="dot"></span>{d.name}<span class="ct">{d.members.length}</span></button>
+            ))}
+          </div>
+        </div>
+
+        {TEACHERS.map((d) => (
+          <div class="dept-block" data-dept={d.id}>
+            <div class="dept-head" style={`--dc: ${d.color}`}><span class="bar"></span><h3>{d.name}</h3><span class="ct">{d.members.length} ท่าน</span></div>
+            <div class="staff-grid">
+              {d.members.map((p, i) => {
+                const headLabel = p.head === 'faculty' ? 'หัวหน้าภาค' : p.head === 'section' ? 'หัวหน้าแผนก' : null;
+                const src = resolvePhoto(p.name, p.photo);
+                return (
+                  <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={p.name} data-dept={d.id}>
+                    <div class={`staff-card ${p.head ? 'is-head is-' + p.head : ''}`} style={`--dc: ${d.color}`}>
+                      {headLabel && (
+                        <span class={`head-flag head-${p.head}`}>{p.head === 'faculty' && <Icon name="star" />}{headLabel}</span>
+                      )}
+                      {src ? (
+                        <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={p.name || ''} /></div>
+                      ) : (
+                        <div class="staff-avatar" style={`--dc: ${d.color}`}>{p.initial}</div>
+                      )}
+                      <div class="name">{p.name}</div>
+                      <div class="role">{p.role}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+
+        <div class="staff-empty" style="display: none">
+          <Icon name="users" />
+          <h3>ไม่พบบุคลากรที่ค้นหา</h3>
+          <p>ลองค้นด้วยชื่ออื่น หรือเลือกแผนก “ทั้งหมด”</p>
+        </div>
+      </div>
+    </section>
+
+    {/* Support staff */}
+    <section class="section section-sm" data-section="support">
+      <div class="container">
+        <div class="reveal section-head" style="margin-bottom: 24px; --reveal-delay: 0s">
+          <span class="eyebrow">สายสนับสนุน</span>
+          <h2 class="section-title">บุคลากรสายสนับสนุน</h2>
+        </div>
+        <div class="support-grid">
+          {SUPPORT.map((m, i) => {
+            const src = resolvePhoto(m.name, m.photo);
+            return (
+              <div class="reveal support-card" style={`--dc: ${m.color}; --reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={m.name}>
+                {src ? (
+                  <div class="staff-avatar has-photo" style={`--dc: ${m.color}`}><img src={src} alt={m.name || ''} /></div>
+                ) : (
+                  <div class="staff-avatar" style={`--dc: ${m.color}`}></div>
+                )}
+                <div>
+                  <div class="name">{m.name}</div>
+                  <div class="role">{m.role}</div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <p style="color: var(--ink-500); display: none" data-support-empty>— ไม่มีรายชื่อสายสนับสนุนที่ตรงกับคำค้นหา —</p>
+        <div style="margin-top: 32px">
+          <span class="ppl-note"><Icon name="sparkle" style={{ width: 14, height: 14 }} />ทำเนียบบุคลากร · ปีการศึกษา 2568</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<script>
+  // ── Personnel search / dept filter ─────────────────────────
+  // Vanilla port of PersonnelBody's React state (dept, query):
+  // - substring filter on Thai names (m.name.includes(q), q trimmed)
+  // - dept chips: active class + aria-selected, dept-head live counts
+  // - departments with no visible member are hidden entirely
+  // - first case-insensitive match wrapped in <mark> (Highlight)
+  // - support section only visible while dept === 'all'
+  const searchInput = document.querySelector<HTMLInputElement>('.staff-search input');
+  const clearBtn = document.querySelector<HTMLButtonElement>('.staff-search .clear');
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.chip-row .chip'));
+  const deptBlocks = Array.from(document.querySelectorAll<HTMLElement>('.dept-block'));
+  const staffEmpty = document.querySelector<HTMLElement>('.staff-empty');
+  const supportSection = document.querySelector<HTMLElement>('[data-section="support"]');
+  const supportGrid = document.querySelector<HTMLElement>('.support-grid');
+  const supportCards = Array.from(document.querySelectorAll<HTMLElement>('.support-card[data-name]'));
+  const supportEmpty = document.querySelector<HTMLElement>('[data-support-empty]');
+
+  let dept = 'all';
+  let query = '';
+
+  // Rebuild a name node, wrapping the first case-insensitive occurrence of q
+  // in <mark> — verbatim behavior of PersonnelBody's <Highlight/>.
+  const renderName = (el: Element, name: string, q: string) => {
+    if (q) {
+      const i = name.toLowerCase().indexOf(q.toLowerCase());
+      if (i >= 0) {
+        const mark = document.createElement('mark');
+        mark.textContent = name.slice(i, i + q.length);
+        el.replaceChildren(name.slice(0, i), mark, name.slice(i + q.length));
+        return;
+      }
+    }
+    el.replaceChildren(name);
+  };
+
+  const update = () => {
+    const q = query.trim();
+
+    // Toolbar: clear button existed only while query was non-empty (untrimmed).
+    if (clearBtn) clearBtn.style.display = query ? '' : 'none';
+    chips.forEach((chip) => {
+      const active = chip.dataset.dept === dept;
+      chip.classList.toggle('active', active);
+      chip.setAttribute('aria-selected', String(active));
+    });
+
+    // Teaching staff.
+    let visibleDepts = 0;
+    deptBlocks.forEach((block) => {
+      const inDept = dept === 'all' || block.dataset.dept === dept;
+      let count = 0;
+      block.querySelectorAll<HTMLElement>('.staff-grid > [data-name]').forEach((wrap) => {
+        const name = wrap.dataset.name || '';
+        const match = !q || name.includes(q);
+        wrap.style.display = match ? '' : 'none';
+        if (match) count++;
+        const nameEl = wrap.querySelector('.staff-card .name');
+        if (nameEl) renderName(nameEl, name, q);
+      });
+      const show = inDept && count > 0;
+      block.style.display = show ? '' : 'none';
+      if (show) visibleDepts++;
+      const ct = block.querySelector('.dept-head .ct');
+      if (ct) ct.textContent = `${count} ท่าน`;
+    });
+
+    const noTeacherMatches = visibleDepts === 0;
+    if (staffEmpty) staffEmpty.style.display = noTeacherMatches ? '' : 'none';
+
+    // Support staff.
+    const showSupport = dept === 'all';
+    let supportCount = 0;
+    supportCards.forEach((card) => {
+      const name = card.dataset.name || '';
+      const match = !q || name.includes(q);
+      card.style.display = match ? '' : 'none';
+      if (match) supportCount++;
+      const nameEl = card.querySelector('.name');
+      if (nameEl) renderName(nameEl, name, q);
+    });
+    const nothingAtAll = noTeacherMatches && (!showSupport || supportCount === 0);
+    if (supportSection) supportSection.style.display = showSupport ? '' : 'none';
+    if (supportGrid) supportGrid.style.display = supportCount > 0 ? '' : 'none';
+    if (supportEmpty) supportEmpty.style.display = supportCount === 0 && !nothingAtAll ? '' : 'none';
+  };
+
+  if (searchInput)
+    searchInput.addEventListener('input', () => {
+      query = searchInput.value;
+      update();
+    });
+  if (clearBtn)
+    clearBtn.addEventListener('click', () => {
+      query = '';
+      if (searchInput) searchInput.value = '';
+      update();
+    });
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      dept = chip.dataset.dept || 'all';
+      update();
+    });
+  });
+</script>

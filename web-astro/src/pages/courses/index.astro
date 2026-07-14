@@ -1,0 +1,252 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/homepage.css';
+import '../../styles/subpages.css';
+import { Icon } from '../../components/react/chrome-lite';
+import { COURSES as COURSE_DATA } from '../../data/course-data';
+import { SITE_URL } from '../../config';
+
+// ─────────────────────────────────────────────────────────────
+// /courses — ported from web/app/courses/page.tsx + CoursesBody.tsx.
+// PARITY TRAP: CoursesBody kept its OWN inline COURSES + PT arrays —
+// copied verbatim below. src/data/course-data (COURSE_DATA, 19 items)
+// is used ONLY for the ItemList JSON-LD, exactly like the old page.tsx.
+// ─────────────────────────────────────────────────────────────
+
+// ── Course data (verbatim from CoursesBody.tsx) ─────────────
+type Course = { code: string; slug?: string; name: string; icon: string; cat: string; hot?: boolean; img?: string; color?: string };
+
+const COURSES: Course[] = [
+  { code: 'ปวช.', slug: 'yon', name: 'ช่างยนต์', icon: 'car', cat: 'อุตสาหกรรม', hot: true, img: '/assets/courses/yon.webp', color: '#B12B25' },
+  { code: 'ปวช.', slug: 'faifaa', name: 'ช่างไฟฟ้ากำลัง', icon: 'bolt', cat: 'อุตสาหกรรม', hot: true, img: '/assets/courses/faifaa.webp', color: '#40ABE0' },
+  { code: 'ปวช.', slug: 'gear', name: 'ช่างกลโรงงาน', icon: 'gear', cat: 'อุตสาหกรรม', img: '/assets/courses/gear.webp', color: '#FBD609' },
+  { code: 'ปวช.', slug: 'electronic', name: 'อิเล็กทรอนิกส์', icon: 'chip', cat: 'อุตสาหกรรม', img: '/assets/courses/electronic.webp' },
+  { code: 'ปวช.', slug: 'mecha', name: 'เมคคาทรอนิกส์และหุ่นยนต์', icon: 'robot', cat: 'อุตสาหกรรม', hot: true, img: '/assets/courses/mecha.webp', color: '#FBDC6B' },
+  { code: 'ปวช.', slug: 'graphic', name: 'ดิจิทัลกราฟิก', icon: 'palette', cat: 'ดิจิทัล', img: '/assets/courses/digital-graphic.webp', color: '#385BF3' },
+  { code: 'ปวช.', slug: 'biz-digital', name: 'เทคโนโลยีธุรกิจดิจิทัล', icon: 'chart', cat: 'บริหาร', img: '/assets/courses/digital-business.webp', color: '#EB559F' },
+  { code: 'ปวช.', slug: 'accounting', name: 'การบัญชี', icon: 'briefcase', cat: 'บริหาร', img: '/assets/courses/accounting.webp', color: '#7B5CA7' },
+  { code: 'ปวส.', slug: 'ps-mech', name: 'เทคนิคเครื่องกล', icon: 'car', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-mechanical.webp', color: '#B12B25' },
+  { code: 'ปวส.', slug: 'ps-electrical', name: 'ไฟฟ้า', icon: 'bolt', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-electrical.webp', color: '#40ABE0' },
+  { code: 'ปวส.', slug: 'ps-production', name: 'เทคนิคการผลิต', icon: 'gear', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-production.webp', color: '#FBD609' },
+  { code: 'ปวส.', slug: 'ps-mecha', name: 'เมคคาทรอนิกส์และหุ่นยนต์', icon: 'robot', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-mecha.webp', color: '#FBDC6B' },
+  { code: 'ปวส.', slug: 'ps-network', name: 'เครือข่ายคอมฯ & ความปลอดภัย', icon: 'network', cat: 'ดิจิทัล', img: '/assets/courses/ps-network.webp', color: '#EB559F' },
+  { code: 'ปวส.', slug: 'ps-graphic', name: 'ดิจิทัลกราฟิก', icon: 'palette', cat: 'ดิจิทัล', img: '/assets/courses/ps-graphic.webp', color: '#385BF3' },
+  { code: 'ปวส.', slug: 'ps-logistics', name: 'การจัดการโลจิสติกส์', icon: 'truck', cat: 'บริหาร', hot: true, img: '/assets/courses/ps-logistics.webp', color: '#F26530' },
+  { code: 'ปวส.', slug: 'ps-accounting', name: 'การบัญชี', icon: 'briefcase', cat: 'บริหาร', img: '/assets/courses/ps-accounting.webp', color: '#7B5CA7' },
+  { code: 'ปวส.', slug: 'ps-electronic', name: 'อิเล็กทรอนิกส์', icon: 'chip', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-electronic.webp' },
+  { code: 'ปวส.', slug: 'ps-industrial', name: 'เทคนิคอุตสาหกรรม', icon: 'shield', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-industrial.webp' },
+];
+
+const PT: Course[] = [{ code: 'ป.ตรี', name: 'เทคโนโลยีบัณฑิต สาขาเทคโนโลยีไฟฟ้า', icon: 'bolt', cat: 'อุตสาหกรรม' }];
+const ALL: Course[] = [...COURSES, ...PT];
+
+// Initial React state (level / filter = 'ทั้งหมด') baked into the markup;
+// the vanilla <script> below drives the interactive filtering.
+const levels = ['ทั้งหมด', 'ปวช.', 'ปวส.', 'ป.ตรี'];
+const cats = ['ทั้งหมด', 'อุตสาหกรรม', 'ดิจิทัล', 'บริหาร'];
+const level = 'ทั้งหมด';
+const filter = 'ทั้งหมด';
+const shown = level === 'ทั้งหมด' ? ALL : ALL.filter((c) => c.code === level);
+
+// ── JSON-LD (verbatim from web/app/courses/page.tsx) ────────
+const itemListJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'หลักสูตรทั้งหมด · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง',
+  numberOfItems: COURSE_DATA.length,
+  itemListElement: COURSE_DATA.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: `${c.code} ${c.name}`,
+    url: `${SITE_URL}/courses/${c.slug}`,
+  })),
+};
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: `${SITE_URL}/` },
+    { '@type': 'ListItem', position: 2, name: 'หลักสูตร', item: `${SITE_URL}/courses` },
+  ],
+};
+---
+
+<Base
+  title="หลักสูตร 18 สาขา · ปวช. ปวส. ป.ตรี"
+  description="หลักสูตร ปวช. ปวส. และ ป.ตรี 18 สาขาวิชา ครอบคลุมช่างยนต์ ไฟฟ้า เมคคาทรอนิกส์ โลจิสติกส์ ดิจิทัล และบริหาร ที่แหลมฉบัง ศรีราชา ชลบุรี"
+  path="/courses"
+  keywords={[
+    'หลักสูตร ปวช',
+    'หลักสูตร ปวส',
+    'ปริญญาตรี อาชีวศึกษา',
+    'สาขาช่างยนต์',
+    'สาขาไฟฟ้า',
+    'เมคคาทรอนิกส์',
+    'โลจิสติกส์',
+  ]}
+>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(itemListJsonLd)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-inner">
+        <div class="crumbs">
+          <a href="/">หน้าแรก</a>
+          <Icon name="chevronRight" style={{ width: 12, height: 12 }} />
+          <span>หลักสูตร</span>
+        </div>
+        <span class="eyebrow">หลักสูตรปีการศึกษา 2567</span>
+        <h1>18 สาขาวิชา <span class="grad">ครบทุกสายอาชีพ</span></h1>
+        <p>เลือกเรียนตามที่สนใจ ปวช. 3 ปี · ปวส. 2 ปี · ปริญญาตรี — ทุกหลักสูตรอัปเดตตามมาตรฐาน 2567 พร้อมระบบทวิภาคีร่วมกับสถานประกอบการ</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;flex-wrap:wrap;gap:16px">
+          <div class="tabs">
+            {levels.map((l) => (
+              <button class={`tab ${level === l ? 'on' : ''}`} data-level={l}>{l}</button>
+            ))}
+          </div>
+          <div style="font-size:14px;color:var(--ink-500)">
+            แสดง <strong style="color:var(--ink-900)" data-shown-count>{shown.length}</strong> สาขา
+          </div>
+        </div>
+
+        <div class="reveal  " style="--reveal-delay:0s">
+          <table class="course-table">
+            <thead>
+              <tr>
+                <th style="width:56px"></th>
+                <th>ชื่อสาขา</th>
+                <th>ระดับ</th>
+                <th>ระยะเวลา</th>
+                <th>ทวิภาคี</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {shown.map((c) => (
+                <tr data-code={c.code}>
+                  <td><div class="row-icon"><Icon name={c.icon} style={{ width: 20, height: 20 }} /></div></td>
+                  <td>
+                    <div class="row-name">{c.name}</div>
+                    <div class="row-cat">{c.cat}</div>
+                  </td>
+                  <td>
+                    <span class="cc-code-pill" style={`background:${c.code === 'ปวช.' ? 'var(--green-700)' : c.code === 'ปวส.' ? 'var(--crest-navy)' : 'var(--crest-red)'}`}>{c.code}</span>
+                  </td>
+                  <td>{c.code === 'ปวช.' ? '3 ปี' : c.code === 'ปวส.' ? '2 ปี' : '2 ปี'}</td>
+                  <td>{c.hot ? <span style="color:var(--green-700);font-weight:700">✓ รองรับ</span> : <span style="color:var(--ink-400)">—</span>}</td>
+                  <td style="text-align:right">
+                    <a href={c.slug ? `/courses/${c.slug}/` : '/courses/'} class="row-cta">รายละเอียด <Icon name="arrow" style={{ width: 14, height: 14 }} /></a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top:56px">
+          <section class="section" id="courses">
+            <div class="container">
+              <div class="reveal  section-head" style="--reveal-delay:0s">
+                <span class="eyebrow">หลักสูตรของเรา</span>
+                <h2 class="section-title">18 สาขาวิชา <span class="grad">ครอบคลุมทุกสายอาชีพ</span></h2>
+                <p class="section-sub">เรียนกับอาจารย์ที่มีประสบการณ์จริงในอุตสาหกรรม พร้อมห้องปฏิบัติการมาตรฐาน และเครื่องมือทันสมัย</p>
+              </div>
+              <div class="reveal  course-filters" style="--reveal-delay:0.1s">
+                {cats.map((c) => (
+                  <button class={`chip ${filter === c ? 'chip-active' : ''}`} data-cat={c}>{c}</button>
+                ))}
+              </div>
+              <div class="course-grid card-lift">
+                {COURSES.map((c, i) => (
+                  <div class="reveal reveal-scale " style={`--reveal-delay:${Math.min(i * 0.04, 0.4)}s`} data-cat={c.cat}>
+                    <a href={c.slug ? `/courses/${c.slug}/` : '/courses/'} class="course-card cc-lift" style={c.color ? `--dept:${c.color}` : undefined}>
+                      {c.img && (
+                        <div class="cc-photo">
+                          <img src={c.img} alt="" loading="lazy" />
+                          {c.hot && <span class="cc-hot">HOT</span>}
+                          {c.color && <div class="cc-color-bar" style={`background:${c.color}`}></div>}
+                        </div>
+                      )}
+                      {!c.img && c.hot && <span class="cc-hot">HOT</span>}
+                      <div class="cc-body">
+                        <div class="cc-code">{c.code} · {c.cat}</div>
+                        <h3 class="cc-name">{c.name}</h3>
+                        <div class="cc-foot">
+                          <span style="height:20px;font-size:16px">ดูรายละเอียด</span>
+                          <Icon name="arrow" style={{ width: 18, height: 18 }} />
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <div class="container">
+        <div class="reveal reveal-scale cta-banner" style="--reveal-delay:0s">
+          <div class="cta-bg-mesh"></div>
+          <div class="cta-content">
+            <span class="eyebrow" style="background:rgba(255,255,255,0.18);color:white">เปิดรับสมัคร</span>
+            <h2 class="cta-title">พร้อมเริ่มต้นเส้นทาง<br /><span class="grad-light">อาชีพที่ใช่</span>หรือยัง?</h2>
+            <p class="cta-sub">สมัครออนไลน์ใช้เวลาเพียง 5 นาที — ทีมงานติดต่อกลับภายใน 24 ชม.</p>
+            <div class="cta-actions">
+              <a href="/admission/" class="btn btn-white btn-lg">สมัครเรียนออนไลน์<Icon name="arrow" className="btn-icon" /></a>
+              <a href="tel:038494066" class="btn btn-ghost btn-lg" style="color:white;border-color:rgba(255,255,255,0.4)"><Icon name="phone" style={{ width: 16, height: 16 }} /> 038-494-066</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<script>
+  // ── Level tabs (CoursesBody `level` state): filter table rows +
+  //    update the "แสดง N สาขา" count. React re-rendered the row list,
+  //    so we re-append the matching <tr> nodes (keeps :first-child CSS).
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.tabs .tab'));
+  const tbody = document.querySelector<HTMLTableSectionElement>('.course-table tbody');
+  const countEl = document.querySelector<HTMLElement>('[data-shown-count]');
+  const rows = tbody ? (Array.from(tbody.querySelectorAll('tr')) as HTMLTableRowElement[]) : [];
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const level = tab.dataset.level || 'ทั้งหมด';
+      tabs.forEach((t) => t.classList.toggle('on', t === tab));
+      const shown = level === 'ทั้งหมด' ? rows : rows.filter((r) => r.dataset.code === level);
+      if (tbody) tbody.replaceChildren(...shown);
+      if (countEl) countEl.textContent = String(shown.length);
+    });
+  });
+
+  // ── Category chips (Courses `filter` state): filter the card grid.
+  //    Matches the old React reconciliation: wrappers that RE-ENTER the
+  //    list were fresh nodes (no 'in' reveal state) and every shown
+  //    wrapper got --reveal-delay recomputed from its new index.
+  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('#courses .course-filters .chip'));
+  const grid = document.querySelector<HTMLElement>('#courses .course-grid');
+  const cards = grid ? (Array.from(grid.children) as HTMLElement[]) : [];
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      if (!grid) return;
+      const cat = chip.dataset.cat || 'ทั้งหมด';
+      chips.forEach((c) => c.classList.toggle('chip-active', c === chip));
+      const attached = new Set(Array.from(grid.children));
+      const shown = cat === 'ทั้งหมด' ? cards : cards.filter((el) => el.dataset.cat === cat);
+      shown.forEach((el, i) => {
+        if (!attached.has(el)) el.classList.remove('in');
+        el.style.setProperty('--reveal-delay', `${Math.min(i * 0.04, 0.4)}s`);
+      });
+      grid.replaceChildren(...shown);
+    });
+  });
+</script>

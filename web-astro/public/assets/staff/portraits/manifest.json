@@ -1,0 +1,212 @@
+[
+  {
+    "id": "p01",
+    "file": "/assets/staff/portraits/p01.webp",
+    "name": "นางกัลยา เรืองฤทธิ์",
+    "kb": 16
+  },
+  {
+    "id": "p02",
+    "file": "/assets/staff/portraits/p02.webp",
+    "name": "นางสาวจิดาภา เพ็ชรรัตน์",
+    "kb": 22
+  },
+  {
+    "id": "p03",
+    "file": "/assets/staff/portraits/p03.webp",
+    "name": "นางสาวจีรารัตน์ รินสาร",
+    "kb": 19
+  },
+  {
+    "id": "p04",
+    "file": "/assets/staff/portraits/p04.webp",
+    "name": "นางสาวจุฑามาศ จันทร์พวง",
+    "kb": 18
+  },
+  {
+    "id": "p05",
+    "file": "/assets/staff/portraits/p05.webp",
+    "name": "นางสาวนิตชญาภร ใจคง",
+    "kb": 23
+  },
+  {
+    "id": "p06",
+    "file": "/assets/staff/portraits/p06.webp",
+    "name": "นางสาวพรสุดา ผาลี",
+    "kb": 19
+  },
+  {
+    "id": "p07",
+    "file": "/assets/staff/portraits/p07.webp",
+    "name": "นางสาวพลอยเพทาย ปัสสายะ",
+    "kb": 14
+  },
+  {
+    "id": "p08",
+    "file": "/assets/staff/portraits/p08.webp",
+    "name": "นางสาวศรสวรรค์ วงศ์ศรีกุล",
+    "kb": 18
+  },
+  {
+    "id": "p09",
+    "file": "/assets/staff/portraits/p09.webp",
+    "name": "นางสาวสุทธิพร หารลือชัย",
+    "kb": 19
+  },
+  {
+    "id": "p10",
+    "file": "/assets/staff/portraits/p10.webp",
+    "name": "นางสาวสุพัฒน์ ชุ่มมุณีรัตน์",
+    "kb": 16
+  },
+  {
+    "id": "p11",
+    "file": "/assets/staff/portraits/p11.webp",
+    "name": "นางสาวสุมาลี หดคำ",
+    "kb": 20
+  },
+  {
+    "id": "p12",
+    "file": "/assets/staff/portraits/p12.webp",
+    "name": "นางสาวอรสา สมนันท์",
+    "kb": 21
+  },
+  {
+    "id": "p13",
+    "file": "/assets/staff/portraits/p13.webp",
+    "name": "นางสาวอุมาพร เกยเลื่อน",
+    "kb": 21
+  },
+  {
+    "id": "p14",
+    "file": "/assets/staff/portraits/p14.webp",
+    "name": "นายกอบศักดิ์ เจนวิถี",
+    "kb": 18
+  },
+  {
+    "id": "p15",
+    "file": "/assets/staff/portraits/p15.webp",
+    "name": "นายฆหชาร์นนท์ ยิ้มฉ่ำ",
+    "kb": 19
+  },
+  {
+    "id": "p16",
+    "file": "/assets/staff/portraits/p16.webp",
+    "name": "นายณัฐพล มีเดช",
+    "kb": 15
+  },
+  {
+    "id": "p17",
+    "file": "/assets/staff/portraits/p17.webp",
+    "name": "นายทรงพล แม้นชล",
+    "kb": 16
+  },
+  {
+    "id": "p18",
+    "file": "/assets/staff/portraits/p18.webp",
+    "name": "นายทินภัทร วงค์ใหญ่",
+    "kb": 18
+  },
+  {
+    "id": "p19",
+    "file": "/assets/staff/portraits/p19.webp",
+    "name": "นายธนกฤต ทองสุข",
+    "kb": 19
+  },
+  {
+    "id": "p20",
+    "file": "/assets/staff/portraits/p20.webp",
+    "name": "นายนัฐสิทธิ์ เสาะขุนทด",
+    "kb": 20
+  },
+  {
+    "id": "p21",
+    "file": "/assets/staff/portraits/p21.webp",
+    "name": "นายบุญไทย เพชรพระรักษา",
+    "kb": 19
+  },
+  {
+    "id": "p22",
+    "file": "/assets/staff/portraits/p22.webp",
+    "name": "นายประยูร พินิจเจริญ",
+    "kb": 20
+  },
+  {
+    "id": "p23",
+    "file": "/assets/staff/portraits/p23.webp",
+    "name": "นายปิยะ  ยิ้มเจริญ",
+    "kb": 18
+  },
+  {
+    "id": "p24",
+    "file": "/assets/staff/portraits/p24.webp",
+    "name": "นายพงษ์พัฒน์  สาธุพันธ์",
+    "kb": 19
+  },
+  {
+    "id": "p25",
+    "file": "/assets/staff/portraits/p25.webp",
+    "name": "นายพงษ์ศักดิ์  ไสตะภาพ",
+    "kb": 16
+  },
+  {
+    "id": "p26",
+    "file": "/assets/staff/portraits/p26.webp",
+    "name": "นายพันธ์จิต อิ่มรอ",
+    "kb": 19
+  },
+  {
+    "id": "p27",
+    "file": "/assets/staff/portraits/p27.webp",
+    "name": "นายมานิต  หอดขุนทด",
+    "kb": 19
+  },
+  {
+    "id": "p28",
+    "file": "/assets/staff/portraits/p28.webp",
+    "name": "นายวัฒนา คงประเสริฐ",
+    "kb": 17
+  },
+  {
+    "id": "p29",
+    "file": "/assets/staff/portraits/p29.webp",
+    "name": "นายศุภวิชญ์ ทวีการไถ",
+    "kb": 14
+  },
+  {
+    "id": "p30",
+    "file": "/assets/staff/portraits/p30.webp",
+    "name": "นายสุขใจ วงษ์คต",
+    "kb": 17
+  },
+  {
+    "id": "p31",
+    "file": "/assets/staff/portraits/p31.webp",
+    "name": "นายสุภวัฒน์ ลีลาด",
+    "kb": 17
+  },
+  {
+    "id": "p32",
+    "file": "/assets/staff/portraits/p32.webp",
+    "name": "นายอรรณพ  แซ่เฮง",
+    "kb": 18
+  },
+  {
+    "id": "p33",
+    "file": "/assets/staff/portraits/p33.webp",
+    "name": "นายเอกชัย แก้วทรัพย์",
+    "kb": 16
+  },
+  {
+    "id": "p34",
+    "file": "/assets/staff/portraits/p34.webp",
+    "name": "นายเอนก คณฑา",
+    "kb": 21
+  },
+  {
+    "id": "p35",
+    "file": "/assets/staff/portraits/p35.webp",
+    "name": "นายไพศาล จุ้ยเคน",
+    "kb": 17
+  }
+]

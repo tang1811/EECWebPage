@@ -1,0 +1,67 @@
+/* ────────────────────────────────────────────────────────────
+   Money pages — bottom-funnel landing pages (SEO local-intent)
+   Reuses .page-hero / .contentcard / .btn-* from subpages.css
+   ──────────────────────────────────────────────────────────── */
+.mp-page .eyebrow {
+  display: inline-block; font-size: 13px; font-weight: 800; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--green-700);
+}
+.mp-section { padding: 56px 0; }
+.mp-section:last-of-type { padding-bottom: 96px; }
+.mp-h2 { font-size: clamp(26px, 3vw, 34px); font-weight: 800; letter-spacing: -0.02em; margin: 0 0 14px; text-align: center; }
+.mp-lead { font-size: 17px; color: var(--ink-700); line-height: 1.7; max-width: 720px; margin: 0 auto 8px; text-align: center; }
+
+/* Trust strip */
+.mp-trust { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.mp-trust span {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 600; color: var(--ink-800, var(--ink-900));
+  background: var(--surface-card, #fff); border: 1px solid var(--border-soft);
+  border-radius: var(--r-pill, 999px); padding: 9px 16px;
+}
+
+/* Stat row */
+.mp-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 36px; }
+@media (max-width: 760px) { .mp-stats { grid-template-columns: repeat(2, 1fr); } }
+.mp-stat { background: var(--surface-card, #fff); border: 1px solid var(--border-soft); border-radius: var(--r-lg, 18px); padding: 24px; text-align: center; }
+.mp-stat b { display: block; font-size: clamp(30px, 4vw, 42px); font-weight: 800; line-height: 1.05;
+  background: var(--grad-text); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.mp-stat span { display: block; font-size: 14px; color: var(--ink-700); margin-top: 6px; font-weight: 600; }
+
+/* Card grid */
+.mp-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+@media (max-width: 860px) { .mp-cards { grid-template-columns: 1fr; } }
+.mp-card { background: var(--surface-card, #fff); border: 1px solid var(--border-soft); border-radius: var(--r-lg, 18px); padding: 24px; }
+.mp-card h3 { font-size: 18px; font-weight: 800; margin: 0 0 8px; color: var(--ink-900); }
+.mp-card p { font-size: 14.5px; line-height: 1.7; color: var(--ink-700); margin: 0; }
+
+/* Mini fee table */
+.mp-fee { width: 100%; border-collapse: collapse; font-size: 15px; margin-top: 24px; }
+.mp-fee th, .mp-fee td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--border-soft); }
+.mp-fee th { font-size: 13px; color: var(--ink-500); text-transform: uppercase; letter-spacing: 0.03em; }
+.mp-fee .mp-fee-num { font-weight: 800; color: var(--green-700); white-space: nowrap; }
+
+/* Employer chips */
+.mp-emp { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.mp-emp span { font-size: 14px; font-weight: 600; color: var(--ink-700); background: var(--surface-card, #fff);
+  border: 1px solid var(--border-soft); border-radius: var(--r-pill, 999px); padding: 8px 16px; }
+
+/* Steps */
+.mp-steps { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.mp-steps li { display: flex; align-items: center; gap: 14px; font-size: 16px; color: var(--ink-800, var(--ink-700)); }
+.mp-steps b { flex: 0 0 auto; width: 32px; height: 32px; border-radius: 50%; display: inline-flex; align-items: center;
+  justify-content: center; background: var(--green-700); color: #fff; font-size: 15px; }
+
+/* CTA band */
+.mp-cta {
+  display: flex; align-items: center; justify-content: space-between; gap: 28px; flex-wrap: wrap;
+  background: var(--green-50); border: 1px solid var(--border-soft); border-radius: var(--r-lg, 20px); padding: 32px;
+  margin-top: 8px;
+}
+.mp-cta h2 { font-size: 24px; font-weight: 800; margin: 0 0 6px; }
+.mp-cta p { font-size: 15px; color: var(--ink-700); margin: 0; }
+.mp-cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.mp-cta-actions a { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px;
+  border-radius: var(--r-pill, 999px); font-weight: 700; font-size: 15px; border: 1px solid transparent; }
+.mp-internal { margin-top: 28px; font-size: 14px; color: var(--ink-500); }
+.mp-internal a { color: var(--green-700); font-weight: 600; }

@@ -1,0 +1,348 @@
+---
+// ─────────────────────────────────────────────────────────────
+// Contact page — ติดต่อเรา. Ported from web/app/contact/page.tsx +
+// ContactBody.tsx. Static markup + vanilla scripts: live office-hours
+// badge, tap-to-copy, share location, embedded map + directions bar.
+// ─────────────────────────────────────────────────────────────
+import Base from '../layouts/Base.astro';
+import { Icon } from '../components/react/chrome-lite';
+import '../styles/homepage.css';
+import '../styles/subpages.css';
+
+// ── Geo for the college (for map deep-links) ─────────────
+const GEO = { lat: 13.086485, lng: 100.936589 };
+const GEO_STR = `${GEO.lat},${GEO.lng}`;
+
+// ── Department contacts data ─────────────────────────────
+const DEPARTMENTS: { t: string; s: string; tel: string; icon: string }[] = [
+  { t: 'งานธุรการ', s: 'รับสมัครเรียน เอกสาร', tel: '038-494-066', icon: 'briefcase' },
+  { t: 'งานวิชาการ', s: 'หลักสูตร ตารางเรียน', tel: '038-494-066 ต่อ 2', icon: 'book' },
+  { t: 'งานการเงิน', s: 'ค่าเทอม กยศ.', tel: '038-494-066 ต่อ 3', icon: 'chart' },
+  { t: 'งานกิจการนักเรียน', s: 'กิจกรรม วินัย ทุน', tel: '038-494-066 ต่อ 4', icon: 'users' },
+];
+---
+
+<Base
+  title="ติดต่อเรา"
+  description="ติดต่อวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · 75/2 หมู่ 10 ต.ทุ่งสุขลา อ.ศรีราชา จ.ชลบุรี 20230 · โทร 038-494-066, 095-070-6600"
+  path="/contact"
+  keywords={['ติดต่อ วิทยาลัยแหลมฉบัง', 'ที่อยู่ EEC Engineer', 'เบอร์โทร อาชีวศึกษา ศรีราชา']}
+>
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-inner">
+        <div class="crumbs">
+          <a href="/">หน้าแรก</a>
+          <Icon name="chevronRight" style={{ width: 12, height: 12 }} />
+          <span>ติดต่อเรา</span>
+        </div>
+        <span class="eyebrow">เรายินดีต้อนรับ</span>
+        <h1>ติดต่อ<span class="grad">วิทยาลัย</span> หรือเยี่ยมชมได้ทุกวัน</h1>
+        <p>ฝ่ายงานธุรการพร้อมตอบทุกคำถาม ทั้งทางโทรศัพท์ อีเมล หรือเข้าพบที่วิทยาลัยโดยตรง</p>
+        <div style="margin-top: 20px" data-live-status></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="reveal reveal-left contact-info" style="--reveal-delay: 0s">
+            <div class="contact-row">
+              <div class="icon">
+                <Icon name="pin" style={{ width: 22, height: 22 }} />
+              </div>
+              <div>
+                <h3>ที่อยู่</h3>
+                <button
+                  type="button"
+                  class="copyable"
+                  data-copy="75/2 หมู่ 10 ต.ทุ่งสุขลา อ.ศรีราชา จ.ชลบุรี 20230"
+                  data-label="ที่อยู่"
+                  aria-label="คัดลอกที่อยู่: 75/2 หมู่ 10 ต.ทุ่งสุขลา อ.ศรีราชา จ.ชลบุรี 20230"
+                  title="กดเพื่อคัดลอก"
+                >75/2 หมู่ 10 ต.ทุ่งสุขลา<br />อ.ศรีราชา จ.ชลบุรี 20230<svg viewBox="0 0 24 24" class="copy-ic" aria-hidden="true"><path d="M8 4h10a2 2 0 012 2v10M16 8H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-10a2 2 0 00-2-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"></path></svg></button>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="icon">
+                <Icon name="phone" style={{ width: 22, height: 22 }} />
+              </div>
+              <div>
+                <h3>โทรศัพท์</h3>
+                <button
+                  type="button"
+                  class="copyable"
+                  data-copy="0384940 66"
+                  data-label="เบอร์โทร"
+                  data-href="tel:038494066"
+                  aria-label="คัดลอกเบอร์โทร: 038-494-066"
+                  title="กดเพื่อคัดลอก · ดับเบิลคลิกเพื่อเปิด"
+                >038-494-066<svg viewBox="0 0 24 24" class="copy-ic" aria-hidden="true"><path d="M8 4h10a2 2 0 012 2v10M16 8H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-10a2 2 0 00-2-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"></path></svg></button>
+                <br />
+                <button
+                  type="button"
+                  class="copyable"
+                  data-copy="0384940 64"
+                  data-label="เบอร์โทร"
+                  data-href="tel:038494064"
+                  aria-label="คัดลอกเบอร์โทร: 038-494-064"
+                  title="กดเพื่อคัดลอก · ดับเบิลคลิกเพื่อเปิด"
+                >038-494-064<svg viewBox="0 0 24 24" class="copy-ic" aria-hidden="true"><path d="M8 4h10a2 2 0 012 2v10M16 8H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-10a2 2 0 00-2-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"></path></svg></button>
+                <br />
+                <button
+                  type="button"
+                  class="copyable"
+                  data-copy="0950706600"
+                  data-label="เบอร์โทร"
+                  data-href="tel:0950706600"
+                  aria-label="คัดลอกเบอร์โทร: 095-070-6600"
+                  title="กดเพื่อคัดลอก · ดับเบิลคลิกเพื่อเปิด"
+                >095-070-6600<svg viewBox="0 0 24 24" class="copy-ic" aria-hidden="true"><path d="M8 4h10a2 2 0 012 2v10M16 8H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-10a2 2 0 00-2-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"></path></svg></button>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="icon">
+                <Icon name="mail" style={{ width: 22, height: 22 }} />
+              </div>
+              <div>
+                <h3>อีเมล</h3>
+                <button
+                  type="button"
+                  class="copyable"
+                  data-copy="technologylaemchabang@gmail.com"
+                  data-label="อีเมล"
+                  data-href="mailto:technologylaemchabang@gmail.com"
+                  aria-label="คัดลอกอีเมล: technologylaemchabang@gmail.com"
+                  title="กดเพื่อคัดลอก · ดับเบิลคลิกเพื่อเปิด"
+                >technologylaemchabang@gmail.com<svg viewBox="0 0 24 24" class="copy-ic" aria-hidden="true"><path d="M8 4h10a2 2 0 012 2v10M16 8H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-10a2 2 0 00-2-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"></path></svg></button>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="icon" style="background: #1c2a4e15; color: #1c2a4e">
+                <Icon name="users" style={{ width: 22, height: 22 }} />
+              </div>
+              <div>
+                <h3>เวลาทำการ</h3>
+                <p style="font-weight: 500; font-size: 14px; color: var(--ink-700)">
+                  จันทร์ - ศุกร์: <strong>8:00 - 17:00 น.</strong><br />อาทิตย์: <strong>9:00 - 16:00 น.</strong><br />เสาร์: ปิดทำการ
+                </p>
+              </div>
+            </div>
+            <div class="contact-row">
+              <div class="icon" style="background: #1877f215; color: #1877f2">
+                <Icon name="facebook" style={{ width: 22, height: 22 }} />
+              </div>
+              <div>
+                <h3>โซเชียลมีเดีย</h3>
+                <a href="https://www.facebook.com/eec.engineer.laemchabang" target="_blank" rel="noopener">
+                  facebook.com/eec.engineer.laemchabang
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="reveal reveal-right" style="--reveal-delay: 0s">
+            <div class="contact-map">
+              <iframe
+                title="แผนที่วิทยาลัย"
+                src={`https://www.google.com/maps?q=${GEO_STR}&hl=th&z=16&output=embed`}
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+              ></iframe>
+              <div class="directions-bar">
+                <a
+                  class="dir-btn"
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${GEO_STR}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8-8-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"></path></svg>
+                  <span>Google Maps</span>
+                  <small>นำทาง</small>
+                </a>
+                <a
+                  class="dir-btn"
+                  href={`https://maps.apple.com/?daddr=${GEO_STR}&dirflg=d`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="currentColor" stroke-width="2" fill="none"></path><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2" fill="none"></circle></svg>
+                  <span>Apple Maps</span>
+                  <small>iPhone</small>
+                </a>
+                <button class="dir-btn" type="button" data-share-map>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3" stroke="currentColor" stroke-width="2" fill="none"></circle><circle cx="6" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"></circle><circle cx="18" cy="19" r="3" stroke="currentColor" stroke-width="2" fill="none"></circle><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" stroke="currentColor" stroke-width="2"></path></svg>
+                  <span>แชร์ตำแหน่ง</span>
+                  <small>ส่งให้เพื่อน</small>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-sm" style="background: var(--bg-alt); padding-top: 64px; padding-bottom: 64px">
+      <div class="container">
+        <div class="reveal section-head" style="text-align: center; margin: 0 auto 32px; --reveal-delay: 0s">
+          <span class="eyebrow">ฝ่ายงานต่างๆ</span>
+          <h2 class="section-title">ติดต่อตรงตามฝ่าย</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px">
+          {
+            DEPARTMENTS.map((d, i) => (
+              <div class="reveal contact-row" style={`background: white; --reveal-delay: ${i * 0.06}s`}>
+                <div class="icon">
+                  <Icon name={d.icon} style={{ width: 22, height: 22 }} />
+                </div>
+                <div>
+                  <h3>{d.t}</h3>
+                  <p style="font-size: 13px; color: var(--ink-500); font-weight: 500; margin-bottom: 4px">{d.s}</p>
+                  <button
+                    type="button"
+                    class="copyable"
+                    data-copy={d.tel.replace(/[^0-9]/g, '')}
+                    data-label="เบอร์โทร"
+                    data-href={`tel:${d.tel.replace(/[^0-9]/g, '')}`}
+                    aria-label={`คัดลอกเบอร์โทร: ${d.tel}`}
+                    title="กดเพื่อคัดลอก · ดับเบิลคลิกเพื่อเปิด"
+                  >{d.tel}<svg viewBox="0 0 24 24" class="copy-ic" aria-hidden="true"><path d="M8 4h10a2 2 0 012 2v10M16 8H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-10a2 2 0 00-2-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none" /></svg></button>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+  <div class="copy-toast" aria-live="polite"></div>
+</Base>
+
+<script>
+  // ── Office-hours live status ─────────────────────────────
+  // Mon-Fri 08:00-17:00, Sun 09:00-16:00, Sat closed
+  type OfficeStatus = { open: boolean; label: string; next: string };
+
+  function getOfficeStatus(now = new Date()): OfficeStatus {
+    const day = now.getDay(); // 0=Sun..6=Sat
+    const mins = now.getHours() * 60 + now.getMinutes();
+    const sched: Record<number, [number, number] | null> = {
+      0: [9 * 60, 16 * 60],
+      1: [8 * 60, 17 * 60],
+      2: [8 * 60, 17 * 60],
+      3: [8 * 60, 17 * 60],
+      4: [8 * 60, 17 * 60],
+      5: [8 * 60, 17 * 60],
+      6: null,
+    };
+    const today = sched[day];
+    const fmtDur = (m: number) => {
+      const h = Math.floor(m / 60),
+        mm = m % 60;
+      if (h === 0) return `${mm} นาที`;
+      if (mm === 0) return `${h} ชั่วโมง`;
+      return `${h} ชม. ${mm} น.`;
+    };
+    // Find next opening
+    const nextOpenLabel = () => {
+      for (let i = 1; i <= 7; i++) {
+        const d = (day + i) % 7;
+        const s = sched[d];
+        if (s) {
+          const dayName = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัส', 'ศุกร์', 'เสาร์'][d];
+          const h = Math.floor(s[0] / 60),
+            mm = s[0] % 60;
+          const prefix = i === 1 ? 'พรุ่งนี้' : dayName;
+          return `เปิด ${prefix} ${h}:${String(mm).padStart(2, '0')}`;
+        }
+      }
+      return '';
+    };
+    if (!today) return { open: false, label: 'วันนี้ปิดทำการ', next: nextOpenLabel() };
+    const [open, close] = today;
+    if (mins < open) return { open: false, label: 'ยังไม่เปิดทำการ', next: `เปิดอีก ${fmtDur(open - mins)}` };
+    if (mins >= close) return { open: false, label: 'ปิดทำการแล้ว', next: nextOpenLabel() };
+    return { open: true, label: 'เปิดอยู่ตอนนี้', next: `ปิดอีก ${fmtDur(close - mins)}` };
+  }
+
+  const liveHost = document.querySelector('[data-live-status]');
+  const renderLiveStatus = () => {
+    if (!liveHost) return;
+    const status = getOfficeStatus();
+    liveHost.innerHTML =
+      `<div class="live-status ${status.open ? 'open' : 'closed'}" role="status" aria-live="polite">` +
+      '<span class="dot" aria-hidden="true"></span>' +
+      `<span>${status.label}</span>` +
+      (status.next ? `<span class="next">${status.next}</span>` : '') +
+      '</div>';
+  };
+  renderLiveStatus();
+  setInterval(renderLiveStatus, 60_000);
+
+  // ── Toast (check icon + message, hides after 1800 ms) ────
+  const toastEl = document.querySelector('.copy-toast');
+  const CHECK_SVG =
+    '<svg viewBox="0 0 24 24" class="" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>';
+  let toastTimer: ReturnType<typeof setTimeout> | null = null;
+  const toast = (text: string) => {
+    if (!toastEl) return;
+    toastEl.innerHTML = CHECK_SVG + text;
+    toastEl.classList.add('show');
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toastEl.classList.remove('show');
+      toastEl.innerHTML = '';
+    }, 1800);
+  };
+
+  // ── Tap-to-copy (click = copy, double-click = open tel:/mailto:) ──
+  const COPY_IC_SVG =
+    '<svg viewBox="0 0 24 24" class="copy-ic" aria-hidden="true"><path d="M8 4h10a2 2 0 012 2v10M16 8H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-10a2 2 0 00-2-2z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"></path></svg>';
+  const CHECK_IC_SVG =
+    '<svg viewBox="0 0 24 24" class="copy-ic" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"></path></svg>';
+  document.querySelectorAll<HTMLButtonElement>('.copyable').forEach((btn) => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const label = btn.dataset.label ?? '';
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy ?? '');
+        btn.classList.add('copied');
+        const ic = btn.querySelector('.copy-ic');
+        if (ic) ic.outerHTML = CHECK_IC_SVG;
+        toast(`คัดลอก${label}แล้ว`);
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          const ic2 = btn.querySelector('.copy-ic');
+          if (ic2) ic2.outerHTML = COPY_IC_SVG;
+        }, 1400);
+      } catch {
+        toast('คัดลอกไม่สำเร็จ');
+      }
+    });
+    btn.addEventListener('dblclick', () => {
+      const href = btn.dataset.href;
+      if (href) window.location.href = href;
+    });
+  });
+
+  // ── Share location (navigator.share, clipboard fallback) ──
+  const shareBtn = document.querySelector('[data-share-map]');
+  if (shareBtn)
+    shareBtn.addEventListener('click', async () => {
+      const url = 'https://www.google.com/maps?q=13.086485,100.936589';
+      const data = {
+        title: 'วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง',
+        text: '75/2 หมู่ 10 ต.ทุ่งสุขลา อ.ศรีราชา จ.ชลบุรี 20230',
+        url,
+      };
+      try {
+        if (navigator.share) await navigator.share(data);
+        else {
+          await navigator.clipboard.writeText(url);
+          toast('คัดลอกลิงก์แผนที่แล้ว');
+        }
+      } catch {
+        /* user cancelled share */
+      }
+    });
+</script>

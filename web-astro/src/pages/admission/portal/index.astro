@@ -1,0 +1,15 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PortalApp from '../../../components/react/admission/portal/PortalApp';
+import '../../../styles/admission.css';
+import '../../../styles/portal.css';
+---
+
+<Base
+  title="พอร์ทัลผู้สมัคร"
+  description="พอร์ทัลผู้สมัครหลังล็อกอิน — แดชบอร์ด กรอกใบสมัคร แนบเอกสาร ชำระเงิน พิมพ์ใบสมัคร และติดตามสถานะ · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง"
+  path="/admission/portal"
+  chrome={false}
+>
+  <PortalApp client:only="react" />
+</Base>

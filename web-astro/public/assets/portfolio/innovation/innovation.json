@@ -1,0 +1,50 @@
+[
+  {
+    "id": "foam-cutter",
+    "type": "สิ่งประดิษฐ์",
+    "title": "เครื่องตัดโฟมอัตโนมัติ",
+    "titleEn": "Automatic Foam Cutting Machine",
+    "desc": "สิ่งประดิษฐ์ของนักศึกษาที่นำหลักการควบคุมอัตโนมัติมาสร้างเครื่องตัดโฟมตามแบบ ใช้งานจริงในห้องปฏิบัติการ และเข้าร่วมการประกวดสิ่งประดิษฐ์ระดับอาชีวศึกษา ปีการศึกษา 2568",
+    "cover": "/assets/portfolio/innovation/foam-cutter-1.webp",
+    "photos": [
+      "/assets/portfolio/innovation/foam-cutter-1.webp",
+      "/assets/portfolio/innovation/foam-cutter-2.webp",
+      "/assets/portfolio/innovation/foam-cutter-3.webp",
+      "/assets/portfolio/innovation/foam-cutter-4.webp",
+      "/assets/portfolio/innovation/foam-cutter-5.webp",
+      "/assets/portfolio/innovation/foam-cutter-6.webp"
+    ]
+  },
+  {
+    "id": "contest",
+    "type": "การประกวด",
+    "title": "ประกวดสิ่งประดิษฐ์ ระดับอาชีวศึกษา 2568",
+    "titleEn": "Innovation & Invention Contest 2568",
+    "desc": "นักศึกษานำผลงานสิ่งประดิษฐ์และนวัตกรรมเข้าร่วมการประกวดระดับอาชีวศึกษาเอกชน กลุ่มภาคกลาง ปีการศึกษา 2568",
+    "cover": "/assets/portfolio/innovation/contest-1.webp",
+    "photos": [
+      "/assets/portfolio/innovation/contest-1.webp",
+      "/assets/portfolio/innovation/contest-2.webp",
+      "/assets/portfolio/innovation/contest-3.webp",
+      "/assets/portfolio/innovation/contest-4.webp",
+      "/assets/portfolio/innovation/contest-5.webp",
+      "/assets/portfolio/innovation/contest-6.webp"
+    ]
+  },
+  {
+    "id": "project-present",
+    "type": "โครงงาน / งานวิจัย",
+    "title": "นำเสนอโครงงานวิชาชีพ 2568",
+    "titleEn": "Professional Project Presentation 2568",
+    "desc": "นักศึกษา ปวช.3 และ ปวส.2 นำเสนอโครงงานวิชาชีพ งานวิจัย และนวัตกรรม ปีการศึกษา 2568 — รวมงานวิจัยกรณีศึกษาจากสถานประกอบการจริงในเขต EEC",
+    "cover": "/assets/portfolio/innovation/project-present-1.webp",
+    "photos": [
+      "/assets/portfolio/innovation/project-present-1.webp",
+      "/assets/portfolio/innovation/project-present-2.webp",
+      "/assets/portfolio/innovation/project-present-3.webp",
+      "/assets/portfolio/innovation/project-present-4.webp",
+      "/assets/portfolio/innovation/project-present-5.webp",
+      "/assets/portfolio/innovation/project-present-6.webp"
+    ]
+  }
+]

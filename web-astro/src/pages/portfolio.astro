@@ -1,0 +1,231 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/homepage.css';
+import '../styles/subpages.css';
+import { Icon } from '../components/react/chrome-lite';
+import INNOV from '../../public/assets/portfolio/innovation/innovation.json';
+
+type Project = { id: string; type: string; title: string; titleEn: string; desc: string; cover: string; photos: string[] };
+const PROJECTS = INNOV as Project[];
+
+// ── Skill-standard test center (สพร.) ───────────────────────
+const trades = [
+  { t: 'ช่างไฟฟ้าภายในอาคาร', lvl: 'ระดับ 1', lic: 'ชบ 0007.1/2563', pass: 'ผ่าน 33 จาก 35 คน' },
+  { t: 'ช่างเครื่องปรับอากาศในบ้านฯ', lvl: 'ระดับ 1', lic: 'ชบ 0009.1/2565', pass: 'ผ่าน 28 จาก 28 คน (100%)' },
+  { t: 'ช่างควบคุมด้วยระบบ PLC', lvl: 'ระดับ 1–2', lic: 'รับรองโดยกรมพัฒนาฝีมือแรงงาน', pass: 'เปิดทดสอบต่อเนื่อง' },
+  { t: 'พนักงานการใช้คอมพิวเตอร์', lvl: 'ระดับ 1', lic: 'รับรองโดยกรมพัฒนาฝีมือแรงงาน', pass: 'เปิดทดสอบต่อเนื่อง' },
+];
+---
+
+<Base
+  title="ผลงานวิทยาลัย · นวัตกรรมและสิ่งประดิษฐ์"
+  description="รวมผลงานนักศึกษาและอาจารย์ — นวัตกรรม สิ่งประดิษฐ์ งานวิจัย จากการแข่งขันทักษะวิชาชีพและการประกวดระดับชาติ ปีการศึกษา 2567 และ 2568"
+  path="/portfolio"
+  keywords={['ผลงานนักศึกษา ปวส', 'นวัตกรรมอาชีวศึกษา', 'สิ่งประดิษฐ์ ปวช', 'ผลงานวิทยาลัยแหลมฉบัง']}
+>
+  <main>
+    <section class="page-hero">
+      <div class="container page-hero-inner">
+        <div class="crumbs">
+          <a href="/">หน้าแรก</a>
+          <Icon name="chevronRight" style={{ width: 12, height: 12 }} />
+          <span>ผลงานวิทยาลัย</span>
+        </div>
+        <span class="eyebrow">นวัตกรรม · สิ่งประดิษฐ์ · งานวิจัย</span>
+        <h1>ผลงาน<span class="grad">ฝีมือเยี่ยม</span> จากครูและนักศึกษา</h1>
+        <p>รวมผลงานนวัตกรรม สิ่งประดิษฐ์ งานสร้างสรรค์ และงานวิจัยของนักศึกษา ปีการศึกษา 2568 — รวมงานวิจัยกรณีศึกษาจากสถานประกอบการจริงในเขต EEC</p>
+      </div>
+    </section>
+
+    <section class="section pf-proj-section">
+      <div class="container">
+        <div class="reveal  section-head" style="text-align:center;--reveal-delay:0s">
+          <span class="eyebrow">ผลงานเด่น · มีภาพจริง</span>
+          <h2 class="section-title">นวัตกรรม &amp; สิ่งประดิษฐ์ <span class="grad">ลงมือทำจริง</span></h2>
+          <p class="section-sub">ผลงานและกิจกรรมจริงของนักศึกษา ปีการศึกษา 2568 — คลิกที่การ์ดเพื่อดูภาพและรายละเอียด</p>
+        </div>
+        <div class="pf-proj-grid">
+          {PROJECTS.map((p) => (
+            <div class="reveal reveal-scale " style="--reveal-delay:0s">
+              <button type="button" class="pf-proj-card" data-project={p.id} aria-label={`ดูรายละเอียด ${p.title}`}>
+                <div class="pf-proj-cover">
+                  <img src={p.cover} alt={p.title} loading="lazy" />
+                  <span class="pf-proj-type">{p.type}</span>
+                  <span class="pf-proj-count"><Icon name="plus" style={{ width: 14, height: 14 }} /> {p.photos.length} ภาพ</span>
+                </div>
+                <div class="pf-proj-meta">
+                  <h3>{p.title}</h3>
+                  <span class="pf-proj-en">{p.titleEn}</span>
+                </div>
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {PROJECTS.map((p) => (
+        <div class="pf-lb pf-modal" role="dialog" aria-modal="true" aria-label={p.title} data-project={p.id} style="display:none">
+          <button class="pf-lb-close" aria-label="ปิด">✕</button>
+          <div class="pf-modal-inner">
+            <div class="pf-modal-stage">
+              {p.photos.length > 1 && <button class="pf-lb-nav pf-lb-prev" aria-label="ก่อนหน้า">‹</button>}
+              <img src={p.photos[0]} alt={`${p.title} 1`} />
+              {p.photos.length > 1 && <button class="pf-lb-nav pf-lb-next" aria-label="ถัดไป">›</button>}
+            </div>
+            <div class="pf-modal-info">
+              <span class="pf-modal-type">{p.type} · ปีการศึกษา 2568</span>
+              <h3>{p.title}</h3>
+              <span class="pf-modal-en">{p.titleEn}</span>
+              <p>{p.desc}</p>
+              <div class="pf-modal-thumbs">
+                {p.photos.map((src, i) => (
+                  <button type="button" class={`pf-modal-thumb ${i === 0 ? 'on' : ''}`} aria-label={`ภาพ ${i + 1}`}>
+                    <img src={src} alt="" loading="lazy" />
+                  </button>
+                ))}
+              </div>
+              <span class="pf-modal-counter">1 / {p.photos.length}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </section>
+
+    <section class="section pf-awards-section">
+      <div class="container">
+        <div class="reveal  section-head" style="text-align:center;--reveal-delay:0s">
+          <span class="eyebrow">รางวัลระดับชาติ</span>
+          <h2 class="section-title">ฝีมือที่ <span class="grad">พิสูจน์บนเวทีจริง</span></h2>
+        </div>
+        <div class="reveal reveal-scale pf-award-hero" style="--reveal-delay:0s">
+          <div class="pf-award-medal">🥇</div>
+          <div class="pf-award-body">
+            <span class="pf-award-rank">ชนะเลิศ อันดับ 1 ระดับภาค</span>
+            <h3 class="pf-award-event">การแข่งขันฝีมือแรงงานแห่งชาติ ครั้งที่ 29</h3>
+            <p class="pf-award-field">สาขาเทคโนโลยีระบบไฟฟ้าภายในอาคาร · กลุ่มจังหวัดภาคกลาง</p>
+            <div class="pf-award-meta">
+              <span><strong>นายอชิรวิทย์ มีทอง</strong> · 77.99 คะแนน</span>
+              <span>3 สิงหาคม 2565 · สถาบันพัฒนาฝีมือแรงงาน 3 ชลบุรี</span>
+            </div>
+            <p class="pf-award-note">เอาชนะวิทยาลัยเทคนิคชลบุรี · ปัญญาภิวัฒน์ · โรงเรียนช่างฝีมือทหาร และอีกหลายสถาบัน</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pf-accred-section">
+      <div class="container">
+        <div class="reveal  section-head" style="text-align:center;--reveal-delay:0s">
+          <span class="eyebrow">การรับรอง</span>
+          <h2 class="section-title">ศูนย์ทดสอบมาตรฐาน<span class="grad">ฝีมือแรงงานแห่งชาติ</span></h2>
+          <p class="section-sub">ได้รับอนุญาตจากกรมพัฒนาฝีมือแรงงาน · สถาบันพัฒนาฝีมือแรงงาน 3 ชลบุรี — นักศึกษาสอบมาตรฐานวิชาชีพได้ในสถานศึกษา</p>
+        </div>
+        <div class="pf-accred-grid">
+          {trades.map((t, i) => (
+            <div class="reveal  pf-accred-card" style={`--reveal-delay:${i * 0.06}s`}>
+              <div class="pf-accred-check"><Icon name="check" style={{ width: 18, height: 18 }} /></div>
+              <h3>{t.t}</h3>
+              <span class="pf-accred-lvl">{t.lvl}</span>
+              <span class="pf-accred-lic">{t.lic}</span>
+              <span class="pf-accred-pass">{t.pass}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <div class="container">
+        <div class="reveal reveal-scale cta-banner" style="--reveal-delay:0s">
+          <div class="cta-bg-mesh"></div>
+          <div class="cta-content">
+            <span class="eyebrow" style="background:rgba(255,255,255,0.18);color:white">เปิดรับสมัคร</span>
+            <h2 class="cta-title">พร้อมเริ่มต้นเส้นทาง<br /><span class="grad-light">อาชีพที่ใช่</span>หรือยัง?</h2>
+            <p class="cta-sub">สมัครออนไลน์ใช้เวลาเพียง 5 นาที — ทีมงานติดต่อกลับภายใน 24 ชม.</p>
+            <div class="cta-actions">
+              <a href="/admission/" class="btn btn-white btn-lg">สมัครเรียนออนไลน์<Icon name="arrow" className="btn-icon" /></a>
+              <a href="tel:038494066" class="btn btn-ghost btn-lg" style="color:white;border-color:rgba(255,255,255,0.4)"><Icon name="phone" style={{ width: 16, height: 16 }} /> 038-494-066</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<script>
+  // Project detail modal — vanilla port of PortfolioBody.tsx ProjectsShowcase.
+  // Modals are pre-rendered (hidden via inline display:none); this script
+  // replicates open/close, prev/next wrap, thumbs, Esc/Arrow keys, scroll lock.
+  const cards = document.querySelectorAll<HTMLButtonElement>('.pf-proj-card');
+  const modals = Array.from(document.querySelectorAll<HTMLElement>('.pf-modal[data-project]'));
+
+  let current: HTMLElement | null = null;
+  let photoIdx = 0;
+  let photos: string[] = [];
+
+  function render() {
+    if (!current) return;
+    const title = current.getAttribute('aria-label') || '';
+    const img = current.querySelector<HTMLImageElement>('.pf-modal-stage img');
+    if (img) {
+      img.src = photos[photoIdx];
+      img.alt = `${title} ${photoIdx + 1}`;
+    }
+    current.querySelectorAll<HTMLElement>('.pf-modal-thumb').forEach((t, i) => t.classList.toggle('on', i === photoIdx));
+    const counter = current.querySelector('.pf-modal-counter');
+    if (counter) counter.textContent = `${photoIdx + 1} / ${photos.length}`;
+  }
+
+  function open(id: string) {
+    const m = modals.find((el) => el.dataset.project === id);
+    if (!m) return;
+    current = m;
+    photoIdx = 0;
+    photos = Array.from(m.querySelectorAll<HTMLImageElement>('.pf-modal-thumb img')).map((im) => im.getAttribute('src') || '');
+    render();
+    m.removeAttribute('style');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    if (!current) return;
+    current.style.display = 'none';
+    current = null;
+    document.body.style.overflow = '';
+  }
+
+  function step(d: number) {
+    if (!current || !photos.length) return;
+    photoIdx = (photoIdx + d + photos.length) % photos.length;
+    render();
+  }
+
+  cards.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.project;
+      if (id) open(id);
+    });
+  });
+
+  modals.forEach((m) => {
+    m.addEventListener('click', close);
+    m.querySelector('.pf-modal-inner')?.addEventListener('click', (e) => e.stopPropagation());
+    m.querySelector('.pf-lb-close')?.addEventListener('click', close);
+    m.querySelector('.pf-lb-prev')?.addEventListener('click', () => step(-1));
+    m.querySelector('.pf-lb-next')?.addEventListener('click', () => step(1));
+    m.querySelectorAll<HTMLElement>('.pf-modal-thumb').forEach((t, i) => {
+      t.addEventListener('click', () => {
+        photoIdx = i;
+        render();
+      });
+    });
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (!current) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === 'ArrowRight') step(1);
+    else if (e.key === 'ArrowLeft') step(-1);
+  });
+</script>

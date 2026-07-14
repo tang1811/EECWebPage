@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import AboutBody from '../components/react/AboutBody';
+import '../styles/about-cinematic.css';
+---
+
+<Base
+  title="เกี่ยวกับเรา"
+  description="ประวัติ ปรัชญา และพันธกิจของวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง — กว่า 30 ปีแห่งการสร้างช่างฝีมือป้อนสู่นิคมอุตสาหกรรม EEC"
+  path="/about"
+  keywords={[
+    'เกี่ยวกับ วิทยาลัยแหลมฉบัง',
+    'ประวัติ EEC Engineer',
+    'ปรัชญา วิทยาลัยเทคโนโลยี ชลบุรี',
+    'พันธกิจ อาชีวศึกษา ศรีราชา',
+  ]}
+  mono600
+>
+  {/* Visually-hidden H1 — the visible hero title is rendered inside the opening scene. */}
+  <h1 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+    เกี่ยวกับวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง — ประวัติ ปรัชญา พันธกิจ และทีมผู้บริหาร
+  </h1>
+  <AboutBody client:load />
+</Base>

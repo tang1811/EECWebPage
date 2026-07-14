@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import '../../styles/homepage.css';
+import '../../styles/subpages.css';
+import '../../styles/news.css';
+import { NEWS } from '../../data/news-data';
+---
+
+<Base
+  title="ข่าวสาร & กิจกรรม"
+  description="ข่าวสาร กิจกรรม และความเคลื่อนไหวล่าสุดของวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง"
+  path="/news"
+  keywords={['ข่าวสารวิทยาลัย', 'กิจกรรมอาชีวะ ชลบุรี', 'EEC Engineer ข่าว']}
+>
+  <main class="news-page">
+    <section class="page-hero">
+      <div class="container page-hero-inner">
+        <div class="crumbs"><a href="/">หน้าแรก</a> <span>/</span> <span>ข่าวสาร</span></div>
+        <span class="eyebrow">ข่าวสาร · กิจกรรม</span>
+        <h1>ข่าวสาร &amp; <span class="grad">กิจกรรมล่าสุด</span></h1>
+        <p>ความเคลื่อนไหว กิจกรรม และข่าวสารล่าสุดของวิทยาลัย</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="news-list-grid">
+          {NEWS.map((n) => (
+            <a href={`/news/${n.slug}/`} class="news-card">
+              <div class="news-card-img"><img src={n.image} alt={n.title} loading="lazy" style={n.objectPosition ? `object-position:${n.objectPosition}` : undefined} /></div>
+              <div class="news-card-body">
+                <span class="news-card-tag">{n.tag} · {n.dateLabel}</span>
+                <h3>{n.title}</h3>
+                <p>{n.excerpt}</p>
+                <span class="news-card-more">อ่านต่อ →</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

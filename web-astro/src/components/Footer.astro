@@ -1,0 +1,83 @@
+---
+// Footer — 1:1 static port of Footer() from web/app/components/chrome.tsx.
+// Base.astro omits it on /admission routes (the old component returned null
+// there). Icons inlined verbatim from chrome.tsx Icon (kebab-case SVG attrs).
+
+// Verbatim chrome.tsx Icon paths (JSX camelCase attrs → kebab-case HTML).
+const ICONS: Record<string, string> = {
+  pin: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2" fill="none"/>',
+  phone: '<path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+  mail: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 4l8 5 8-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+  facebook: '<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" fill="currentColor"/>',
+  youtube: '<path d="M23 7s-.2-1.5-.8-2.2c-.8-.9-1.7-.9-2.1-1C17.1 3.5 12 3.5 12 3.5s-5.1 0-8.1.3c-.4.1-1.3.1-2.1 1C1.2 5.5 1 7 1 7S.8 8.8.8 10.6v1.8C.8 14.2 1 16 1 16s.2 1.5.8 2.2c.8.9 1.9.9 2.4 1 1.7.2 7.8.3 7.8.3s5.1 0 8.1-.3c.4-.1 1.3-.1 2.1-1 .6-.7.8-2.2.8-2.2s.2-1.8.2-3.6v-1.8C23.2 8.8 23 7 23 7zM9.7 14.3V8.4l6.4 3-6.4 2.9z" fill="currentColor"/>',
+  line: '<path d="M12 2C6.5 2 2 5.6 2 10c0 3.9 3.6 7.2 8.4 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.8c0 .3-.2 1 .9.5s5.7-3.4 7.8-5.8c1.5-1.6 2.1-3.3 2.1-4.9C22 5.6 17.5 2 12 2z" fill="currentColor"/>',
+};
+
+// React style-object serialization of the contact-row icons, verbatim order.
+const CONTACT_ICON_STYLE = 'width:16px;height:16px;display:inline;vertical-align:-3px;margin-right:8px;color:var(--green-300)';
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <img src="/assets/logo.png" alt="" style="height:56px;width:56px" />
+          <div class="brand-text">
+            <span class="brand-th">วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย</span>
+            <span class="brand-en">EEC Engineer Laemchabang</span>
+          </div>
+        </div>
+        <p>เปี่ยมคุณธรรม มุ่งสร้างคนดี มีระเบียบวินัย ก้าวไกลเทคโนโลยี ฝีมือเยี่ยม — สถาบันอาชีวศึกษาเอกชนชั้นนำในเขตศรีราชา ชลบุรี</p>
+      </div>
+      <div>
+        <h4>เมนูหลัก</h4>
+        <ul>
+          <li><a href="/courses/">หลักสูตร</a></li>
+          <li><a href="/tuition/">ค่าเทอม &amp; ทุน</a></li>
+          <li><a href="/portfolio/">ผลงาน &amp; นวัตกรรม</a></li>
+          <li><a href="/about/">เกี่ยวกับเรา</a></li>
+          <li><a href="/personnel/">บุคลากร</a></li>
+          <li><a href="/admission/">สมัครเรียน</a></li>
+          <li><a href="/contact/">ติดต่อเรา</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>นักศึกษา &amp; บุคลากร</h4>
+        <ul>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">StudentCare</a></li>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">E-learning</a></li>
+          <li><a href="/personnel/">ทำเนียบบุคลากร</a></li>
+          <li><a href="/portfolio/">งานประกันคุณภาพ (QA)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>หลักสูตร</h4>
+        <ul>
+          <li><a href="/courses/">ปวช. 2567</a></li>
+          <li><a href="/courses/">ปวส. 2567</a></li>
+          <li><a href="/courses/">ปริญญาตรี</a></li>
+          <li><a href="/courses/">ทวิภาคี</a></li>
+          <li><a href="/courses/">ศูนย์ทดสอบฝีมือแรงงาน</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>ติดต่อเรา</h4>
+        <div class="footer-contact">
+          <div><svg viewBox="0 0 24 24" class="" style={CONTACT_ICON_STYLE} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.pin} />75/2 หมู่ 10 ต.ทุ่งสุขลา<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;อ.ศรีราชา จ.ชลบุรี 20230</div>
+          <div><svg viewBox="0 0 24 24" class="" style={CONTACT_ICON_STYLE} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.phone} /><strong>038-494-066</strong> · 095-070-6600</div>
+          <div><svg viewBox="0 0 24 24" class="" style={CONTACT_ICON_STYLE} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.mail} />technologylaemchabang@gmail.com</div>
+        </div>
+        <div class="footer-socials" style="margin-top:18px">
+          <a href="https://www.facebook.com/eec.engineer.laemchabang" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" class="" style="width:18px;height:18px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.facebook} /></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" class="" style="width:18px;height:18px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.youtube} /></a>
+          <a href="#" aria-label="Line"><svg viewBox="0 0 24 24" class="" style="width:18px;height:18px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.line} /></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 1995–2026 วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · All rights reserved.</div>
+      <div>เลขที่ใบอนุญาตจัดตั้ง · สังกัด สอศ.</div>
+    </div>
+  </div>
+</footer>
