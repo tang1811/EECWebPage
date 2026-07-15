@@ -1,0 +1,53 @@
+<!-- @dsCard group="Overview" name="EEC Website Design System" -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EEC Website Design System</title>
+<link rel="stylesheet" href="./tokens.css">
+<link rel="stylesheet" href="./preview.css">
+<style>
+    .hero { background: var(--grad-hero); color: white; border-radius: 20px; padding: 40px 36px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: var(--grad-mesh); }
+    .hero > * { position: relative; }
+    .hero .kicker { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; opacity: .85; }
+    .hero h1 { font-size: clamp(28px, 4vw, 44px); font-weight: 800; letter-spacing: -0.02em; margin: 10px 0 8px; line-height: 1.1; }
+    .hero p { opacity: .88; max-width: 560px; }
+    .strip { display: flex; height: 14px; border-radius: 999px; overflow: hidden; margin: 24px 0 0; }
+    .strip span { flex: 1; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: var(--r-pill); font-weight: 600; font-size: 15px; border: none; text-decoration: none; }
+    .btn-primary { background: var(--green-700); color: white; box-shadow: 0 8px 20px -6px var(--green-glow); }
+    .btn-ghost { background: transparent; color: var(--ink-900); border: 1.5px solid var(--border-strong); }
+    .note { font-size: 13px; color: var(--ink-500); }
+    .note code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 12px; background: var(--ink-100); padding: 1px 6px; border-radius: 6px; }
+</style>
+</head>
+<body>
+    <div class="hero">
+        <div class="kicker">EEC Engineer Laemchabang</div>
+        <h1>เว็บไซต์วิทยาลัย — Design System</h1>
+        <p>ธีมเขียว teal (#026451) บนพื้นขาว/ครีม ฟอนต์ Prompt ทรง pill และเงา glow เขียว — โทเคนทั้งหมด mirror จากเว็บ production (Astro)</p>
+        <div class="strip">
+            <span style="background:var(--green-900)"></span><span style="background:var(--green-700)"></span>
+            <span style="background:var(--green-500)"></span><span style="background:var(--green-300)"></span>
+            <span style="background:var(--green-100)"></span><span style="background:var(--bg-alt)"></span>
+            <span style="background:var(--accent-amber)"></span><span style="background:var(--crest-navy)"></span>
+            <span style="background:var(--crest-red)"></span>
+        </div>
+    </div>
+
+    <div class="ds-frame" style="margin-top:16px">
+        <div class="ds-frame-label">Core actions</div>
+        <div class="ds-row">
+            <a class="btn btn-primary" href="#">สมัครเรียนออนไลน์</a>
+            <a class="btn btn-ghost" href="#">ดูหลักสูตรทั้งหมด</a>
+        </div>
+    </div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Source of truth</div>
+        <p class="note">โทเคนคัดลอก verbatim จาก <code>web-astro/src/styles/styles.css</code> (:root) — แก้ค่าที่เว็บก่อนแล้วค่อย mirror ขึ้นมาที่นี่ ห้ามแก้ค่าบนนี้โดดเดี่ยว · คอมโพเนนต์อ้างอิง <code>homepage.css</code> / <code>subpages.css</code></p>
+    </div>
+</body>
+</html>

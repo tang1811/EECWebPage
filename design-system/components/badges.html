@@ -1,0 +1,81 @@
+<!-- @dsCard group="Components" name="Badges & Chips" -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Badges &amp; Chips — EEC Website</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../preview.css">
+<style>
+    /* .eyebrow from styles.css · .chip from homepage.css · .cc-hot from homepage.css */
+    .eyebrow {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 6px 14px;
+        background: var(--green-100); color: var(--green-800);
+        border-radius: var(--r-pill);
+        font-size: 13px; font-weight: 600;
+        letter-spacing: 0.02em;
+    }
+    .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green-700); }
+
+    .chip {
+        padding: 10px 20px;
+        background: var(--surface-card);
+        border: 1px solid var(--border-strong);
+        border-radius: var(--r-pill);
+        font-size: 14px; font-weight: 600;
+        font-family: var(--font-body);
+        color: var(--ink-700); cursor: pointer;
+        transition: all .2s var(--ease-out);
+    }
+    .chip:hover { border-color: var(--green-700); color: var(--green-700); }
+    .chip-active { background: var(--ink-900); color: white; border-color: var(--ink-900); }
+
+    .cc-hot {
+        display: inline-block;
+        background: linear-gradient(90deg, #ef4444, #f97316);
+        color: white;
+        font-size: 11px; font-weight: 800; letter-spacing: 0.08em;
+        padding: 4px 10px;
+        border-radius: var(--r-pill);
+    }
+    .dept-dot { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; color: var(--ink-700); }
+    .dept-dot::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--dot); box-shadow: 0 0 0 2px white, 0 0 0 3px rgba(11,26,19,0.08); }
+</style>
+</head>
+<body>
+    <div class="ds-title">Badges &amp; Chips</div>
+    <div class="ds-sub">eyebrow นำหัวข้อ section · chip ฟิลเตอร์หลักสูตร (active = ink-900) · ป้าย "ยอดนิยม" gradient แดงส้ม</div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Eyebrow (section kicker)</div>
+        <div class="ds-row">
+            <span class="eyebrow">หลักสูตรที่เปิดสอน</span>
+            <span class="eyebrow">ข่าวสารและกิจกรรม</span>
+            <span class="eyebrow">Why EEC</span>
+        </div>
+    </div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Filter chips</div>
+        <div class="ds-row">
+            <button class="chip chip-active">ทั้งหมด</button>
+            <button class="chip">ปวช.</button>
+            <button class="chip">ปวส.</button>
+            <button class="chip">ทวิภาคี</button>
+        </div>
+    </div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Status &amp; department markers</div>
+        <div class="ds-row">
+            <span class="cc-hot">ยอดนิยม</span>
+            <span class="dept-dot" style="--dot:var(--green-500)">ช่างอุตสาหกรรม</span>
+            <span class="dept-dot" style="--dot:var(--accent-amber)">ไฟฟ้า/อิเล็กทรอนิกส์</span>
+            <span class="dept-dot" style="--dot:var(--crest-navy)">เทคโนโลยีสารสนเทศ</span>
+            <span class="dept-dot" style="--dot:var(--crest-red)">พาณิชยกรรม</span>
+        </div>
+    </div>
+</body>
+</html>

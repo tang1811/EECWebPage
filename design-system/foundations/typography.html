@@ -1,0 +1,58 @@
+<!-- @dsCard group="Foundations" name="Typography" -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Typography — EEC Website</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../preview.css">
+<style>
+    /* Real type styles from web-astro (styles.css) */
+    h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.01em; margin: 0; text-wrap: balance; line-height: 1.15; }
+    .section-title { font-size: clamp(32px, 4vw, 52px); font-weight: 800; letter-spacing: -0.02em; }
+    .section-sub { font-size: 18px; color: var(--ink-600); margin-top: 14px; max-width: 620px; }
+    .card-name { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
+    .body-text { font-size: 16px; line-height: 1.6; color: var(--ink-900); max-width: 620px; }
+    .mono-label { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-700); }
+    .code-label { font-size: 12px; color: var(--ink-500); font-weight: 600; letter-spacing: 0.04em; }
+    .grad-headline { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .w { font-size: 22px; }
+</style>
+</head>
+<body>
+    <div class="ds-title">Typography</div>
+    <div class="ds-sub">Prompt ทั้งไทย/อังกฤษ (300–800) · JetBrains Mono สำหรับ label ตัวพิมพ์ใหญ่ · หัวข้อ tracking ติดลบ</div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Section heading (จริงจากหน้าเว็บ)</div>
+        <div class="mono-label">Why EEC</div>
+        <div class="section-title" style="margin-top:12px">เรียนช่าง ให้ล้ำกว่าช่าง</div>
+        <p class="section-sub">หลักสูตรอาชีวศึกษาที่ออกแบบร่วมกับสถานประกอบการใน EEC พร้อมห้องปฏิบัติการมาตรฐานอุตสาหกรรม</p>
+    </div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Scale</div>
+        <div class="ds-stack">
+            <div><div class="ds-lbl">display · 800 · clamp(32–52px)</div><div class="section-title">ปวช. / ปวส. Engineer</div></div>
+            <div><div class="ds-lbl">card title · 700 · 18px</div><div class="card-name">ช่างยนต์ — Automotive Technology</div></div>
+            <div><div class="ds-lbl">body · 400 · 16px / 1.6</div><p class="body-text">วิทยาลัยเทคโนโลยีวิศวกรรมแหลมฉบัง เปิดสอนระดับ ปวช. และ ปวส. ทั้งภาคปกติและระบบทวิภาคี ร่วมกับสถานประกอบการชั้นนำในพื้นที่ EEC</p></div>
+            <div><div class="ds-lbl">mono label · JetBrains Mono · uppercase</div><span class="mono-label">Vocational Certificate</span></div>
+            <div><div class="ds-lbl">code / meta · 600 · 12px</div><span class="code-label">20101 — สาขาวิชาช่างยนต์</span></div>
+            <div><div class="ds-lbl">gradient headline (--grad-text)</div><div class="grad-headline">อนาคตเริ่มที่มือคุณ</div></div>
+        </div>
+    </div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Prompt weights</div>
+        <div class="ds-stack">
+            <div class="w" style="font-weight:300">300 — วิศวกรรมแหลมฉบัง Engineering</div>
+            <div class="w" style="font-weight:400">400 — วิศวกรรมแหลมฉบัง Engineering</div>
+            <div class="w" style="font-weight:500">500 — วิศวกรรมแหลมฉบัง Engineering</div>
+            <div class="w" style="font-weight:600">600 — วิศวกรรมแหลมฉบัง Engineering</div>
+            <div class="w" style="font-weight:700">700 — วิศวกรรมแหลมฉบัง Engineering</div>
+            <div class="w" style="font-weight:800">800 — วิศวกรรมแหลมฉบัง Engineering</div>
+        </div>
+    </div>
+</body>
+</html>

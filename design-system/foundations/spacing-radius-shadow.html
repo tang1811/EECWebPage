@@ -1,0 +1,65 @@
+<!-- @dsCard group="Foundations" name="Spacing · Radius · Shadow" -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spacing · Radius · Shadow — EEC Website</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../preview.css">
+<style>
+    .sp-row { display: grid; grid-template-columns: 110px 1fr; gap: 10px; align-items: center; margin-bottom: 8px; }
+    .sp-bar { height: 14px; background: var(--green-300); border-radius: 4px; }
+    .r-box { width: 96px; height: 72px; background: var(--green-100); border: 1.5px solid var(--green-300); display: grid; place-items: center; font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--green-800); }
+    .sh-box { width: 150px; height: 92px; background: var(--surface-card); border-radius: var(--r-md); display: grid; place-items: center; font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--ink-600); }
+</style>
+</head>
+<body>
+    <div class="ds-title">Spacing · Radius · Shadow</div>
+    <div class="ds-sub">สเกลระยะ 4→128px · มุมโค้ง 8/14/22/32/pill · เงา 4 ระดับรวม glow เขียว</div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Spacing scale</div>
+        <div class="sp-row"><span class="ds-lbl">space-1 · 4px</span><div class="sp-bar" style="width:4px"></div></div>
+        <div class="sp-row"><span class="ds-lbl">space-2 · 8px</span><div class="sp-bar" style="width:8px"></div></div>
+        <div class="sp-row"><span class="ds-lbl">space-3 · 12px</span><div class="sp-bar" style="width:12px"></div></div>
+        <div class="sp-row"><span class="ds-lbl">space-4 · 16px</span><div class="sp-bar" style="width:16px"></div></div>
+        <div class="sp-row"><span class="ds-lbl">space-5 · 24px</span><div class="sp-bar" style="width:24px"></div></div>
+        <div class="sp-row"><span class="ds-lbl">space-6 · 32px</span><div class="sp-bar" style="width:32px"></div></div>
+        <div class="sp-row"><span class="ds-lbl">space-7 · 48px</span><div class="sp-bar" style="width:48px"></div></div>
+        <div class="sp-row"><span class="ds-lbl">space-8 · 64px</span><div class="sp-bar" style="width:64px"></div></div>
+        <div class="sp-row"><span class="ds-lbl">space-9 · 96px</span><div class="sp-bar" style="width:96px"></div></div>
+        <div class="sp-row"><span class="ds-lbl">space-10 · 128px</span><div class="sp-bar" style="width:128px"></div></div>
+    </div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Radius</div>
+        <div class="ds-row">
+            <div class="r-box" style="border-radius:var(--r-sm)">r-sm 8</div>
+            <div class="r-box" style="border-radius:var(--r-md)">r-md 14</div>
+            <div class="r-box" style="border-radius:var(--r-lg)">r-lg 22</div>
+            <div class="r-box" style="border-radius:var(--r-xl)">r-xl 32</div>
+            <div class="r-box" style="border-radius:var(--r-pill)">pill</div>
+        </div>
+    </div>
+
+    <div class="ds-frame ds-frame--cream">
+        <div class="ds-frame-label">Shadow</div>
+        <div class="ds-row">
+            <div class="sh-box" style="box-shadow:var(--shadow-sm)">shadow-sm</div>
+            <div class="sh-box" style="box-shadow:var(--shadow-md)">shadow-md</div>
+            <div class="sh-box" style="box-shadow:var(--shadow-lg)">shadow-lg</div>
+            <div class="sh-box" style="box-shadow:var(--shadow-glow)">shadow-glow</div>
+        </div>
+    </div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Motion</div>
+        <div class="ds-stack">
+            <span class="ds-lbl">--ease-out · cubic-bezier(0.22, 1, 0.36, 1) — เลื่อน/จาง</span>
+            <span class="ds-lbl">--ease-spring · cubic-bezier(0.34, 1.56, 0.64, 1) — เด้ง hover ปุ่ม/การ์ด</span>
+            <span class="ds-lbl">--anim-mult · 1 — คูณความแรงแอนิเมชันทั้งไซต์ (0 = ปิด)</span>
+        </div>
+    </div>
+</body>
+</html>

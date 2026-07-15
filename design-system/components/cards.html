@@ -1,0 +1,84 @@
+<!-- @dsCard group="Components" name="Cards" -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cards — EEC Website</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../preview.css">
+<style>
+    /* Copied from web-astro/src/styles/homepage.css (.course-card / .cc-*) */
+    .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+    .course-card {
+        display: block; position: relative;
+        background: var(--surface-card);
+        border: 1px solid var(--border-soft);
+        border-radius: var(--r-lg);
+        color: var(--ink-900); text-decoration: none;
+        overflow: hidden; min-height: 200px; padding: 24px;
+        transition: transform .3s var(--ease-spring), box-shadow .3s var(--ease-out), border-color .3s var(--ease-out);
+    }
+    .cc-lift:hover { transform: translateY(-8px); box-shadow: var(--shadow-glow); border-color: var(--green-300); }
+    .cc-lift:hover .cc-icon { background: var(--green-700); color: white; transform: scale(1.1) rotate(-8deg); }
+    .cc-lift:hover .cc-foot svg { transform: translateX(6px); color: var(--green-700); }
+    .cc-icon {
+        width: 56px; height: 56px;
+        background: var(--green-100); color: var(--green-700);
+        border-radius: var(--r-md);
+        display: grid; place-items: center;
+        margin-bottom: 20px;
+        transition: all .3s var(--ease-spring);
+    }
+    .cc-code { font-size: 12px; color: var(--ink-500); font-weight: 600; letter-spacing: 0.04em; }
+    .cc-name { font-size: 18px; font-weight: 700; margin: 6px 0 16px; letter-spacing: -0.01em; line-height: 1.3; }
+    .cc-foot { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--ink-500); margin-top: auto; }
+    .cc-foot svg { color: var(--ink-400); transition: all .3s var(--ease-spring); }
+    .cc-hot {
+        position: absolute; top: 16px; right: 16px;
+        background: linear-gradient(90deg, #ef4444, #f97316);
+        color: white;
+        font-size: 11px; font-weight: 800; letter-spacing: 0.08em;
+        padding: 4px 10px;
+        border-radius: var(--r-pill);
+    }
+    /* per-department accent (set --dept inline on the card) */
+    .course-card[style*="--dept"]:hover {
+        box-shadow: 0 0 0 1px var(--dept, var(--green-300)), 0 12px 32px -8px color-mix(in srgb, var(--dept) 30%, transparent);
+        border-color: var(--dept);
+    }
+</style>
+</head>
+<body>
+    <div class="ds-title">Cards</div>
+    <div class="ds-sub">การ์ดหลักสูตร — hover ยก -8px + shadow-glow · ไอคอนหมุน -8° · สี accent ต่อสาขาผ่าน --dept</div>
+
+    <div class="ds-frame ds-frame--cream">
+        <div class="ds-frame-label">Course cards</div>
+        <div class="course-grid">
+            <a class="course-card cc-lift" href="#">
+                <div class="cc-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.2 4.2l2.8 2.8M17 17l2.8 2.8M1 12h4M19 12h4M4.2 19.8L7 17M17 7l2.8-2.8"/></svg></div>
+                <div class="cc-code">20101 · ปวช.</div>
+                <div class="cc-name">ช่างยนต์<br>Automotive Technology</div>
+                <div class="cc-foot"><span>ทวิภาคี · 3 ปี</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </a>
+            <a class="course-card cc-lift" href="#" style="--dept:#f5b800">
+                <span class="cc-hot">ยอดนิยม</span>
+                <div class="cc-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+                <div class="cc-code">20104 · ปวช.</div>
+                <div class="cc-name">ช่างไฟฟ้ากำลัง<br>Electrical Power</div>
+                <div class="cc-foot"><span>ทวิภาคี · 3 ปี</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </a>
+            <a class="course-card cc-lift" href="#" style="--dept:#1c2a4e">
+                <div class="cc-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+                <div class="cc-code">30901 · ปวส.</div>
+                <div class="cc-name">เทคโนโลยีสารสนเทศ<br>Information Technology</div>
+                <div class="cc-foot"><span>ภาคปกติ · 2 ปี</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

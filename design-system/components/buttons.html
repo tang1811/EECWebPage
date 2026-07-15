@@ -1,0 +1,72 @@
+<!-- @dsCard group="Components" name="Buttons" -->
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buttons — EEC Website</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../preview.css">
+<style>
+    /* Copied from web-astro/src/styles/styles.css (.btn family + .nav-cta) */
+    .btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        padding: 14px 26px;
+        border-radius: var(--r-pill);
+        font-weight: 600; font-size: 15px;
+        font-family: var(--font-body);
+        border: none; cursor: pointer; text-decoration: none;
+        transition: transform .25s var(--ease-spring), box-shadow .25s var(--ease-out), background .25s var(--ease-out), color .25s var(--ease-out);
+    }
+    .btn-primary { background: var(--green-700); color: white; box-shadow: 0 8px 20px -6px var(--green-glow); }
+    .btn-primary:hover { background: var(--green-800); transform: translateY(-2px); box-shadow: 0 14px 30px -8px var(--green-glow-strong); }
+    .btn-ghost { background: transparent; color: var(--ink-900); border: 1.5px solid var(--border-strong); }
+    .btn-ghost:hover { border-color: var(--green-700); color: var(--green-700); background: var(--green-50); }
+    .btn-white { background: var(--surface-card); color: var(--green-800); }
+    .btn-white:hover { background: var(--green-50); transform: translateY(-2px); }
+    .btn-lg { padding: 18px 34px; font-size: 17px; }
+    .btn-icon { width: 18px; height: 18px; transition: transform .25s var(--ease-spring); }
+    .btn:hover .btn-icon { transform: translateX(3px); }
+
+    .nav-cta {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 20px;
+        background: var(--green-700); color: white;
+        border-radius: var(--r-pill);
+        font-weight: 600; font-size: 14px;
+        font-family: var(--font-body);
+        border: none; cursor: pointer; text-decoration: none;
+        box-shadow: 0 6px 16px -6px var(--green-glow);
+        transition: transform .25s var(--ease-spring), box-shadow .25s var(--ease-out), background .25s var(--ease-out);
+    }
+    .nav-cta:hover { background: var(--green-800); transform: translateY(-2px); box-shadow: 0 10px 24px -8px var(--green-glow-strong); }
+</style>
+</head>
+<body>
+    <div class="ds-title">Buttons</div>
+    <div class="ds-sub">ทรง pill ทั้งหมด · primary เขียว #026451 พร้อม glow · hover ยกตัว -2px ด้วย ease-spring</div>
+
+    <div class="ds-frame">
+        <div class="ds-frame-label">Variants</div>
+        <div class="ds-row">
+            <a class="btn btn-primary" href="#">สมัครเรียนออนไลน์
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a class="btn btn-ghost" href="#">ดูหลักสูตรทั้งหมด</a>
+            <button class="nav-cta">สมัครเรียน</button>
+        </div>
+        <div class="ds-lbl" style="margin-top:16px">sizes</div>
+        <div class="ds-row">
+            <a class="btn btn-primary" href="#">ปกติ 14×26</a>
+            <a class="btn btn-primary btn-lg" href="#">ใหญ่ 18×34 (hero)</a>
+        </div>
+    </div>
+
+    <div class="ds-frame ds-frame--hero">
+        <div class="ds-frame-label">On gradient / dark (CTA banner)</div>
+        <div class="ds-row">
+            <a class="btn btn-white" href="#">สมัครเรียนเลย</a>
+            <a class="btn btn-ghost" style="color:white;border-color:rgba(255,255,255,0.4)" href="#">ติดต่อสอบถาม</a>
+        </div>
+    </div>
+</body>
+</html>

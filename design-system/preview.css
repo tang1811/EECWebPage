@@ -1,0 +1,65 @@
+/* ============================================================
+   Preview chrome for the design-system cards.
+   Layout only — every colour comes from tokens.css so the
+   preview reflects the real EEC website theme, not new values.
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-body);
+    background: #ecefe9;
+    color: var(--ink-900);
+    padding: 24px;
+    line-height: 1.6;
+}
+
+.ds-title {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--ink-900);
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+}
+.ds-sub { color: var(--ink-500); font-size: 13px; margin-bottom: 20px; }
+
+/* Content frames — light (default), cream, dark, hero gradient */
+.ds-frame {
+    background: var(--bg);
+    color: var(--ink-900);
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
+    padding: 24px;
+}
+.ds-frame + .ds-frame { margin-top: 16px; }
+.ds-frame--cream { background: var(--bg-alt); }
+.ds-frame--dark  { background: var(--bg-dark); color: white; border-color: rgba(255,255,255,0.12); }
+.ds-frame--hero  { background: var(--grad-hero); color: white; border: none; }
+.ds-frame-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-500);
+    margin-bottom: 14px;
+}
+.ds-frame--dark .ds-frame-label,
+.ds-frame--hero .ds-frame-label { color: rgba(255,255,255,0.6); }
+
+/* Swatch grid */
+.ds-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 12px; }
+.ds-swatch { border-radius: 12px; overflow: hidden; border: 1px solid var(--border-soft); background: var(--surface-card); }
+.ds-swatch .chip-color { height: 56px; }
+.ds-swatch .meta { padding: 8px 10px; }
+.ds-swatch .name { font-size: 12px; font-weight: 600; color: var(--ink-900); }
+.ds-swatch .val { font-size: 11px; color: var(--ink-500); font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+.ds-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.ds-stack { display: flex; flex-direction: column; gap: 12px; }
+.ds-lbl {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px; color: var(--ink-500);
+    margin: 4px 0 8px;
+}
+.ds-frame--dark .ds-lbl, .ds-frame--hero .ds-lbl { color: rgba(255,255,255,0.55); }
