@@ -88,89 +88,67 @@ function initNav(): void {
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  let coursesOpen = false;
-  let studentOpen = false;
-
-  const coursesLi = header.querySelector<HTMLElement>('li.nav-li-dd');
-  const coursesLink = coursesLi ? coursesLi.querySelector<HTMLAnchorElement>('a.nav-link') : null;
-  const coursesDd = coursesLi ? coursesLi.querySelector<HTMLElement>('.nav-dd') : null;
-  const studentWrap = header.querySelector<HTMLElement>('.nav-student-util');
-  const studentBtn = studentWrap ? studentWrap.querySelector<HTMLButtonElement>('.nav-util-link') : null;
-  const studentDd = studentWrap ? studentWrap.querySelector<HTMLElement>('.nav-mini-dd') : null;
-
-  const render = () => {
-    header.classList.toggle('nav-dd-open', coursesOpen || studentOpen);
-    if (coursesLink) {
-      coursesLink.classList.toggle('is-open', coursesOpen);
-      coursesLink.setAttribute('aria-expanded', String(coursesOpen));
-    }
-    if (coursesDd) coursesDd.classList.toggle('open', coursesOpen);
-    if (studentBtn) {
-      studentBtn.classList.toggle('is-open', studentOpen);
-      studentBtn.setAttribute('aria-expanded', String(studentOpen));
-    }
-    if (studentDd) studentDd.classList.toggle('open', studentOpen);
+  // Desktop dropdowns — generic over every li.nav-li-dd (courses mega menu +
+  // student mini menu, per the SchoolWebV2 chrome). Hover intent: open
+  // immediately, close 120ms after mouseleave; click toggles without
+  // navigating the trigger link. Panels live inside their <li>, so hovering
+  // a panel keeps its trigger zone hovered.
+  const dds = Array.from(header.querySelectorAll<HTMLElement>('li.nav-li-dd'));
+  const ddOpen = new Map<HTMLElement, boolean>();
+  const renderDds = () => {
+    let any = false;
+    dds.forEach((li) => {
+      const open = ddOpen.get(li) ?? false;
+      if (open) any = true;
+      const link = li.querySelector<HTMLElement>('a.nav-link');
+      const dd = li.querySelector<HTMLElement>('.nav-dd, .nav-mini-dd');
+      if (link) {
+        link.classList.toggle('is-open', open);
+        link.setAttribute('aria-expanded', String(open));
+      }
+      if (dd) dd.classList.toggle('open', open);
+    });
+    header.classList.toggle('nav-dd-open', any);
   };
-
-  // Hover intent: open immediately, close 120ms after mouseleave — bound to
-  // both the trigger zone and the dropdown panel (verbatim chrome.tsx).
-  const bindDropdown = (
-    zone: HTMLElement | null,
-    dd: HTMLElement | null,
-    setOpen: (v: boolean) => void
-  ) => {
+  const closeAllDds = () => {
+    dds.forEach((li) => ddOpen.set(li, false));
+    renderDds();
+  };
+  dds.forEach((li) => {
     let timer: ReturnType<typeof setTimeout> | null = null;
-    const open = () => {
+    li.addEventListener('mouseenter', () => {
       if (timer) {
         clearTimeout(timer);
         timer = null;
       }
-      setOpen(true);
-    };
-    const scheduleClose = () => {
+      dds.forEach((x) => ddOpen.set(x, x === li));
+      renderDds();
+    });
+    li.addEventListener('mouseleave', () => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => setOpen(false), 120);
-    };
-    if (zone) {
-      zone.addEventListener('mouseenter', open);
-      zone.addEventListener('mouseleave', scheduleClose);
+      timer = setTimeout(() => {
+        ddOpen.set(li, false);
+        renderDds();
+      }, 120);
+    });
+    const link = li.querySelector<HTMLAnchorElement>('a.nav-link');
+    if (link) {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const wasOpen = ddOpen.get(li) ?? false;
+        dds.forEach((x) => ddOpen.set(x, false));
+        ddOpen.set(li, !wasOpen);
+        renderDds();
+      });
     }
-    if (dd) {
-      dd.addEventListener('mouseenter', open);
-      dd.addEventListener('mouseleave', scheduleClose);
-    }
-  };
-  bindDropdown(coursesLi, coursesDd, (v) => {
-    coursesOpen = v;
-    render();
-  });
-  bindDropdown(studentWrap, studentDd, (v) => {
-    studentOpen = v;
-    render();
   });
 
-  // Click toggles (courses link prevents navigation, as in chrome.tsx).
-  if (coursesLink) {
-    coursesLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      coursesOpen = !coursesOpen;
-      render();
-    });
-  }
-  if (studentBtn) {
-    studentBtn.addEventListener('click', () => {
-      studentOpen = !studentOpen;
-      render();
-    });
-  }
-
-  // Escape closes both desktop dropdowns.
+  // Click outside or Escape closes any open desktop dropdown.
+  document.addEventListener('click', (e) => {
+    if (!(e.target as HTMLElement | null)?.closest?.('li.nav-li-dd')) closeAllDds();
+  });
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && (coursesOpen || studentOpen)) {
-      coursesOpen = false;
-      studentOpen = false;
-      render();
-    }
+    if (e.key === 'Escape') closeAllDds();
   });
 
   // Mobile drawer (React portaled it while open; here it's inline + hidden).

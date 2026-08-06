@@ -15,26 +15,27 @@ const COLLEGE = 'วิทยาลัยเทคโนโลยีอีอี
 const { slug } = Astro.params as { slug: string };
 const n = getNews(slug)!;
 
-const images = [n.image, ...(n.gallery ?? [])];
-const more = NEWS.filter((x) => x.slug !== slug).slice(0, 2);
+// Icon-card articles (tone/icon, no photo) render without a cover/lightbox.
+const images = n.image ? [n.image, ...(n.gallery ?? [])] : [];
+const more = NEWS.filter((x) => x.slug !== slug && x.image).slice(0, 2);
 
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'NewsArticle',
   headline: n.title,
-  image: [`${SITE_URL}${n.image}`],
+  image: [`${SITE_URL}${n.image ?? '/assets/logo.png'}`],
   datePublished: n.date,
   dateModified: n.date,
   articleSection: n.tag,
   publisher: { '@type': 'Organization', name: COLLEGE, logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/logo.png` } },
-  mainEntityOfPage: `${SITE_URL}/news/${slug}`,
+  mainEntityOfPage: `${SITE_URL}/news/${slug}/`,
 };
 const breadcrumb = {
   '@context': 'https://schema.org', '@type': 'BreadcrumbList',
   itemListElement: [
     { '@type': 'ListItem', position: 1, name: 'หน้าแรก', item: `${SITE_URL}/` },
-    { '@type': 'ListItem', position: 2, name: 'ข่าวสาร', item: `${SITE_URL}/news` },
-    { '@type': 'ListItem', position: 3, name: n.title, item: `${SITE_URL}/news/${slug}` },
+    { '@type': 'ListItem', position: 2, name: 'ข่าวสาร', item: `${SITE_URL}/news/` },
+    { '@type': 'ListItem', position: 3, name: n.title, item: `${SITE_URL}/news/${slug}/` },
   ],
 };
 ---
@@ -43,7 +44,7 @@ const breadcrumb = {
   title={n.title}
   description={n.excerpt}
   path={`/news/${slug}`}
-  og={{ title: n.title, description: n.excerpt, image: n.image, type: 'article' }}
+  og={{ title: n.title, description: n.excerpt, image: n.image ?? '/assets/logo.png', type: 'article' }}
 >
   <main class="news-page">
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
@@ -57,10 +58,12 @@ const breadcrumb = {
         <span class="news-tag">{n.tag}</span>
         <h1 class="news-title">{n.title}</h1>
         <time class="news-date" datetime={n.date}>{n.dateLabel}</time>
-        <button type="button" class="news-cover news-cover-btn" aria-label="ดูรูปขนาดเต็ม">
-          <img src={images[0]} alt={n.title} style={n.objectPosition ? `object-position:${n.objectPosition}` : undefined} />
-          <span class="news-cover-zoom" aria-hidden="true">⤢</span>
-        </button>
+        {images.length > 0 && (
+          <button type="button" class="news-cover news-cover-btn" aria-label="ดูรูปขนาดเต็ม">
+            <img src={images[0]} alt={n.title} style={n.objectPosition ? `object-position:${n.objectPosition}` : undefined} />
+            <span class="news-cover-zoom" aria-hidden="true">⤢</span>
+          </button>
+        )}
         {images.length > 1 && (
           <div class="news-thumbs">
             {images.map((src, i) => (
@@ -70,7 +73,7 @@ const breadcrumb = {
             ))}
           </div>
         )}
-        <p class="news-cover-hint">คลิกที่รูปเพื่อดูขนาดเต็ม</p>
+        {images.length > 0 && <p class="news-cover-hint">คลิกที่รูปเพื่อดูขนาดเต็ม</p>}
         <div class="news-body">
           {n.body.map((p) => <p>{p}</p>)}
         </div>

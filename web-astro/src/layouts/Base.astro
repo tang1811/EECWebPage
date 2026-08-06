@@ -20,7 +20,7 @@ interface OgOverride {
   title: string;
   description: string;
   image: string; // root-absolute path, e.g. '/assets/courses/yon.webp'
-  type?: 'article'; // news pages only; course pages omit (matches old Next output)
+  type?: 'article' | 'website'; // news/article pages; course pages omit (matches old Next output)
 }
 
 interface Props {

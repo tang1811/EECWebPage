@@ -59,7 +59,8 @@ const SLIDES = [
   },
 ];
 
-const HIGHLIGHT_NEWS = NEWS.slice(0, 3);
+// Photo articles only — icon-card news (no image) can't fill the hl-img slot.
+const HIGHLIGHT_NEWS = NEWS.filter((n) => n.image).slice(0, 3);
 
 const STATS = [
   { v: 30, s: '+', l: 'ปีแห่งประสบการณ์' },

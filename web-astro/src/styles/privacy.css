@@ -1,0 +1,41 @@
+/* ── PDPA privacy page (SchoolWebV2 newpages.css port) ────── */
+
+/* Draft-data notice */
+.notice-bar { display: flex; gap: 12px; align-items: flex-start; padding: 14px 18px; background: #fff8e6; border: 1px solid #f3d68a; border-radius: var(--r-lg); color: #7a5a00; font-size: 14px; font-weight: 500; line-height: 1.6; margin-bottom: 32px; }
+.notice-bar svg { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; color: #c08a00; }
+
+/* Article-style header */
+.art-narrow { max-width: 820px; }
+.art-top { padding: 112px 0 28px; }
+.art-top .crumbs { display: flex; gap: 8px; align-items: center; font-size: 13px; color: var(--ink-500); }
+.art-top .crumbs a { color: var(--ink-500); }
+.art-top .crumbs a:hover { color: var(--green-700); }
+.art-top .crumbs svg { color: var(--ink-500); }
+.art-cat { display: inline-block; margin-top: 16px; padding: 6px 14px; border-radius: 999px; background: var(--green-100); color: var(--green-800); font-size: 13px; font-weight: 700; }
+.art-top h1 { font-size: clamp(28px, 3.6vw, 44px); font-weight: 800; line-height: 1.2; letter-spacing: -0.01em; margin-top: 14px; text-wrap: pretty; }
+.art-meta { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 18px; font-size: 14px; color: var(--ink-500); font-weight: 500; }
+.art-meta span { display: inline-flex; align-items: center; gap: 7px; }
+.art-meta svg { color: var(--green-700); }
+@media (max-width: 760px) { .art-top { padding: 92px 0 22px; } }
+
+.art-body { display: grid; gap: 20px; }
+.art-body p { font-size: 17px; line-height: 1.95; color: var(--ink-700); text-wrap: pretty; }
+.art-lead { font-size: 19px !important; font-weight: 600; color: var(--ink-900) !important; line-height: 1.8 !important; padding-left: 18px; border-left: 3px solid var(--green-500); }
+
+/* Policy blocks */
+.policy-list { display: grid; gap: 14px; margin-top: 32px; }
+.policy-block { padding: 26px 28px; background: var(--surface-card); border: 1px solid var(--border-soft); border-radius: var(--r-lg); }
+.policy-block h2 { font-size: 18px; font-weight: 700; line-height: 1.35; margin-bottom: 14px; }
+.policy-block ul { list-style: none; display: grid; gap: 11px; padding: 0; margin: 0; }
+.policy-block li { display: grid; grid-template-columns: 18px 1fr; gap: 12px; font-size: 15px; line-height: 1.75; color: var(--ink-700); text-wrap: pretty; }
+.policy-block li svg { width: 16px; height: 16px; margin-top: 5px; color: var(--green-700); }
+.policy-contact { margin-top: 32px; padding: 30px 32px; background: var(--green-100); border: 1px solid var(--green-200); border-radius: var(--r-lg); }
+.policy-contact h2 { font-size: 18px; font-weight: 700; }
+.policy-contact > p { font-size: 15px; color: var(--ink-700); margin-top: 8px; }
+.policy-contact dl { display: grid; gap: 10px; margin: 20px 0 0; font-size: 15px; }
+.policy-contact dl > div { display: grid; grid-template-columns: 110px 1fr; gap: 14px; }
+.policy-contact dt { font-weight: 700; color: var(--ink-900); }
+.policy-contact dd { margin: 0; color: var(--ink-700); }
+.policy-contact dd a { color: var(--green-800); font-weight: 600; }
+.policy-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+@media (max-width: 560px) { .policy-contact { padding: 24px 20px; } .policy-contact dl > div { grid-template-columns: 1fr; gap: 2px; } }

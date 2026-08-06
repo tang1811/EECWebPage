@@ -8,7 +8,7 @@ import { NEWS_SLUGS } from '../data/news-data';
 const STATIC_ROUTES = [
   '', '/about', '/courses', '/tuition', '/personnel', '/portfolio', '/admission',
   '/contact', '/video', '/study-vocational-chonburi', '/job-outcomes',
-  '/admission-no-exam', '/news',
+  '/admission-no-exam', '/news', '/privacy',
 ];
 
 export const GET: APIRoute = () => {
