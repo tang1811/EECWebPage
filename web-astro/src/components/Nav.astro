@@ -71,7 +71,6 @@ const NAV_STUDENT_MENU = [
 
 // Tab order per the SchoolWebV2 design chrome (news.html et al.).
 const NAV_ITEMS: { id: string; label: string; href: string; dropdown?: string }[] = [
-  { id: 'home',     label: 'หน้าแรก',      href: '/' },
   { id: 'about',    label: 'เกี่ยวกับเรา', href: '/about/' },
   { id: 'news',     label: 'ข่าวสาร',      href: '/news/' },
   { id: 'courses',  label: 'หลักสูตร',     href: '/courses/', dropdown: 'courses' },
@@ -83,7 +82,6 @@ const NAV_ITEMS: { id: string; label: string; href: string; dropdown?: string }[
 ];
 
 function activeFromPath(pathname: string): string {
-  if (pathname === '/') return 'home';
   if (pathname.startsWith('/news')) return 'news';
   if (pathname.startsWith('/courses')) return 'courses';
   if (pathname.startsWith('/tuition')) return 'student';
