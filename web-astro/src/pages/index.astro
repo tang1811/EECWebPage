@@ -62,12 +62,22 @@ const SLIDES = [
 // Photo articles only — icon-card news (no image) can't fill the hl-img slot.
 const HIGHLIGHT_NEWS = NEWS.filter((n) => n.image).slice(0, 3);
 
+// SchoolWebV2 StatsBar carries a 5th stat (พันธมิตรองค์กร) that the original
+// Next port dropped. Its "16 สาขาวิชา" is deliberately left at 18: COURSES below
+// has 18 entries and the section heading reads "18 สาขาวิชา", so the design's 16
+// contradicts its own page.
 const STATS = [
   { v: 30, s: '+', l: 'ปีแห่งประสบการณ์' },
   { v: 18, s: '', l: 'สาขาวิชา' },
   { v: 12000, s: '+', l: 'ศิษย์เก่า' },
   { v: 100, s: '%', l: 'มีงานทำ / ศึกษาต่อ' },
+  { v: 50, s: '+', l: 'พันธมิตรองค์กร' },
 ];
+
+// No brand marquee under the stats. One was added here and pushed up to
+// SchoolWebV2, then removed from the design again, so the site follows.
+// The .marquee rules in homepage.css stay unused — as they were before,
+// and as they still are in the design's own homepage.css.
 
 const TRUST_ITEMS = [
   { icon: 'shield', t: 'รับรองคุณภาพภายนอกโดย สมศ.', d: 'ด้านการอาชีวศึกษา · พ.ศ. 2565–2569' },
@@ -299,9 +309,9 @@ const TESTIMONIALS = [
       <div class="container about-grid">
         <div class="reveal reveal-left about-copy" style="--reveal-delay:0s">
           <span class="eyebrow">ปรัชญาวิทยาลัย</span>
-          <h2 class="section-title">
-            เปี่ยมคุณธรรม <br /><span class="grad">มุ่งสร้างคนดี</span>
-          </h2>
+          {/* No <h2> here — matches SchoolWebV2's About, which goes straight
+              from the eyebrow to the lede. Chosen by the user over the old
+              "เปี่ยมคุณธรรม / มุ่งสร้างคนดี" heading. */}
           <p class="section-sub">
             ตั้งแต่ปี พ.ศ. 2538 วิทยาลัยฯ ได้ผลิตช่างฝีมือคุณภาพให้แก่นิคมอุตสาหกรรมตะวันออก ปลูกฝังทั้งวิชาชีพและจริยธรรมควบคู่กัน
           </p>
