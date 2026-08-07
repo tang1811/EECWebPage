@@ -1,3 +1,11 @@
+// ⚠️ DISABLED for static export (output: 'export' in next.config.ts).
+// Proxy/middleware requires a Node server and is unsupported in a static
+// export, so this file is renamed to .bak (Next only loads `proxy.ts`).
+// It was already a no-op until Supabase env is configured. If you ever move
+// to a Node/server deployment, rename back to `proxy.ts` and remove
+// `output: 'export'` from next.config.ts.
+//
+// ──────────────────────────────────────────────────────────────────────
 // Next 16 Proxy (formerly middleware). Refreshes the Supabase auth session
 // cookie on admission routes. Guarded: if Supabase env is not configured yet,
 // it no-ops so the marketing site keeps working before keys are added.

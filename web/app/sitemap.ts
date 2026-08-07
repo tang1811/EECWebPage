@@ -2,6 +2,9 @@ import type { MetadataRoute } from 'next';
 import { COURSE_SLUGS } from './courses/[slug]/course-data';
 import { NEWS_SLUGS } from './news/news-data';
 
+// Emit sitemap.xml at build time (required for output: 'export').
+export const dynamic = 'force-static';
+
 const SITE_URL = 'https://eec.example';
 
 export default function sitemap(): MetadataRoute.Sitemap {
