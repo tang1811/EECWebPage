@@ -9,9 +9,12 @@ import {
   ORG_JSONLD,
   GA_ID,
 } from '../config';
+import { createHash } from 'node:crypto';
+// ?raw hands us the file's text at build time. Reading it with fs instead would
+// resolve against the emitted chunk in dist/, not the source tree — that fails.
+import mobileCssSource from '../../public/styles/mobile.css?raw';
 import '../styles/globals.css';
 import '../styles/styles.css';
-import '../styles/mobile.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import StickyCTA from '../components/StickyCTA.astro';
@@ -55,6 +58,19 @@ const ogImage = `${SITE_URL}${og?.image ?? '/assets/logo.png'}`;
 const ogType = og ? og.type : 'website';
 // Preview builds (PUBLIC_PREVIEW=1): noindex + visible draft ribbon.
 const isPreview = Boolean(import.meta.env.PUBLIC_PREVIEW);
+
+// mobile.css says of itself "loaded LAST so it wins over page CSS", and Astro
+// cannot deliver that: a layout's imports are bundled ahead of the page's, so
+// <link Base.css> came out before <link homepage.css> and every phone rule
+// without !important lost a same-specificity tie — .stat-v stayed 52px instead
+// of 30px, .stats-bar 60px instead of 36px, and so on. Serving it from public/
+// and linking it after <slot name="head" /> makes it genuinely last.
+// public/ is copied verbatim and never fingerprinted, so hash the bytes into
+// the URL — otherwise browsers keep a stale copy after every edit.
+const mobileCssHref = `/styles/mobile.css?v=${createHash('sha256')
+  .update(mobileCssSource)
+  .digest('hex')
+  .slice(0, 8)}`;
 ---
 
 <html lang="th">
@@ -104,6 +120,13 @@ const isPreview = Boolean(import.meta.env.PUBLIC_PREVIEW);
     <slot name="head" />
   </head>
   <body>
+    <!-- Deliberately in <body>, not <head>: Astro appends its bundled <link>s to
+         the end of <head>, so anything placed there — even after the head slot —
+         still comes out ahead of them. First child of <body> is the earliest
+         position that is guaranteed to follow every bundle. The preload scanner
+         picks it up in the same pass as the head, so this does not cost a
+         round-trip or flash an unstyled layout. -->
+    <link rel="stylesheet" href={mobileCssHref} />
     {
       isPreview && (
         <div style="position:fixed;left:12px;bottom:12px;z-index:9999;background:#b45309;color:#fff;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.3)">
