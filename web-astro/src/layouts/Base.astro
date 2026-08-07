@@ -53,6 +53,8 @@ const ogDescription = og?.description ?? DEFAULT_OG.description;
 const ogUrl = og ? canonical : `${SITE_URL}/`;
 const ogImage = `${SITE_URL}${og?.image ?? '/assets/logo.png'}`;
 const ogType = og ? og.type : 'website';
+// Preview builds (PUBLIC_PREVIEW=1): noindex + visible draft ribbon.
+const isPreview = Boolean(import.meta.env.PUBLIC_PREVIEW);
 ---
 
 <html lang="th">
@@ -60,6 +62,7 @@ const ogType = og ? og.type : 'website';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
+    {isPreview && <meta name="robots" content="noindex, nofollow" />}
     <meta name="description" content={description} />
     {keywords && keywords.length > 0 && <meta name="keywords" content={keywords.join(',')} />}
     <link rel="canonical" href={canonical} />
@@ -101,6 +104,13 @@ const ogType = og ? og.type : 'website';
     <slot name="head" />
   </head>
   <body>
+    {
+      isPreview && (
+        <div style="position:fixed;left:12px;bottom:12px;z-index:9999;background:#b45309;color:#fff;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;box-shadow:0 4px 14px rgba(0,0,0,.3)">
+          PREVIEW — ฉบับร่าง ยังไม่เผยแพร่
+        </div>
+      )
+    }
     {chrome && <Nav />}
     <slot />
     {chrome && <Footer />}

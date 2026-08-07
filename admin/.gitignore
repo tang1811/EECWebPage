@@ -1,0 +1,15 @@
+bin/
+obj/
+
+# Runtime SQLite database + its WAL/SHM sidecars (created on first run).
+# Patterns are slash-free so they match at any depth — the previous
+# `data/*.db` matched neither the real `EecAdmin/Data/` folder (capital D, and
+# a leading path segment anchors the pattern to this directory) nor -wal/-shm.
+*.db
+*.db-shm
+*.db-wal
+
+# Local config overrides — where the real admin password belongs, so they must
+# never be committed. appsettings.json keeps the ChangeMe placeholder only.
+appsettings.Production.json
+appsettings.*.local.json

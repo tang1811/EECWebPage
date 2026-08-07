@@ -29,7 +29,23 @@ export type UpcomingEvent = {
   loc: string;
 };
 
-export const NEWS: NewsArticle[] = [
+// Optional CMS export written by the back office. When src/data/news-cms.json
+// exists (gitignored), its contents replace the hardcoded fallback data below.
+// import.meta.glob tolerates the file being absent (empty module map).
+type NewsCmsExport = {
+  news: NewsArticle[];
+  leadSlug: string;
+  sideSlugs: string[];
+  upcoming: UpcomingEvent[];
+};
+
+const mods = import.meta.glob('./news-cms.json', { eager: true }) as Record<
+  string,
+  { default: NewsCmsExport }
+>;
+const cms: NewsCmsExport | undefined = mods['./news-cms.json']?.default;
+
+const FALLBACK_NEWS: NewsArticle[] = [
   {
     slug: 'sansamphan-69-morning',
     tag: 'กิจกรรม',
@@ -184,16 +200,24 @@ export const NEWS: NewsArticle[] = [
 ];
 
 // /news/ magazine layout: lead story + two side stories (design NEWS_LEAD_ID / NEWS_SIDE_IDS).
-export const NEWS_LEAD_SLUG = 'sansamphan-69-morning';
-export const NEWS_SIDE_SLUGS = ['military-fitness-test-69', 'admission-2570-quota'];
+const FALLBACK_LEAD_SLUG = 'sansamphan-69-morning';
+const FALLBACK_SIDE_SLUGS = ['military-fitness-test-69', 'admission-2570-quota'];
 
 // Upcoming-events calendar on /news/ (design NEWS_UPCOMING).
-export const NEWS_UPCOMING: UpcomingEvent[] = [
+const FALLBACK_UPCOMING: UpcomingEvent[] = [
   { d: '14', m: 'ส.ค.', t: 'กิจกรรมวันแม่แห่งชาติ', s: 'พิธีถวายพระพรและมอบเกียรติบัตรแม่ดีเด่น', when: '08:00 น. · หอประชุม', start: '2026-08-14T08:00', end: '2026-08-14T11:00', loc: 'หอประชุมวิทยาลัย' },
   { d: '22', m: 'ส.ค.', t: 'ประชุมผู้ปกครอง ภาคเรียนที่ 1/2569', s: 'รายงานผลการเรียนและแนวทางดูแลนักศึกษา', when: '09:00 น. · หอประชุม', start: '2026-08-22T09:00', end: '2026-08-22T12:00', loc: 'หอประชุมวิทยาลัย' },
   { d: '05', m: 'ก.ย.', t: 'สอบปลายภาคเรียนที่ 1/2569', s: 'สอบระหว่างวันที่ 5-12 กันยายน 2569', when: 'ตามตารางสอบ', start: '2026-09-05T08:30', end: '2026-09-12T16:00', loc: 'อาคารเรียนวิทยาลัย' },
   { d: '26', m: 'ก.ย.', t: 'EEC Open House 2569', s: 'เปิดบ้านแนะแนว ชมโรงฝึกงานทุกแผนกวิชา', when: '09:00-15:00 น.', start: '2026-09-26T09:00', end: '2026-09-26T15:00', loc: 'วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง' },
 ];
+
+// Exported names/types are frozen — 4 files import them. CMS data wins when present.
+export const NEWS: NewsArticle[] = cms ? (cms.news as NewsArticle[]) : FALLBACK_NEWS;
+export const NEWS_LEAD_SLUG: string = cms ? cms.leadSlug : FALLBACK_LEAD_SLUG;
+export const NEWS_SIDE_SLUGS: string[] = cms ? cms.sideSlugs : FALLBACK_SIDE_SLUGS;
+export const NEWS_UPCOMING: UpcomingEvent[] = cms
+  ? (cms.upcoming as UpcomingEvent[])
+  : FALLBACK_UPCOMING;
 
 export const NEWS_SLUGS = NEWS.map((n) => n.slug);
 export const getNews = (slug: string) => NEWS.find((n) => n.slug === slug);

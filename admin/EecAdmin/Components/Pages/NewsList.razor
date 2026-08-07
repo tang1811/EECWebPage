@@ -1,0 +1,84 @@
+@page "/news"
+@rendermode InteractiveServer
+@inject IDbContextFactory<EecDbContext> DbFactory
+@inject IJSRuntime JS
+
+<PageTitle>จัดการข่าว · EEC Admin</PageTitle>
+
+<h1>จัดการข่าว</h1>
+
+<a class="btn btn-primary mb-3" href="news/edit">เพิ่มข่าว</a>
+
+@if (articles is null)
+{
+    <p><em>กำลังโหลด...</em></p>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>หัวข้อ</th>
+                <th>หมวด</th>
+                <th>วันที่</th>
+                <th>สถานะ</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in articles)
+            {
+                <tr>
+                    <td>@a.Position</td>
+                    <td>@a.Title</td>
+                    <td>@a.Tag</td>
+                    <td>@a.DateLabel</td>
+                    <td>
+                        @if (a.IsPublished)
+                        {
+                            <span class="badge bg-success">เผยแพร่</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">ฉบับร่าง</span>
+                        }
+                    </td>
+                    <td class="text-nowrap">
+                        <a class="btn btn-sm btn-outline-primary" href="news/edit/@a.Id">แก้ไข</a>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteAsync(a)">ลบ</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<NewsArticle>? articles;
+
+    protected override void OnInitialized() => Load();
+
+    private void Load()
+    {
+        using var db = DbFactory.CreateDbContext();
+        articles = db.News.AsNoTracking()
+            .OrderBy(n => n.Position).ThenBy(n => n.Id)
+            .ToList();
+    }
+
+    private async Task DeleteAsync(NewsArticle article)
+    {
+        var ok = await JS.InvokeAsync<bool>("confirm", $"ยืนยันลบข่าว \"{article.Title}\" ?");
+        if (!ok) return;
+
+        using var db = DbFactory.CreateDbContext();
+        var entity = db.News.Find(article.Id);
+        if (entity is not null)
+        {
+            db.News.Remove(entity);
+            db.SaveChanges();
+        }
+        Load();
+    }
+}

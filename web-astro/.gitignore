@@ -1,5 +1,8 @@
 # build output
 dist/
+dist-preview/
+# CMS-exported news data (written by the back office)
+src/data/news-cms.json
 # generated types
 .astro/
 

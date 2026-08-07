@@ -1,0 +1,103 @@
+@page "/events/edit/{Id:int?}"
+@rendermode InteractiveServer
+@inject IDbContextFactory<EecDbContext> DbFactory
+@inject NavigationManager Nav
+
+<PageTitle>@(Id is null ? "เพิ่มกิจกรรม" : "แก้ไขกิจกรรม") · EEC Admin</PageTitle>
+
+<h1>@(Id is null ? "เพิ่มกิจกรรม" : "แก้ไขกิจกรรม")</h1>
+
+@if (model is null)
+{
+    <p><em>ไม่พบกิจกรรมที่ต้องการแก้ไข</em></p>
+    <a class="btn btn-secondary" href="events">กลับ</a>
+}
+else
+{
+    <EditForm Model="model" OnValidSubmit="Save" FormName="event-edit">
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label class="form-label">วันที่ (เลขวัน) เช่น 14</label>
+                <InputText class="form-control" @bind-Value="model.Day" />
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label">เดือน (ย่อ) เช่น ส.ค.</label>
+                <InputText class="form-control" @bind-Value="model.MonthLabel" />
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label">ลำดับ (Position)</label>
+                <InputNumber class="form-control" @bind-Value="model.Position" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">ชื่อกิจกรรม (Title)</label>
+            <InputText class="form-control" @bind-Value="model.Title" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">รายละเอียด (Subtitle)</label>
+            <InputText class="form-control" @bind-Value="model.Subtitle" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">บรรทัดเวลา/สถานที่ (แสดงผล) เช่น 08:00 น. · หอประชุม</label>
+            <InputText class="form-control" @bind-Value="model.WhenLabel" />
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">เริ่ม (สำหรับปฏิทิน .ics)</label>
+                <InputText type="datetime-local" class="form-control" @bind-Value="model.StartLocal" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">สิ้นสุด</label>
+                <InputText type="datetime-local" class="form-control" @bind-Value="model.EndLocal" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">สถานที่ (Location)</label>
+            <InputText class="form-control" @bind-Value="model.Location" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">บันทึก</button>
+        <a class="btn btn-secondary ms-2" href="events">ยกเลิก</a>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int? Id { get; set; }
+
+    private UpcomingEvent? model;
+
+    protected override void OnParametersSet()
+    {
+        using var db = DbFactory.CreateDbContext();
+        if (Id is int id)
+        {
+            model = db.Events.AsNoTracking().FirstOrDefault(e => e.Id == id);
+        }
+        else
+        {
+            var maxPosition = db.Events.Any() ? db.Events.Max(e => e.Position) : 0;
+            model = new UpcomingEvent { Position = maxPosition + 1 };
+        }
+    }
+
+    private void Save()
+    {
+        if (model is null) return;
+        using var db = DbFactory.CreateDbContext();
+        if (model.Id == 0)
+        {
+            db.Events.Add(model);
+        }
+        else
+        {
+            db.Events.Update(model);
+        }
+        db.SaveChanges();
+        Nav.NavigateTo("events");
+    }
+}

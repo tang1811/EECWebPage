@@ -1,0 +1,287 @@
+@page "/news/edit/{Id:int?}"
+@rendermode InteractiveServer
+@inject IDbContextFactory<EecDbContext> DbFactory
+@inject IConfiguration Config
+@inject NavigationManager Nav
+
+<PageTitle>@(Id is null ? "เพิ่มข่าว" : "แก้ไขข่าว") · EEC Admin</PageTitle>
+
+<h1>@(Id is null ? "เพิ่มข่าว" : "แก้ไขข่าว")</h1>
+
+@if (model is null)
+{
+    <p><em>ไม่พบข่าวที่ต้องการแก้ไข</em></p>
+    <a class="btn btn-secondary" href="news">กลับ</a>
+}
+else
+{
+    @if (errorMessage is not null)
+    {
+        <div class="alert alert-danger">@errorMessage</div>
+    }
+
+    <EditForm Model="model" OnValidSubmit="SaveAsync" FormName="news-edit">
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Slug (URL)</label>
+                <InputText class="form-control" @bind-Value="model.Slug" />
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label">หมวด (Tag)</label>
+                <InputSelect class="form-select" @bind-Value="model.Tag">
+                    <option value="กิจกรรม">กิจกรรม</option>
+                    <option value="ประกาศ">ประกาศ</option>
+                    <option value="รับสมัคร">รับสมัคร</option>
+                    <option value="รางวัล">รางวัล</option>
+                    <option value="นศท.">นศท.</option>
+                </InputSelect>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label class="form-label">ลำดับ (Position)</label>
+                <InputNumber class="form-control" @bind-Value="model.Position" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">หัวข้อข่าว (Title)</label>
+            <InputText class="form-control" @bind-Value="model.Title" />
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">วันที่ (ISO)</label>
+                <InputText type="date" class="form-control" @bind-Value="model.DateIso" />
+            </div>
+            <div class="col-md-8 mb-3">
+                <label class="form-label">วันที่แสดงผล (พ.ศ.) เช่น 20 พฤษภาคม 2569</label>
+                <InputText class="form-control" @bind-Value="model.DateLabel" />
+            </div>
+        </div>
+
+        <fieldset class="border rounded p-3 mb-3">
+            <legend class="fs-6">รูปแบบการ์ดข่าว</legend>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="card-image" name="cardType"
+                       checked="@(cardType == "image")"
+                       @onchange="@(() => cardType = "image")" />
+                <label class="form-check-label" for="card-image">การ์ดแบบรูป</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="card-icon" name="cardType"
+                       checked="@(cardType == "icon")"
+                       @onchange="@(() => cardType = "icon")" />
+                <label class="form-check-label" for="card-icon">การ์ดแบบไอคอน</label>
+            </div>
+
+            @if (cardType == "image")
+            {
+                <div class="row mt-2">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">พาธรูปภาพ (Image) เช่น /assets/news-1.webp</label>
+                        <InputText class="form-control" @bind-Value="model.Image" />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">อัปโหลดรูปใหม่ (บันทึกไปที่ /assets/uploads/)</label>
+                        <InputFile class="form-control" OnChange="OnFileSelectedAsync" />
+                        @if (uploadMessage is not null)
+                        {
+                            <div class="form-text">@uploadMessage</div>
+                        }
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">ตำแหน่งครอปรูป (ObjectPosition) เช่น center 24%</label>
+                    <InputText class="form-control" @bind-Value="model.ObjectPosition" />
+                </div>
+            }
+            else
+            {
+                <div class="row mt-2">
+                    <div class="col-md-6 mb-2">
+                        <label class="form-label">โทนสี (Tone)</label>
+                        <InputSelect class="form-select" @bind-Value="model.Tone">
+                            <option value="green">green</option>
+                            <option value="navy">navy</option>
+                            <option value="amber">amber</option>
+                        </InputSelect>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label class="form-label">ไอคอน (Icon)</label>
+                        <InputSelect class="form-select" @bind-Value="model.Icon">
+                            <option value="book">book</option>
+                            <option value="award">award</option>
+                            <option value="briefcase">briefcase</option>
+                            <option value="shield">shield</option>
+                            <option value="users">users</option>
+                            <option value="chip">chip</option>
+                        </InputSelect>
+                    </div>
+                </div>
+            }
+        </fieldset>
+
+        <div class="mb-3">
+            <label class="form-label">แกลเลอรีรูปเพิ่มเติม (บรรทัดละ 1 พาธ · เว้นว่างได้)</label>
+            <textarea class="form-control" rows="3" @bind="galleryText"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">คำโปรย (Excerpt)</label>
+            <textarea class="form-control" rows="2" @bind="model.Excerpt"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">เนื้อหาข่าว (Body) — เว้นบรรทัดว่าง = ขึ้นย่อหน้าใหม่</label>
+            <textarea class="form-control" rows="12" @bind="model.Body"></textarea>
+        </div>
+
+        <div class="form-check mb-3">
+            <InputCheckbox class="form-check-input" id="is-published" @bind-Value="model.IsPublished" />
+            <label class="form-check-label" for="is-published">เผยแพร่ (ติ๊กออก = ฉบับร่าง)</label>
+        </div>
+
+        <button class="btn btn-primary" type="submit">บันทึก</button>
+        <a class="btn btn-secondary ms-2" href="news">ยกเลิก</a>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int? Id { get; set; }
+
+    private NewsArticle? model;
+    private string cardType = "image";
+    private string galleryText = "";
+    private string? errorMessage;
+    private string? uploadMessage;
+
+    protected override void OnParametersSet()
+    {
+        if (Id is int id)
+        {
+            using var db = DbFactory.CreateDbContext();
+            model = db.News.AsNoTracking().FirstOrDefault(n => n.Id == id);
+            if (model is not null)
+            {
+                cardType = string.IsNullOrWhiteSpace(model.Image) && !string.IsNullOrWhiteSpace(model.Tone)
+                    ? "icon" : "image";
+                galleryText = GalleryJsonToLines(model.GalleryJson);
+            }
+        }
+        else
+        {
+            using var db = DbFactory.CreateDbContext();
+            var maxPosition = db.News.Any() ? db.News.Max(n => n.Position) : 0;
+            model = new NewsArticle
+            {
+                Tag = "กิจกรรม",
+                DateIso = DateTime.Today.ToString("yyyy-MM-dd"),
+                IsPublished = true,
+                Position = maxPosition + 1,
+            };
+            cardType = "image";
+            galleryText = "";
+        }
+    }
+
+    private async Task OnFileSelectedAsync(InputFileChangeEventArgs e)
+    {
+        if (model is null) return;
+        try
+        {
+            var webAstro = Config["Publish:WebAstroPath"] ?? throw new InvalidOperationException("Publish:WebAstroPath missing");
+            var slug = string.IsNullOrWhiteSpace(model.Slug) ? "article" : model.Slug.Trim();
+            var originalName = Path.GetFileName(e.File.Name);
+            var fileName = $"{slug}-{originalName}";
+            var uploadsDir = Path.Combine(webAstro, "public", "assets", "uploads");
+            Directory.CreateDirectory(uploadsDir);
+
+            var destPath = Path.Combine(uploadsDir, fileName);
+            await using (var fs = File.Create(destPath))
+            {
+                await e.File.OpenReadStream(maxAllowedSize: 20 * 1024 * 1024).CopyToAsync(fs);
+            }
+
+            model.Image = $"/assets/uploads/{fileName}";
+            uploadMessage = $"อัปโหลดแล้ว: {model.Image}";
+        }
+        catch (Exception ex)
+        {
+            uploadMessage = $"อัปโหลดไม่สำเร็จ: {ex.Message}";
+        }
+    }
+
+    private void SaveAsync()
+    {
+        if (model is null) return;
+        errorMessage = null;
+
+        if (string.IsNullOrWhiteSpace(model.Slug))
+        {
+            errorMessage = "กรุณากรอก Slug";
+            return;
+        }
+        model.Slug = model.Slug.Trim();
+
+        // Card type decides which optional fields are stored.
+        if (cardType == "icon")
+        {
+            model.Image = null;
+            model.ObjectPosition = null;
+            if (string.IsNullOrWhiteSpace(model.Tone)) model.Tone = "green";
+            if (string.IsNullOrWhiteSpace(model.Icon)) model.Icon = "book";
+        }
+        else
+        {
+            model.Tone = null;
+            model.Icon = null;
+            if (string.IsNullOrWhiteSpace(model.Image)) model.Image = null;
+            if (string.IsNullOrWhiteSpace(model.ObjectPosition)) model.ObjectPosition = null;
+        }
+
+        model.GalleryJson = LinesToGalleryJson(galleryText);
+
+        try
+        {
+            using var db = DbFactory.CreateDbContext();
+            if (model.Id == 0)
+            {
+                db.News.Add(model);
+            }
+            else
+            {
+                db.News.Update(model);
+            }
+            db.SaveChanges();
+            Nav.NavigateTo("news");
+        }
+        catch (DbUpdateException)
+        {
+            errorMessage = $"บันทึกไม่สำเร็จ: Slug \"{model.Slug}\" อาจซ้ำกับข่าวอื่น";
+        }
+    }
+
+    private static string GalleryJsonToLines(string? galleryJson)
+    {
+        if (string.IsNullOrWhiteSpace(galleryJson)) return "";
+        try
+        {
+            var items = System.Text.Json.JsonSerializer.Deserialize<string[]>(galleryJson);
+            return items is null ? "" : string.Join("\n", items);
+        }
+        catch (System.Text.Json.JsonException)
+        {
+            return "";
+        }
+    }
+
+    private static string? LinesToGalleryJson(string text)
+    {
+        var items = text.Replace("\r\n", "\n").Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(l => l.Trim())
+            .Where(l => l.Length > 0)
+            .ToArray();
+        return items.Length == 0
+            ? null
+            : System.Text.Json.JsonSerializer.Serialize(items);
+    }
+}

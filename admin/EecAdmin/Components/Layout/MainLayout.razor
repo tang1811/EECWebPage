@@ -1,0 +1,24 @@
+@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="http://localhost:5081/" target="_blank">ตัวอย่างเว็บ (5081)</a>
+            <a href="auth/logout" data-enhance-nav="false">ออกจากระบบ</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    เกิดข้อผิดพลาดที่ไม่คาดคิด
+    <a href="." class="reload">โหลดใหม่</a>
+    <span class="dismiss">🗙</span>
+</div>

@@ -1,0 +1,75 @@
+@page "/events"
+@rendermode InteractiveServer
+@inject IDbContextFactory<EecDbContext> DbFactory
+@inject IJSRuntime JS
+
+<PageTitle>กิจกรรมที่กำลังมาถึง · EEC Admin</PageTitle>
+
+<h1>กิจกรรมที่กำลังมาถึง</h1>
+
+<a class="btn btn-primary mb-3" href="events/edit">เพิ่มกิจกรรม</a>
+
+@if (events is null)
+{
+    <p><em>กำลังโหลด...</em></p>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>ลำดับ</th>
+                <th>วันที่</th>
+                <th>กิจกรรม</th>
+                <th>รายละเอียด</th>
+                <th>เวลา/สถานที่</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ev in events)
+            {
+                <tr>
+                    <td>@ev.Position</td>
+                    <td>@ev.Day @ev.MonthLabel</td>
+                    <td>@ev.Title</td>
+                    <td>@ev.Subtitle</td>
+                    <td>@ev.WhenLabel</td>
+                    <td class="text-nowrap">
+                        <a class="btn btn-sm btn-outline-primary" href="events/edit/@ev.Id">แก้ไข</a>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteAsync(ev)">ลบ</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<UpcomingEvent>? events;
+
+    protected override void OnInitialized() => Load();
+
+    private void Load()
+    {
+        using var db = DbFactory.CreateDbContext();
+        events = db.Events.AsNoTracking()
+            .OrderBy(e => e.Position).ThenBy(e => e.Id)
+            .ToList();
+    }
+
+    private async Task DeleteAsync(UpcomingEvent ev)
+    {
+        var ok = await JS.InvokeAsync<bool>("confirm", $"ยืนยันลบกิจกรรม \"{ev.Title}\" ?");
+        if (!ok) return;
+
+        using var db = DbFactory.CreateDbContext();
+        var entity = db.Events.Find(ev.Id);
+        if (entity is not null)
+        {
+            db.Events.Remove(entity);
+            db.SaveChanges();
+        }
+        Load();
+    }
+}

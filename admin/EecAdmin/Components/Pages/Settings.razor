@@ -1,0 +1,86 @@
+@page "/settings"
+@rendermode InteractiveServer
+@inject IDbContextFactory<EecDbContext> DbFactory
+
+<PageTitle>ตั้งค่าหน้าข่าว · EEC Admin</PageTitle>
+
+<h1>ตั้งค่าหน้าข่าว</h1>
+<p class="text-muted">เลือกข่าวเด่น (lead) และข่าวรอง 2 ข่าว สำหรับหน้ารวมข่าว /news/</p>
+
+@if (settings is null || slugs is null)
+{
+    <p><em>กำลังโหลด...</em></p>
+}
+else
+{
+    @if (saved)
+    {
+        <div class="alert alert-success">บันทึกแล้ว</div>
+    }
+
+    <div class="mb-3" style="max-width: 40rem;">
+        <label class="form-label">ข่าวเด่น (LeadSlug)</label>
+        <select class="form-select" @bind="settings.LeadSlug">
+            @foreach (var s in slugs)
+            {
+                <option value="@s.Slug">@s.Slug — @s.Title</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3" style="max-width: 40rem;">
+        <label class="form-label">ข่าวรองที่ 1 (Side1Slug)</label>
+        <select class="form-select" @bind="settings.Side1Slug">
+            @foreach (var s in slugs)
+            {
+                <option value="@s.Slug">@s.Slug — @s.Title</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3" style="max-width: 40rem;">
+        <label class="form-label">ข่าวรองที่ 2 (Side2Slug)</label>
+        <select class="form-select" @bind="settings.Side2Slug">
+            @foreach (var s in slugs)
+            {
+                <option value="@s.Slug">@s.Slug — @s.Title</option>
+            }
+        </select>
+    </div>
+
+    <button class="btn btn-primary" @onclick="Save">บันทึก</button>
+}
+
+@code {
+    private SiteSettings? settings;
+    private List<(string Slug, string Title)>? slugs;
+    private bool saved;
+
+    protected override void OnInitialized()
+    {
+        using var db = DbFactory.CreateDbContext();
+        settings = db.Settings.AsNoTracking().FirstOrDefault() ?? new SiteSettings();
+        slugs = db.News.AsNoTracking()
+            .OrderBy(n => n.Position).ThenBy(n => n.Id)
+            .Select(n => new { n.Slug, n.Title })
+            .ToList()
+            .Select(x => (x.Slug, x.Title))
+            .ToList();
+    }
+
+    private void Save()
+    {
+        if (settings is null) return;
+        using var db = DbFactory.CreateDbContext();
+        if (settings.Id == 0)
+        {
+            db.Settings.Add(settings);
+        }
+        else
+        {
+            db.Settings.Update(settings);
+        }
+        db.SaveChanges();
+        saved = true;
+    }
+}
