@@ -16,7 +16,7 @@
 .art-meta { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 18px; font-size: 14px; color: var(--ink-500); font-weight: 500; }
 .art-meta span { display: inline-flex; align-items: center; gap: 7px; }
 .art-meta svg { color: var(--green-700); }
-@media (max-width: 760px) { .art-top { padding: 92px 0 22px; } }
+@media (max-width: 700px) { .art-top { padding: 92px 0 22px; } }
 
 .art-body { display: grid; gap: 20px; }
 .art-body p { font-size: 17px; line-height: 1.95; color: var(--ink-700); text-wrap: pretty; }
@@ -38,4 +38,4 @@
 .policy-contact dd { margin: 0; color: var(--ink-700); }
 .policy-contact dd a { color: var(--green-800); font-weight: 600; }
 .policy-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
-@media (max-width: 560px) { .policy-contact { padding: 24px 20px; } .policy-contact dl > div { grid-template-columns: 1fr; gap: 2px; } }
+@media (max-width: 700px) { .policy-contact { padding: 24px 20px; } .policy-contact dl > div { grid-template-columns: 1fr; gap: 2px; } }

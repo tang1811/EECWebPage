@@ -22,7 +22,7 @@
 
 /* Stat row */
 .mp-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 36px; }
-@media (max-width: 760px) { .mp-stats { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 1024px) { .mp-stats { grid-template-columns: repeat(2, 1fr); } }
 .mp-stat { background: var(--surface-card, #fff); border: 1px solid var(--border-soft); border-radius: var(--r-lg, 18px); padding: 24px; text-align: center; }
 .mp-stat b { display: block; font-size: clamp(30px, 4vw, 42px); font-weight: 800; line-height: 1.05;
   background: var(--grad-text); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
@@ -30,7 +30,7 @@
 
 /* Card grid */
 .mp-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
-@media (max-width: 860px) { .mp-cards { grid-template-columns: 1fr; } }
+@media (max-width: 1024px) { .mp-cards { grid-template-columns: 1fr; } }
 .mp-card { background: var(--surface-card, #fff); border: 1px solid var(--border-soft); border-radius: var(--r-lg, 18px); padding: 24px; }
 .mp-card h3 { font-size: 18px; font-weight: 800; margin: 0 0 8px; color: var(--ink-900); }
 .mp-card p { font-size: 14.5px; line-height: 1.7; color: var(--ink-700); margin: 0; }
