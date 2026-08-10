@@ -70,11 +70,19 @@
 .exec-wrap { display: grid; grid-template-columns: 1.15fr 2fr; gap: 28px; align-items: start; }
 
 /* ── Top leadership: 3 principal cards ──────────────────── */
+/* 4-column track: the license holder spans the middle two, so all three cards
+   are exactly one column wide (matching the About page treatment) */
 .principal-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
+  max-width: 760px;
+  margin: 0 auto;
 }
+.principal-card.pc-lead { grid-column: 2 / 4; grid-row: 1; margin-bottom: 12px; }
+.principal-grid > .principal-card:nth-child(2) { grid-column: 1 / 3; grid-row: 2; }
+.principal-grid > .principal-card:nth-child(3) { grid-column: 3 / 5; grid-row: 2; }
+.principal-card.pc-lead .pc-name { font-size: 21px; }
 .principal-card {
   background: var(--surface-card);
   border: 1px solid var(--border-soft);
@@ -86,14 +94,17 @@
   transition: transform .25s var(--ease-spring), box-shadow .25s;
 }
 .principal-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
+/* Portraits match the About page: 3/4 rounded frames, not circles */
 .principal-card .pc-photo {
-  width: 132px; height: 132px;
-  border-radius: 50%;
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 3/4;
+  border-radius: 16px;
   margin: 0 auto 20px;
   overflow: hidden;
-  box-shadow: 0 0 0 4px var(--green-50), 0 10px 28px -12px rgba(1,35,28,0.45);
+  box-shadow: 0 0 0 1px var(--green-100), 0 14px 34px -16px rgba(1,35,28,0.5);
 }
-.principal-card .pc-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.principal-card .pc-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 22%; display: block; }
 .principal-card .pc-role {
   display: inline-block;
   font-size: 12px; font-weight: 700;
@@ -130,14 +141,15 @@
   pointer-events: none;
 }
 .exec-lead-avatar {
-  width: 132px; height: 132px; border-radius: 50%;
+  width: 132px; aspect-ratio: 3/4; border-radius: 16px;
   display: grid; place-items: center;
   font-size: 44px; font-weight: 800;
   background: rgba(255,255,255,0.16);
   color: white;
-  border: 3px solid rgba(255,255,255,0.4);
+  border: 1px solid rgba(255,255,255,0.32);
   backdrop-filter: blur(4px);
   position: relative; z-index: 1;
+  overflow: hidden;
 }
 .exec-lead-role {
   position: relative; z-index: 1;
@@ -175,7 +187,7 @@
 
 /* ── Avatar (monogram placeholder) ──────────────────────── */
 .staff-avatar {
-  border-radius: 50%;
+  border-radius: 12px;
   display: grid; place-items: center;
   font-weight: 800;
   flex-shrink: 0;
@@ -184,7 +196,7 @@
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--dc) 28%, transparent);
   user-select: none;
 }
-.exec-card .staff-avatar { width: 72px; height: 72px; font-size: 24px; }
+.exec-card .staff-avatar { width: 74px; height: auto; aspect-ratio: 3/4; font-size: 24px; }
 
 /* ── Avatar with a real photo ───────────────────────────── */
 .staff-avatar.has-photo {
@@ -196,14 +208,16 @@
 .staff-avatar.has-photo img {
   width: 100%; height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  object-position: center 22%;
+  border-radius: inherit;
   display: block;
 }
 .exec-lead-avatar.has-photo { overflow: hidden; }
 .exec-lead-avatar img {
   width: 100%; height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  object-position: center 22%;
+  border-radius: inherit;
   display: block;
 }
 
@@ -303,7 +317,7 @@
   box-shadow: var(--shadow-md);
   border-color: color-mix(in srgb, var(--dc) 35%, transparent);
 }
-.staff-card .staff-avatar { width: 84px; height: 84px; font-size: 28px; margin: 0 auto 16px; }
+.staff-card .staff-avatar { width: 100%; max-width: 150px; height: auto; aspect-ratio: 3/4; font-size: 28px; margin: 0 auto 16px; }
 .staff-card .name { font-size: 16px; font-weight: 700; color: var(--ink-900); line-height: 1.3; }
 .staff-card .role { font-size: 13px; color: var(--ink-600); font-weight: 600; margin-top: 6px; line-height: 1.4; }
 .staff-card .tag {
@@ -353,7 +367,7 @@
   border-left: 4px solid var(--dc, var(--crest-navy));
 }
 .support-card:hover { transform: translateX(4px); box-shadow: var(--shadow-md); }
-.support-card .staff-avatar { width: 54px; height: 54px; font-size: 18px; }
+.support-card .staff-avatar { width: 54px; height: auto; aspect-ratio: 3/4; font-size: 18px; border-radius: 10px; }
 .support-card .name { font-size: 15px; font-weight: 700; color: var(--ink-900); line-height: 1.25; }
 .support-card .role { font-size: 12.5px; color: var(--ink-500); font-weight: 600; margin-top: 3px; }
 
@@ -375,21 +389,37 @@
 }
 
 /* ── Responsive ─────────────────────────────────────────── */
-@media (max-width: 980px) {
+@media (max-width: 1024px) {
   .exec-wrap { grid-template-columns: 1fr; }
   .exec-deputies { grid-template-columns: 1fr 1fr; }
 }
-@media (max-width: 760px) {
-  .principal-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+/* Stays 2-up all the way down — the license holder keeps its own centred row */
+@media (max-width: 1024px) {
+  .principal-grid { max-width: 620px; gap: 18px; }
+  .principal-card { padding: 28px 20px 24px; }
 }
-@media (max-width: 900px) {
+@media (max-width: 700px) {
+  .principal-grid { max-width: 100%; gap: 12px; }
+  .principal-card { padding: 20px 12px 18px; border-top-width: 3px; }
+  .principal-card .pc-photo { max-width: 132px; margin-bottom: 14px; }
+  .principal-card .pc-role { font-size: 10.5px; padding: 4px 10px; letter-spacing: 0.04em; }
+  .principal-card .pc-name,
+  .principal-card.pc-lead .pc-name { font-size: 15.5px; margin-top: 9px; }
+}
+@media (max-width: 400px) {
+  .principal-grid { gap: 9px; }
+  .principal-card { padding: 16px 9px 14px; }
+  .principal-card .pc-name,
+  .principal-card.pc-lead .pc-name { font-size: 14px; }
+}
+@media (max-width: 1024px) {
   .ppl-stats { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .exec-deputies { grid-template-columns: 1fr; }
   .staff-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .staff-card { padding: 18px 12px; }
-  .staff-card .staff-avatar { width: 66px; height: 66px; font-size: 22px; }
+  .staff-card .staff-avatar { width: 100%; max-width: 100%; height: auto; aspect-ratio: 3/4; font-size: 22px; }
   .staff-toolbar { flex-direction: column; align-items: stretch; gap: 12px; }
   .staff-search { flex-basis: auto; min-width: 0; }
   /* Chips wrap onto multiple rows on mobile — never overflow sideways */
@@ -398,7 +428,8 @@
   .chip .ct { padding: 1px 6px; }
   .support-grid { grid-template-columns: 1fr; }
 }
-@media (max-width: 420px) {
+@media (max-width: 400px) {
   .ppl-stats { grid-template-columns: 1fr 1fr; }
-  .staff-grid { grid-template-columns: 1fr; }
+  .staff-grid { gap: 9px; }
+  .staff-card { padding: 14px 9px; }
 }

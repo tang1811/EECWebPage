@@ -35,8 +35,8 @@ type SupportStaff = { name: string; role: string; photo: string; color: string }
 // ── ผู้บริหารระดับสูง ──────────────────────────────────────
 const PRINCIPALS: Principal[] = [
   { name: 'ดร.ยงลักษณ์ บุญจี๊ด', role: 'ผู้รับใบอนุญาต', photo: EX + 'license-yonglak.webp' },
-  { name: 'อ.ภาคภูมิ บุญจี๊ด',   role: 'ผู้จัดการ',      photo: EX + 'manager-phakphum.webp' },
   { name: 'อ.ภาตะวัน บุญจี๊ด',   role: 'ผู้อำนวยการ',    photo: EX + 'director-phatawan.webp' },
+  { name: 'อ.ภาคภูมิ บุญจี๊ด',   role: 'ผู้จัดการ',      photo: EX + 'manager-phakphum.webp' },
 ];
 
 // ── รองผู้อำนวยการ ────────────────────────────────────────
@@ -128,6 +128,14 @@ function resolvePhoto(name?: string, fallback?: string): string | undefined {
   return fallback;
 }
 
+// หัวหน้าภาค pulled out of the department lists — the design shows them in
+// their own block above the departments, and again inside their department.
+const FACULTY_HEADS = TEACHERS.flatMap((d) =>
+  d.members
+    .filter((m) => m.head === 'faculty')
+    .map((m) => ({ ...m, dept: d.name, deptId: d.id, color: d.color }))
+);
+
 // Hero stats (PersonnelBody rendered these inline).
 const STATS: { num: string; plus?: boolean; lbl: string }[] = [
   { num: String(PRINCIPALS.length), lbl: 'ผู้บริหารระดับสูง' },
@@ -171,7 +179,7 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
         </div>
         <div class="principal-grid">
           {PRINCIPALS.map((p, i) => (
-            <div class="reveal principal-card" style={`--reveal-delay: ${i * 0.08}s`}>
+            <div class={`reveal principal-card${i === 0 ? ' pc-lead' : ''}`} style={`--reveal-delay: ${i * 0.08}s`}>
               <div class="pc-photo"><img src={resolvePhoto(p.name, p.photo)} alt={p.name} /></div>
               <div class="pc-role">{p.role}</div>
               <div class="pc-name">{p.name}</div>
@@ -180,20 +188,20 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
         </div>
 
         <div class="reveal exec-subhead" style="--reveal-delay: 0s"><span class="bar"></span><h3>รองผู้อำนวยการ</h3><span class="ct">{DEPUTIES.length} ฝ่าย</span></div>
-        <div class="exec-deputies">
+        <div class="staff-grid">
           {DEPUTIES.map((d, i) => {
             const src = resolvePhoto(d.name, d.photo);
             return (
-              <div class="reveal exec-card" style={`--dc: ${d.color}; --reveal-delay: ${i * 0.06}s`}>
-                {src ? (
-                  <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={d.name || ''} /></div>
-                ) : (
-                  <div class="staff-avatar" style={`--dc: ${d.color}`}></div>
-                )}
-                <div>
+              <div class="reveal" style={`--reveal-delay: ${i * 0.06}s`}>
+                <div class="staff-card" style={`--dc: ${d.color}`}>
+                  {src ? (
+                    <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={d.name || ''} /></div>
+                  ) : (
+                    <div class="staff-avatar" style={`--dc: ${d.color}`}></div>
+                  )}
                   <div class="name">{d.name}</div>
                   <div class="role">{d.role}</div>
-                  <div class="dept">{d.dept}</div>
+                  <div class="tag">{d.dept}</div>
                 </div>
               </div>
             );
@@ -220,6 +228,30 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
             {TEACHERS.map((d) => (
               <button class="chip" style={`--cc: ${d.color}`} role="tab" aria-selected="false" data-dept={d.id}><span class="dot"></span>{d.name}<span class="ct">{d.members.length}</span></button>
             ))}
+          </div>
+        </div>
+
+        <div class="dept-block" data-dept="faculty-heads" data-unit="ภาค">
+          <div class="dept-head" style="--dc: var(--green-600)"><span class="bar"></span><h3>หัวหน้าภาค</h3><span class="ct">{FACULTY_HEADS.length} ภาค</span></div>
+          <div class="staff-grid">
+            {FACULTY_HEADS.map((m, i) => {
+              const src = resolvePhoto(m.name, m.photo);
+              return (
+                <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.05, 0.24)}s`} data-name={m.name} data-dept={m.deptId}>
+                  <div class="staff-card is-head is-faculty" style={`--dc: ${m.color}`}>
+                    <span class="head-flag head-faculty"><Icon name="star" />หัวหน้าภาค</span>
+                    {src ? (
+                      <div class="staff-avatar has-photo" style={`--dc: ${m.color}`}><img src={src} alt={m.name || ''} /></div>
+                    ) : (
+                      <div class="staff-avatar" style={`--dc: ${m.color}`}></div>
+                    )}
+                    <div class="name">{m.name}</div>
+                    <div class="role">{m.role}</div>
+                    <div class="tag">{m.dept}</div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
@@ -266,17 +298,17 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
           <span class="eyebrow">สายสนับสนุน</span>
           <h2 class="section-title">บุคลากรสายสนับสนุน</h2>
         </div>
-        <div class="support-grid">
+        <div class="staff-grid" data-support-grid>
           {SUPPORT.map((m, i) => {
             const src = resolvePhoto(m.name, m.photo);
             return (
-              <div class="reveal support-card" style={`--dc: ${m.color}; --reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={m.name}>
-                {src ? (
-                  <div class="staff-avatar has-photo" style={`--dc: ${m.color}`}><img src={src} alt={m.name || ''} /></div>
-                ) : (
-                  <div class="staff-avatar" style={`--dc: ${m.color}`}></div>
-                )}
-                <div>
+              <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={m.name}>
+                <div class="staff-card" style={`--dc: ${m.color}`}>
+                  {src ? (
+                    <div class="staff-avatar has-photo" style={`--dc: ${m.color}`}><img src={src} alt={m.name || ''} /></div>
+                  ) : (
+                    <div class="staff-avatar" style={`--dc: ${m.color}`}></div>
+                  )}
                   <div class="name">{m.name}</div>
                   <div class="role">{m.role}</div>
                 </div>
@@ -307,8 +339,8 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
   const deptBlocks = Array.from(document.querySelectorAll<HTMLElement>('.dept-block'));
   const staffEmpty = document.querySelector<HTMLElement>('.staff-empty');
   const supportSection = document.querySelector<HTMLElement>('[data-section="support"]');
-  const supportGrid = document.querySelector<HTMLElement>('.support-grid');
-  const supportCards = Array.from(document.querySelectorAll<HTMLElement>('.support-card[data-name]'));
+  const supportGrid = document.querySelector<HTMLElement>('[data-support-grid]');
+  const supportCards = Array.from(document.querySelectorAll<HTMLElement>('[data-support-grid] > [data-name]'));
   const supportEmpty = document.querySelector<HTMLElement>('[data-support-empty]');
 
   let dept = 'all';
@@ -343,21 +375,23 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
     // Teaching staff.
     let visibleDepts = 0;
     deptBlocks.forEach((block) => {
-      const inDept = dept === 'all' || block.dataset.dept === dept;
       let count = 0;
       block.querySelectorAll<HTMLElement>('.staff-grid > [data-name]').forEach((wrap) => {
+        // The หัวหน้าภาค block mixes departments, so the dept test reads the
+        // item's own data-dept and only falls back to the block's.
         const name = wrap.dataset.name || '';
-        const match = !q || name.includes(q);
+        const wrapDept = wrap.dataset.dept || block.dataset.dept || '';
+        const match = (dept === 'all' || wrapDept === dept) && (!q || name.includes(q));
         wrap.style.display = match ? '' : 'none';
         if (match) count++;
         const nameEl = wrap.querySelector('.staff-card .name');
         if (nameEl) renderName(nameEl, name, q);
       });
-      const show = inDept && count > 0;
+      const show = count > 0;
       block.style.display = show ? '' : 'none';
       if (show) visibleDepts++;
       const ct = block.querySelector('.dept-head .ct');
-      if (ct) ct.textContent = `${count} ท่าน`;
+      if (ct) ct.textContent = `${count} ${block.dataset.unit || 'ท่าน'}`;
     });
 
     const noTeacherMatches = visibleDepts === 0;

@@ -222,7 +222,7 @@ function ScenePhilosophy() {
     <div ref={wrapRef} className="cine-philo-wrap">
       <div className="cine-philo-intro">
         <div className="cine-stats-eyebrow"><span />PHILOSOPHY · ปรัชญา 5 ประการ<span /></div>
-        <h2 className="cine-h2"><em>เปี่ยมคุณธรรม</em> มุ่งสร้างคนดี<br />มีระเบียบวินัย ก้าวไกลเทคโนโลยี ฝีมือเยี่ยม</h2>
+        <h2 className="cine-h2"><em>มุ่งสร้างคนดี</em> มีระเบียบวินัย<br />ก้าวไกลเทคโนโลยี ฝีมือเยี่ยม เปี่ยมคุณธรรม</h2>
       </div>
       {PHILOSOPHY.map((p, i) => <PhiloPanel key={i} item={p} index={i} />)}
     </div>
@@ -297,12 +297,34 @@ function SceneVision() {
 }
 
 // ── Scene 6: Leadership ────────────────────────────────────
-const LEADERS = [
-  { n: 'อ.จิดาภา เพ็ชรรัตน์', r: 'รองผู้อำนวยการฝ่ายบริหาร', d: 'ฝ่ายบริหาร', a: 'จ', c: '#026451' },
-  { n: 'อ.ทรงพล แม้นชล', r: 'รองผู้อำนวยการกิจการนักเรียน', d: 'กิจการนักเรียน', a: 'ท', c: '#1c2a4e' },
-  { n: 'อ.ปิยะ ยิ้มเจริญ', r: 'หัวหน้าภาคไฟฟ้า', d: 'ช่างไฟฟ้า', a: 'ป', c: '#8a1f2b' },
-  { n: 'อ.อุมาพร เกยเลื่อน', r: 'หัวหน้าภาคบริหาร', d: 'บริหาร', a: 'อ', c: '#f5b800' },
+// Source of truth for these nine people is /personnel — keep the two in sync.
+const EXEC = '/assets/staff/executives/';
+type Leader = { n: string; r: string; img: string; c: string };
+const PRINCIPALS: Leader[] = [
+  { n: 'ดร.ยงลักษณ์ บุญจี๊ด', r: 'ผู้รับใบอนุญาต', img: EXEC + 'license-yonglak.webp', c: '#026451' },
+  { n: 'อ.ภาตะวัน บุญจี๊ด', r: 'ผู้อำนวยการ', img: EXEC + 'director-phatawan.webp', c: '#1c2a4e' },
+  { n: 'อ.ภาคภูมิ บุญจี๊ด', r: 'ผู้จัดการ', img: EXEC + 'manager-phakphum.webp', c: '#8a1f2b' },
 ];
+const DEPUTIES: Leader[] = [
+  { n: 'นายมานิต หอดขุนทด', r: 'ฝ่ายวิชาการและประกันคุณภาพ', img: EXEC + 'deputy-academic-manit.webp', c: '#026451' },
+  { n: 'นายทรงพล แม้นชล', r: 'ฝ่ายกิจการนักเรียนนักศึกษา', img: EXEC + 'deputy-student-songphon.webp', c: '#385BF3' },
+  { n: 'นางสาวจิดาภา เพ็ชรรัตน์', r: 'ฝ่ายบริหาร', img: EXEC + 'deputy-admin-jidapha.webp', c: '#D6418A' },
+  { n: 'นายกอบศักดิ์ เจนวิถี', r: 'ฝ่ายปกครอง', img: EXEC + 'deputy-discipline-kobsak.webp', c: '#B12B25' },
+  { n: 'นายพงษ์ศักดิ์ ไสตะภาพ', r: 'ฝ่ายวิจัยและพัฒนาสื่อ', img: EXEC + 'deputy-research-pongsak.webp', c: '#C28A05' },
+  { n: 'นายพันธ์จิต อิ่มรอ', r: 'ฝ่ายอาคารสถานที่', img: EXEC + 'deputy-building-phanchit.webp', c: '#2D8FBF' },
+];
+function LeaderCard({ item, p, order }: { item: Leader; p: number; order: number }) {
+  const localP = Math.max(0, Math.min(1, (p - 0.2 - order * 0.04) * 3));
+  return (
+    <div className="cine-leader" style={{ opacity: localP, transform: `translateY(${(1 - localP) * 40}px)` }}>
+      <div className="cine-leader-portrait" style={{ background: `linear-gradient(135deg, ${item.c}, ${item.c}99)` }}>
+        <img src={item.img} alt={item.n} loading="lazy" />
+      </div>
+      <div className="cine-leader-name">{item.n}</div>
+      <div className="cine-leader-role">{item.r}</div>
+    </div>
+  );
+}
 function SceneLeadership() {
   const ref = useRef<HTMLElement>(null);
   const p = useSceneProgress(ref);
@@ -312,40 +334,26 @@ function SceneLeadership() {
         <div className="cine-stats-eyebrow"><span />LEADERSHIP · ทีมผู้บริหาร<span /></div>
         <h2 className="cine-h2"><em>ทีม</em>ที่ขับเคลื่อนคุณภาพ</h2>
       </div>
-      <div className="cine-leaders-grid">
-        {LEADERS.map((l, i) => {
-          const localP = Math.max(0, Math.min(1, (p - 0.2 - i * 0.06) * 3));
-          return (
-            <div key={i} className="cine-leader" style={{ opacity: localP, transform: `translateY(${(1 - localP) * 40}px)` }}>
-              <div className="cine-leader-portrait" style={{ background: `linear-gradient(135deg, ${l.c}, ${l.c}99)` }}>
-                <span>{l.a}</span>
-              </div>
-              <div className="cine-leader-name">{l.n}</div>
-              <div className="cine-leader-role">{l.r}</div>
-            </div>
-          );
-        })}
+      <div className="cine-leaders-tiers">
+        <div>
+          <div className="cine-tier-label">ผู้บริหารระดับสูง</div>
+          <div className="cine-leaders-grid cine-leaders-principals">
+            {PRINCIPALS.map((l, i) => <LeaderCard key={i} item={l} p={p} order={i} />)}
+          </div>
+        </div>
+        <div>
+          <div className="cine-tier-label">รองผู้อำนวยการ · 6 ฝ่าย</div>
+          <div className="cine-leaders-grid cine-leaders-deputies">
+            {DEPUTIES.map((l, i) => <LeaderCard key={i} item={l} p={p} order={i + 3} />)}
+          </div>
+        </div>
+        <a className="cine-leaders-link" href="/personnel/">ดูบุคลากรทั้งหมด · หัวหน้าภาค ครูผู้สอน และสายสนับสนุน →</a>
       </div>
     </section>
   );
 }
 
-// ── Scene 7: EEC Partners ──────────────────────────────────
-function SceneEEC() {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  const headOpacity = Math.min(1, p * 3);
-  return (
-    <section ref={ref} className="cine-scene cine-eec">
-      <div className="cine-eec-head" style={{ opacity: headOpacity }}>
-        <div className="cine-stats-eyebrow"><span />INDUSTRY PARTNERS · 50+ องค์กรในเขต EEC<span /></div>
-        <h2 className="cine-h2"><em>เครือข่าย</em>นิคมอุตสาหกรรมตะวันออก</h2>
-      </div>
-    </section>
-  );
-}
-
-// ── Scene 8: Closing CTA ───────────────────────────────────
+// ── Scene 7: Closing CTA ───────────────────────────────────
 function SceneClosing() {
   const ref = useRef<HTMLElement>(null);
   const p = useSceneProgress(ref);
@@ -388,7 +396,6 @@ export default function AboutBody() {
       <ScenePhilosophy />
       <SceneVision />
       <SceneLeadership />
-      <SceneEEC />
       <SceneClosing />
     </main>
   );

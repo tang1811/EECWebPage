@@ -798,11 +798,11 @@ function Scene6Body() {
   const fadeOut = t > dur - 0.7 ? Math.max(0, 1 - (t - (dur - 0.7)) * 2) : 1;
 
   const pillars = [
-    { num: '01', title: 'เปี่ยมคุณธรรม', subtitle: 'มีจริยธรรมและค่านิยมที่ดี', delay: 0 },
-    { num: '02', title: 'มุ่งสร้างคนดี', subtitle: 'ทั้งต่อตนเองและสังคม', delay: 0.3 },
-    { num: '03', title: 'มีระเบียบวินัย', subtitle: 'แบบแผนการปฏิบัติตน', delay: 0.6 },
-    { num: '04', title: 'ก้าวไกลเทคโนโลยี', subtitle: 'พัฒนาทันยุคทันสมัย', delay: 0.9 },
-    { num: '05', title: 'ฝีมือเยี่ยม', subtitle: 'ทักษะวิชาชีพระดับสูง', delay: 1.2 },
+    { num: '01', title: 'มุ่งสร้างคนดี', subtitle: 'ทั้งต่อตนเองและสังคม', delay: 0 },
+    { num: '02', title: 'มีระเบียบวินัย', subtitle: 'แบบแผนการปฏิบัติตน', delay: 0.3 },
+    { num: '03', title: 'ก้าวไกลเทคโนโลยี', subtitle: 'พัฒนาทันยุคทันสมัย', delay: 0.6 },
+    { num: '04', title: 'ฝีมือเยี่ยม', subtitle: 'ทักษะวิชาชีพระดับสูง', delay: 0.9 },
+    { num: '05', title: 'เปี่ยมคุณธรรม', subtitle: 'มีจริยธรรมและค่านิยมที่ดี', delay: 1.2 },
   ];
 
   return (
@@ -813,7 +813,7 @@ function Scene6Body() {
           PHILOSOPHY · ปรัชญาวิทยาลัย
         </text>
         <text textAnchor="middle" y="56" fill={PAL.white} fontSize="56" fontFamily="Prompt" fontWeight="800" style={{ letterSpacing: '-0.025em' }}>
-          เปี่ยมคุณธรรม มุ่งสร้างคนดี
+          มุ่งสร้างคนดี มีระเบียบวินัย
         </text>
       </g>
       {pillars.map((p, i) => {

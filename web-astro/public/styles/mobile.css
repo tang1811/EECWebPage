@@ -9,11 +9,13 @@
      ≤ 1080px   nav → burger      (set in styles.css, unchanged)
    Do not introduce new values — reuse these four.
 
-   Ported from SchoolWebV2 mobile.css, with two deliberate deltas,
-   both marked [SITE] below:
+   Ported from SchoolWebV2 mobile.css, with three deliberate deltas,
+   all marked [SITE] below:
      · `.nav-right` joins the nav-hiding rule — it is a wrapper this
        site has and the design does not. styles.css already hides it
        at ≤1080; repeating it here keeps the rule self-explanatory.
+     · `.stat-item` gets `min-height: 0` on phones — homepage.css
+       floors it at 96px, which the design has no equivalent of.
      · The `.fee-*` rules are inert here: /tuition renders
        `.tuition-page`, not the design's fee-table markup. Kept so
        this file stays byte-comparable with the design for future syncs.
@@ -198,13 +200,20 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
   .hero-video-layout { padding: 60px 0 40px; }
   .hero-video-card { max-width: 100%; }
 
-  /* 7. Stats */
-  .stats-bar { padding: 36px 0; }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; margin-bottom: 28px; }
-  .stat-item { border-right: none; padding: 0; }
-  .stat-v { font-size: 30px; }
-  .stat-l { font-size: 12.5px; }
+  /* 7. Stats — 5 items in 2 columns leaves an orphan on the last row;
+     span it full width so the block reads as a grid, not a stray card.
+     [SITE] min-height:0 — homepage.css floors .stat-item at 96px, so
+     without this the tightening below lands on the type but not on the
+     row height, and the block stays as tall as it was. */
+  .stats-bar { padding: 32px 0; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px 12px; margin-bottom: 28px; }
+  .stats-grid > .stat-item:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .stat-item { border-right: none; padding: 0; min-height: 0; }
+  .stat-v { font-size: 27px; }
+  .stat-l { font-size: 12px; line-height: 1.4; margin-top: 5px; }
+  .marquee { padding-top: 26px; }
   .marquee-item { font-size: 13px; }
+  .marquee-track { gap: 32px; }
 
   /* 8. Courses */
   .course-grid { grid-template-columns: 1fr; gap: 14px; }
@@ -338,8 +347,9 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
   .brand img { height: 34px; width: 34px; }
   .brand-th { font-size: 14px; }
   .brand-en { display: none; }
-  .stats-grid { gap: 14px; }
-  .stat-v { font-size: 26px; }
+  .stats-grid { gap: 14px 10px; }
+  .stat-v { font-size: 24px; }
+  .stat-l { font-size: 11.5px; }
   .mag-item a { grid-template-columns: 100px 1fr; }
   .mag-item-tx { padding: 14px 15px; }
   .cal-item { grid-template-columns: 56px 1fr; }

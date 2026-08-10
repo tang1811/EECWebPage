@@ -75,7 +75,7 @@
   background: linear-gradient(90deg, transparent, var(--cine-accent), transparent);
   flex-shrink: 0;
 }
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   .cine-stats-eyebrow { gap: 8px; }
   .cine-stats-eyebrow > span:empty { width: 20px; }
 }
@@ -109,6 +109,8 @@
   font-style: italic;
   font-weight: 500;
   color: var(--cine-accent);
+  /* italics lean right, so the next word sits too close — pad the slant back */
+  padding-right: 0.12em;
 }
 .cine-lede {
   font-size: clamp(18px, 1.6vw, 22px);
@@ -231,7 +233,8 @@
   will-change: transform;
 }
 .cine-tl-card {
-  min-width: 100vw;
+  min-width: 100%;
+  flex: 0 0 100%;
   padding: 0 64px;
   display: grid;
   grid-template-columns: 1.4fr 1fr;
@@ -415,6 +418,8 @@
   font-style: italic;
   font-weight: 500;
   color: var(--cine-accent);
+  /* italics lean right — pad the slant back off the next word */
+  padding-right: 0.16em;
 }
 .cine-vision-body {
   font-size: 18px;
@@ -427,21 +432,22 @@
   counter-reset: cvl;
 }
 .cine-vision-list li {
-  padding: 18px 0;
+  padding: 22px 0 22px 56px;
+  position: relative;
   border-top: 1px solid rgba(255,255,255,0.1);
-  font-size: 17px;
-  color: rgba(255,255,255,0.78);
+  font-size: 21px;
+  line-height: 1.5;
+  color: rgba(255,255,255,0.82);
   counter-increment: cvl;
-  display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: 14px;
-  align-items: baseline;
-  white-space: nowrap;
 }
+.cine-vision-list strong + * { margin-left: 0; }
 .cine-vision-list li::before {
   content: counter(cvl, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 26px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 13px;
   color: var(--cine-accent);
   font-weight: 700;
 }
@@ -460,14 +466,43 @@
   max-width: 900px;
   margin: 0 auto;
 }
+.cine-leaders-tiers {
+  display: grid;
+  gap: 72px;
+  width: 100%;
+}
+.cine-tier-label {
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+  margin-bottom: 26px;
+}
 .cine-leaders-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 48px;
-  max-width: 1400px;
+  gap: 40px;
   margin: 0 auto;
   width: 100%;
 }
+/* Both tiers share one column width (2 tracks + 1 gap of a 6-up grid = one
+   deputy column), so all nine portraits render at identical size. */
+.cine-leaders-principals { grid-template-columns: repeat(6, 1fr); max-width: 1100px; }
+.cine-leaders-principals > .cine-leader:nth-child(1) { grid-column: 3 / 5; grid-row: 1; }
+.cine-leaders-principals > .cine-leader:nth-child(2) { grid-column: 2 / 4; grid-row: 2; }
+.cine-leaders-principals > .cine-leader:nth-child(3) { grid-column: 4 / 6; grid-row: 2; }
+.cine-leaders-deputies { grid-template-columns: repeat(3, 1fr); max-width: 1100px; }
+.cine-leaders-link {
+  justify-self: center;
+  font-size: 15px;
+  color: var(--cine-accent);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 4px;
+  transition: border-color .3s, opacity .3s;
+}
+.cine-leaders-link:hover { border-bottom-color: var(--cine-accent); opacity: 0.85; }
 .cine-leader {
   transition: opacity .8s, transform .8s;
   text-align: center;
@@ -481,9 +516,18 @@
   position: relative;
   overflow: hidden;
 }
+.cine-leader-portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+}
 .cine-leader-portrait::after {
   content: ''; position: absolute; inset: 0;
-  background: radial-gradient(at 30% 30%, rgba(255,255,255,0.15), transparent 70%);
+  background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.45) 100%),
+              radial-gradient(at 30% 30%, rgba(255,255,255,0.12), transparent 70%);
 }
 .cine-leader-portrait span {
   font-size: 96px;
@@ -504,8 +548,11 @@
 }
 
 /* ── Scene 7: EEC Map ─────────────────────────────────── */
+/* Scene 7 holds only a heading (the map canvas was removed), so it opts out
+   of the 100vh scene shell and sizes to its content instead. */
 .cine-eec {
-  padding: 200px 64px;
+  min-height: 0;
+  padding: 120px 64px;
   background: linear-gradient(180deg, #000 0%, #021915 50%, #000 100%);
   flex-direction: column;
   display: flex;
@@ -616,7 +663,7 @@
 .cine-main + .sticky-bubble .bubble-teaser { display: none; }
 
 /* Responsive */
-@media (max-width: 980px) {
+@media (max-width: 1024px) {
   .cine-opening { padding: 100px 24px 60px; }
   .cine-stats-grid { grid-template-columns: repeat(2, 1fr); }
   .cine-stat { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding: 32px 20px; }
@@ -625,15 +672,18 @@
   .cine-tl-progress { padding: 16px 32px 0; }
   .cine-tl-bar { left: 40px; right: 40px; }
   .cine-vision-grid { grid-template-columns: 1fr; gap: 64px; }
-  .cine-leaders-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
-  .cine-vision, .cine-leaders, .cine-eec, .cine-closing { padding: 120px 24px; }
+  .cine-leaders-grid { gap: 32px; }
+  .cine-leaders-deputies { grid-template-columns: repeat(3, 1fr); }
+  .cine-leaders-tiers { gap: 56px; }
+  .cine-vision, .cine-leaders, .cine-closing { padding: 120px 24px; }
+  .cine-eec { padding: 88px 24px; }
   .cine-philo-panel { padding: 32px; }
   .cine-philo-num { font-size: 120px; }
   .cine-philo-en { margin-top: -20px; }
   .cine-eec-canvas { padding: 12px; }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
   /* Opening hero */
   .cine-opening { padding: 96px 28px 56px; min-height: 92vh; align-items: end; }
   .cine-opening .cine-content { padding: 0 4px; }
@@ -678,11 +728,21 @@
   .cine-vision-grid { gap: 48px; }
   .cine-vision-head { font-size: clamp(28px, 7vw, 36px); margin: 12px 0 16px; }
   .cine-vision-body { font-size: 14px; }
-  .cine-vision-list li { padding: 14px 0; font-size: 14px; grid-template-columns: 32px 1fr; gap: 10px; }
+  .cine-vision-list li { padding: 16px 0 16px 40px; font-size: 16.5px; }
+  .cine-vision-list li::before { top: 19px; }
 
   /* Leadership */
   .cine-leaders { padding: 96px 20px; gap: 48px; }
-  .cine-leaders-grid { gap: 16px; }
+  .cine-leaders-grid { gap: 16px 12px; }
+  .cine-leaders-principals,
+  .cine-leaders-deputies { grid-template-columns: repeat(2, 1fr); }
+  .cine-leaders-principals { grid-template-columns: repeat(4, 1fr); }
+  .cine-leaders-principals > .cine-leader:nth-child(1) { grid-column: 2 / 4; grid-row: 1; }
+  .cine-leaders-principals > .cine-leader:nth-child(2) { grid-column: 1 / 3; grid-row: 2; }
+  .cine-leaders-principals > .cine-leader:nth-child(3) { grid-column: 3 / 5; grid-row: 2; }
+  .cine-leaders-tiers { gap: 44px; }
+  .cine-tier-label { margin-bottom: 18px; font-size: 10px; }
+  .cine-leaders-link { font-size: 14px; text-align: center; }
   .cine-leader-portrait { border-radius: 12px; }
   .cine-leader-portrait span { font-size: 56px; }
   .cine-leader-name { font-size: 15px; margin-top: 14px; }
@@ -709,6 +769,16 @@
   background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
 }
 .cine-vision-tags b { color: var(--green-300, #6fd6b6); font-weight: 700; margin-right: 8px; }
-.cine-vision-list-compact { counter-reset: m; }
-.cine-vision-list-compact li { font-size: 14.5px; line-height: 1.5; margin-bottom: 10px; }
+/* [SITE] /about lists all 10 พันธกิจ where the design mock carries 5, so this
+   modifier tightens the design's row rhythm — without it the mission column
+   runs roughly twice the height of the vision column beside it. Selectors and
+   structure stay the design's; only the spacing scale changes. */
+.cine-vision-list-compact li { padding: 13px 0 13px 44px; font-size: 15px; }
+.cine-vision-list-compact li::before { top: 17px; font-size: 12px; }
 .cine-vision-list-compact li strong { color: #fff; }
+/* These sit after the media blocks above and match their specificity, so the
+   phone tier has to be restated here or the later rule would win at 360px. */
+@media (max-width: 700px) {
+  .cine-vision-list-compact li { padding: 11px 0 11px 34px; font-size: 13.5px; }
+  .cine-vision-list-compact li::before { top: 14px; font-size: 11px; }
+}
