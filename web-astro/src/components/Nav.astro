@@ -2,8 +2,14 @@
 // Site header — 1:1 port of Nav() from web/app/components/chrome.tsx.
 // Active link is computed at BUILD time from Astro.url.pathname (MPA).
 // The mobile drawer + scrim render inline (display:none) instead of the old
-// React portal; src/scripts/site.ts owns all toggling (scrolled shadow,
-// dropdown hover/click, drawer, accordions). Base.astro already omits
+// React portal, but they must stay OUTSIDE <header class="nav">: the header is
+// position:sticky with z-index 50, which makes it a stacking context, so a
+// drawer nested inside it loses to any body-level sibling with a higher
+// z-index (.sticky-bubble is 60) and WebKit also mis-anchors position:fixed
+// children of a stuck sticky ancestor. As body-level siblings — which is where
+// chrome.jsx's ReactDOM.createPortal(..., document.body) put them — the
+// drawer's own z-index applies. src/scripts/site.ts owns all toggling (scrolled
+// shadow, dropdown hover/click, drawer, accordions). Base.astro already omits
 // <Nav /> on /admission routes, so the old pathname-null check is gone.
 // Icons are inlined verbatim from chrome.tsx Icon (kebab-case SVG attrs).
 
@@ -115,7 +121,7 @@ const ICONS: Record<string, string> = {
     <a href="/" class="brand" aria-label="EEC Engineer Laemchabang Home">
       <img src="/assets/logo.png" alt="EEC Engineer Laemchabang crest" />
       <div class="brand-text">
-        <span class="brand-th">วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย</span>
+        <span class="brand-th"><span>วิทยาลัยเทคโนโลยี</span> <span>อีอีซี</span> <span>เอ็นจิเนีย</span> <span>แหลมฉบัง</span></span>
         <span class="brand-en">EEC Engineer Laemchabang · Sriracha</span>
       </div>
     </a>
@@ -213,84 +219,84 @@ const ICONS: Record<string, string> = {
       <svg viewBox="0 0 24 24" class="" style="width:24px;height:24px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.menu} />
     </button>
   </div>
-  <div class="mnav-scrim" style="display:none"></div>
-  <aside class="mnav-drawer" role="dialog" aria-label="เมนูหลัก" style="display:none">
-    <div class="mnav-head">
-      <div class="mnav-brand">
-        <img src="/assets/logo.png" alt="" />
-        <div>
-          <div class="mnav-brand-th">EEC Engineer</div>
-          <div class="mnav-brand-en">Laemchabang</div>
-        </div>
-      </div>
-      <button class="mnav-close" aria-label="ปิดเมนู">
-        <svg viewBox="0 0 24 24" class="" style="width:22px;height:22px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.close} />
-      </button>
-    </div>
-    <nav class="mnav-list" aria-label="เมนูนำทาง">
-      {NAV_ITEMS.map((it) => (
-        <div>
-          {it.dropdown === 'courses' ? (
-            <Fragment>
-              <button class={`mnav-item mnav-item-btn ${active === it.id ? 'active' : ''}`} aria-expanded="false" data-mnav="courses">
-                <span>{it.label}</span>
-                <svg viewBox="0 0 24 24" class="mnav-chev " style="width:18px;height:18px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.chevronDown} />
-              </button>
-              <div class="mnav-sub" style="display:none">
-                {NAV_COURSE_MENU.map((lvl) => (
-                  <div class="mnav-sub-group">
-                    <div class="mnav-sub-lvl" style={`color:${lvl.color};border-color:${lvl.color}`}>
-                      {lvl.level} <span>· {lvl.levelEn}</span>
-                    </div>
-                    {lvl.groups.map((g) => g.items.map((c) => (
-                      <a href={`/courses/${c.slug}/`} class="mnav-sub-item">
-                        <span class="mnav-dot" style={`background:${c.color}`}></span>
-                        {c.name}
-                      </a>
-                    )))}
-                  </div>
-                ))}
-              </div>
-            </Fragment>
-          ) : it.dropdown === 'student' ? (
-            <Fragment>
-              <button class={`mnav-item mnav-item-btn ${active === it.id ? 'active' : ''}`} aria-expanded="false" data-mnav="student">
-                <span>{it.label}</span>
-                <svg viewBox="0 0 24 24" class="mnav-chev " style="width:18px;height:18px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.chevronDown} />
-              </button>
-              <div class="mnav-sub" style="display:none">
-                {NAV_STUDENT_MENU.map((s) => (
-                  <a href={s.href} target={s.ext ? '_blank' : undefined} rel={s.ext ? 'noopener noreferrer' : undefined} class="mnav-sub-item mnav-sub-sys">
-                    <span class="mnav-sys-ic" style={`--mc:${s.color}`}>
-                      <svg viewBox="0 0 24 24" class="" style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS[s.icon]} />
-                    </span>
-                    <span class="mnav-sys-tx">
-                      <strong>{s.name}</strong>
-                      <em>{s.desc}</em>
-                    </span>
-                    <svg viewBox="0 0 24 24" class="mnav-sys-ext" aria-hidden="true" set:html={s.ext ? ICONS.extArrow : ICONS.chevronRight} />
-                  </a>
-                ))}
-              </div>
-            </Fragment>
-          ) : (
-            <a href={it.href} class={`mnav-item ${active === it.id ? 'active' : ''}`}>{it.label}</a>
-          )}
-        </div>
-      ))}
-    </nav>
-    <div class="mnav-foot">
-      <a href="/admission/" class="mnav-apply">
-        <svg viewBox="0 0 24 24" class="" style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.sparkle} />
-        สมัครเรียนออนไลน์
-        <svg viewBox="0 0 24 24" class="" style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.arrow} />
-      </a>
-      <div class="mnav-contact">
-        <a href="tel:038494066"><svg viewBox="0 0 24 24" class="" style="width:14px;height:14px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.phone} /> 038-494-066</a>
-        <a href="https://www.facebook.com/eec.engineer.laemchabang" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24" class="" style="width:14px;height:14px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.facebook} /> Facebook
-        </a>
-      </div>
-    </div>
-  </aside>
 </header>
+<div class="mnav-scrim" style="display:none"></div>
+<aside class="mnav-drawer" role="dialog" aria-label="เมนูหลัก" style="display:none">
+  <div class="mnav-head">
+    <div class="mnav-brand">
+      <img src="/assets/logo.png" alt="" />
+      <div>
+        <div class="mnav-brand-th">EEC Engineer</div>
+        <div class="mnav-brand-en">Laemchabang</div>
+      </div>
+    </div>
+    <button class="mnav-close" aria-label="ปิดเมนู">
+      <svg viewBox="0 0 24 24" class="" style="width:22px;height:22px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.close} />
+    </button>
+  </div>
+  <nav class="mnav-list" aria-label="เมนูนำทาง">
+    {NAV_ITEMS.map((it) => (
+      <div>
+        {it.dropdown === 'courses' ? (
+          <Fragment>
+            <button class={`mnav-item mnav-item-btn ${active === it.id ? 'active' : ''}`} aria-expanded="false" data-mnav="courses">
+              <span>{it.label}</span>
+              <svg viewBox="0 0 24 24" class="mnav-chev " style="width:18px;height:18px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.chevronDown} />
+            </button>
+            <div class="mnav-sub" style="display:none">
+              {NAV_COURSE_MENU.map((lvl) => (
+                <div class="mnav-sub-group">
+                  <div class="mnav-sub-lvl" style={`color:${lvl.color};border-color:${lvl.color}`}>
+                    {lvl.level} <span>· {lvl.levelEn}</span>
+                  </div>
+                  {lvl.groups.map((g) => g.items.map((c) => (
+                    <a href={`/courses/${c.slug}/`} class="mnav-sub-item">
+                      <span class="mnav-dot" style={`background:${c.color}`}></span>
+                      {c.name}
+                    </a>
+                  )))}
+                </div>
+              ))}
+            </div>
+          </Fragment>
+        ) : it.dropdown === 'student' ? (
+          <Fragment>
+            <button class={`mnav-item mnav-item-btn ${active === it.id ? 'active' : ''}`} aria-expanded="false" data-mnav="student">
+              <span>{it.label}</span>
+              <svg viewBox="0 0 24 24" class="mnav-chev " style="width:18px;height:18px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.chevronDown} />
+            </button>
+            <div class="mnav-sub" style="display:none">
+              {NAV_STUDENT_MENU.map((s) => (
+                <a href={s.href} target={s.ext ? '_blank' : undefined} rel={s.ext ? 'noopener noreferrer' : undefined} class="mnav-sub-item mnav-sub-sys">
+                  <span class="mnav-sys-ic" style={`--mc:${s.color}`}>
+                    <svg viewBox="0 0 24 24" class="" style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS[s.icon]} />
+                  </span>
+                  <span class="mnav-sys-tx">
+                    <strong>{s.name}</strong>
+                    <em>{s.desc}</em>
+                  </span>
+                  <svg viewBox="0 0 24 24" class="mnav-sys-ext" aria-hidden="true" set:html={s.ext ? ICONS.extArrow : ICONS.chevronRight} />
+                </a>
+              ))}
+            </div>
+          </Fragment>
+        ) : (
+          <a href={it.href} class={`mnav-item ${active === it.id ? 'active' : ''}`}>{it.label}</a>
+        )}
+      </div>
+    ))}
+  </nav>
+  <div class="mnav-foot">
+    <a href="/admission/" class="mnav-apply">
+      <svg viewBox="0 0 24 24" class="" style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.sparkle} />
+      สมัครเรียนออนไลน์
+      <svg viewBox="0 0 24 24" class="" style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.arrow} />
+    </a>
+    <div class="mnav-contact">
+      <a href="tel:038494066"><svg viewBox="0 0 24 24" class="" style="width:14px;height:14px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.phone} /> 038-494-066</a>
+      <a href="https://www.facebook.com/eec.engineer.laemchabang" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" class="" style="width:14px;height:14px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.facebook} /> Facebook
+      </a>
+    </div>
+  </div>
+</aside>

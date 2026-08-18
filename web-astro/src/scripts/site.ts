@@ -152,9 +152,11 @@ function initNav(): void {
   });
 
   // Mobile drawer (React portaled it while open; here it's inline + hidden).
+  // Nav.astro renders the scrim/drawer as siblings of <header>, not inside it,
+  // so query them from the document rather than from `header`.
   const burger = header.querySelector<HTMLButtonElement>('.nav-burger');
-  const scrim = header.querySelector<HTMLElement>('.mnav-scrim');
-  const drawer = header.querySelector<HTMLElement>('.mnav-drawer');
+  const scrim = document.querySelector<HTMLElement>('.mnav-scrim');
+  const drawer = document.querySelector<HTMLElement>('.mnav-drawer');
   const setDrawer = (open: boolean) => {
     if (scrim) scrim.style.display = open ? '' : 'none';
     if (drawer) drawer.style.display = open ? '' : 'none';

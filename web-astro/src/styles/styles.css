@@ -138,6 +138,11 @@ h1, h2, h3, h4, h5 {
 .brand img { height: 48px; width: 48px; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
 .brand-th { font-size: 14px; font-weight: 700; color: var(--ink-900); letter-spacing: -0.01em; }
+/* Thai has no inter-word spaces, so Blink's dictionary line-breaker splits
+   เอ็นจิเนีย mid-word when the brand name wraps on a phone (word-break: keep-all
+   and line-break: strict do NOT suppress that for Thai). Each word of the name
+   is its own span, so the real spaces are the only wrap opportunities. */
+.brand-th > span { white-space: nowrap; }
 .brand-en { font-size: 10px; font-weight: 500; color: var(--ink-500); text-transform: uppercase; letter-spacing: 0.08em; }
 
 .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; padding: 0; margin: 0; flex-wrap: nowrap; }
