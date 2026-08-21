@@ -9,13 +9,11 @@
      ≤ 1080px   nav → burger      (set in styles.css, unchanged)
    Do not introduce new values — reuse these four.
 
-   Ported from SchoolWebV2 mobile.css, with three deliberate deltas,
+   Ported from SchoolWebV2 mobile.css, with two deliberate deltas,
    all marked [SITE] below:
      · `.nav-right` joins the nav-hiding rule — it is a wrapper this
        site has and the design does not. styles.css already hides it
        at ≤1080; repeating it here keeps the rule self-explanatory.
-     · `.stat-item` gets `min-height: 0` on phones — homepage.css
-       floors it at 96px, which the design has no equivalent of.
      · The `.fee-*` rules are inert here: /tuition renders
        `.tuition-page`, not the design's fee-table markup. Kept so
        this file stays byte-comparable with the design for future syncs.
@@ -201,14 +199,11 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
   .hero-video-card { max-width: 100%; }
 
   /* 7. Stats — 5 items in 2 columns leaves an orphan on the last row;
-     span it full width so the block reads as a grid, not a stray card.
-     [SITE] min-height:0 — homepage.css floors .stat-item at 96px, so
-     without this the tightening below lands on the type but not on the
-     row height, and the block stays as tall as it was. */
+     span it full width so the block reads as a grid, not a stray card. */
   .stats-bar { padding: 32px 0; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px 12px; margin-bottom: 28px; }
   .stats-grid > .stat-item:last-child:nth-child(odd) { grid-column: 1 / -1; }
-  .stat-item { border-right: none; padding: 0; min-height: 0; }
+  .stat-item { border-right: none; padding: 0; }
   .stat-v { font-size: 27px; }
   .stat-l { font-size: 12px; line-height: 1.4; margin-top: 5px; }
   .marquee { padding-top: 26px; }

@@ -286,9 +286,11 @@ const TESTIMONIALS = [
                 {c.img && (
                   <div class="cc-photo">
                     <img src={c.img} alt="" loading="lazy" />
+                    {c.hot && <span class="cc-hot">HOT</span>}
                     {c.color && <div class="cc-color-bar" style={`background:${c.color}`}></div>}
                   </div>
                 )}
+                {!c.img && c.hot && <span class="cc-hot">HOT</span>}
                 <div class="cc-body">
                   <div class="cc-code">{c.code} · {c.cat}</div>
                   <h3 class="cc-name">{c.name}</h3>
@@ -435,7 +437,7 @@ const TESTIMONIALS = [
             ครอบครัวที่ <span class="grad-light">ส่งเสริมให้คุณเติบโต</span>
           </h2>
         </div>
-        <div class="testi-carousel">
+        <div class="testi-carousel" style="touch-action:pan-y;user-select:none">
           <div class="testi-track" style="transform:translateX(-0%)">
             {TESTIMONIALS.map((t) => (
               <div class="testi-slide">
@@ -587,7 +589,12 @@ const TESTIMONIALS = [
       if (!dragActive) return;
       const dx = dragDx;
       if (Math.abs(dx) > SWIPE_THRESHOLD) go(dx < 0 ? idx + 1 : idx - 1);
+      // Only the click synthesised from THIS gesture should be swallowed. The
+      // flag used to survive until the next CTA click, so after any swipe the
+      // first genuine tap on "สมัครเรียนออนไลน์" did nothing — clear it as soon
+      // as the gesture's own click (if any) has had its turn.
       suppressClick = Math.abs(dx) > 8;
+      if (suppressClick) window.setTimeout(() => { suppressClick = false; }, 0);
       dragActive = false;
       dragStartX = 0;
       dragDx = 0;
@@ -597,9 +604,10 @@ const TESTIMONIALS = [
     };
 
     section.addEventListener('pointerdown', (e) => {
+      // Any new pointer gesture — including a tap on the CTA itself — starts clean.
+      suppressClick = false;
       if (e.button !== 0) return;
       if ((e.target as HTMLElement).closest('button, a, [role="tab"]')) return;
-      suppressClick = false;
       dragActive = true;
       dragStartX = e.clientX ?? 0;
       dragDx = 0;
@@ -694,27 +702,82 @@ const TESTIMONIALS = [
     });
   }
 
-  // ── Testimonials carousel (homepage.tsx Testimonials) ──
+  // ── Testimonials carousel (homepage-sections.jsx Testimonials) ──
+  // Autoplay every 6s, plus pointer drag/swipe: the track follows the pointer
+  // (clamped to ±60% of the carousel width), a release past SWIPE_THRESHOLD
+  // advances, and the autoplay interval is suspended while dragging and
+  // restarted afterwards — the design re-creates its interval when
+  // `drag.active` flips back to false, so the 6s count starts over.
   function initTestimonials(): void {
+    const carousel = document.querySelector<HTMLElement>('.testi-carousel');
     const track = document.querySelector<HTMLElement>('.testi-track');
     const dots = Array.from(document.querySelectorAll<HTMLButtonElement>('.testi-dot'));
-    if (!track || dots.length === 0) return;
+    if (!carousel || !track || dots.length === 0) return;
+    const N = dots.length;
+    const SWIPE_THRESHOLD = 60;
     let idx = 0;
+    let dragActive = false;
+    let dragStartX = 0;
+    let dragDx = 0;
+    let timer: number | null = null;
+
     const render = () => {
-      track.style.transform = `translateX(-${idx * 100}%)`;
+      const w = carousel.offsetWidth || 1;
+      const dragPct = dragActive ? Math.max(-60, Math.min(60, (dragDx / w) * 100)) : 0;
+      track.style.transform = `translateX(${-idx * 100 + dragPct}%)`;
+      track.style.transition = dragActive ? 'none' : '';
       dots.forEach((d, i) => d.classList.toggle('on', idx === i));
     };
-    // Interval set once on mount ([] deps) — dot clicks never reset it.
-    setInterval(() => {
-      idx = (idx + 1) % dots.length;
+    const go = (n: number) => {
+      idx = (n + N) % N;
       render();
-    }, 6000);
-    dots.forEach((d, i) =>
-      d.addEventListener('click', () => {
-        idx = i;
-        render();
-      })
-    );
+    };
+    const startTimer = () => {
+      if (timer !== null) clearInterval(timer);
+      timer = window.setInterval(() => go(idx + 1), 6000);
+    };
+    const stopTimer = () => {
+      if (timer !== null) clearInterval(timer);
+      timer = null;
+    };
+
+    carousel.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      if ((e.target as HTMLElement).closest('button, a')) return;
+      dragActive = true;
+      dragStartX = e.clientX ?? 0;
+      dragDx = 0;
+      carousel.classList.add('is-dragging');
+      stopTimer();
+      try {
+        carousel.setPointerCapture(e.pointerId);
+      } catch {
+        /* noop */
+      }
+      render();
+    });
+    carousel.addEventListener('pointermove', (e) => {
+      if (!dragActive) return;
+      dragDx = (e.clientX ?? 0) - dragStartX;
+      render();
+    });
+    const endDrag = () => {
+      if (!dragActive) return;
+      const dx = dragDx;
+      dragActive = false;
+      dragStartX = 0;
+      dragDx = 0;
+      carousel.classList.remove('is-dragging');
+      if (Math.abs(dx) > SWIPE_THRESHOLD) go(dx < 0 ? idx + 1 : idx - 1);
+      else render();
+      startTimer();
+    };
+    carousel.addEventListener('pointerup', endDrag);
+    carousel.addEventListener('pointercancel', endDrag);
+
+    // Dot clicks do not reset the interval (design's effect only depends on drag.active).
+    dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+    startTimer();
   }
 
   // ── FAQ single-open accordion (homepage.tsx FAQ) ──

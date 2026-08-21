@@ -167,8 +167,8 @@ function initNav(): void {
   if (mnavClose) mnavClose.addEventListener('click', () => setDrawer(false));
 
   // Drawer accordions (React state mobileCoursesOpen / mobileStudentOpen).
-  // Only the student button mirrored its open state onto `.active`
-  // (data-mnav="student"); the courses button's `.active` is route-based.
+  // Both buttons' `.active` is route-based in chrome.jsx (`active === it.id`);
+  // expanding an accordion only rotates the chevron and shows the sub-list.
   if (drawer) {
     drawer.querySelectorAll<HTMLButtonElement>('.mnav-item-btn').forEach((btn) => {
       let open = false;
@@ -179,7 +179,6 @@ function initNav(): void {
         btn.setAttribute('aria-expanded', String(open));
         if (chev) chev.classList.toggle('open', open);
         if (sub) sub.style.display = open ? '' : 'none';
-        if (btn.dataset.mnav === 'student') btn.classList.toggle('active', open);
       });
     });
   }

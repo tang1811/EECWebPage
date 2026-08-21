@@ -631,11 +631,10 @@
   grid-template-columns: repeat(5, 1fr);
   gap: 32px;
   text-align: center;
-  align-items: stretch;
+  align-items: center;
+  margin-bottom: 0;
 }
-.stat-item { padding: 0 16px; border-right: 1px solid var(--border-soft);
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 96px; }
-.stat-l { margin-top: 0; }
+.stat-item { padding: 0 16px; border-right: 1px solid var(--border-soft); display: flex; flex-direction: column; justify-content: center; }
 .stat-item:last-child { border-right: none; }
 .stat-v {
   font-size: 52px; font-weight: 800;
@@ -967,7 +966,10 @@
   max-width: 880px;
   margin: 0 auto;
   overflow: hidden;
+  cursor: grab;
 }
+.testi-carousel.is-dragging { cursor: grabbing; }
+.testi-carousel .testi-card * { -webkit-user-drag: none; }
 .testi-track {
   display: flex;
   transition: transform .8s var(--ease-out);

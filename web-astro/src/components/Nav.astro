@@ -75,14 +75,15 @@ const NAV_STUDENT_MENU = [
   { name: 'ค่าเทอม & ทุนการศึกษา', desc: 'อัตราค่าเล่าเรียน · กยศ. · ทุนเรียนดี', href: '/tuition/', icon: 'grad', color: '#B8860B', ext: false },
 ];
 
-// Tab order per the SchoolWebV2 design chrome (news.html et al.).
+// Tab order per the SchoolWebV2 design chrome (chrome.jsx `items`). The
+// standalone "สมัครเรียน" tab was dropped there in Aug 2026 — the CTA button,
+// the courses-dropdown footer and the drawer footer still link to /admission/.
 const NAV_ITEMS: { id: string; label: string; href: string; dropdown?: string }[] = [
   { id: 'about',    label: 'เกี่ยวกับเรา', href: '/about/' },
   { id: 'news',     label: 'ข่าวสาร',      href: '/news/' },
   { id: 'courses',  label: 'หลักสูตร',     href: '/courses/', dropdown: 'courses' },
   { id: 'personnel',label: 'บุคลากร',      href: '/personnel/' },
   { id: 'student',  label: 'นักศึกษา',     href: '#', dropdown: 'student' },
-  { id: 'apply',    label: 'สมัครเรียน',   href: '/admission/' },
   { id: 'works',    label: 'ผลงาน',        href: '/portfolio/' },
   { id: 'contact',  label: 'ติดต่อเรา',    href: '/contact/' },
 ];

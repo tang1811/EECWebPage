@@ -15,6 +15,8 @@ const ICONS: Record<string, string> = {
 
 // React style-object serialization of the contact-row icons, verbatim order.
 const CONTACT_ICON_STYLE = 'width:16px;height:16px;display:inline;vertical-align:-3px;margin-right:8px;color:var(--green-300)';
+// chrome.jsx renders `new Date().getFullYear()`; static build → evaluated at build time.
+const YEAR = new Date().getFullYear();
 ---
 
 <footer class="footer">
@@ -78,7 +80,7 @@ const CONTACT_ICON_STYLE = 'width:16px;height:16px;display:inline;vertical-align
       </div>
     </div>
     <div class="footer-bottom">
-      <div>© 1995–2026 วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · All rights reserved.</div>
+      <div>© 1995–{YEAR} วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · All rights reserved.</div>
       <div class="footer-legal"><a href="/privacy/">นโยบายความเป็นส่วนตัว (PDPA)</a><span>·</span><span>เลขที่ใบอนุญาตจัดตั้ง · สังกัด สอศ.</span></div>
     </div>
   </div>
