@@ -94,16 +94,6 @@ const GRAD_STATS = [
 ];
 const EMPLOYERS = ['ปตท.', 'Mitsubishi', 'Caterpillar', 'เคียวเดน', 'ซูมิเดน สตีล', 'AGC', 'ซัมมิท ออโต้บอดี้', 'อีสเทิร์น คอนทรานส์'];
 
-const PARTNERS = [
-  { name: 'ฮอนด้า ศรีราชา', field: 'ยานยนต์', color: '#B12B25' },
-  { name: 'สยามคอมเมอร์เชียล ซีพอร์ท', field: 'โลจิสติกส์ท่าเรือ', color: '#F26530' },
-  { name: 'สยามโกลบอลมารีน', field: 'อุตสาหกรรมทางทะเล', color: '#40ABE0' },
-  { name: 'สยามโกลบอล (บ่อวิน)', field: 'อุตสาหกรรม', color: '#048269' },
-  { name: 'เอส.ที.ที. เอ็นจิเนียริ่ง', field: 'วิศวกรรม & ซัพพลาย', color: '#7B5CA7' },
-  { name: 'เอมมาลีน พาวเวอร์', field: 'พลังงาน & ไฟฟ้า', color: '#385BF3' },
-  { name: 'เอสพี', field: 'อุตสาหกรรม', color: '#EB559F' },
-];
-
 type Course = { code: string; slug: string; name: string; icon: string; cat: string; hot?: boolean; img?: string; color?: string };
 const COURSES: Course[] = [
   { code: 'ปวช.', slug: 'yon', name: 'ช่างยนต์', icon: 'car', cat: 'อุตสาหกรรม', hot: true, img: '/assets/courses/yon.webp', color: '#B12B25' },
@@ -366,31 +356,6 @@ const TESTIMONIALS = [
         <p class="grad-foot">
           * ข้อมูลผู้สำเร็จการศึกษา ปีการศึกษา 2565 จากการสำรวจภาวะการมีงานทำ/ศึกษาต่อ เฉพาะผู้ที่ติดตามได้ 268 คน (ปวช. 138 · ปวส. 130)
         </p>
-      </div>
-    </section>
-
-    {/* ── Partners / ทวิภาคี (MOU) ── */}
-    <section class="section partners-section" id="partners">
-      <div class="container">
-        <div class="reveal  section-head" style="text-align:center;--reveal-delay:0s">
-          <span class="eyebrow">ระบบทวิภาคี · เครือข่ายความร่วมมือ</span>
-          <h2 class="section-title">เรียนจริง ทำงานจริง <span class="grad">กับสถานประกอบการ</span></h2>
-          <p class="section-sub">นักศึกษาฝึกประสบการณ์ตรงในโรงงานและบริษัทชั้นนำของนิคมอุตสาหกรรมตะวันออก — จบแล้วพร้อมทำงานทันที</p>
-        </div>
-        <div class="partners-grid">
-          {PARTNERS.map((p, i) => (
-            <div class="reveal  partner-card" style={`--pc:${p.color};--reveal-delay:${i * 0.05}s`}>
-              <span class="partner-mono">{p.name.replace(/^(บริษัท|ห้างหุ้นส่วน[จำกัด]*)\s*/, '').charAt(0)}</span>
-              <span class="partner-tx">
-                <strong>{p.name}</strong>
-                <span>{p.field}</span>
-              </span>
-            </div>
-          ))}
-        </div>
-        <div class="reveal  partners-foot" style="--reveal-delay:0.1s">
-          <a href="/courses/" class="btn btn-ghost">ดูหลักสูตรทวิภาคี <Icon name="arrow" className="btn-icon" /></a>
-        </div>
       </div>
     </section>
 

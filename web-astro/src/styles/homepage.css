@@ -680,6 +680,9 @@
 /* ── Section head ────────────────────────────────────────── */
 .section-head { max-width: 760px; margin: 0 auto 56px; text-align: center; }
 .section-head .section-sub { margin-left: auto; margin-right: auto; }
+/* The design keeps the Courses head flush left; every other head stays on the centered base */
+#courses .section-head { margin-left: 0; margin-right: 0; text-align: left; }
+#courses .section-head .section-sub { margin-left: 0; margin-right: 0; }
 
 /* ── COURSES ─────────────────────────────────────────────── */
 .course-filters {
