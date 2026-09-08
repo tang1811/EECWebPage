@@ -147,10 +147,6 @@ function initNav(): void {
   document.addEventListener('click', (e) => {
     if (!(e.target as HTMLElement | null)?.closest?.('li.nav-li-dd')) closeAllDds();
   });
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAllDds();
-  });
-
   // Mobile drawer (React portaled it while open; here it's inline + hidden).
   // Nav.astro renders the scrim/drawer as siblings of <header>, not inside it,
   // so query them from the document rather than from `header`.
@@ -160,7 +156,16 @@ function initNav(): void {
   const setDrawer = (open: boolean) => {
     if (scrim) scrim.style.display = open ? '' : 'none';
     if (drawer) drawer.style.display = open ? '' : 'none';
+    // static-chrome.js freezes the page behind the drawer; mobile.css already
+    // ships the matching `body.has-mobile-nav { overflow: hidden }` rule.
+    document.body.classList.toggle('has-mobile-nav', open);
   };
+  // Escape closes any open desktop dropdown and the drawer (role="dialog").
+  window.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    closeAllDds();
+    setDrawer(false);
+  });
   if (burger) burger.addEventListener('click', () => setDrawer(true));
   if (scrim) scrim.addEventListener('click', () => setDrawer(false));
   const mnavClose = drawer ? drawer.querySelector<HTMLButtonElement>('.mnav-close') : null;

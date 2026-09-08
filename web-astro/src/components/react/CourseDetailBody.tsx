@@ -335,20 +335,80 @@ function CDGallery({ course, photos }: { course: Course; photos: string[] }) {
 }
 
 // ── Scene: รีวิวแผนก (department review video) ───────────────
-function CDVideo({ course, video }: { course: Course; video: { src: string; poster: string } }) {
+// YouTube first (COURSE_VIDEOS in course-data.ts, the design's model — keeps the
+// clip off IIS bandwidth). Falls back to the mp4 in videos.json so the 12 slugs
+// that already ship a real clip keep it until a YouTube id is filled in.
+function CDVideo({
+  course,
+  detail,
+  mp4,
+}: {
+  course: Course;
+  detail: CourseDetail;
+  mp4?: { src: string; poster: string };
+}) {
   const ref = useRef<HTMLElement>(null);
   const p = useSceneProgress(ref);
+  const [play, setPlay] = useState(false);
+  const id = detail.video;
+  const op = Math.min(1, p * 4);
+  const stageOp = Math.min(1, Math.max(0, (p - 0.1) * 4));
   return (
     <section ref={ref} className="cine-scene cd-video" style={{ '--dept': course.color || 'var(--green-700)' }}>
-      <div className="cd-video-head" style={{ opacity: Math.min(1, p * 4) }}>
+      <div className="cd-video-head" style={{ opacity: op }}>
         <span className="cine-eyebrow">รีวิวแผนก</span>
         <h2 className="cine-h2">ดูบรรยากาศจริง<br />ของ{course.name}</h2>
       </div>
-      <div className="cd-video-stage" style={{ opacity: Math.min(1, Math.max(0, (p - 0.1) * 4)) }}>
-        <video controls preload="none" poster={video.poster} playsInline>
-          <source src={video.src} type="video/mp4" />
-        </video>
-      </div>
+      {id ? (
+        <div className="cd-video-frame" style={{ opacity: op, transform: `translateY(${(1 - op) * 24}px)` }}>
+          {play ? (
+            <iframe
+              className="cd-video-embed"
+              src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`}
+              title={`วีดิโอแนะนำแผนก ${course.name}`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+            />
+          ) : (
+            <button
+              type="button"
+              className="cd-video-poster"
+              onClick={() => setPlay(true)}
+              aria-label={`เล่นวีดิโอแนะนำแผนก ${course.name}`}
+            >
+              <img
+                src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
+                alt=""
+                onError={(e) => {
+                  e.currentTarget.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+                }}
+              />
+              <span className="cd-video-play">
+                <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
+                  <path d="M8 5l12 7-12 7z" fill="currentColor" />
+                </svg>
+              </span>
+            </button>
+          )}
+        </div>
+      ) : mp4 ? (
+        <div className="cd-video-stage" style={{ opacity: stageOp }}>
+          <video controls preload="none" poster={mp4.poster} playsInline>
+            <source src={mp4.src} type="video/mp4" />
+          </video>
+        </div>
+      ) : (
+        <div className="cd-video-frame" style={{ opacity: op, transform: `translateY(${(1 - op) * 24}px)` }}>
+          <div className="cd-video-empty">
+            <img src={course.img} alt="" />
+            <div className="cd-video-empty-note">
+              <strong>วีดิโอแนะนำแผนกกำลังจัดทำ</strong>
+              <span>เร็ว ๆ นี้ · ติดตามได้ที่เพจของวิทยาลัย</span>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
@@ -362,8 +422,9 @@ export default function CourseDetailBody({ course }: { course: Course }) {
       <CDHero course={course} detail={detail} />
       <CDFacts course={course} />
       <CDSkills course={course} detail={detail} />
+      {/* Design puts the video scene straight after Skills. */}
+      <CDVideo course={course} detail={detail} mp4={video} />
       <CDCurriculum course={course} />
-      {video && <CDVideo course={course} video={video} />}
       {gallery.length > 0 && <CDGallery course={course} photos={gallery} />}
       <CDCareers course={course} detail={detail} />
       <CDRelated course={course} />

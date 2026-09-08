@@ -44,14 +44,18 @@ const breadcrumbJsonLd = {
   ],
 };
 
+// YouTube id wins (design model); the mp4 in videos.json is the fallback.
 const video = DEPT_VIDEO[slug];
-const videoJsonLd = video && {
+const ytid = detail.video;
+const videoJsonLd = (ytid || video) && {
   '@context': 'https://schema.org',
   '@type': 'VideoObject',
   name: `รีวิวแผนก ${course.name} · ${COLLEGE_NAME}`,
   description: `บรรยากาศการเรียนและการฝึกปฏิบัติจริงของสาขา${course.name} ${course.code}`,
-  thumbnailUrl: `${SITE_URL}${video.poster}`,
-  contentUrl: `${SITE_URL}${video.src}`,
+  thumbnailUrl: ytid ? `https://i.ytimg.com/vi/${ytid}/maxresdefault.jpg` : `${SITE_URL}${video.poster}`,
+  ...(ytid
+    ? { embedUrl: `https://www.youtube-nocookie.com/embed/${ytid}` }
+    : { contentUrl: `${SITE_URL}${video.src}` }),
   uploadDate: '2025-06-01',
   publisher: { '@type': 'Organization', name: COLLEGE_NAME, logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/logo.png` } },
 };

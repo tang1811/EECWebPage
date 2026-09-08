@@ -610,14 +610,18 @@
   font-size: clamp(48px, 7vw, 108px);
   font-weight: 800;
   letter-spacing: -0.035em;
-  line-height: 1.0;
+  line-height: 1.32;
   margin: 0 0 24px;
+  padding-bottom: 0.08em;
   text-wrap: balance;
   transition: opacity .8s;
 }
 .cine-closing-head em {
   font-style: italic;
   font-weight: 500;
+  display: inline-block;
+  padding: 0.22em 0.1em 0.26em;
+  margin: -0.22em -0.1em -0.26em;
   background: linear-gradient(120deg, var(--cine-amber), var(--cine-accent));
   -webkit-background-clip: text;
   background-clip: text;
@@ -755,7 +759,7 @@
   /* Closing */
   .cine-closing { padding: 96px 20px; }
   .cine-closing-key { font-size: 11px; letter-spacing: 0.22em; margin-bottom: 16px; }
-  .cine-closing-head { font-size: clamp(36px, 9vw, 56px); margin: 0 0 16px; line-height: 1.05; }
+  .cine-closing-head { font-size: clamp(36px, 9vw, 56px); margin: 0 0 16px; line-height: 1.32; }
   .cine-closing-sub { font-size: 15px; margin: 0 0 32px; }
   .cine-closing-cta { flex-direction: column; gap: 10px; width: 100%; max-width: 320px; }
   .cine-cta-btn { padding: 16px 24px; font-size: 15px; justify-content: center; width: 100%; }

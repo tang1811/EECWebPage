@@ -27,6 +27,8 @@ export type CourseDetail = {
   overview: string;
   skills: Skill[];
   careers: string[];
+  /** YouTube id for the department review video; '' when none is published yet. */
+  video: string;
 };
 
 // ── Base course records ─────────────────────────────────────
@@ -288,11 +290,37 @@ export function getCourse(slug: string): Course | undefined {
   return COURSES.find((c) => c.slug === slug);
 }
 
+// ── วีดิโอแนะนำแผนก (YouTube) ─────────────────────────────
+// ใส่ได้ทั้ง video ID (เช่น 'dQw4w9WgXcQ') หรือลิงก์ YouTube เต็ม
+// ปล่อยว่าง = หน้าสาขาจะถอยไปใช้คลิป mp4 ใน public/assets/courses/videos/
+// (videos.json) และถ้าไม่มีทั้งคู่จึงแสดงกรอบ "กำลังจัดทำ"
+export const COURSE_VIDEOS: Record<string, string> = {
+  yon: '', faifaa: '', gear: '', electronic: '', mecha: '',
+  graphic: '', 'biz-digital': '', accounting: '',
+  'ps-mech': '', 'ps-electrical': '', 'ps-production': '', 'ps-electronic': '',
+  'ps-mecha': '', 'ps-industrial': '', 'ps-network': '', 'ps-graphic': '',
+  'ps-logistics': '', 'ps-accounting': '',
+  'pt-electrical': '',
+};
+
+// วีดิโอสำรอง (แนะนำวิทยาลัยรวม) ใช้เมื่อแผนกยังไม่มีวีดิโอของตัวเอง
+export const FALLBACK_VIDEO = '';
+
+/** Accepts a bare id, a watch/short/shorts/embed URL, or ''. Returns the id or ''. */
+export function ytId(v: string | undefined | null): string {
+  if (!v) return '';
+  const s = String(v).trim();
+  if (!/[/?=]/.test(s)) return s;
+  const m = s.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{6,})/);
+  return m ? m[1] : '';
+}
+
 // ── Merge per-course rich data with category defaults ───────
 export function getCourseDetail(slug: string, course?: Course): CourseDetail {
   const det = COURSE_DETAILS[slug] || {};
   const cat = (course && CAT_DEFAULTS[course.cat]) || undefined;
   return {
+    video: ytId(COURSE_VIDEOS[slug] || FALLBACK_VIDEO),
     overview: det.overview || 'หลักสูตรคุณภาพที่ผสมผสานทั้งภาคทฤษฎีและภาคปฏิบัติ พร้อมระบบทวิภาคีกับสถานประกอบการชั้นนำ',
     skills: det.skills || cat?.skills || [],
     careers: det.careers || cat?.careers || [],

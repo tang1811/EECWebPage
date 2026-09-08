@@ -232,7 +232,7 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
         </div>
 
         <div class="dept-block" data-dept="faculty-heads" data-unit="ภาค">
-          <div class="dept-head" style="--dc: var(--green-600)"><span class="bar"></span><h3>หัวหน้าภาค</h3><span class="ct">{FACULTY_HEADS.length} ภาค</span></div>
+          <div class="reveal exec-subhead" style="--reveal-delay: 0s"><span class="bar"></span><h3>หัวหน้าภาค</h3><span class="ct">{FACULTY_HEADS.length} ภาค</span></div>
           <div class="staff-grid">
             {FACULTY_HEADS.map((m, i) => {
               const src = resolvePhoto(m.name, m.photo);
@@ -390,7 +390,8 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
       const show = count > 0;
       block.style.display = show ? '' : 'none';
       if (show) visibleDepts++;
-      const ct = block.querySelector('.dept-head .ct');
+      // หัวหน้าภาค uses .exec-subhead (design parity); the rest use .dept-head.
+      const ct = block.querySelector('.dept-head .ct, .exec-subhead .ct');
       if (ct) ct.textContent = `${count} ${block.dataset.unit || 'ท่าน'}`;
     });
 
