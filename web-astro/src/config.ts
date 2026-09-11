@@ -4,6 +4,9 @@ export const SITE_URL = 'https://eec.example';
 
 export const SITE_NAME = 'วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง';
 
+// Temporarily pause both admission entry routes. Set true and rebuild to reopen.
+export const ONLINE_ADMISSION_ENABLED = false;
+
 export const DEFAULT_TITLE =
   'วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · เปิดรับสมัคร ปวช. ปวส. ป.ตรี ปีการศึกษา 2569';
 

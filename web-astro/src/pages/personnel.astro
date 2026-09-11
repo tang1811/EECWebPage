@@ -188,7 +188,7 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
         </div>
 
         <div class="reveal exec-subhead" style="--reveal-delay: 0s"><span class="bar"></span><h3>รองผู้อำนวยการ</h3><span class="ct">{DEPUTIES.length} ฝ่าย</span></div>
-        <div class="staff-grid">
+        <div class="staff-grid deputy-grid">
           {DEPUTIES.map((d, i) => {
             const src = resolvePhoto(d.name, d.photo);
             return (

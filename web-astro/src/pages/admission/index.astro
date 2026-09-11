@@ -1,14 +1,16 @@
 ---
 import Base from '../../layouts/Base.astro';
 import AdmissionApp from '../../components/react/admission/AdmissionApp';
+import AdmissionUnavailable from '../../components/AdmissionUnavailable.astro';
+import { ONLINE_ADMISSION_ENABLED } from '../../config';
 import '../../styles/admission.css';
 ---
 
 <Base
   title="สมัครเรียนออนไลน์"
-  description="ระบบรับสมัครนักศึกษาใหม่ออนไลน์ ปวช. ปวส. ป.ตรี — ยืนยันตัวตน กรอกใบสมัคร แนบเอกสาร และติดตามสถานะได้ในที่เดียว"
+  description={ONLINE_ADMISSION_ENABLED ? 'ระบบรับสมัครนักศึกษาใหม่ออนไลน์ ปวช. ปวส. ป.ตรี — ยืนยันตัวตน กรอกใบสมัคร แนบเอกสาร และติดตามสถานะได้ในที่เดียว' : 'ระบบสมัครเรียนออนไลน์ปิดใช้งานชั่วคราว สอบถามข้อมูลเพิ่มเติมได้ที่วิทยาลัย'}
   path="/admission"
   chrome={false}
 >
-  <AdmissionApp client:load />
+  {ONLINE_ADMISSION_ENABLED ? <AdmissionApp client:load /> : <AdmissionUnavailable />}
 </Base>

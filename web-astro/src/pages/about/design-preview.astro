@@ -1,0 +1,13 @@
+---
+import Base from '../../layouts/Base.astro';
+import AboutStory from '../../components/react/AboutStory';
+import '../../styles/about-story.css';
+---
+
+<Base title="ทดลองดีไซน์ใหม่ · เกี่ยวกับเรา" path="/about" mono600>
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preload" as="image" href="/assets/slide-3-innovation.webp" fetchpriority="high" />
+  </Fragment>
+  <AboutStory client:load />
+</Base>

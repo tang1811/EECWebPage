@@ -1,0 +1,41 @@
+---
+import { SITE_NAME } from '../config';
+---
+
+<main class="admission-unavailable">
+  <a class="admission-brand" href="/" aria-label="กลับหน้าแรกวิทยาลัย">
+    <img src="/assets/logo.png" width="56" height="56" alt="" />
+    <span>{SITE_NAME}</span>
+  </a>
+  <section aria-labelledby="admission-unavailable-title">
+    <p class="admission-label">ระบบสมัครเรียนออนไลน์</p>
+    <h1 id="admission-unavailable-title">ปิดใช้งานชั่วคราว</h1>
+    <p>ขณะนี้ระบบสมัครเรียนออนไลน์ปิดใช้งานชั่วคราว<br />หากต้องการสอบถามข้อมูล กรุณาติดต่อวิทยาลัย</p>
+    <div class="admission-actions">
+      <a class="admission-home" href="/">กลับหน้าแรก</a>
+      <a class="admission-contact" href="/contact/">ติดต่อวิทยาลัย</a>
+    </div>
+  </section>
+</main>
+
+<style>
+  .admission-unavailable { min-height: 100svh; background: var(--bg-alt); padding: 32px 24px; color: var(--ink-900); }
+  .admission-brand { display: flex; align-items: center; gap: 14px; width: fit-content; max-width: 100%; margin: 0 auto; font-size: 14px; font-weight: 600; }
+  .admission-brand img { flex-shrink: 0; object-fit: contain; }
+  section { max-width: 620px; margin: clamp(48px, 12vh, 140px) auto 32px; padding: 44px 32px; background: white; border: 1px solid var(--border-soft); border-top: 4px solid var(--green-700); border-radius: var(--r-lg); text-align: center; }
+  .admission-label { color: var(--green-700); font-size: 14px; font-weight: 600; margin: 0 0 14px; }
+  h1 { font-size: clamp(26px, 4vw, 36px); line-height: 1.5; margin: 0 0 18px; }
+  section > p:last-of-type { color: var(--ink-600); font-size: 14px; line-height: 1.9; }
+  .admission-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 28px; }
+  .admission-actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 12px 22px; border-radius: var(--r-pill); border: 1px solid var(--green-700); font-size: 14px; font-weight: 600; }
+  .admission-home { background: var(--green-700); color: white; }
+  .admission-contact { color: var(--green-700); }
+  a:focus-visible { outline: 3px solid var(--accent-amber); outline-offset: 4px; }
+  @media (max-width: 500px) {
+    .admission-unavailable { padding: 24px 18px; }
+    .admission-brand { font-size: 12px; gap: 10px; }
+    .admission-brand img { width: 44px; height: 44px; }
+    section { padding: 32px 20px; }
+    .admission-actions { flex-direction: column; }
+  }
+</style>

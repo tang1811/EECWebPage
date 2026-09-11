@@ -389,6 +389,10 @@
 }
 
 /* ── Responsive ─────────────────────────────────────────── */
+@media (min-width: 1280px) {
+  .deputy-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .deputy-grid .staff-card { height: 100%; }
+}
 @media (max-width: 1024px) {
   .exec-wrap { grid-template-columns: 1fr; }
   .exec-deputies { grid-template-columns: 1fr 1fr; }

@@ -1,15 +1,17 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import PortalApp from '../../../components/react/admission/portal/PortalApp';
+import AdmissionUnavailable from '../../../components/AdmissionUnavailable.astro';
+import { ONLINE_ADMISSION_ENABLED } from '../../../config';
 import '../../../styles/admission.css';
 import '../../../styles/portal.css';
 ---
 
 <Base
   title="พอร์ทัลผู้สมัคร"
-  description="พอร์ทัลผู้สมัครหลังล็อกอิน — แดชบอร์ด กรอกใบสมัคร แนบเอกสาร ชำระเงิน พิมพ์ใบสมัคร และติดตามสถานะ · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง"
+  description={ONLINE_ADMISSION_ENABLED ? 'พอร์ทัลผู้สมัครหลังล็อกอิน — แดชบอร์ด กรอกใบสมัคร แนบเอกสาร ชำระเงิน พิมพ์ใบสมัคร และติดตามสถานะ · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง' : 'ระบบสมัครเรียนออนไลน์ปิดใช้งานชั่วคราว สอบถามข้อมูลเพิ่มเติมได้ที่วิทยาลัย'}
   path="/admission/portal"
   chrome={false}
 >
-  <PortalApp client:only="react" />
+  {ONLINE_ADMISSION_ENABLED ? <PortalApp client:only="react" /> : <AdmissionUnavailable />}
 </Base>
