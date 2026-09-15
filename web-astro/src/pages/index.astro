@@ -61,6 +61,7 @@ const EMPLOYERS = ['ปตท.', 'Mitsubishi', 'Caterpillar', 'เคียว�
 
 const CATS = ['ทั้งหมด', 'อุตสาหกรรม', 'ดิจิทัล', 'บริหาร'];
 const HOME_COURSE_LIMIT = 10;
+const HOME_MOBILE_COURSE_LIMIT = 5;
 
 const PHILOSOPHY = [
   { t: 'มุ่งสร้างคนดี', d: 'มุ่งหวังที่จะสร้างนักศึกษาให้เป็นคนดีทั้งต่อตนเองและสังคม', icon: 'users' },
@@ -170,9 +171,9 @@ const TESTIMONIALS = [
             </button>
           ))}
         </div>
-        <div class="course-grid card-lift" data-limit={HOME_COURSE_LIMIT}>
+        <div class="course-grid card-lift" data-limit={HOME_COURSE_LIMIT} data-mobile-limit={HOME_MOBILE_COURSE_LIMIT}>
           {COURSES.map((c, i) => (
-            <div class="reveal reveal-scale " style={`--reveal-delay:${Math.min(i * 0.04, 0.4)}s`} data-cat={c.cat} hidden={i >= HOME_COURSE_LIMIT}>
+            <div class:list={['reveal reveal-scale', { 'mobile-course-overflow': i >= HOME_MOBILE_COURSE_LIMIT }]} style={`--reveal-delay:${Math.min(i * 0.04, 0.4)}s`} data-cat={c.cat} hidden={i >= HOME_COURSE_LIMIT}>
               <a href={`/courses/${c.slug}/`} class="course-card cc-lift" style={c.color ? `--dept:${c.color}` : undefined}>
                 {c.img && (
                   <div class="cc-photo">
@@ -510,9 +511,26 @@ const TESTIMONIALS = [
   function initCourseFilter(): void {
     const grid = document.querySelector<HTMLElement>('#courses .course-grid');
     if (!grid) return;
-    const limit = Number(grid.dataset.limit);
+    const desktopLimit = Number(grid.dataset.limit);
+    const mobileLimit = Number(grid.dataset.mobileLimit);
+    const mobileViewport = window.matchMedia('(max-width: 700px)');
     const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('#courses .course-filters .chip'));
     const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-cat]'));
+    const showCategory = (cat: string, animate: boolean): void => {
+      const limit = mobileViewport.matches ? mobileLimit : desktopLimit;
+      const shown = cards.filter((card) => cat === 'ทั้งหมด' || card.dataset.cat === cat).slice(0, limit);
+      const visibleCards = new Set(shown);
+      cards.forEach((card) => {
+        card.classList.remove('mobile-course-overflow');
+        card.hidden = !visibleCards.has(card);
+      });
+      if (animate) {
+        shown.forEach((card, i) => {
+          card.classList.add('in');
+          card.style.setProperty('--reveal-delay', `${Math.min(i * 0.04, 0.4)}s`);
+        });
+      }
+    };
     chips.forEach((chip) => {
       chip.addEventListener('click', () => {
         const cat = chip.dataset.cat || 'ทั้งหมด';
@@ -520,16 +538,12 @@ const TESTIMONIALS = [
           c.classList.toggle('chip-active', c === chip);
           c.setAttribute('aria-pressed', String(c === chip));
         });
-        const shown = cards.filter((card) => cat === 'ทั้งหมด' || card.dataset.cat === cat).slice(0, limit);
-        const visibleCards = new Set(shown);
-        cards.forEach((card) => {
-          card.hidden = !visibleCards.has(card);
-        });
-        shown.forEach((card, i) => {
-          card.classList.add('in');
-          card.style.setProperty('--reveal-delay', `${Math.min(i * 0.04, 0.4)}s`);
-        });
+        showCategory(cat, true);
       });
+    });
+    mobileViewport.addEventListener('change', () => {
+      const activeCategory = chips.find((chip) => chip.classList.contains('chip-active'))?.dataset.cat || 'ทั้งหมด';
+      showCategory(activeCategory, false);
     });
   }
 
