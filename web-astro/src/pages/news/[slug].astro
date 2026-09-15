@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PromotionArtwork from '../../components/PromotionArtwork.astro';
 import '../../styles/homepage.css';
 import '../../styles/subpages.css';
 import '../../styles/news.css';
@@ -46,8 +47,9 @@ const breadcrumb = {
   path={`/news/${slug}`}
   og={{ title: n.title, description: n.excerpt, image: n.image ?? '/assets/logo.png', type: 'article' }}
 >
+  {n.promotion?.isExample && <Fragment slot="head"><meta name="robots" content="noindex, nofollow" /></Fragment>}
   <main class="news-page">
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+    {!n.promotion?.isExample && <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />}
     <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumb)} />
 
     <article class="news-article">
@@ -58,8 +60,15 @@ const breadcrumb = {
         <span class="news-tag">{n.tag}</span>
         <h1 class="news-title">{n.title}</h1>
         <time class="news-date" datetime={n.date}>{n.dateLabel}</time>
+        {n.promotion && (
+          <aside class="promotion-summary" aria-label="ข้อมูลโปรโมชั่น">
+            {n.promotion.isExample && <p class="promotion-example-notice">ตัวอย่างโปรโมชั่น · ยังไม่เปิดให้รับสิทธิ์</p>}
+            <dl><div><dt>สำหรับ</dt><dd>{n.promotion.audience}</dd></div><div><dt>ระยะเวลา</dt><dd>{n.promotion.periodLabel}</dd></div></dl>
+          </aside>
+        )}
+        {n.promotion && !n.image && <div class="promotion-detail-placeholder"><PromotionArtwork title={n.title} tone={n.promotion.tone} /></div>}
         {images.length > 0 && (
-          <button type="button" class="news-cover news-cover-btn" aria-label="ดูรูปขนาดเต็ม">
+          <button type="button" class:list={['news-cover', 'news-cover-btn', { 'promotion-detail-cover': n.promotion }]} aria-label="ดูรูปขนาดเต็ม">
             <img src={images[0]} alt={n.title} style={n.objectPosition ? `object-position:${n.objectPosition}` : undefined} />
             <span class="news-cover-zoom" aria-hidden="true">⤢</span>
           </button>
@@ -77,6 +86,7 @@ const breadcrumb = {
         <div class="news-body">
           {n.body.map((p) => <p>{p}</p>)}
         </div>
+        {n.promotion && <div class="promotion-contact"><a class="btn btn-primary" href="/contact/">สอบถามข้อมูลกับวิทยาลัย <span aria-hidden="true">↗</span></a></div>}
         <a href="/news/" class="news-back">← กลับไปหน้าข่าวสารทั้งหมด</a>
       </div>
     </article>
@@ -210,3 +220,16 @@ const breadcrumb = {
     }
   </script>
 </Base>
+
+<style>
+  .promotion-summary { padding: 22px 24px; margin: 24px 0; border: 1px solid var(--border-strong); border-radius: var(--r-md); background: var(--bg-alt); }
+  .promotion-example-notice { font-size: 13px; color: var(--green-800); font-weight: 500; margin: 0 0 16px; }
+  .promotion-summary dl { display: flex; flex-wrap: wrap; gap: 20px 48px; margin: 0; }
+  .promotion-summary dt { font-size: 11px; color: var(--ink-600); margin-bottom: 4px; }
+  .promotion-summary dd { font-size: 14px; margin: 0; color: var(--ink-900); }
+  .promotion-detail-placeholder { max-width: 560px; height: 340px; border-radius: var(--r-md); overflow: hidden; margin: 24px auto 36px; }
+  .news-cover.promotion-detail-cover { aspect-ratio: auto; background: var(--ink-50); }
+  .news-cover.promotion-detail-cover img { height: auto; max-height: 850px; object-fit: contain; }
+  .promotion-contact { margin: 25px 0; }
+  @media (max-width: 600px) { .promotion-detail-placeholder { height: 280px; } .promotion-summary { padding: 20px; } }
+</style>

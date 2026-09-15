@@ -7,10 +7,10 @@
      701–1024   tablet portrait   (2 columns)
      1025–1180  tablet landscape  (3 columns)
      ≤ 1080px   nav → burger      (set in styles.css, unchanged)
-   Do not introduce new values — reuse these four.
+   Reuse these breakpoints for layout; the slideshow uses the requested 1048px tablet cutoff.
 
-   Ported from SchoolWebV2 mobile.css, with two deliberate deltas,
-   all marked [SITE] below:
+   Ported from SchoolWebV2 mobile.css, with site-specific adjustments:
+     · The image-only slideshow uses 3:1 above 1048px, 2:1 at 701–1048px, and 4:3 on phones.
      · `.nav-right` joins the nav-hiding rule — it is a wrapper this
        site has and the design does not. styles.css already hides it
        at ≤1080; repeating it here keeps the rule self-explanatory.
@@ -29,7 +29,7 @@ img, svg, video, iframe, canvas, table { max-width: 100%; }
 
 /* Long Thai strings and URLs are the usual blowout source */
 h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
-.hero-title, .hss-title, .section-title, .cta-title, .cd-h1,
+.hero-title, .section-title, .cta-title, .cd-h1,
 .page-hero h1, .art-top h1, .cc-name, .port-t, .hl-t, .faq-q-text {
   overflow-wrap: break-word;
 }
@@ -39,8 +39,13 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
 .mag-item a > *, .cal-item > *, .award-row > *, .contact-row > *,
 .vcard-card > *, .policy-block li > *, .faq-q > *, .philo-row > *,
 .sum-row > *, .policy-contact dl > div > *, .hero-trust-line > *,
-.trust-item > *, .partner-card > *, .meta-card > *, .step-card > *,
+.partner-card > *, .meta-card > *, .step-card > *,
 .leader-card > *, .staff-card > *, .fld > *, .choice > * { min-width: 0; }
+
+/* [SITE] Slideshow tablet frame (701 – 1048px). */
+@media (min-width: 701px) and (max-width: 1048px) {
+  .hero.hero-slideshow { --hss-aspect-ratio: 2 / 1; }
+}
 
 /* ── Tablet landscape (1025 – 1180px) ─────────────────────── */
 @media (min-width: 1025px) and (max-width: 1180px) {
@@ -54,7 +59,6 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
   .container-narrow { padding-left: 32px !important; padding-right: 32px !important; }
 
   .hero .container,
-  .hss-inner,
   .page-hero .container { padding-left: 40px !important; padding-right: 40px !important; }
 
   .hero-inner { grid-template-columns: 1fr 0.8fr !important; gap: 40px !important; }
@@ -62,19 +66,6 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
   .cd-h1 { font-size: clamp(36px, 5vw, 52px) !important; }
   .hero-sub { font-size: 17px !important; }
   .hero-crest { max-width: 360px !important; }
-
-  /* width:100% is required — with aspect-ratio and no width, a max-height cap
-     makes the browser derive the WIDTH from the capped height and the hero
-     shrinks sideways. Let the ratio drive height; overflow:hidden clips it. */
-  .hero-slideshow { width: 100% !important; aspect-ratio: 16/10 !important; height: auto !important; min-height: 420px !important; max-height: none !important; }
-  .hss-inner { min-height: 0 !important; height: 100% !important; padding: 100px 40px 40px !important; }
-  .hss-img { object-position: center 35% !important; }
-  .hss-content { max-width: 620px !important; }
-  .hss-title { font-size: clamp(34px, 5vw, 48px) !important; }
-  .hss-sub { font-size: 17px !important; padding-right: 0 !important; }
-  .hss-controls { padding-top: 24px !important; }
-  .hss-counter { top: 100px !important; right: 40px !important; }
-  .hss-counter strong { font-size: 28px !important; }
 
   /* 5 stats: 3-across left an orphan row of 2 — keep it even */
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
@@ -106,13 +97,12 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
   .container,
   .container-narrow { padding-left: 20px; padding-right: 20px; }
   .hero .container,
-  .hss-inner,
   .page-hero .container { padding-left: 20px; padding-right: 20px; }
 
   /* 2. Media */
   img, picture, video { max-width: 100%; height: auto; display: block; }
   .hl-img img, .cc-photo img, .port-card img, .port-big img,
-  .testi-avatar img, .leader-card img, .hss-img, .cd-related-img img,
+  .testi-avatar img, .leader-card img, .cd-related-img img,
   .cine-bg-img, .cine-tl-img img { width: 100%; height: 100%; object-fit: cover; }
 
   /* 3. Nav — [SITE] .nav-right added; it wraps the CTA on this site only */
@@ -164,36 +154,8 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
   .crest-badge.b4 { bottom: -2%; right: 0; }
   .hero-scroll { display: none; }
 
-  /* Slideshow hero: copy sits over the image */
-  .hero-slideshow { min-height: 0; height: 60vh; max-height: 460px; aspect-ratio: auto; position: relative; overflow: hidden; }
-  .hss-stage { position: absolute !important; inset: 0; height: auto; max-height: none; min-height: 0; }
-  .hss-slide, .hss-bg { position: absolute; inset: 0; }
-  .hss-img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
-  .hss-tint, .hss-vignette { position: absolute; inset: 0; }
-  .hss-vignette {
-    background: linear-gradient(180deg,
-      rgba(1,35,28,0.15) 0%, rgba(1,35,28,0.0) 20%,
-      rgba(1,35,28,0.35) 55%, rgba(1,35,28,0.85) 80%, rgba(1,35,28,0.98) 100%);
-  }
-  .hss-inner {
-    position: relative !important; min-height: 0; height: 100%;
-    padding: 60px 20px 0; box-sizing: border-box; color: white;
-    display: flex; flex-direction: column; justify-content: flex-end;
-  }
-  .hss-content { position: relative; max-width: 100%; align-self: stretch; }
-  .hss-copy { position: static !important; grid-column: auto !important; grid-row: auto !important; opacity: 0; transform: none; display: none; }
-  .hss-copy.on { display: block; opacity: 1; pointer-events: auto; animation: hss-copy-in .5s var(--ease-out) forwards; }
-  @keyframes hss-copy-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-  .hss-title { font-size: clamp(19px, 5.2vw, 26px); margin: 6px 0 8px; padding-right: 0; line-height: 1.22; text-shadow: 0 2px 12px rgba(0,0,0,0.6), 0 1px 24px rgba(0,0,0,0.4); }
-  .hss-sub { font-size: 14.5px; margin: 0 0 10px; padding-right: 0; line-height: 1.5; text-shadow: 0 1px 6px rgba(0,0,0,0.55); color: rgba(255,255,255,0.95); }
-  .hss-eyebrow { font-size: 11px; padding: 4px 10px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-  .hss-cta { width: 100%; }
-  .hss-cta .btn { width: 100%; padding: 11px 18px; font-size: 13.5px; min-height: 44px; }
-  .hss-controls { padding-top: 10px; margin: 10px 0 0; padding-bottom: 0; gap: 8px; border-top-color: rgba(255,255,255,0.22); }
-  .hss-controls .hss-nav { width: 34px; height: 34px; background: rgba(255,255,255,0.14); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-  .hss-counter { top: 70px; right: 16px; }
-  .hss-counter strong { font-size: 17px; }
-  .hss-counter span, .hss-counter em { font-size: 12px; }
+  /* [SITE] Landscape frame on phones; images fill it with a proportional crop. */
+  .hero.hero-slideshow { --hss-aspect-ratio: 4 / 3; }
 
   .hero-video-layout { padding: 60px 0 40px; }
   .hero-video-card { max-width: 100%; }
@@ -335,7 +297,7 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
 /* ── Small phone (≤ 400px) ────────────────────────────────── */
 @media (max-width: 400px) {
   .container, .container-narrow { padding-left: 15px; padding-right: 15px; }
-  .hero .container, .hss-inner, .page-hero .container { padding-left: 15px; padding-right: 15px; }
+  .hero .container, .page-hero .container { padding-left: 15px; padding-right: 15px; }
   .hero-title, .cd-h1 { font-size: clamp(24px, 7.6vw, 30px); }
   .section-title, .cta-title { font-size: clamp(22px, 7vw, 27px); }
   .nav-inner { height: 60px; }

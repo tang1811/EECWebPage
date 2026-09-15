@@ -3,6 +3,8 @@
 // news-data.js: lead story first, then the rest as laid out on /news/.
 // Photo articles set `image`; announcement-style articles set `tone` + `icon`
 // and render as tinted icon cards (no photo).
+import { PROMOTION_ARTICLES } from './promotion-data';
+
 export type NewsArticle = {
   slug: string;
   tag: string;
@@ -16,6 +18,13 @@ export type NewsArticle = {
   gallery?: string[];  // extra images shown after the cover (click-to-zoom)
   excerpt: string;
   body: string[];      // paragraphs
+  promotion?: {
+    isExample: boolean;
+    showOnHomepage: boolean;
+    audience: string;
+    periodLabel: string;
+    tone: 'green' | 'cream';
+  };
 };
 
 export type UpcomingEvent = {
@@ -212,7 +221,12 @@ const FALLBACK_UPCOMING: UpcomingEvent[] = [
 ];
 
 // Exported names/types are frozen — 4 files import them. CMS data wins when present.
-export const NEWS: NewsArticle[] = cms ? (cms.news as NewsArticle[]) : FALLBACK_NEWS;
+const editorialNews: NewsArticle[] = cms ? (cms.news as NewsArticle[]) : FALLBACK_NEWS;
+// A CMS entry with the same slug replaces its local example.
+export const NEWS: NewsArticle[] = [
+  ...PROMOTION_ARTICLES.filter((n) => !editorialNews.some((article) => article.slug === n.slug)),
+  ...editorialNews,
+];
 export const NEWS_LEAD_SLUG: string = cms ? cms.leadSlug : FALLBACK_LEAD_SLUG;
 export const NEWS_SIDE_SLUGS: string[] = cms ? cms.sideSlugs : FALLBACK_SIDE_SLUGS;
 export const NEWS_UPCOMING: UpcomingEvent[] = cms

@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { fileURLToPath } from 'node:url';
 
 import react from '@astrojs/react';
 
@@ -17,5 +18,20 @@ export default defineConfig({
   // Astro 7 default 'jsx' strips whitespace between inline elements, which can
   // glue mixed Thai/Latin text together across tags — keep HTML-rule behavior.
   compressHTML: true,
-  integrations: [react()],
+  integrations: [
+    react(),
+    {
+      name: 'separate-vite-cache',
+      hooks: {
+        'astro:config:setup': ({ command, updateConfig }) => {
+          // Builds must not replace the React development runtime used by a live dev server.
+          updateConfig({
+            vite: {
+              cacheDir: fileURLToPath(new URL(`./node_modules/.vite-${command}/`, import.meta.url)),
+            },
+          });
+        },
+      },
+    },
+  ],
 });

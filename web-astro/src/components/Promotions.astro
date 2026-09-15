@@ -1,0 +1,121 @@
+---
+import { NEWS } from '../data/news-data';
+import PromotionArtwork from './PromotionArtwork.astro';
+const promotions = NEWS.filter((n) => n.promotion?.showOnHomepage).slice(0, 2);
+---
+
+{promotions.length > 0 && (
+  <section class="promotions" id="promotions" aria-labelledby="promotions-title">
+    <div class="container">
+      <div class="promotions-heading">
+        <div>
+          <span class="promotions-eyebrow"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true"><path d="m12 2 2.7 7.3L22 12l-7.3 2.7L12 22l-2.7-7.3L2 12l7.3-2.7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> EEC PRIVILEGES <span>/</span> โอกาสดี ๆ ที่ EEC</span>
+          <h2 id="promotions-title">โปรโมชั่น<span>และสิทธิพิเศษ</span></h2>
+        </div>
+        <div class="promotions-intro"><p>อีกหนึ่งโอกาสดี ๆ<br />สำหรับอนาคตที่คุณเลือกเอง</p><a class="promotions-all" href="/news/?category=promotion#news-filters">ดูโปรโมชั่นทั้งหมด <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class:list={['promotions-grid', { 'promotions-grid--single': promotions.length === 1 }]}>
+        {promotions.map((n, index) => (
+          <article class:list={['promotion-card', { 'promotion-card--featured': index === 0 }]}>
+            <a class="promotion-image-link" href={`/news/${n.slug}/`} aria-label={`ดูรายละเอียด ${n.title}`}>
+              <PromotionArtwork image={n.image} title={n.title} tone={n.promotion?.tone} />
+            </a>
+            <div class="promotion-copy">
+              <div class="promotion-labels">
+                <span class="promotion-category">{n.tag}</span>
+                {n.promotion?.isExample && <span class="promotion-example">ตัวอย่าง</span>}
+              </div>
+              <h3><a href={`/news/${n.slug}/`}>{n.title}</a></h3>
+              <p>{n.excerpt}</p>
+              <div class="promotion-meta">
+                <span><svg viewBox="0 0 24 24" width="15" height="15" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>{n.promotion?.audience}</span>
+                <span><svg viewBox="0 0 24 24" width="15" height="15" fill="none" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 10h16M8 3v4m8-4v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>{n.promotion?.periodLabel}</span>
+              </div>
+              <a class="promotion-details" href={`/news/${n.slug}/`} aria-label={`ดูรายละเอียด ${n.title}`}>ดูรายละเอียด <span><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+            </div>
+          </article>
+        ))}
+      </div>
+      <div class="promotions-footer"><span><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none"><path d="M12 3 4 6v6c0 4 8 9 8 9s8-5 8-9V6l-8-3Z" stroke="currentColor" stroke-width="1.5"/><path d="m8 12 3 3 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> สอบถามรายละเอียดและเงื่อนไขกับวิทยาลัยโดยตรง</span><a href="/contact/">พูดคุยกับเรา <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+)}
+
+<style>
+  .promotions { padding: 64px 0 28px; background: #f5f4ed; scroll-margin-top: 88px; border-bottom: 1px solid var(--border-soft); }
+  .promotions-heading { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 34px; }
+  .promotions-eyebrow { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; color: var(--green-700); font-size: 10px; font-weight: 500; letter-spacing: .07em; }
+  .promotions-eyebrow > span { color: var(--ink-300); padding-inline: 3px; }
+  .promotions-heading h2 { font-size: clamp(28px, 3vw, 42px); line-height: 1.6; font-weight: 600; letter-spacing: -.04em; margin: 14px 0 0; color: var(--green-900); }
+  .promotions-heading h2 > span { position: relative; display: inline-block; margin-left: .16em; color: var(--green-700); isolation: isolate; }
+  .promotions-heading h2 > span::after { content: ''; position: absolute; left: 0; right: 0; bottom: 10px; height: 8px; z-index: -1; background: #f8da71; }
+  .promotions-intro { display: flex; align-items: end; gap: 30px; padding-bottom: 7px; }
+  .promotions-intro p { color: var(--ink-600); font-size: 12px; line-height: 1.9; margin: 0; }
+  .promotions-all { display: inline-flex; align-items: center; gap: 14px; flex-shrink: 0; color: var(--green-800); font-size: 12px; font-weight: 500; min-height: 44px; }
+  .promotions-all > span { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--green-700); border-radius: 50%; font-size: 20px; transition: background .2s, color .2s; }
+  .promotions-all:hover > span { background: var(--green-700); color: white; }
+  .promotions-grid { display: grid; grid-template-columns: 1.12fr 1fr; gap: 26px; }
+  .promotions-grid--single { grid-template-columns: minmax(0, 860px); }
+  .promotion-card { --promo-text: var(--green-900); --promo-muted: var(--ink-600); --promo-rule: var(--ink-200); position: relative; display: grid; grid-template-columns: 43% minmax(0, 1fr); min-height: 365px; overflow: hidden; background: #fff; border: 1px solid #dfdfd3; border-radius: 18px; box-shadow: 0 8px 24px -20px rgba(1,35,28,.3); transition: transform .25s, box-shadow .25s; }
+  .promotion-card--featured { --promo-text: #fff; --promo-muted: #c1d8ce; --promo-rule: rgba(255,255,255,.22); background: var(--green-800); border-color: var(--green-800); }
+  .promotion-image-link { position: relative; display: block; min-width: 0; }
+  .promotion-copy { position: relative; display: flex; flex-direction: column; align-items: start; padding: 30px 28px 26px; border-left: 1px dashed var(--promo-rule); }
+  .promotion-copy::before, .promotion-copy::after { content: ''; position: absolute; left: -9px; width: 16px; height: 16px; background: #f5f4ed; border-radius: 50%; }
+  .promotion-copy::before { top: -9px; }
+  .promotion-copy::after { bottom: -9px; }
+  .promotion-labels { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .promotion-category { font-size: 10px; letter-spacing: .03em; padding: 5px 9px; border-radius: 4px; line-height: 1.6; background: var(--green-50); color: var(--green-700); }
+  .promotion-card--featured .promotion-category { background: #ffda64; color: var(--green-900); }
+  .promotion-example { font-size: 10px; color: var(--promo-muted); }
+  .promotion-copy h3 { font-size: clamp(23px, 2vw, 28px); font-weight: 500; line-height: 1.55; letter-spacing: -.025em; margin: 18px 0 13px; }
+  .promotion-copy h3 a { color: var(--promo-text); }
+  .promotion-copy > p { color: var(--promo-muted); font-size: 12px; line-height: 1.95; margin: 0 0 22px; }
+  .promotion-meta { display: grid; gap: 8px; color: var(--promo-muted); font-size: 10px; margin-top: auto; margin-bottom: 23px; }
+  .promotion-meta > span { display: flex; align-items: center; gap: 9px; }
+  .promotion-meta svg { flex-shrink: 0; opacity: .9; }
+  .promotion-details { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 14px; min-height: 47px; padding: 6px 7px 6px 16px; font-size: 12px; font-weight: 500; border-radius: 7px; background: var(--green-700); color: white; transition: background .2s; }
+  .promotion-details > span { display: grid; place-items: center; width: 33px; height: 33px; border-radius: 4px; background: rgba(255,255,255,.1); }
+  .promotion-card--featured .promotion-details { background: #ffda64; color: var(--green-900); }
+  .promotion-card--featured .promotion-details > span { background: rgba(1,35,28,.07); }
+  .promotion-details:hover { background: var(--green-800); }
+  .promotion-card--featured .promotion-details:hover { background: #ffe797; }
+  .promotions-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 24px; padding-top: 22px; font-size: 10px; color: var(--ink-600); }
+  .promotions-footer > span { display: flex; align-items: center; gap: 8px; }
+  .promotions-footer svg { flex-shrink: 0; color: var(--green-700); }
+  .promotions-footer a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--green-700); font-size: 11px; }
+  .promotions a:focus-visible { outline: 3px solid var(--accent-amber); outline-offset: 4px; }
+  .promotion-image-link:focus-visible { outline-offset: -4px; }
+  @media (hover: hover) { .promotion-card:hover { --promo-photo-scale: 1.045; transform: translateY(-5px); box-shadow: 0 20px 30px -20px rgba(1,35,28,.35); } }
+  @media (max-width: 1180px) { .promotions-intro { flex-direction: column; align-items: start; gap: 4px; } .promotion-copy { padding-inline: 23px; } }
+  @media (max-width: 1024px) {
+    .promotions-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .promotions-grid--single { grid-template-columns: 1fr; }
+    .promotion-card { grid-template-columns: 1fr; }
+    .promotion-copy { padding: 27px; border-left: 0; border-top: 1px dashed var(--promo-rule); }
+    .promotion-copy::before { left: -9px; top: -9px; }
+    .promotion-copy::after { right: -9px; left: auto; top: -9px; bottom: auto; }
+    .promotion-image-link { height: 270px; }
+    .promotion-copy h3 { font-size: 27px; }
+  }
+  @media (max-width: 600px) {
+    .promotions { padding: 38px 0 22px; }
+    .promotions-heading { align-items: start; flex-direction: column; gap: 18px; margin-bottom: 24px; }
+    .promotions-eyebrow { gap: 7px; font-size: 9px; letter-spacing: .02em; }
+    .promotions-heading h2 { font-size: 30px; line-height: 1.45; margin-top: 15px; }
+    .promotions-heading h2 > span { margin-left: 0; display: table; }
+    .promotions-heading h2 > span::after { bottom: 5px; height: 7px; }
+    .promotions-intro { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; padding: 0; }
+    .promotions-intro p { font-size: 10px; }
+    .promotions-all { font-size: 11px; gap: 8px; }
+    .promotions-all > span { width: 30px; height: 30px; font-size: 17px; }
+    .promotions-grid { grid-template-columns: 1fr; gap: 24px; }
+    .promotion-image-link { height: 260px; }
+    .promotion-copy { padding: 24px; }
+    .promotion-copy h3 { font-size: 27px; max-width: 285px; }
+    .promotion-copy > p { font-size: 13px; }
+    .promotion-meta { font-size: 11px; }
+    .promotion-details { font-size: 13px; min-height: 48px; }
+    .promotions-footer { padding-top: 18px; font-size: 9px; gap: 2px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .promotion-card, .promotion-card:hover { transition: none; transform: none; } }
+</style>

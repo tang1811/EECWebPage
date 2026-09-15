@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-09-14",
+  "pageCoverage": {"expected": 97, "actual": 97, "duplicates": 0},
+  "downloadedAssets": 78,
+  "selectedAssets": 68,
+  "selectedFilesMatchOriginalChecksums": true,
+  "allAssetPageReferencesMatchCaptures": true,
+  "gallery": {
+    "imagesLoaded": 68,
+    "brokenImages": 0,
+    "javascriptErrors": 0,
+    "desktopViewport": "1440x1000",
+    "mobileViewport": "390x844",
+    "mobileHorizontalOverflow": false,
+    "departmentSearch": "passed",
+    "emptySearchState": "passed",
+    "resetAndDepartmentNavigation": "passed",
+    "localPreviewStatus": 200,
+    "localPreviewImageLoaded": true
+  },
+  "previewUrl": "http://localhost:4321/@fs/C:/Users/T/Desktop/EECWebPage/web-astro/research/canva-departments/index.html",
+  "deploymentPerformed": false
+}

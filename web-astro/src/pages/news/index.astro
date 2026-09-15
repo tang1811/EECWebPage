@@ -4,6 +4,7 @@
 // upcoming-events calendar with .ics download. Filtering is client-side;
 // every card is server-rendered so crawlers see all links.
 import Base from '../../layouts/Base.astro';
+import PromotionArtwork from '../../components/PromotionArtwork.astro';
 import '../../styles/homepage.css';
 import '../../styles/subpages.css';
 import '../../styles/news.css';
@@ -19,7 +20,7 @@ const gridItems = NEWS.filter((n) => n.slug !== NEWS_LEAD_SLUG && !NEWS_SIDE_SLU
 // full grid whenever a filter or query is active.
 const featured = [lead, ...side];
 
-const CATS = ['ทั้งหมด', 'กิจกรรม', 'ประกาศ', 'รับสมัคร', 'รางวัล', 'นศท.'];
+const CATS = ['ทั้งหมด', 'โปรโมชั่น', 'กิจกรรม', 'ประกาศ', 'รับสมัคร', 'รางวัล', 'นศท.'];
 const DESCRIPTION =
   'ข่าวสาร ประกาศ และกิจกรรมล่าสุดของวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · ปฏิทินกิจกรรมปีการศึกษา 2569';
 
@@ -39,7 +40,7 @@ const revealDelay = (i: number) => Math.min(i * 0.06, 0.3);
 const itemList = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  itemListElement: NEWS.slice(0, 10).map((n, i) => ({
+  itemListElement: NEWS.filter((n) => !n.promotion?.isExample).slice(0, 10).map((n, i) => ({
     '@type': 'ListItem',
     position: i + 1,
     url: `${SITE_URL}/news/${n.slug}/`,
@@ -113,7 +114,7 @@ const itemList = {
 
     <section class="section section-sm" style="padding-top:24px">
       <div class="container">
-        <div class="reveal news-filters">
+        <div class="reveal news-filters" id="news-filters" style="scroll-margin-top:100px">
           <div class="chip-row" id="chipRow">
             {CATS.map((c, i) => (
               <button type="button" class={i === 0 ? 'chip chip-active' : 'chip'} data-cat={c}>{c}</button>
@@ -132,13 +133,16 @@ const itemList = {
           {[...featured.map((n) => ({ n, feat: true })), ...gridItems.map((n) => ({ n, feat: false }))].map(({ n, feat }, i) => (
             <div class="reveal" style={`--reveal-delay:${revealDelay(feat ? 0 : i - featured.length)}s`} data-card data-cat={n.tag} data-text={searchText(n)} data-featured={feat ? 'true' : undefined} hidden={feat}>
               <a href={`/news/${n.slug}/`} class={n.tone ? `hl-card hl-tone-${n.tone}` : 'hl-card'}>
-                {n.image ? (
+                {n.promotion ? (
+                  <div class="hl-img promotion-news-artwork"><PromotionArtwork image={n.image} title={n.title} tone={n.promotion.tone} /></div>
+                ) : n.image ? (
                   <div class="hl-img hl-img-photo"><img src={n.image} alt="" loading="lazy" style={n.objectPosition ? `object-position:${n.objectPosition}` : undefined} /></div>
                 ) : (
                   <div class="hl-img hl-img-tone"><svg viewBox="0 0 24 24" width="56" height="56" aria-hidden="true" set:html={ICONS[n.icon ?? 'book']} /></div>
                 )}
                 <div class="hl-body">
                   <span class="hl-tag" style="font-size:16px">{n.tag}</span>
+                  {n.promotion?.isExample && <span class="promotion-news-example">ตัวอย่าง</span>}
                   <h3 class="hl-t">{n.title}</h3>
                   <p class="hl-d">{n.excerpt}</p>
                   <div class="news-date">
@@ -189,7 +193,7 @@ const itemList = {
     import { NEWS_UPCOMING } from '../../data/news-data';
 
     const PAGE = 9;
-    let cat = 'ทั้งหมด';
+    let cat = new URLSearchParams(window.location.search).get('category') === 'promotion' ? 'โปรโมชั่น' : 'ทั้งหมด';
     let q = '';
     let limit = PAGE;
 
@@ -208,6 +212,10 @@ const itemList = {
       // grid, and the lead/side (featured) cards join the filterable pool —
       // otherwise the นศท./รับสมัคร chips could never match anything.
       const filtering = cat !== 'ทั้งหมด' || !!q;
+      chipRow?.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
+        button.classList.toggle('chip-active', button.dataset.cat === cat);
+        button.setAttribute('aria-pressed', String(button.dataset.cat === cat));
+      });
       if (mag) mag.hidden = filtering;
       const pool = filtering ? cards : cards.filter((c) => !c.dataset.featured);
       const matched = pool.filter(
@@ -287,3 +295,8 @@ const itemList = {
     apply();
   </script>
 </Base>
+
+<style>
+  .promotion-news-artwork { height: 280px; aspect-ratio: auto; }
+  .promotion-news-example { display: inline-block; margin-left: 10px; font-size: 11px; color: var(--ink-600); border: 1px solid var(--ink-200); border-radius: 4px; padding: 2px 7px; }
+</style>

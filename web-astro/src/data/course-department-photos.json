@@ -1,0 +1,717 @@
+{
+  "mechatronics/robot-lab.jpg": {
+    "src": "/assets/courses/canva/mechatronics/robot-lab.jpg",
+    "alt": "แขนกลและชุดฝึกระบบอัตโนมัติในห้องปฏิบัติการ",
+    "width": 1599,
+    "height": 980,
+    "kind": "photo",
+    "sourcePages": [
+      3
+    ]
+  },
+  "production/metal-cutting.jpg": {
+    "src": "/assets/courses/canva/production/metal-cutting.jpg",
+    "alt": "เครื่องตัดโลหะขณะทำงาน",
+    "width": 1599,
+    "height": 1304,
+    "kind": "photo",
+    "sourcePages": [
+      4,
+      7,
+      9
+    ]
+  },
+  "automotive/engine-training.jpg": {
+    "src": "/assets/courses/canva/automotive/engine-training.jpg",
+    "alt": "ชุดเครื่องยนต์สำหรับการฝึก",
+    "width": 1938,
+    "height": 2399,
+    "kind": "photo",
+    "sourcePages": [
+      4,
+      5,
+      9
+    ]
+  },
+  "electrical/electrical-tools.jpg": {
+    "src": "/assets/courses/canva/electrical/electrical-tools.jpg",
+    "alt": "เครื่องมือช่างและเครื่องมือวัดไฟฟ้า",
+    "width": 2400,
+    "height": 1600,
+    "kind": "photo",
+    "sourcePages": [
+      4,
+      6,
+      9
+    ]
+  },
+  "mechatronics/automation-lab.jpg": {
+    "src": "/assets/courses/canva/mechatronics/automation-lab.jpg",
+    "alt": "ชุดฝึกระบบโรงงานอัตโนมัติ",
+    "width": 2399,
+    "height": 1285,
+    "kind": "photo",
+    "sourcePages": [
+      4,
+      8,
+      9
+    ]
+  },
+  "mechatronics/student-robot.png": {
+    "src": "/assets/courses/canva/mechatronics/student-robot.png",
+    "alt": "นักศึกษากำลังทำงานกับแขนกล",
+    "width": 1599,
+    "height": 1066,
+    "kind": "cutout",
+    "sourcePages": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "electrical/electrical-person.png": {
+    "src": "/assets/courses/canva/electrical/electrical-person.png",
+    "alt": "ภาพบุคคลพร้อมอุปกรณ์ช่างไฟฟ้าจากสไลด์แนะนำแผนก",
+    "width": 580,
+    "height": 799,
+    "kind": "cutout",
+    "sourcePages": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "automotive/automotive-student.png": {
+    "src": "/assets/courses/canva/automotive/automotive-student.png",
+    "alt": "นักศึกษาในชุดแผนกช่างยนต์",
+    "width": 1351,
+    "height": 1600,
+    "kind": "cutout",
+    "sourcePages": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "production/student-grinding.png": {
+    "src": "/assets/courses/canva/production/student-grinding.png",
+    "alt": "นักศึกษาฝึกงานเจียรชิ้นงาน",
+    "width": 1066,
+    "height": 1599,
+    "kind": "cutout",
+    "sourcePages": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "accounting/accounting-practice.jpg": {
+    "src": "/assets/courses/canva/accounting/accounting-practice.jpg",
+    "alt": "การใช้เครื่องคิดเลขและเอกสารบัญชี",
+    "width": 1600,
+    "height": 2400,
+    "kind": "photo",
+    "sourcePages": [
+      10,
+      12,
+      15
+    ]
+  },
+  "digital-business/computer-hardware.jpg": {
+    "src": "/assets/courses/canva/digital-business/computer-hardware.jpg",
+    "alt": "การทำงานกับอุปกรณ์ภายในคอมพิวเตอร์",
+    "width": 1839,
+    "height": 2399,
+    "kind": "photo",
+    "sourcePages": [
+      10,
+      14,
+      15
+    ]
+  },
+  "logistics/warehouse-packages.jpg": {
+    "src": "/assets/courses/canva/logistics/warehouse-packages.jpg",
+    "alt": "กล่องสินค้าบนสายพานลำเลียง",
+    "width": 1599,
+    "height": 1066,
+    "kind": "photo",
+    "sourcePages": [
+      10,
+      11,
+      15
+    ]
+  },
+  "accounting/accounting-person.png": {
+    "src": "/assets/courses/canva/accounting/accounting-person.png",
+    "alt": "ภาพบุคคลประกอบแผนกบัญชีจากต้นฉบับ",
+    "width": 1599,
+    "height": 1019,
+    "kind": "cutout",
+    "sourcePages": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "logistics/logistics-person.png": {
+    "src": "/assets/courses/canva/logistics/logistics-person.png",
+    "alt": "ภาพบุคคลกับอุปกรณ์เคลื่อนย้ายสินค้าจากสไลด์โลจิสติกส์",
+    "width": 1219,
+    "height": 1599,
+    "kind": "cutout",
+    "sourcePages": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "digital-graphic/graphic-student.png": {
+    "src": "/assets/courses/canva/digital-graphic/graphic-student.png",
+    "alt": "นักศึกษากับงานออกแบบและวงล้อสี",
+    "width": 1600,
+    "height": 1320,
+    "kind": "cutout",
+    "sourcePages": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "digital-business/digital-business-person.png": {
+    "src": "/assets/courses/canva/digital-business/digital-business-person.png",
+    "alt": "ภาพบุคคลประกอบแผนกเทคโนโลยีธุรกิจดิจิทัล",
+    "width": 623,
+    "height": 799,
+    "kind": "cutout",
+    "sourcePages": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "bachelor-electrical/gown-pair.png": {
+    "src": "/assets/courses/canva/bachelor-electrical/gown-pair.png",
+    "alt": "ภาพบุคคลในชุดครุยจากหน้าปกหลักสูตร",
+    "width": 832,
+    "height": 1248,
+    "kind": "cutout",
+    "sourcePages": [
+      16
+    ]
+  },
+  "bachelor-electrical/electrical-students.png": {
+    "src": "/assets/courses/canva/bachelor-electrical/electrical-students.png",
+    "alt": "กลุ่มนักศึกษาพร้อมเครื่องมือช่างไฟฟ้า",
+    "width": 1599,
+    "height": 1066,
+    "kind": "cutout",
+    "sourcePages": [
+      17
+    ]
+  },
+  "bachelor-electrical/electrical-control-panel.jpg": {
+    "src": "/assets/courses/canva/bachelor-electrical/electrical-control-panel.jpg",
+    "alt": "การทำงานกับตู้ควบคุมไฟฟ้า",
+    "width": 2045,
+    "height": 2399,
+    "kind": "photo",
+    "sourcePages": [
+      19
+    ]
+  },
+  "bachelor-electrical/aircon-gauges.jpg": {
+    "src": "/assets/courses/canva/bachelor-electrical/aircon-gauges.jpg",
+    "alt": "เครื่องมือวัดในงานระบบปรับอากาศ",
+    "width": 1360,
+    "height": 1600,
+    "kind": "photo",
+    "sourcePages": [
+      20
+    ]
+  },
+  "bachelor-electrical/plc-training-kit.jpg": {
+    "src": "/assets/courses/canva/bachelor-electrical/plc-training-kit.jpg",
+    "alt": "ชุดฝึกระบบ PLC และคอมพิวเตอร์",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      21
+    ]
+  },
+  "bachelor-electrical/aircon-installation.jpg": {
+    "src": "/assets/courses/canva/bachelor-electrical/aircon-installation.jpg",
+    "alt": "การติดตั้งเครื่องปรับอากาศ",
+    "width": 800,
+    "height": 575,
+    "kind": "photo",
+    "sourcePages": [
+      21
+    ]
+  },
+  "bachelor-electrical/building-wiring-practice.jpg": {
+    "src": "/assets/courses/canva/bachelor-electrical/building-wiring-practice.jpg",
+    "alt": "การฝึกติดตั้งระบบไฟฟ้าในอาคาร",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      21
+    ]
+  },
+  "bachelor-electrical/gown-two-people.png": {
+    "src": "/assets/courses/canva/bachelor-electrical/gown-two-people.png",
+    "alt": "ภาพบุคคลสองคนในชุดครุยจากต้นฉบับ",
+    "width": 832,
+    "height": 1248,
+    "kind": "cutout",
+    "sourcePages": [
+      22
+    ]
+  },
+  "bachelor-electrical/student-portrait.png": {
+    "src": "/assets/courses/canva/bachelor-electrical/student-portrait.png",
+    "alt": "ภาพนักศึกษาประกอบหน้าสายอาชีพ",
+    "width": 1066,
+    "height": 1599,
+    "kind": "cutout",
+    "sourcePages": [
+      23
+    ]
+  },
+  "bachelor-electrical/graduation-group.png": {
+    "src": "/assets/courses/canva/bachelor-electrical/graduation-group.png",
+    "alt": "ภาพกลุ่มบุคคลและชุดครุยจากสไลด์แนะนำการเรียนต่อ",
+    "width": 832,
+    "height": 1248,
+    "kind": "photo",
+    "sourcePages": [
+      24
+    ]
+  },
+  "automotive/tire-workshop.jpg": {
+    "src": "/assets/courses/canva/automotive/tire-workshop.jpg",
+    "alt": "การเรียนปฏิบัติงานยางในห้องช่างยนต์",
+    "width": 1599,
+    "height": 1066,
+    "kind": "photo",
+    "sourcePages": [
+      25
+    ]
+  },
+  "automotive/brake-measurement.jpg": {
+    "src": "/assets/courses/canva/automotive/brake-measurement.jpg",
+    "alt": "การวัดชิ้นส่วนในระบบเบรก",
+    "width": 1600,
+    "height": 2400,
+    "kind": "photo",
+    "sourcePages": [
+      26,
+      29
+    ]
+  },
+  "automotive/engine-students.jpg": {
+    "src": "/assets/courses/canva/automotive/engine-students.jpg",
+    "alt": "นักศึกษาสองคนฝึกกับชุดเครื่องยนต์",
+    "width": 2394,
+    "height": 2399,
+    "kind": "photo",
+    "sourcePages": [
+      26
+    ]
+  },
+  "automotive/student-engine-tools.jpg": {
+    "src": "/assets/courses/canva/automotive/student-engine-tools.jpg",
+    "alt": "นักศึกษาพร้อมประแจและเครื่องยนต์",
+    "width": 1599,
+    "height": 1066,
+    "kind": "photo",
+    "sourcePages": [
+      27
+    ]
+  },
+  "automotive/underbody-practice.jpg": {
+    "src": "/assets/courses/canva/automotive/underbody-practice.jpg",
+    "alt": "นักศึกษาฝึกตรวจใต้ท้องรถ",
+    "width": 1600,
+    "height": 1218,
+    "kind": "photo",
+    "sourcePages": [
+      28
+    ]
+  },
+  "automotive/common-rail.jpg": {
+    "src": "/assets/courses/canva/automotive/common-rail.jpg",
+    "alt": "เครื่องยนต์และชุดควบคุมสำหรับการเรียนคอมมอนเรล",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      30
+    ]
+  },
+  "automotive/diesel-diagnostic.jpg": {
+    "src": "/assets/courses/canva/automotive/diesel-diagnostic.jpg",
+    "alt": "ชุดฝึกเครื่องยนต์ดีเซล",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      30
+    ]
+  },
+  "automotive/engine-workshop.jpg": {
+    "src": "/assets/courses/canva/automotive/engine-workshop.jpg",
+    "alt": "ห้องปฏิบัติการพร้อมชุดฝึกเครื่องยนต์",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      30
+    ]
+  },
+  "automotive/tire-balancing.jpg": {
+    "src": "/assets/courses/canva/automotive/tire-balancing.jpg",
+    "alt": "เครื่องถอดยางและอุปกรณ์ถ่วงล้อ",
+    "width": 799,
+    "height": 633,
+    "kind": "photo",
+    "sourcePages": [
+      31
+    ]
+  },
+  "automotive/motorcycle-station.jpg": {
+    "src": "/assets/courses/canva/automotive/motorcycle-station.jpg",
+    "alt": "สถานีฝึกงานรถจักรยานยนต์",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      31
+    ]
+  },
+  "automotive/vehicle-lift.jpg": {
+    "src": "/assets/courses/canva/automotive/vehicle-lift.jpg",
+    "alt": "รถและอุปกรณ์ยกรถในห้องปฏิบัติการ",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      31
+    ]
+  },
+  "automotive/motorcycle-engine.jpg": {
+    "src": "/assets/courses/canva/automotive/motorcycle-engine.jpg",
+    "alt": "ชุดฝึกถอดประกอบเครื่องยนต์รถจักรยานยนต์",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      31
+    ]
+  },
+  "automotive/chassis-station.jpg": {
+    "src": "/assets/courses/canva/automotive/chassis-station.jpg",
+    "alt": "ชุดฝึกระบบช่วงล่างและตัวรถ",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      31
+    ]
+  },
+  "automotive/small-gasoline-engine.jpg": {
+    "src": "/assets/courses/canva/automotive/small-gasoline-engine.jpg",
+    "alt": "เครื่องยนต์เล็กแก๊สโซลีนสำหรับการฝึก",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      31
+    ]
+  },
+  "automotive/engine-assembly.jpg": {
+    "src": "/assets/courses/canva/automotive/engine-assembly.jpg",
+    "alt": "การถอดประกอบเครื่องยนต์",
+    "width": 1600,
+    "height": 2400,
+    "kind": "photo",
+    "sourcePages": [
+      32
+    ]
+  },
+  "automotive/automotive-pair.jpg": {
+    "src": "/assets/courses/canva/automotive/automotive-pair.jpg",
+    "alt": "นักศึกษาช่างยนต์สองคนในห้องปฏิบัติการ",
+    "width": 1599,
+    "height": 1066,
+    "kind": "photo",
+    "sourcePages": [
+      32
+    ]
+  },
+  "automotive/student-brake-work.jpg": {
+    "src": "/assets/courses/canva/automotive/student-brake-work.jpg",
+    "alt": "นักศึกษากับระบบเบรกของรถยนต์",
+    "width": 2400,
+    "height": 1600,
+    "kind": "photo",
+    "sourcePages": [
+      33
+    ]
+  },
+  "electrical/electrical-practice.jpg": {
+    "src": "/assets/courses/canva/electrical/electrical-practice.jpg",
+    "alt": "นักศึกษาฝึกปฏิบัติงานไฟฟ้าที่โต๊ะเครื่องมือ",
+    "width": 1599,
+    "height": 1104,
+    "kind": "photo",
+    "sourcePages": [
+      34
+    ]
+  },
+  "electrical/aircon-indoor-unit.jpg": {
+    "src": "/assets/courses/canva/electrical/aircon-indoor-unit.jpg",
+    "alt": "การฝึกติดตั้งชุดเครื่องปรับอากาศภายในอาคาร",
+    "width": 1599,
+    "height": 1113,
+    "kind": "photo",
+    "sourcePages": [
+      35
+    ]
+  },
+  "electrical/aircon-measuring-tools.jpg": {
+    "src": "/assets/courses/canva/electrical/aircon-measuring-tools.jpg",
+    "alt": "การใช้เกจวัดในงานปรับอากาศ",
+    "width": 1600,
+    "height": 2400,
+    "kind": "photo",
+    "sourcePages": [
+      36
+    ]
+  },
+  "electrical/aircon-outdoor-unit.jpg": {
+    "src": "/assets/courses/canva/electrical/aircon-outdoor-unit.jpg",
+    "alt": "การตรวจชุดเครื่องปรับอากาศภายนอกอาคาร",
+    "width": 1599,
+    "height": 1219,
+    "kind": "photo",
+    "sourcePages": [
+      37
+    ]
+  },
+  "electrical/clamp-meter-practice.jpg": {
+    "src": "/assets/courses/canva/electrical/clamp-meter-practice.jpg",
+    "alt": "การใช้เครื่องมือวัดไฟฟ้าในงานปรับอากาศ",
+    "width": 1599,
+    "height": 1104,
+    "kind": "photo",
+    "sourcePages": [
+      38
+    ]
+  },
+  "electrical/hand-tools-wall.jpg": {
+    "src": "/assets/courses/canva/electrical/hand-tools-wall.jpg",
+    "alt": "เครื่องมือช่างไฟฟ้าที่จัดเก็บบนแผง",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      39
+    ]
+  },
+  "electrical/electrical-workbenches.jpg": {
+    "src": "/assets/courses/canva/electrical/electrical-workbenches.jpg",
+    "alt": "โต๊ะฝึกและอุปกรณ์ในห้องปฏิบัติการไฟฟ้า",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      39
+    ]
+  },
+  "electrical/electrical-lab-practice.jpg": {
+    "src": "/assets/courses/canva/electrical/electrical-lab-practice.jpg",
+    "alt": "การฝึกกับอุปกรณ์ไฟฟ้าในห้องปฏิบัติการ",
+    "width": 800,
+    "height": 600,
+    "kind": "photo",
+    "sourcePages": [
+      39
+    ]
+  },
+  "electrical/copper-wire-spools.jpg": {
+    "src": "/assets/courses/canva/electrical/copper-wire-spools.jpg",
+    "alt": "ม้วนลวดทองแดงสำหรับงานไฟฟ้า",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      40
+    ]
+  },
+  "electrical/wiring-kit.jpg": {
+    "src": "/assets/courses/canva/electrical/wiring-kit.jpg",
+    "alt": "ชุดสายไฟและอุปกรณ์ต่อวงจร",
+    "width": 799,
+    "height": 596,
+    "kind": "photo",
+    "sourcePages": [
+      40
+    ]
+  },
+  "electrical/lighting-components.jpg": {
+    "src": "/assets/courses/canva/electrical/lighting-components.jpg",
+    "alt": "หลอดไฟและอุปกรณ์แสงสว่าง",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      40
+    ]
+  },
+  "electrical/electricity-meters.jpg": {
+    "src": "/assets/courses/canva/electrical/electricity-meters.jpg",
+    "alt": "มิเตอร์วัดพลังงานไฟฟ้าสำหรับการฝึก",
+    "width": 799,
+    "height": 469,
+    "kind": "photo",
+    "sourcePages": [
+      40
+    ]
+  },
+  "electrical/tool-basket.jpg": {
+    "src": "/assets/courses/canva/electrical/tool-basket.jpg",
+    "alt": "เครื่องมือช่างและอุปกรณ์ป้องกัน",
+    "width": 799,
+    "height": 533,
+    "kind": "photo",
+    "sourcePages": [
+      40
+    ]
+  },
+  "electrical/drill-tools.jpg": {
+    "src": "/assets/courses/canva/electrical/drill-tools.jpg",
+    "alt": "สว่านและอุปกรณ์บนโต๊ะปฏิบัติงาน",
+    "width": 533,
+    "height": 799,
+    "kind": "photo",
+    "sourcePages": [
+      40
+    ]
+  },
+  "electrical/student-wiring-panel.jpg": {
+    "src": "/assets/courses/canva/electrical/student-wiring-panel.jpg",
+    "alt": "นักศึกษาปฏิบัติงานกับแผงไฟฟ้า",
+    "width": 1386,
+    "height": 2400,
+    "kind": "photo",
+    "sourcePages": [
+      41
+    ]
+  },
+  "electrical/wire-stripping.jpg": {
+    "src": "/assets/courses/canva/electrical/wire-stripping.jpg",
+    "alt": "การปอกสายไฟและใช้เครื่องมือวัด",
+    "width": 1599,
+    "height": 1156,
+    "kind": "photo",
+    "sourcePages": [
+      42
+    ]
+  },
+  "production/production-student.jpg": {
+    "src": "/assets/courses/canva/production/production-student.jpg",
+    "alt": "นักศึกษาแผนกช่างกลในห้องปฏิบัติการ",
+    "width": 2400,
+    "height": 1770,
+    "kind": "photo",
+    "sourcePages": [
+      43
+    ]
+  },
+  "production/welding-practice.jpg": {
+    "src": "/assets/courses/canva/production/welding-practice.jpg",
+    "alt": "นักศึกษาฝึกเชื่อมโลหะพร้อมอุปกรณ์ป้องกัน",
+    "width": 1599,
+    "height": 1537,
+    "kind": "photo",
+    "sourcePages": [
+      44
+    ]
+  },
+  "production/drilling-practice.jpg": {
+    "src": "/assets/courses/canva/production/drilling-practice.jpg",
+    "alt": "การฝึกเจาะชิ้นงานด้วยเครื่องเจาะ",
+    "width": 1599,
+    "height": 1066,
+    "kind": "photo",
+    "sourcePages": [
+      45
+    ]
+  },
+  "production/machine-practice.jpg": {
+    "src": "/assets/courses/canva/production/machine-practice.jpg",
+    "alt": "นักศึกษาฝึกใช้เครื่องจักรในห้องปฏิบัติการ",
+    "width": 2400,
+    "height": 1600,
+    "kind": "photo",
+    "sourcePages": [
+      46
+    ]
+  },
+  "production/grinding-practice.jpg": {
+    "src": "/assets/courses/canva/production/grinding-practice.jpg",
+    "alt": "การฝึกเจียรชิ้นงานโลหะ",
+    "width": 1600,
+    "height": 1241,
+    "kind": "photo",
+    "sourcePages": [
+      47
+    ]
+  },
+  "production/cnc-control.jpg": {
+    "src": "/assets/courses/canva/production/cnc-control.jpg",
+    "alt": "การใช้งานแผงควบคุมเครื่อง CNC",
+    "width": 1599,
+    "height": 1066,
+    "kind": "photo",
+    "sourcePages": [
+      48
+    ]
+  },
+  "production/cnc-router.jpg": {
+    "src": "/assets/courses/canva/production/cnc-router.jpg",
+    "alt": "เครื่อง CNC Router และแผงควบคุม",
+    "width": 800,
+    "height": 569,
+    "kind": "photo",
+    "sourcePages": [
+      48
+    ]
+  }
+}

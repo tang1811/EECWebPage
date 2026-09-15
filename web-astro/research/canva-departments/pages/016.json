@@ -1,0 +1,44 @@
+{
+  "page": 16,
+  "source": "https://www.canva.com/design/DAGD2vsgA_g/HYv35U7NJk1JuDL6CuzJuw/view#16",
+  "text": "หลักสูตรเทคโนโลยีบัณฑิต (ต่อเนื่อง)\nสาขาเทคโนโลยีไฟฟ้า\nปริญญาตรี",
+  "images": [
+    {
+      "id": "8ca756a804145ea1",
+      "display": {
+        "x": 0,
+        "y": 68,
+        "width": 1440,
+        "height": 864
+      }
+    },
+    {
+      "id": "daa298aa421dcfdf",
+      "display": {
+        "x": 888.136962890625,
+        "y": 95,
+        "width": 1111.453125,
+        "height": 865.125
+      }
+    },
+    {
+      "id": "7db757eb3fe8a8a8",
+      "display": {
+        "x": 546.2225952148438,
+        "y": -231.63330078125,
+        "width": 1023.3438110351562,
+        "height": 1535.015625
+      }
+    },
+    {
+      "id": "383145e93f2628e5",
+      "display": {
+        "x": 55.978336334228516,
+        "y": 140.68441772460938,
+        "width": 297.9375,
+        "height": 94.578125
+      }
+    }
+  ],
+  "screenshot": "screenshots/page-016.png"
+}

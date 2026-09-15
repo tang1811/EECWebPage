@@ -56,7 +56,6 @@ const videoJsonLd = (ytid || video) && {
   ...(ytid
     ? { embedUrl: `https://www.youtube-nocookie.com/embed/${ytid}` }
     : { contentUrl: `${SITE_URL}${video.src}` }),
-  uploadDate: '2025-06-01',
   publisher: { '@type': 'Organization', name: COLLEGE_NAME, logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/logo.png` } },
 };
 ---
@@ -68,7 +67,7 @@ const videoJsonLd = (ytid || video) && {
   og={{
     title: `${title} · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง`,
     description: detail.overview,
-    image: course.img || '/assets/logo.png',
+    image: detail.hero?.src || course.img || '/assets/logo.png',
   }}
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(courseJsonLd)} />

@@ -1,402 +1,164 @@
-// ─────────────────────────────────────────────────────────────
-// About — Web Cinematic (Apple/Netflix style scroll-storytelling)
-// 8 scenes, scroll-driven animations, pure black + white + brand.
-// Ported from prototype about-cinematic.jsx → Next.js / TypeScript.
-// Nav / Footer / StickyCTA are rendered globally by the layout.
-// ─────────────────────────────────────────────────────────────
+import type { ReactNode } from 'react';
+import { SITE_NAME } from '../../config';
+import { COURSES, type CoursePhoto } from '../../data/course-data';
+import { TIMELINE, PHILOSOPHY, PRINCIPALS, DEPUTIES, type Leader } from '../../data/about-college-data';
+import { ABOUT_LEVELS, ABOUT_DEPARTMENTS, CANVA_SOURCE, COLLEGE_PHOTO, PRACTICE_PHOTO, BACHELOR_COURSE, BACHELOR_DETAIL, BACHELOR_PHOTO } from '../../data/about-canva-data';
+import { Icon } from './chrome-lite';
 
-import { useRef, useState, useEffect, type RefObject } from 'react';
-
-// Scroll progress hook: returns 0 → 1 as element scrolls from below-viewport to above
-function useSceneProgress(ref: RefObject<HTMLElement | null>) {
-  const [p, setP] = useState(0);
-  useEffect(() => {
-    if (!ref.current) return;
-    const onScroll = () => {
-      if (!ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const total = rect.height + vh;
-      const scrolled = vh - rect.top;
-      setP(Math.max(0, Math.min(1, scrolled / total)));
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [ref]);
-  return p;
+function Heading({ label, children }: { label: string; children: ReactNode }) {
+  return <header className="ab-heading"><p className="ab-eyebrow">{label}</p><h2>{children}</h2></header>;
 }
 
-// Sticky scene progress: 0 when scene starts sticking, 1 when it un-sticks
-function useStickyProgress(wrapRef: RefObject<HTMLElement | null>) {
-  // wrapRef should be the OUTER tall wrapper. The sticky child has 100vh.
-  // Progress = how far into the sticky range we are (0 → 1).
-  const [p, setP] = useState(0);
-  useEffect(() => {
-    if (!wrapRef.current) return;
-    const onScroll = () => {
-      if (!wrapRef.current) return;
-      const r = wrapRef.current.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const total = r.height - vh; // distance during which it's sticky
-      const scrolled = -r.top;
-      setP(Math.max(0, Math.min(1, scrolled / Math.max(1, total))));
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [wrapRef]);
-  return p;
+function Photo({ photo, caption = photo.alt, priority = false, cutout = false }: { photo: CoursePhoto; caption?: string; priority?: boolean; cutout?: boolean }) {
+  return <figure className={`ab-photo${cutout ? ' ab-photo-cutout' : ''}`}>
+    <a href={photo.src} target="_blank" rel="noopener noreferrer" aria-label={`ดูภาพเต็มในแท็บใหม่: ${photo.alt}`}>
+      <img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : undefined} decoding="async" />
+      <span className="ab-photo-expand" aria-hidden="true">↗</span>
+    </a>
+    <figcaption>{caption}</figcaption>
+  </figure>;
 }
 
-// Count-up component (triggered when scene enters)
-function CountUp({
-  target,
-  duration = 1800,
-  suffix = '',
-  prefix = '',
-  start,
-}: {
-  target: number;
-  duration?: number;
-  suffix?: string;
-  prefix?: string;
-  start: boolean;
-}) {
-  const [v, setV] = useState(0);
-  const started = useRef(false);
-  useEffect(() => {
-    if (!start || started.current) return;
-    started.current = true;
-    const t0 = performance.now();
-    let raf: number;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - t0) / duration);
-      const e = 1 - Math.pow(1 - t, 3);
-      setV(Math.floor(target * e));
-      if (t < 1) raf = requestAnimationFrame(tick);
-      else setV(target);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [start, target, duration]);
-  return <>{prefix}{v.toLocaleString()}{suffix}</>;
+function Opening() {
+  return <section className="ab-section ab-hero cine-opening" id="about-college">
+    <div className="ab-container ab-split">
+      <div className="ab-hero-copy">
+        <nav className="ab-crumbs" aria-label="เส้นทางหน้าเว็บ"><a href="/">หน้าแรก</a><span aria-hidden="true">/</span><span aria-current="page">เกี่ยวกับเรา</span></nav>
+        <p className="ab-eyebrow">EEC ENGINEER LAEMCHABANG</p>
+        <h1>รู้จัก<br /><em>เทคโนแหลมฉบัง</em></h1>
+        <p className="ab-college-name">{SITE_NAME}</p>
+        <p className="ab-lead">เรียนรู้วิชาชีพผ่านทฤษฎีและการลงมือทำ ควบคู่กับระเบียบวินัยและคุณธรรม ในสายช่างอุตสาหกรรม พาณิชยกรรม และศิลปกรรม</p>
+        <p className="ab-location"><Icon name="pin" style={{ width: 18, height: 18 }} />ทุ่งสุขลา · ศรีราชา · ชลบุรี</p>
+        <div className="ab-actions"><a className="ab-button ab-button-primary" href="#about-learning">รู้จักการเรียนที่นี่ <span aria-hidden="true">↓</span></a><a className="ab-button ab-button-outline" href="/courses/">สำรวจหลักสูตร <span aria-hidden="true">→</span></a></div>
+      </div>
+      <Photo photo={COLLEGE_PHOTO} priority caption="อาคารวิทยาลัยและบริเวณด้านหน้า · ทุ่งสุขลา ศรีราชา" />
+    </div>
+  </section>;
 }
 
-// ── Scene 1: Opening — full-bleed hero with ken burns ──────
-function SceneOpening() {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  // Image zoom: 1.0 → 1.18 across the scene
-  const imgScale = 1.0 + p * 0.18;
-  // Title fades in 0 → 0.3, sustained, fades out 0.7 → 1
-  const fadeIn = Math.min(1, p * 4);
-  const fadeOut = Math.max(0, 1 - Math.max(0, (p - 0.7) * 3.3));
-  const titleOpacity = Math.min(fadeIn, fadeOut);
-  // Subtitle delayed
-  const subOpacity = Math.min(1, Math.max(0, (p - 0.1) * 4)) * fadeOut;
-  const subY = (1 - subOpacity) * 24;
-  // Scroll cue
-  const cueOpacity = Math.max(0, 1 - p * 8);
-  return (
-    <section ref={ref} className="cine-scene cine-opening">
-      <div className="cine-bg">
-        <img src="/assets/slide-2-eec.webp" alt="" className="cine-bg-img" style={{ transform: `scale(${imgScale})` }} />
-        <div className="cine-tint cine-tint-strong" />
-      </div>
-      <div className="cine-content">
-        <div className="cine-label" style={{ opacity: titleOpacity }}>ABOUT · EEC ENGINEER LAEMCHABANG</div>
-        <h1 className="cine-h1" style={{ opacity: titleOpacity, transform: `translateY(${(1 - titleOpacity) * 20}px)` }}>
-          <span>กว่า <em>30 ปี</em></span>
-          <span>เราสร้าง <em>ช่างฝีมือ</em></span>
-          <span>ป้อนสู่ <em>นิคม EEC</em></span>
-        </h1>
-        <p className="cine-lede" style={{ opacity: subOpacity, transform: `translateY(${subY}px)` }}>
-          จาก 1 มีนาคม 2538 จนถึงวันนี้ — เรื่องราวการสร้างคน สร้างฝีมือ และสร้างอนาคต ของวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง
-        </p>
-      </div>
-      <div className="cine-scroll-cue" style={{ opacity: cueOpacity }}>
-        <span>SCROLL TO BEGIN</span>
-        <div className="cine-scroll-line"><div /></div>
-      </div>
-    </section>
-  );
+function StudyPaths() {
+  return <section className="ab-section ab-study cine-stats" id="about-study">
+    <div className="ab-container">
+      <Heading label="เส้นทางการศึกษา">เลือกเรียนให้เหมาะกับ<em>จุดเริ่มต้นของคุณ</em></Heading>
+      <div className="ab-level-grid">{ABOUT_LEVELS.map((level) => <article className="ab-level" key={level.code}>
+        <div className="ab-level-top"><h3>{level.code}</h3><span>{level.duration}</span></div>
+        <p className="ab-level-name">{level.name}</p><p className="ab-level-admission">{level.admission}</p><p className="ab-muted">{level.description}</p>
+      </article>)}</div>
+      <p className="ab-study-link"><a href="/courses/">สำรวจรายละเอียด {COURSES.length} หลักสูตรบนเว็บไซต์ <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>;
 }
 
-// ── Scene 2: Numbers ────────────────────────────────────────
-function SceneStats() {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  const triggered = p > 0.2;
-  const stats = [
-    { v: 30, suf: '+', label: 'ปีแห่งประสบการณ์', sub: 'ก่อตั้ง พ.ศ. 2538', delay: 0 },
-    { v: 12000, suf: '+', label: 'ศิษย์เก่า', sub: 'ปล่อยช่างฝีมือออกสู่อุตสาหกรรม', delay: 1 },
-    { v: 18, suf: '', label: 'สาขาวิชา', sub: 'ปวช. · ปวส. · ปริญญาตรี', delay: 2 },
-    { v: 100, suf: '%', label: 'อัตรามีงานทำ', sub: 'รับรองโดยพันธมิตรองค์กร', delay: 3 },
-  ];
-  return (
-    <section ref={ref} className="cine-scene cine-stats">
-      <div className="cine-stats-eyebrow" style={{ opacity: Math.min(1, p * 5) }}>
-        <span />BY THE NUMBERS<span />
-      </div>
-      <div className="cine-stats-grid">
-        {stats.map((s, i) => {
-          const localStart = triggered && p > 0.2 + i * 0.04;
-          return (
-            <div key={i} className={`cine-stat ${localStart ? 'on' : ''}`}>
-              <div className="cine-stat-v">
-                <CountUp target={s.v} suffix={s.suf} duration={1600 + i * 200} start={localStart} />
-              </div>
-              <div className="cine-stat-label">{s.label}</div>
-              <div className="cine-stat-sub">{s.sub}</div>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
+function Philosophy() {
+  return <section className="ab-section ab-values cine-philo-wrap" id="our-values">
+    <div className="ab-container">
+      <Heading label="ปรัชญาวิทยาลัย">ความรู้คู่ทักษะ<em>เติบโตพร้อมคุณธรรม</em></Heading>
+      <blockquote className="ab-motto">“มุ่งสร้างคนดี มีระเบียบวินัย<br />ก้าวไกลเทคโนโลยี ฝีมือเยี่ยม เปี่ยมคุณธรรม”</blockquote>
+      <ol className="ab-value-grid">{PHILOSOPHY.map((value) => <li key={value.num}><span className="ab-value-number" aria-hidden="true">{value.num}</span><h3>{value.th}</h3><p>{value.d}</p></li>)}</ol>
+    </div>
+  </section>;
 }
 
-// ── Scene 3: Timeline (sticky horizontal scrub) ─────────────
-const TIMELINE = [
-  { y: '2538', t: 'จุดเริ่มต้น', d: 'ก่อตั้ง 1 มี.ค. 2538 ในชื่อ "โรงเรียนเทคโนโลยีศรีราชาช่างอุตสาหกรรม" โดย ดร.สัมภาษณ์ บุญจี๊ด', img: '/assets/slide-2-eec.webp' },
-  { y: '2539', t: 'เปลี่ยนชื่อ', d: 'เปลี่ยนชื่อเป็น "โรงเรียนเทคโนโลยีแหลมฉบัง"', img: '/assets/courses/yon.webp' },
-  { y: '2554', t: 'ยกระดับ', d: 'ปรับฐานะเป็น "วิทยาลัยเทคโนโลยีแหลมฉบัง" เปิดสอน ปวส.', img: '/assets/courses/faifaa.webp' },
-  { y: '2563', t: 'เพิ่มหลักสูตร', d: 'เปิดสาขาคอมพิวเตอร์กราฟิก ประเภทวิชาศิลปกรรม', img: '/assets/courses/digital-graphic.webp' },
-  { y: '2564', t: 'ชื่อปัจจุบัน', d: 'เปลี่ยนชื่อเป็น "วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง"', img: '/assets/courses/ps-mecha.webp' },
-  { y: '2569', t: 'ปัจจุบัน', d: '18 สาขา · ศูนย์ทดสอบมาตรฐานฝีมือแรงงาน · พร้อมก้าวต่อไป', img: '/assets/slide-4-community.webp' },
-];
-function SceneTimeline() {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const p = useStickyProgress(wrapRef);
-  // Total scroll: 0 → 1, mapped to 6 frames
-  const N = TIMELINE.length;
-  const frame = Math.min(N - 1, Math.floor(p * N * 1.001));
-  // X offset: scroll the timeline track horizontally
-  const trackX = -p * (N - 1) * 100;
-  return (
-    <div ref={wrapRef} className="cine-tl-wrap">
-      <div className="cine-tl-sticky">
-        <div className="cine-tl-header">
-          <div className="cine-tl-eyebrow"><span />OUR JOURNEY · ตลอด 30 ปี<span /></div>
-          <h2 className="cine-h2"><em>เส้นทาง</em>ของวิทยาลัย</h2>
-        </div>
-        <div className="cine-tl-track" style={{ transform: `translateX(${trackX}%)` }}>
-          {TIMELINE.map((it, i) => (
-            <div key={i} className={`cine-tl-card ${frame === i ? 'on' : ''}`}>
-              <div className="cine-tl-img">
-                <img src={it.img} alt="" style={{ transform: `scale(${frame === i ? 1.08 : 1})` }} />
-              </div>
-              <div className="cine-tl-meta">
-                <div className="cine-tl-year">{it.y}</div>
-                <div className="cine-tl-title">{it.t}</div>
-                <div className="cine-tl-desc">{it.d}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="cine-tl-progress">
-          {TIMELINE.map((it, i) => (
-            <button key={i} className={`cine-tl-dot ${frame === i ? 'on' : ''} ${i < frame ? 'done' : ''}`} aria-label={it.y}>
-              <span className="cine-tl-dot-y">{it.y}</span>
-            </button>
-          ))}
-          <div className="cine-tl-bar"><div style={{ width: `${(frame / (N - 1)) * 100}%` }} /></div>
-        </div>
+function Learning() {
+  return <section className="ab-section ab-learning" id="about-learning">
+    <div className="ab-container ab-split">
+      <Photo photo={PRACTICE_PHOTO} />
+      <div><Heading label="การเรียนที่นี่เป็นอย่างไร">เข้าใจหลักการ<em>แล้วฝึกกับงานปฏิบัติ</em></Heading>
+        <p className="ab-lead">การเรียนของแต่ละแผนกเชื่อมความรู้ในห้องเรียนเข้ากับทักษะวิชาชีพ ตั้งแต่งานซ่อมบำรุงและการควบคุมเครื่องจักร ไปจนถึงงานบัญชี การจัดการ และการสร้างสื่อดิจิทัล</p>
+        <ol className="ab-learning-steps">
+          <li><span aria-hidden="true">01</span><div><h3>เรียนรู้หลักการและเครื่องมือ</h3><p>ศึกษาทฤษฎีและวิธีการทำงานในสาขา เพื่อเข้าใจสิ่งที่จะนำไปใช้จริง</p></div></li>
+          <li><span aria-hidden="true">02</span><div><h3>ฝึกทักษะในงานของแผนก</h3><p>ลงมือปฏิบัติกับเครื่องมือ ชุดฝึก หรือโครงงานที่เกี่ยวข้องกับวิชาชีพ</p></div></li>
+          <li><span aria-hidden="true">03</span><div><h3>นำความรู้ไปประยุกต์ใช้</h3><p>เชื่อมโยงความรู้กับการแก้ปัญหาและการทำงานในสายอาชีพที่สนใจ</p></div></li>
+        </ol>
       </div>
     </div>
-  );
+  </section>;
 }
 
-// ── Scene 4: Philosophy (5 full-bleed panels with parallax) ─
-const PHILOSOPHY = [
-  { num: '01', th: 'มุ่งสร้างคนดี', en: 'Be Good', d: 'ทั้งต่อตนเองและสังคม', img: '/assets/slide-1-apply.webp', accent: '#F26530' },
-  { num: '02', th: 'มีระเบียบวินัย', en: 'Discipline', d: 'แบบแผนการปฏิบัติตน', img: '/assets/news-3-military.webp', accent: '#40ABE0' },
-  { num: '03', th: 'ก้าวไกลเทคโนโลยี', en: 'Future-Ready', d: 'พัฒนาเทคโนโลยีให้เจริญก้าวหน้าทันยุคทันสมัย', img: '/assets/courses/ps-mecha.webp', accent: '#FBD609' },
-  { num: '04', th: 'ฝีมือเยี่ยม', en: 'Master Craft', d: 'ทักษะวิชาชีพระดับสูง พร้อมปฏิบัติงานจริง', img: '/assets/courses/ps-mechanical.webp', accent: '#B12B25' },
-  { num: '05', th: 'เปี่ยมคุณธรรม', en: 'Virtuous Mind', d: 'มีคุณธรรม จริยธรรม ค่านิยมที่ดี', img: '/assets/slide-4-community.webp', accent: '#7B5CA7' },
-];
-function ScenePhilosophy() {
-  const wrapRef = useRef<HTMLDivElement>(null);
-  return (
-    <div ref={wrapRef} className="cine-philo-wrap">
-      <div className="cine-philo-intro">
-        <div className="cine-stats-eyebrow"><span />PHILOSOPHY · ปรัชญา 5 ประการ<span /></div>
-        <h2 className="cine-h2"><em>มุ่งสร้างคนดี</em> มีระเบียบวินัย<br />ก้าวไกลเทคโนโลยี ฝีมือเยี่ยม เปี่ยมคุณธรรม</h2>
-      </div>
-      {PHILOSOPHY.map((p, i) => <PhiloPanel key={i} item={p} index={i} />)}
+function Departments() {
+  return <section className="ab-section ab-departments" id="about-departments">
+    <div className="ab-container">
+      <Heading label="ช่างอุตสาหกรรม · พาณิชยกรรม · ศิลปกรรม">ห้องปฏิบัติการและชุดฝึก<em>ของแต่ละแผนก</em></Heading>
+      <p className="ab-section-intro">รู้จักงานที่ได้ฝึกและพื้นที่การเรียนรู้ของแต่ละสาขา พร้อมดูรายละเอียดหลักสูตรในระดับที่สนใจ</p>
+      <div className="ab-department-grid">{ABOUT_DEPARTMENTS.map((department) => <article key={department.name} className="ab-department-card">
+        <Photo photo={department.photo} cutout={department.photo.kind === 'cutout'} caption={`${department.photo.alt}${department.illustration ? ' · ภาพประกอบแผนกจากเอกสาร' : ''}`} />
+        <div className="ab-department-copy"><span className="ab-department-group">{department.group}</span><h3>{department.name}</h3>
+          <ul>{department.labs.slice(0, 3).map((lab) => <li key={lab}>{lab}</li>)}</ul>
+          <div className="ab-course-links">{department.courses.map((course) => <a key={course.slug} href={`/courses/${course.slug}/`} aria-label={`ดูหลักสูตร ${course.code} ${course.name}`}>{course.code} <span aria-hidden="true">→</span></a>)}</div>
+        </div>
+      </article>)}</div>
     </div>
-  );
-}
-function PhiloPanel({ item }: { item: (typeof PHILOSOPHY)[number]; index: number }) {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  const imgScale = 1.0 + p * 0.15;
-  const imgY = (p - 0.5) * 80; // parallax: image drifts vertically
-  const textY = (1 - Math.min(1, p * 2)) * 40;
-  const opacity = Math.min(1, p * 2.5) * Math.max(0, 1 - Math.max(0, p - 0.85) * 6);
-  return (
-    <section ref={ref} className="cine-philo-panel" style={{ '--accent': item.accent }}>
-      <div className="cine-bg">
-        <img src={item.img} alt="" className="cine-bg-img" style={{ transform: `translateY(${imgY}px) scale(${imgScale})` }} />
-        <div className="cine-tint cine-philo-tint" style={{ background: `linear-gradient(135deg, ${item.accent}88 0%, rgba(0,0,0,0.85) 80%)` }} />
-      </div>
-      <div className="cine-philo-content" style={{ opacity, transform: `translateY(${textY}px)` }}>
-        <div className="cine-philo-num">{item.num}</div>
-        <div className="cine-philo-en">{item.en}</div>
-        <h3 className="cine-philo-th">{item.th}</h3>
-        <p className="cine-philo-d">{item.d}</p>
-      </div>
-    </section>
-  );
+  </section>;
 }
 
-// ── Scene 5: Vision + Mission ──────────────────────────────
-function SceneVision() {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  const left = Math.min(1, Math.max(0, (p - 0.1) * 3));
-  const right = Math.min(1, Math.max(0, (p - 0.25) * 3));
-  return (
-    <section ref={ref} className="cine-scene cine-vision">
-      <div className="cine-vision-grid">
-        <div className="cine-vision-col" style={{ opacity: left, transform: `translateX(${(1 - left) * -40}px)` }}>
-          <div className="cine-vision-key">VISION · วิสัยทัศน์</div>
-          <h2 className="cine-vision-head">
-            สถานศึกษา<em>คุณธรรม</em><br />ที่มีคุณภาพ
-          </h2>
-          <p className="cine-vision-body">
-            “เป็นสถานศึกษาคุณธรรมที่มีคุณภาพตามมาตรฐานอาชีวศึกษา ผู้เรียนมีความรู้และทักษะวิชาชีพตามนโยบายประเทศไทย 4.0 เป็นที่ต้องการของสถานประกอบการ”
-          </p>
-          <div className="cine-vision-tags">
-            <span><b>เอกลักษณ์</b> เทคโนโลยีดี ฝีมือเยี่ยม เปี่ยมคุณธรรม</span>
-            <span><b>อัตลักษณ์</b> ทักษะเทคโนโลยีดี มีคุณธรรม</span>
-          </div>
-        </div>
-        <div className="cine-vision-col" style={{ opacity: right, transform: `translateX(${(1 - right) * 40}px)` }}>
-          <div className="cine-vision-key">MISSION · พันธกิจ</div>
-          <h2 className="cine-vision-head">
-            <em>10 พันธกิจ</em><br />ที่เราขับเคลื่อน
-          </h2>
-          <ol className="cine-vision-list cine-vision-list-compact">
-            <li><strong>พัฒนาสมรรถนะวิชาชีพ</strong> ตรงความต้องการสถานประกอบการ</li>
-            <li><strong>ทักษะศตวรรษที่ 21</strong> (3R8C) ตามหลักเศรษฐกิจพอเพียง</li>
-            <li><strong>ปลูกฝังคุณธรรม</strong> จริยธรรม และจิตสำนึกอนุรักษ์</li>
-            <li><strong>หลักสูตรฐานสมรรถนะ</strong> ตรงความต้องการตลาดแรงงาน</li>
-            <li><strong>สรรหา-พัฒนาครู</strong> ให้มีคุณธรรมและความรู้</li>
-            <li><strong>พัฒนาอาคาร-ห้องปฏิบัติการ</strong> สื่อ เทคโนโลยี ตามไทยแลนด์ 4.0</li>
-            <li><strong>บริหารตามหลักธรรมาภิบาล</strong></li>
-            <li><strong>ความร่วมมือระบบทวิภาคี</strong> กับสถานประกอบการ</li>
-            <li><strong>ส่งเสริมนวัตกรรม</strong> สิ่งประดิษฐ์ งานวิจัย เผยแพร่สู่สาธารณะ</li>
-            <li><strong>ศูนย์บ่มเพาะ</strong> ผู้ประกอบการอาชีวศึกษา</li>
-          </ol>
-        </div>
-      </div>
-    </section>
-  );
+function ContinuingStudy() {
+  if (!BACHELOR_COURSE || !BACHELOR_DETAIL) return null;
+  return <section className="ab-section ab-continuing" id="about-continuing">
+    <div className="ab-container ab-split"><div>
+      <Heading label="เรียนต่อสำหรับผู้มีงานประจำ">ต่อยอดสู่วุฒิปริญญาตรี<em>เทคโนโลยีไฟฟ้า</em></Heading>
+      <div className="ab-study-badges"><span>ต่อเนื่อง 2 ปี</span><span>เรียน{BACHELOR_DETAIL.schedule}</span></div>
+      <p className="ab-lead">{BACHELOR_DETAIL.admission} สามารถต่อยอดความรู้ด้านระบบไฟฟ้าอุตสาหกรรม ระบบควบคุม และการจัดการพลังงาน</p>
+      <ol className="ab-bachelor-plan">{BACHELOR_DETAIL.learningPlan?.map((stage) => <li key={stage.t}><h3>{stage.t}</h3><p>{stage.d}</p></li>)}</ol>
+      <a className="ab-button ab-button-gold" href={`/courses/${BACHELOR_COURSE.slug}/`}>ดูหลักสูตรและค่าใช้จ่าย <span aria-hidden="true">→</span></a>
+      <p className="ab-small">สอบถามตารางเรียนและเงื่อนไขของรอบที่สมัครกับวิทยาลัย</p>
+    </div><Photo photo={BACHELOR_PHOTO} /></div>
+  </section>;
 }
 
-// ── Scene 6: Leadership ────────────────────────────────────
-// Source of truth for these nine people is /personnel — keep the two in sync.
-const EXEC = '/assets/staff/executives/';
-type Leader = { n: string; r: string; img: string; c: string };
-const PRINCIPALS: Leader[] = [
-  { n: 'ดร.ยงลักษณ์ บุญจี๊ด', r: 'ผู้รับใบอนุญาต', img: EXEC + 'license-yonglak.webp', c: '#026451' },
-  { n: 'อ.ภาตะวัน บุญจี๊ด', r: 'ผู้อำนวยการ', img: EXEC + 'director-phatawan.webp', c: '#1c2a4e' },
-  { n: 'อ.ภาคภูมิ บุญจี๊ด', r: 'ผู้จัดการ', img: EXEC + 'manager-phakphum.webp', c: '#8a1f2b' },
-];
-const DEPUTIES: Leader[] = [
-  { n: 'นายมานิต หอดขุนทด', r: 'ฝ่ายวิชาการและประกันคุณภาพ', img: EXEC + 'deputy-academic-manit.webp', c: '#026451' },
-  { n: 'นายทรงพล แม้นชล', r: 'ฝ่ายกิจการนักเรียนนักศึกษา', img: EXEC + 'deputy-student-songphon.webp', c: '#385BF3' },
-  { n: 'นางสาวจิดาภา เพ็ชรรัตน์', r: 'ฝ่ายบริหาร', img: EXEC + 'deputy-admin-jidapha.webp', c: '#D6418A' },
-  { n: 'นายกอบศักดิ์ เจนวิถี', r: 'ฝ่ายปกครอง', img: EXEC + 'deputy-discipline-kobsak.webp', c: '#B12B25' },
-  { n: 'นายพงษ์ศักดิ์ ไสตะภาพ', r: 'ฝ่ายวิจัยและพัฒนาสื่อ', img: EXEC + 'deputy-research-pongsak.webp', c: '#C28A05' },
-  { n: 'นายพันธ์จิต อิ่มรอ', r: 'ฝ่ายอาคารสถานที่', img: EXEC + 'deputy-building-phanchit.webp', c: '#2D8FBF' },
-];
-function LeaderCard({ item, p, order }: { item: Leader; p: number; order: number }) {
-  const localP = Math.max(0, Math.min(1, (p - 0.2 - order * 0.04) * 3));
-  return (
-    <div className="cine-leader" style={{ opacity: localP, transform: `translateY(${(1 - localP) * 40}px)` }}>
-      <div className="cine-leader-portrait" style={{ background: `linear-gradient(135deg, ${item.c}, ${item.c}99)` }}>
-        <img src={item.img} alt={item.n} loading="lazy" />
-      </div>
-      <div className="cine-leader-name">{item.n}</div>
-      <div className="cine-leader-role">{item.r}</div>
+function CollegeHistory() {
+  return <section className="ab-section ab-history cine-tl-wrap" id="our-story"><div className="ab-container">
+    <Heading label="ประวัติวิทยาลัย">เส้นทางของ<em>เทคโนแหลมฉบัง</em></Heading>
+    <ol className="ab-timeline">{TIMELINE.map((milestone) => <li key={milestone.y}><span className="ab-timeline-year">พ.ศ. {milestone.y}</span><div><h3>{milestone.t}</h3><p>{milestone.d}</p></div></li>)}</ol>
+  </div></section>;
+}
+
+function Vision() {
+  return <section className="ab-section ab-vision cine-vision" id="our-vision"><div className="ab-container ab-vision-grid">
+    <div><Heading label="วิสัยทัศน์">สถานศึกษาคุณธรรม<em>ที่มีคุณภาพ</em></Heading>
+      <p className="ab-lead">เป็นสถานศึกษาคุณธรรมที่มีคุณภาพตามมาตรฐานอาชีวศึกษา ผู้เรียนมีความรู้และทักษะวิชาชีพตามนโยบายประเทศไทย 4.0 เป็นที่ต้องการของสถานประกอบการ</p>
+      <dl className="ab-identity"><div><dt>เอกลักษณ์</dt><dd>เทคโนโลยีดี ฝีมือเยี่ยม เปี่ยมคุณธรรม</dd></div><div><dt>อัตลักษณ์</dt><dd>ทักษะเทคโนโลยีดี มีคุณธรรม</dd></div></dl>
     </div>
-  );
-}
-function SceneLeadership() {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  return (
-    <section ref={ref} className="cine-scene cine-leaders">
-      <div className="cine-leaders-head" style={{ opacity: Math.min(1, p * 4) }}>
-        <div className="cine-stats-eyebrow"><span />LEADERSHIP · ทีมผู้บริหาร<span /></div>
-        <h2 className="cine-h2"><em>ทีม</em>ที่ขับเคลื่อนคุณภาพ</h2>
-      </div>
-      <div className="cine-leaders-tiers">
-        <div>
-          <div className="cine-tier-label">ผู้บริหารระดับสูง</div>
-          <div className="cine-leaders-grid cine-leaders-principals">
-            {PRINCIPALS.map((l, i) => <LeaderCard key={i} item={l} p={p} order={i} />)}
-          </div>
-        </div>
-        <div>
-          <div className="cine-tier-label">รองผู้อำนวยการ · 6 ฝ่าย</div>
-          <div className="cine-leaders-grid cine-leaders-deputies">
-            {DEPUTIES.map((l, i) => <LeaderCard key={i} item={l} p={p} order={i + 3} />)}
-          </div>
-        </div>
-        <a className="cine-leaders-link" href="/personnel/">ดูบุคลากรทั้งหมด · หัวหน้าภาค ครูผู้สอน และสายสนับสนุน →</a>
-      </div>
-    </section>
-  );
+    <div><h3 className="ab-mission-title">พันธกิจของวิทยาลัย</h3><ol className="ab-missions">
+      <li><strong>พัฒนาสมรรถนะวิชาชีพ</strong> ตรงความต้องการสถานประกอบการ</li>
+      <li><strong>ทักษะศตวรรษที่ 21</strong> (3R8C) ตามหลักเศรษฐกิจพอเพียง</li>
+      <li><strong>ปลูกฝังคุณธรรม</strong> จริยธรรม และจิตสำนึกอนุรักษ์</li>
+      <li><strong>หลักสูตรฐานสมรรถนะ</strong> ตรงความต้องการตลาดแรงงาน</li>
+      <li><strong>สรรหาและพัฒนาครู</strong> ให้มีคุณธรรมและความรู้</li>
+      <li><strong>พัฒนาอาคารและห้องปฏิบัติการ</strong> สื่อ เทคโนโลยี ตามไทยแลนด์ 4.0</li>
+      <li><strong>บริหารตามหลักธรรมาภิบาล</strong></li>
+      <li><strong>ความร่วมมือระบบทวิภาคี</strong> กับสถานประกอบการ</li>
+      <li><strong>ส่งเสริมนวัตกรรม</strong> สิ่งประดิษฐ์ งานวิจัย เผยแพร่สู่สาธารณะ</li>
+      <li><strong>ศูนย์บ่มเพาะ</strong> ผู้ประกอบการอาชีวศึกษา</li>
+    </ol></div>
+  </div></section>;
 }
 
-// ── Scene 7: Closing CTA ───────────────────────────────────
-function SceneClosing() {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  const headOpacity = Math.min(1, p * 3);
-  const ctaOpacity = Math.max(0, Math.min(1, (p - 0.3) * 4));
-  const ctaScale = 0.9 + Math.min(0.1, ctaOpacity * 0.1);
-  return (
-    <section ref={ref} className="cine-scene cine-closing">
-      <div className="cine-bg">
-        <img src="/assets/slide-4-community.webp" alt="" className="cine-bg-img" style={{ transform: `scale(${1 + p * 0.12})` }} />
-        <div className="cine-tint cine-tint-strong" />
-      </div>
-      <div className="cine-closing-content">
-        <div className="cine-closing-key" style={{ opacity: headOpacity }}>JOIN THE STORY</div>
-        <h2 className="cine-closing-head" style={{ opacity: headOpacity }}>
-          พร้อมเป็น<em>ส่วนหนึ่ง</em><br />ของเรื่องราว 30 ปีนี้?
-        </h2>
-        <p className="cine-closing-sub" style={{ opacity: headOpacity }}>
-          เปิดรับสมัครนักศึกษาใหม่ ปีการศึกษา 2569
-        </p>
-        <div className="cine-closing-cta" style={{ opacity: ctaOpacity, transform: `scale(${ctaScale})` }}>
-          <a href="/admission/" className="cine-cta-btn primary">
-            สมัครเรียนออนไลน์
-            <span className="cine-cta-arrow">→</span>
-          </a>
-          <a href="/courses/" className="cine-cta-btn ghost">ดูหลักสูตรทั้งหมด</a>
-        </div>
-      </div>
-    </section>
-  );
+function LeaderCard({ leader }: { leader: Leader }) {
+  return <article className="ab-leader"><div className="ab-leader-photo"><img src={leader.img} alt={leader.n} loading="lazy" /></div><h3>{leader.n}</h3><p>{leader.r}</p></article>;
 }
 
-// ── About body ─────────────────────────────────────────────
+function Leadership() {
+  return <section className="ab-section ab-leadership cine-leaders" id="our-people"><div className="ab-container">
+    <Heading label="ทีมผู้บริหาร">ผู้ขับเคลื่อน<em>การเรียนรู้ของวิทยาลัย</em></Heading>
+    <h3 className="ab-tier">ผู้บริหารระดับสูง</h3><div className="ab-leader-grid ab-principals">{PRINCIPALS.map((leader) => <LeaderCard key={leader.n} leader={leader} />)}</div>
+    <h3 className="ab-tier">รองผู้อำนวยการ · 6 ฝ่าย</h3><div className="ab-leader-grid ab-deputies">{DEPUTIES.map((leader) => <LeaderCard key={leader.n} leader={leader} />)}</div>
+    <p className="ab-study-link"><a href="/personnel/">ดูบุคลากรทั้งหมด <span aria-hidden="true">→</span></a></p>
+  </div></section>;
+}
+
+function Contact() {
+  return <section className="ab-section ab-contact" id="about-contact"><div className="ab-container ab-contact-inner">
+    <Heading label="ติดต่อวิทยาลัย">มารู้จักเรา<em>ให้มากขึ้น</em></Heading>
+    <p className="ab-lead">{SITE_NAME}<br />ตำบลทุ่งสุขลา อำเภอศรีราชา จังหวัดชลบุรี 20230</p>
+    <div className="ab-actions"><a className="ab-button ab-button-gold" href="tel:038494066">โทร 038 494 066</a><a className="ab-button ab-button-outline" href="/contact/">ที่ตั้งและช่องทางติดต่อ <span aria-hidden="true">→</span></a></div>
+  </div></section>;
+}
+
+// Rendered as HTML by Astro. Nothing depends on hydration or scroll animation.
 export default function AboutBody() {
-  return (
-    <main className="cine-main">
-      <SceneOpening />
-      <SceneStats />
-      <SceneTimeline />
-      <ScenePhilosophy />
-      <SceneVision />
-      <SceneLeadership />
-      <SceneClosing />
-    </main>
-  );
+  return <main className="about-page">
+    <Opening /><StudyPaths /><Philosophy /><Learning /><Departments /><ContinuingStudy />
+    <aside className="ab-source"><div className="ab-container"><p>ข้อมูลการเรียน ปรัชญา ห้องปฏิบัติการ และภาพประกอบด้านบน มาจากเอกสารแนะนำแผนกของวิทยาลัย</p><a href={`${CANVA_SOURCE}#2`} target="_blank" rel="noopener noreferrer">ดูเอกสารแนะนำวิทยาลัยและแผนก ↗</a></div></aside>
+    <CollegeHistory /><Vision /><Leadership /><Contact />
+  </main>;
 }

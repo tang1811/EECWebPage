@@ -1,13 +1,6 @@
-// ─────────────────────────────────────────────────────────────
-// Course Detail — Web Cinematic
-// Ported from prototype course-detail-cinematic.jsx.
-// Receives the resolved `course` from the server page; renders
-// cinematic scenes per course. Reuses .cine-* + .cd-* styles.
-// Internal links use clean routes; assets served from /assets.
-// ─────────────────────────────────────────────────────────────
-
-import { useRef, useState, useEffect, useMemo, type RefObject } from 'react';
-import { COURSES, getCourseDetail, type Course, type CourseDetail } from '../../data/course-data';
+import { useRef, useState, useEffect, type MouseEvent, type ReactNode } from 'react';
+import { COURSES, getCourseDetail, type Course, type CourseDetail, type CoursePhoto } from '../../data/course-data';
+import { ONLINE_ADMISSION_ENABLED } from '../../config';
 import { Icon } from './chrome-lite';
 import GALLERY from '../../../public/assets/courses/depts/gallery.json';
 import VIDEOS from '../../../public/assets/courses/videos/videos.json';
@@ -15,420 +8,126 @@ import VIDEOS from '../../../public/assets/courses/videos/videos.json';
 const DEPT_GALLERY = GALLERY as Record<string, string[]>;
 const DEPT_VIDEO = VIDEOS as Record<string, { src: string; poster: string }>;
 
-function useSceneProgress(ref: RefObject<HTMLElement | null>) {
-  const [p, setP] = useState(0);
-  useEffect(() => {
-    if (!ref.current) return;
-    const onScroll = () => {
-      if (!ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const total = rect.height + vh;
-      const scrolled = vh - rect.top;
-      setP(Math.max(0, Math.min(1, scrolled / total)));
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [ref]);
-  return p;
+function SectionHeading({ label, children }: { label: string; children: ReactNode }) {
+  return <header className="cd-section-head"><p className="cine-stats-eyebrow">{label}</p><h2 className="cine-h2">{children}</h2></header>;
 }
 
-// ── HERO ────────────────────────────────────────────────────
 function CDHero({ course, detail }: { course: Course; detail: CourseDetail }) {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  const scale = 1.05 + p * 0.12;
-  const fadeIn = Math.min(1, p * 4);
-  const fadeOut = Math.max(0, 1 - Math.max(0, p - 0.75) * 4);
-  const opacity = Math.min(fadeIn, fadeOut);
-  return (
-    <section ref={ref} className="cine-scene cd-hero" style={{ '--dept': course.color || 'var(--green-700)' }}>
-      <div className="cine-bg">
-        <img src={course.img} alt="" className="cine-bg-img" style={{ transform: `scale(${scale})` }} />
-        <div className="cine-tint cd-hero-tint" style={{ background: `linear-gradient(135deg, ${course.color || '#026451'}cc 0%, rgba(0,0,0,0.85) 70%)` }} />
-      </div>
-      <div className="cine-content cd-hero-content" style={{ opacity }}>
-        <div className="cd-crumbs">
-          <a href="/">หน้าแรก</a>
-          <span>·</span>
-          <a href="/courses/">หลักสูตร</a>
-          <span>·</span>
-          <span>{course.code}</span>
-        </div>
-        <div className="cd-meta">
-          <span className="cd-meta-code">{course.code}</span>
-          <span className="cd-meta-cat">{course.cat}</span>
-          {course.hot && <span className="cd-meta-hot">HOT · รับสมัครเร่งด่วน</span>}
-        </div>
-        <h1 className="cine-h1 cd-h1"><em>{course.name}</em></h1>
-        <p className="cd-overview">{detail.overview}</p>
-        <div className="cd-cta">
-          <a href="/admission/" className="cine-cta-btn primary">สมัครสาขานี้ <span className="cine-cta-arrow">→</span></a>
-          <a href="/contact/" className="cine-cta-btn ghost">สอบถามเพิ่มเติม</a>
-        </div>
-      </div>
-      <div className="cine-scroll-cue"><span>SCROLL TO EXPLORE</span><div className="cine-scroll-line"><div /></div></div>
-    </section>
-  );
+  const hero: CoursePhoto = detail.hero ?? { src: course.img || '/assets/logo.png', alt: `ภาพประกอบสาขา${course.name}` };
+  return <section className="cine-scene cd-hero"><div className="cd-hero-shell">
+    <div className="cd-hero-content">
+      <nav className="cd-crumbs" aria-label="เส้นทางหน้าเว็บ"><a href="/">หน้าแรก</a><span>·</span><a href="/courses/">หลักสูตร</a><span>·</span><span>{course.code}</span></nav>
+      <div className="cd-meta"><span className="cd-meta-code">{course.code}</span><span>{course.cat}</span>{course.slug === 'pt-electrical' && <span>หลักสูตรต่อเนื่อง</span>}{course.dualVocational && <span>ทวิภาคี</span>}</div>
+      <h1 className="cine-h1 cd-h1"><em>{course.name}</em></h1>
+      {detail.sourceName && <p className="cd-source-name">ชื่อในเอกสารแนะนำแผนก: {detail.sourceName}</p>}
+      <p className="cd-overview">{detail.overview}</p>
+      <div className="cd-cta"><a href={ONLINE_ADMISSION_ENABLED ? '/admission/' : '/contact/'} className="cine-cta-btn primary">{ONLINE_ADMISSION_ENABLED ? 'สมัครเรียน' : 'สอบถามการสมัครเรียน'}<span aria-hidden="true"> →</span></a><a href="#course-learning" className="cine-cta-btn ghost">ดูสิ่งที่จะได้เรียน</a></div>
+    </div>
+    {hero.src && <figure className={`cd-hero-photo ${hero.kind === 'cutout' ? 'cd-photo-cutout' : ''}`}><img src={hero.src} alt={hero.alt} width={hero.width} height={hero.height} fetchPriority="high" /><figcaption>{hero.alt}</figcaption></figure>}
+  </div></section>;
 }
 
-// ── FACTS ──────────────────────────────────────────────────
-function CDFacts({ course }: { course: Course }) {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
+function CDFacts({ course, detail }: { course: Course; detail: CourseDetail }) {
   const isCert = course.code === 'ปวช.';
+  const isBachelor = course.code === 'ป.ตรี';
   const facts = [
-    { label: 'ระดับ', value: course.code, sub: isCert ? 'Vocational Cert.' : 'Higher Cert.' },
-    { label: 'ระยะเวลา', value: isCert ? '3 ปี' : '2 ปี', sub: isCert ? '6 ภาคเรียน' : '4 ภาคเรียน' },
-    { label: 'หน่วยกิต', value: isCert ? '101' : '87', sub: 'หลักสูตร 2567' },
-    { label: 'ทวิภาคี', value: '✓', sub: 'ฝึกงานนิคม EEC' },
+    { label: 'ระดับการศึกษา', value: course.code, sub: isCert ? 'ประกาศนียบัตรวิชาชีพ' : isBachelor ? 'ปริญญาตรี (ต่อเนื่อง)' : 'ประกาศนียบัตรวิชาชีพชั้นสูง' },
+    { label: 'ระยะเวลาเรียน', value: isCert ? '3 ปี' : '2 ปี', sub: isBachelor ? 'ปีแรกเรียน · ปีที่ 2 ฝึกงาน' : 'เรียนภาคทฤษฎีและภาคปฏิบัติ' },
+    { label: 'วุฒิที่ใช้สมัคร', value: isCert ? 'ม.3' : isBachelor ? 'ปวส.' : 'ปวช. / ม.6', sub: detail.admission ?? (isCert ? 'สำเร็จการศึกษาระดับมัธยมศึกษาปีที่ 3' : 'ปวช. สายตรง หรือ ม.6 / เทียบเท่า สอบถามเงื่อนไขของสาขาที่สนใจ') },
+    { label: 'รูปแบบการเรียน', value: detail.schedule ?? (course.dualVocational ? 'ทวิภาคี' : 'ทฤษฎี + ปฏิบัติ'), sub: isBachelor ? 'เหมาะกับผู้มีงานประจำ สอบถามตารางของรอบที่สมัคร' : course.dualVocational ? 'สอบถามแผนฝึกและสถานประกอบการของรอบที่สมัคร' : 'สอบถามวันเรียนและรูปแบบฝึกงานกับวิทยาลัย' },
   ];
-  return (
-    <section ref={ref} className="cine-scene cd-facts">
-      <div className="cd-facts-head" style={{ opacity: Math.min(1, p * 4) }}>
-        <div className="cine-stats-eyebrow" style={{ textAlign: 'center', backgroundSize: 'cover', backgroundPosition: 'center center', width: '300px', padding: '2px 0px 0px', margin: '0px' }}><span />QUICK FACTS · ข้อมูลหลักสูตร<span /></div>
-      </div>
-      <div className="cd-facts-grid">
-        {facts.map((f, i) => {
-          const localP = Math.max(0, Math.min(1, (p - 0.1 - i * 0.05) * 3));
-          return (
-            <div key={i} className="cd-fact" style={{ opacity: localP, transform: `translateY(${(1 - localP) * 30}px)` }}>
-              <div className="cd-fact-label">{f.label}</div>
-              <div className="cd-fact-value">{f.value}</div>
-              <div className="cd-fact-sub">{f.sub}</div>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
+  return <section className="cine-scene cd-facts" aria-labelledby="course-facts-title"><h2 id="course-facts-title" className="cd-small-heading">ข้อมูลหลักสูตร</h2><dl className="cd-facts-grid">{facts.map((fact) => <div key={fact.label} className="cd-fact"><dt className="cd-fact-label">{fact.label}</dt><dd className="cd-fact-value">{fact.value}</dd><dd className="cd-fact-sub">{fact.sub}</dd></div>)}</dl></section>;
 }
 
-// ── SKILLS ─────────────────────────────────────────────────
-function CDSkills({ course, detail }: { course: Course; detail: CourseDetail }) {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  return (
-    <section ref={ref} className="cine-scene cd-skills">
-      <div className="cd-skills-head" style={{ opacity: Math.min(1, p * 4) }}>
-        <div className="cine-stats-eyebrow"><span />WHAT YOU&apos;LL LEARN · สมรรถนะที่จะได้รับ<span /></div>
-        <h2 className="cine-h2"><em>4 ทักษะ</em> ที่ทำให้คุณ<br />เป็นมืออาชีพ</h2>
-      </div>
-      <div className="cd-skills-grid">
-        {detail.skills.map((s, i) => {
-          const localP = Math.max(0, Math.min(1, (p - 0.2 - i * 0.06) * 3));
-          return (
-            <div key={i} className="cd-skill" style={{ opacity: localP, transform: `translateY(${(1 - localP) * 30}px) scale(${0.95 + localP * 0.05})`, '--dept': course.color || 'var(--green-700)' }}>
-              <div className="cd-skill-num">{String(i + 1).padStart(2, '0')}</div>
-              <h3 className="cd-skill-t">{s.t}</h3>
-              <p className="cd-skill-d">{s.d}</p>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
+function CDSkills({ detail }: { detail: CourseDetail }) {
+  return <section id="course-learning" className="cine-scene cd-skills"><SectionHeading label="สิ่งที่จะได้เรียน">ทักษะและความรู้<em>ของสาขานี้</em></SectionHeading><div className="cd-skills-grid">{detail.skills.map((skill, i) => <article key={skill.t} className="cd-skill"><div className="cd-skill-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</div><h3 className="cd-skill-t">{skill.t}</h3><p className="cd-skill-d">{skill.d}</p></article>)}</div></section>;
 }
 
-// ── CURRICULUM ─────────────────────────────────────────────
-function CDCurriculum({ course }: { course: Course }) {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  const isCert = course.code === 'ปวช.';
-  const modules = isCert
-    ? [
-        { t: 'ทักษะชีวิตและสังคม', c: 22, sub: 'ภาษา · คณิตศาสตร์ · วิทยาศาสตร์ · สังคม · พลศึกษา' },
-        { t: 'สมรรถนะวิชาชีพ', c: 71, sub: 'วิชาแกน · วิชาสาขา · โครงงาน · ทวิภาคี' },
-        { t: 'สมรรถนะเลือก', c: 8, sub: 'เลือกตามแผนพัฒนาตนเอง' },
-        { t: 'กิจกรรมเสริม', c: 0, sub: '6 ภาคเรียน · ลูกเสือ · ชมรม · จิตอาสา' },
-      ]
-    : [
-        { t: 'ทักษะชีวิตและสังคม', c: 21, sub: 'ภาษา · คณิตศาสตร์ · วิทยาศาสตร์ · สังคม' },
-        { t: 'สมรรถนะวิชาชีพ', c: 56, sub: 'วิชาแกน · สาขา · ทวิภาคี · โครงงาน' },
-        { t: 'สมรรถนะเลือก', c: 6, sub: 'เลือกตามแผนพัฒนาตนเอง' },
-        { t: 'กิจกรรมเสริม', c: 0, sub: '4 ภาคเรียน · กิจกรรมพัฒนาผู้เรียน' },
-      ];
-
-  const total = modules.reduce((s, m) => s + m.c, 0);
-  return (
-    <section ref={ref} className="cine-scene cd-curr">
-      <div className="cd-curr-head" style={{ opacity: Math.min(1, p * 4) }}>
-        <div className="cine-stats-eyebrow"><span />CURRICULUM · โครงสร้างหลักสูตร<span /></div>
-        <h2 className="cine-h2">รวม <em>{total} หน่วยกิต</em></h2>
-      </div>
-      <div className="cd-curr-list">
-        {modules.map((m, i) => {
-          const localP = Math.max(0, Math.min(1, (p - 0.15 - i * 0.05) * 3));
-          return (
-            <div key={i} className="cd-curr-row" style={{ opacity: localP, transform: `translateX(${(1 - localP) * -30}px)` }}>
-              <div className="cd-curr-c">{m.c || '—'}</div>
-              <div>
-                <h3 className="cd-curr-t">{m.t}</h3>
-                <p className="cd-curr-sub">{m.sub}</p>
-              </div>
-              <div className="cd-curr-bar"><div style={{ width: `${(m.c / total) * 100}%`, background: course.color || 'var(--green-500)' }} /></div>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
+function CDLearning({ detail }: { detail: CourseDetail }) {
+  if (!detail.learningPlan?.length && !detail.labs?.length) return null;
+  return <section className="cine-scene cd-curr">
+    <SectionHeading label="การเรียนและการฝึกปฏิบัติ">เรียนรู้หลักการ<em>พร้อมลงมือทำ</em></SectionHeading>
+    {detail.learningPlan && <ol className="cd-curr-list">{detail.learningPlan.map((item, i) => <li key={item.t} className="cd-curr-row"><span className="cd-curr-c" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><div><h3 className="cd-curr-t">{item.t}</h3><p className="cd-curr-sub">{item.d}</p></div></li>)}</ol>}
+    {detail.labs && <div className="cd-labs"><h3>ห้องปฏิบัติการและชุดฝึก</h3><ul>{detail.labs.map((lab) => <li key={lab}><Icon name="check" style={{ width: 18, height: 18 }} /><span>{lab}</span></li>)}</ul></div>}
+  </section>;
 }
 
-// ── CAREERS ────────────────────────────────────────────────
-function CDCareers({ course, detail }: { course: Course; detail: CourseDetail }) {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  return (
-    <section ref={ref} className="cine-scene cd-careers" style={{ '--dept': course.color || 'var(--green-700)' }}>
-      <div className="cine-bg">
-        <img src={course.img} alt="" className="cine-bg-img" style={{ transform: `scale(${1 + p * 0.1}) translateY(${(p - 0.5) * 60}px)` }} />
-        <div className="cine-tint" style={{ background: `linear-gradient(180deg, rgba(0,0,0,0.6) 0%, ${course.color || '#026451'}aa 80%, rgba(0,0,0,0.85) 100%)`, mixBlendMode: 'multiply' }} />
-        <div className="cine-tint" style={{ background: 'rgba(0,0,0,0.45)' }} />
-      </div>
-      <div className="cd-careers-content" style={{ opacity: Math.min(1, p * 3) }}>
-        <div className="cine-stats-eyebrow"><span />CAREER PATHS · เส้นทางอาชีพ<span /></div>
-        <h2 className="cine-h2"><em>{detail.careers.length}+ อาชีพ</em><br />รอคุณอยู่ในนิคม EEC</h2>
-        <div className="cd-careers-tags">
-          {detail.careers.map((c, i) => {
-            const localP = Math.max(0, Math.min(1, (p - 0.2 - i * 0.04) * 4));
-            return (
-              <span key={i} className="cd-career-tag" style={{ opacity: localP, transform: `translateY(${(1 - localP) * 16}px)` }}>{c}</span>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ── RELATED COURSES ────────────────────────────────────────
-function CDRelated({ course }: { course: Course }) {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  const related = useMemo(() => {
-    return COURSES.filter((c) => c.slug !== course.slug && c.cat === course.cat).slice(0, 3);
-  }, [course.slug, course.cat]);
-  return (
-    <section ref={ref} className="cine-scene cd-related">
-      <div className="cd-related-head" style={{ opacity: Math.min(1, p * 4) }}>
-        <div className="cine-stats-eyebrow"><span />EXPLORE MORE · สาขาในสายเดียวกัน<span /></div>
-      </div>
-      <div className="cd-related-grid">
-        {related.map((c, i) => {
-          const localP = Math.max(0, Math.min(1, (p - 0.1 - i * 0.08) * 3));
-          return (
-            <a key={c.slug} href={`/courses/${c.slug}/`} className="cd-related-card" style={{ opacity: localP, transform: `translateY(${(1 - localP) * 30}px)`, '--dept': c.color || 'var(--green-700)' }}>
-              <div className="cd-related-img">
-                <img src={c.img} alt="" loading="lazy" />
-                <div className="cd-related-tint" style={{ background: `linear-gradient(180deg, transparent 30%, ${c.color || '#026451'}cc 100%)` }} />
-              </div>
-              <div className="cd-related-meta">
-                <span className="cd-related-code">{c.code}</span>
-                <h3 className="cd-related-n">{c.name}</h3>
-              </div>
-            </a>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-// ── CLOSING CTA ────────────────────────────────────────────
-function CDClosing({ course }: { course: Course }) {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
-  const op = Math.min(1, p * 3);
-  return (
-    <section ref={ref} className="cine-scene cine-closing cd-closing" style={{ '--dept': course.color || 'var(--green-700)' }}>
-      <div className="cine-bg">
-        <img src={course.img} alt="" className="cine-bg-img" style={{ transform: `scale(${1 + p * 0.1})` }} />
-        <div className="cine-tint cine-tint-strong" />
-      </div>
-      <div className="cine-closing-content">
-        <div className="cine-closing-key" style={{ opacity: op }}>READY TO JOIN?</div>
-        <h2 className="cine-closing-head" style={{ opacity: op }}>
-          เริ่มเรียน <em>{course.name}</em><br />ปีการศึกษา 2569
-        </h2>
-        <p className="cine-closing-sub" style={{ opacity: op }}>
-          สมัครเรียนออนไลน์ 5 นาที · ทีมงานติดต่อกลับใน 24 ชม.
-        </p>
-        <div className="cine-closing-cta" style={{ opacity: Math.max(0, Math.min(1, (p - 0.3) * 3)) }}>
-          <a href="/admission/" className="cine-cta-btn primary">สมัครเรียนตอนนี้<span className="cine-cta-arrow">→</span></a>
-          <a href="/courses/" className="cine-cta-btn ghost">ดูสาขาทั้งหมด</a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// ── BODY ───────────────────────────────────────────────────
-// ── Scene: บรรยากาศการเรียน (real department photos + lightbox) ──
-function CDGallery({ course, photos }: { course: Course; photos: string[] }) {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
+function CDGallery({ photos }: { photos: CoursePhoto[] }) {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const trigger = useRef<HTMLAnchorElement | null>(null);
   const [active, setActive] = useState<number | null>(null);
-  const open = active !== null;
-
-  const close = () => setActive(null);
-  const step = (d: number) => setActive((a) => (a === null ? a : (a + d + photos.length) % photos.length));
-
+  const close = () => dialog.current?.close();
+  const step = (direction: number) => setActive((current) => current === null ? null : (current + direction + photos.length) % photos.length);
   useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-      else if (e.key === 'ArrowRight') step(1);
-      else if (e.key === 'ArrowLeft') step(-1);
-    };
-    window.addEventListener('keydown', onKey);
+    if (active === null || !dialog.current) return;
+    const element = dialog.current;
+    const overflow = document.body.style.overflow;
+    if (!element.open) element.showModal();
     document.body.style.overflow = 'hidden';
-    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
-  }, [open, photos.length]);
-
-  return (
-    <section ref={ref} className="cine-scene cd-gallery" style={{ '--dept': course.color || 'var(--green-700)' }}>
-      <div className="cd-gallery-head" style={{ opacity: Math.min(1, p * 4) }}>
-        <span className="cine-eyebrow">บรรยากาศการเรียน</span>
-        <h2 className="cine-h2">ห้องเรียน เครื่องมือ<br />และงานจริงของสาขา</h2>
-      </div>
-      <div className="cd-gallery-grid">
-        {photos.map((src, i) => {
-          const localP = Math.min(1, Math.max(0, (p - 0.1 - i * 0.04) * 5));
-          return (
-            <button key={src} type="button"
-              className={`cd-gallery-item ${i === 0 ? 'cd-gallery-lead' : ''}`}
-              style={{ opacity: localP, transform: `translateY(${(1 - localP) * 28}px)` }}
-              onClick={() => setActive(i)}
-              aria-label={`ดูรูปขนาดเต็ม ${i + 1}`}>
-              <img src={src} alt={`${course.name} — บรรยากาศการเรียน ${i + 1}`} loading="lazy" />
-              <span className="cd-gallery-zoom" aria-hidden="true">
-                <Icon name="plus" style={{ width: 18, height: 18 }} />
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      {open && (
-        <div className="cd-lightbox" role="dialog" aria-modal="true" aria-label="รูปขนาดเต็ม" onClick={close}>
-          <button className="cd-lb-close" onClick={close} aria-label="ปิด"><Icon name="close" style={{ width: 26, height: 26 }} /></button>
-          {photos.length > 1 && (
-            <button className="cd-lb-nav cd-lb-prev" onClick={(e) => { e.stopPropagation(); step(-1); }} aria-label="รูปก่อนหน้า">
-              <Icon name="chevronDown" style={{ width: 30, height: 30 }} />
-            </button>
-          )}
-          <figure className="cd-lb-stage" onClick={(e) => e.stopPropagation()}>
-            <img src={photos[active]} alt={`${course.name} — บรรยากาศการเรียน ${active + 1}`} />
-            <figcaption className="cd-lb-cap">{course.name} · {active + 1} / {photos.length}</figcaption>
-          </figure>
-          {photos.length > 1 && (
-            <button className="cd-lb-nav cd-lb-next" onClick={(e) => { e.stopPropagation(); step(1); }} aria-label="รูปถัดไป">
-              <Icon name="chevronDown" style={{ width: 30, height: 30 }} />
-            </button>
-          )}
-        </div>
-      )}
-    </section>
-  );
+    return () => { document.body.style.overflow = overflow; };
+  }, [active]);
+  const openPhoto = (event: MouseEvent<HTMLAnchorElement>, index: number) => {
+    if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
+    event.preventDefault(); trigger.current = event.currentTarget; setActive(index);
+  };
+  return <section className="cine-scene cd-gallery">
+    <SectionHeading label="ภาพแนะนำแผนก">ภาพการเรียน<em>และงานในสาขา</em></SectionHeading>
+    <div className={`cd-gallery-grid ${photos.length === 1 ? 'cd-gallery-single' : ''}`}>{photos.map((photo, i) => <figure key={photo.src} className="cd-gallery-figure"><a className={`cd-gallery-item ${photo.kind === 'cutout' ? 'cd-photo-cutout' : ''}`} href={photo.src} onClick={(event) => openPhoto(event, i)} aria-label={`ดูภาพขนาดเต็ม: ${photo.alt}`}><img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" /><span className="cd-gallery-zoom" aria-hidden="true"><Icon name="plus" style={{ width: 18, height: 18 }} /></span></a><figcaption>{photo.alt}</figcaption></figure>)}</div>
+    <dialog ref={dialog} className="cd-photo-dialog" aria-label="ภาพแนะนำแผนกขนาดเต็ม"
+      onClose={() => { setActive(null); trigger.current?.focus({ preventScroll: true }); }}
+      onClick={(event) => { if (event.target === event.currentTarget) close(); }}
+      onKeyDown={(event) => {
+        if (event.key === 'ArrowRight') { event.preventDefault(); step(1); }
+        if (event.key === 'ArrowLeft') { event.preventDefault(); step(-1); }
+        if (event.key === 'Tab') {
+          const buttons = event.currentTarget.querySelectorAll<HTMLButtonElement>('button');
+          const first = buttons[0];
+          const last = buttons[buttons.length - 1];
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+        }
+      }}>
+      {active !== null && <div className="cd-dialog-content"><button type="button" className="cd-dialog-close" onClick={close} aria-label="ปิดภาพ">×</button><figure className="cd-dialog-photo"><img src={photos[active].src} alt={photos[active].alt} /><figcaption aria-live="polite">{photos[active].alt} · {active + 1} / {photos.length}</figcaption></figure>{photos.length > 1 && <div className="cd-dialog-controls"><button type="button" onClick={() => step(-1)} aria-label="ภาพก่อนหน้า">← ก่อนหน้า</button><button type="button" onClick={() => step(1)} aria-label="ภาพถัดไป">ถัดไป →</button></div>}</div>}
+    </dialog>
+  </section>;
 }
 
-// ── Scene: รีวิวแผนก (department review video) ───────────────
-// YouTube first (COURSE_VIDEOS in course-data.ts, the design's model — keeps the
-// clip off IIS bandwidth). Falls back to the mp4 in videos.json so the 12 slugs
-// that already ship a real clip keep it until a YouTube id is filled in.
-function CDVideo({
-  course,
-  detail,
-  mp4,
-}: {
-  course: Course;
-  detail: CourseDetail;
-  mp4?: { src: string; poster: string };
-}) {
-  const ref = useRef<HTMLElement>(null);
-  const p = useSceneProgress(ref);
+function CDVideo({ course, detail }: { course: Course; detail: CourseDetail }) {
   const [play, setPlay] = useState(false);
+  const mp4 = DEPT_VIDEO[course.slug];
   const id = detail.video;
-  const op = Math.min(1, p * 4);
-  const stageOp = Math.min(1, Math.max(0, (p - 0.1) * 4));
-  return (
-    <section ref={ref} className="cine-scene cd-video" style={{ '--dept': course.color || 'var(--green-700)' }}>
-      <div className="cd-video-head" style={{ opacity: op }}>
-        <span className="cine-eyebrow">รีวิวแผนก</span>
-        <h2 className="cine-h2">ดูบรรยากาศจริง<br />ของ{course.name}</h2>
-      </div>
-      {id ? (
-        <div className="cd-video-frame" style={{ opacity: op, transform: `translateY(${(1 - op) * 24}px)` }}>
-          {play ? (
-            <iframe
-              className="cd-video-embed"
-              src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`}
-              title={`วีดิโอแนะนำแผนก ${course.name}`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              loading="lazy"
-            />
-          ) : (
-            <button
-              type="button"
-              className="cd-video-poster"
-              onClick={() => setPlay(true)}
-              aria-label={`เล่นวีดิโอแนะนำแผนก ${course.name}`}
-            >
-              <img
-                src={`https://i.ytimg.com/vi/${id}/maxresdefault.jpg`}
-                alt=""
-                onError={(e) => {
-                  e.currentTarget.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-                }}
-              />
-              <span className="cd-video-play">
-                <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
-                  <path d="M8 5l12 7-12 7z" fill="currentColor" />
-                </svg>
-              </span>
-            </button>
-          )}
-        </div>
-      ) : mp4 ? (
-        <div className="cd-video-stage" style={{ opacity: stageOp }}>
-          <video controls preload="none" poster={mp4.poster} playsInline>
-            <source src={mp4.src} type="video/mp4" />
-          </video>
-        </div>
-      ) : (
-        <div className="cd-video-frame" style={{ opacity: op, transform: `translateY(${(1 - op) * 24}px)` }}>
-          <div className="cd-video-empty">
-            <img src={course.img} alt="" />
-            <div className="cd-video-empty-note">
-              <strong>วีดิโอแนะนำแผนกกำลังจัดทำ</strong>
-              <span>เร็ว ๆ นี้ · ติดตามได้ที่เพจของวิทยาลัย</span>
-            </div>
-          </div>
-        </div>
-      )}
-    </section>
-  );
+  if (!id && !mp4) return null;
+  return <section className="cine-scene cd-video"><SectionHeading label="วิดีโอแนะนำแผนก">รู้จัก{course.name}</SectionHeading>
+    {id ? <div className="cd-video-frame">{play ? <iframe className="cd-video-embed" src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`} title={`วิดีโอแนะนำแผนก${course.name}`} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen /> : <button type="button" className="cd-video-poster" onClick={() => setPlay(true)} aria-label={`เล่นวิดีโอแนะนำแผนก${course.name}`}><img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" /><span className="cd-video-play" aria-hidden="true">▶</span></button>}</div> : mp4 && <div className="cd-video-stage"><video controls preload="none" poster={mp4.poster} playsInline aria-label={`วิดีโอแนะนำแผนก${course.name}`}><source src={mp4.src} type="video/mp4" /></video></div>}
+  </section>;
+}
+
+function CDFee({ detail }: { detail: CourseDetail }) {
+  if (!detail.fees) return null;
+  const fees = detail.fees;
+  return <section className="cine-scene cd-fees"><SectionHeading label="ปริญญาตรีต่อเนื่อง">ค่าใช้จ่าย<em>ตามเอกสารแนะนำหลักสูตร</em></SectionHeading><div className="cd-fee-card"><p>ค่าใช้จ่ายรวมตลอดหลักสูตร 2 ปี</p><p className="cd-fee-total">{fees.total.toLocaleString('th-TH')} <span>บาท</span></p><ul><li>แบ่งชำระ {fees.installments} งวด</li><li>วิชาปรับพื้นฐานเพิ่ม {fees.foundation.toLocaleString('th-TH')} บาท เฉพาะผู้ที่ต้องเรียน</li></ul><p className="cd-fee-note">{fees.note}</p><a href="/contact/">สอบถามค่าใช้จ่ายรอบปัจจุบัน →</a></div></section>;
+}
+
+function CDCareers({ detail }: { detail: CourseDetail }) {
+  return <section className="cine-scene cd-careers"><div className="cd-careers-content"><SectionHeading label="เส้นทางอาชีพ">นำทักษะไปใช้<em>ในงานที่สนใจ</em></SectionHeading><ul className="cd-careers-tags">{detail.careers.map((career) => <li key={career} className="cd-career-tag">{career}</li>)}</ul></div></section>;
+}
+
+function CDRelated({ course }: { course: Course }) {
+  const candidates = COURSES.filter((candidate) => candidate.slug !== course.slug && candidate.cat === course.cat);
+  const heroSrc = getCourseDetail(course.slug, course).hero?.src;
+  const peers = candidates.filter((candidate) => heroSrc && getCourseDetail(candidate.slug, candidate).hero?.src === heroSrc);
+  const related = [...peers, ...candidates.filter((candidate) => !peers.includes(candidate))].slice(0, 3);
+  return <section className="cine-scene cd-related"><SectionHeading label="สำรวจหลักสูตร">สาขาที่เกี่ยวข้อง</SectionHeading><div className="cd-related-grid">{related.map((candidate) => <a key={candidate.slug} href={`/courses/${candidate.slug}/`} className="cd-related-card" style={{ '--dept': candidate.color || '#0aa183' }}><div className="cd-related-img"><img src={candidate.img} alt="" loading="lazy" /></div><div className="cd-related-meta"><span className="cd-related-code">{candidate.code}</span><h3 className="cd-related-n">{candidate.name}</h3></div></a>)}</div></section>;
 }
 
 export default function CourseDetailBody({ course }: { course: Course }) {
   const detail = getCourseDetail(course.slug, course);
-  const gallery = DEPT_GALLERY[course.slug] ?? [];
-  const video = DEPT_VIDEO[course.slug];
-  return (
-    <main className="cine-main cd-main">
-      <CDHero course={course} detail={detail} />
-      <CDFacts course={course} />
-      <CDSkills course={course} detail={detail} />
-      {/* Design puts the video scene straight after Skills. */}
-      <CDVideo course={course} detail={detail} mp4={video} />
-      <CDCurriculum course={course} />
-      {gallery.length > 0 && <CDGallery course={course} photos={gallery} />}
-      <CDCareers course={course} detail={detail} />
-      <CDRelated course={course} />
-      <CDClosing course={course} />
-    </main>
-  );
+  const gallery = detail.gallery ?? (DEPT_GALLERY[course.slug] ?? []).map((src, i) => ({ src, alt: `${course.name} · ภาพการเรียน ${i + 1}` }));
+  return <main className="cine-main cd-main cd-department" style={{ '--dept': course.color || '#0aa183' }}>
+    <CDHero course={course} detail={detail} /><CDFacts course={course} detail={detail} /><CDSkills detail={detail} /><CDLearning detail={detail} />
+    {gallery.length > 0 && <CDGallery photos={gallery} />}<CDVideo course={course} detail={detail} /><CDFee detail={detail} /><CDCareers detail={detail} />
+    {detail.source && <aside className="cd-source"><p>ข้อมูลการเรียนและห้องปฏิบัติการอ้างอิงจากเอกสารแนะนำแผนกของวิทยาลัย</p><a href={`${detail.source.url}#${detail.source.pages[0]}`} target="_blank" rel="noreferrer">ดูเอกสารแนะนำแผนก (หน้า {detail.source.pages.join(', ')}) ↗</a></aside>}
+    <CDRelated course={course} />
+    <section className="cine-scene cd-closing"><div className="cd-closing-inner"><p className="cine-stats-eyebrow">วางแผนเรียนต่อ</p><h2 className="cine-h2">สนใจเรียน{course.name}</h2><p>สอบถามคุณสมบัติ วันเรียน ค่าใช้จ่าย และรอบรับสมัครกับวิทยาลัย</p><div className="cd-cta"><a href="/contact/" className="cine-cta-btn primary">ติดต่อสอบถาม →</a><a href="tel:038494066" className="cine-cta-btn ghost">โทร 038 494 066</a></div></div></section>
+  </main>;
 }

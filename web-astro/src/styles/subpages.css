@@ -119,28 +119,6 @@
 .tab.on { background: var(--ink-900); color: white; }
 .tab:not(.on):hover { color: var(--green-700); }
 
-.course-table {
-  width: 100%; border-collapse: separate; border-spacing: 0;
-  background: var(--surface-card);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--r-lg);
-  overflow: hidden;
-}
-.course-table th, .course-table td { padding: 18px 22px; text-align: left; font-size: 15px; }
-.course-table thead { background: var(--bg-alt); }
-.course-table th { font-weight: 700; color: var(--ink-700); font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
-.course-table tbody tr { border-top: 1px solid var(--border-soft); transition: background .2s; }
-.course-table tbody tr:hover { background: var(--green-50); }
-.course-table tbody tr:first-child { border-top: none; }
-.course-table .row-icon { width: 40px; height: 40px; background: var(--green-100); color: var(--green-700); border-radius: var(--r-sm); display: grid; place-items: center; }
-.course-table .row-name { font-weight: 700; color: var(--ink-900); }
-.course-table .row-cat { font-size: 13px; color: var(--ink-500); margin-top: 2px; }
-.course-table a.row-cta {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-weight: 600; color: var(--green-700);
-}
-.course-table a.row-cta:hover { text-decoration: underline; }
-
 /* Course detail */
 .cd-hero {
   background: var(--grad-hero);

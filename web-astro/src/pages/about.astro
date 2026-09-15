@@ -1,12 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
 import AboutBody from '../components/react/AboutBody';
-import '../styles/about-cinematic.css';
+import { SITE_NAME } from '../config';
+import { COLLEGE_PHOTO } from '../data/about-canva-data';
+import '../styles/about-information.css';
+
+const description = 'รู้จักเทคโนแหลมฉบัง ปรัชญาวิทยาลัย การเรียน ปวช. ปวส. และปริญญาตรีต่อเนื่อง พร้อมภาพอาคาร บรรยากาศการเรียน และห้องปฏิบัติการของแต่ละแผนก';
 ---
 
 <Base
   title="เกี่ยวกับเรา"
-  description="ประวัติ ปรัชญา และพันธกิจของวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง — กว่า 30 ปีแห่งการสร้างช่างฝีมือป้อนสู่นิคมอุตสาหกรรม EEC"
+  description={description}
   path="/about"
   keywords={[
     'เกี่ยวกับ วิทยาลัยแหลมฉบัง',
@@ -14,11 +18,7 @@ import '../styles/about-cinematic.css';
     'ปรัชญา วิทยาลัยเทคโนโลยี ชลบุรี',
     'พันธกิจ อาชีวศึกษา ศรีราชา',
   ]}
-  mono600
+  og={{ title: `เกี่ยวกับเรา · ${SITE_NAME}`, description, image: COLLEGE_PHOTO.src }}
 >
-  {/* Visually-hidden H1 — the visible hero title is rendered inside the opening scene. */}
-  <h1 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
-    เกี่ยวกับวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง — ประวัติ ปรัชญา พันธกิจ และทีมผู้บริหาร
-  </h1>
-  <AboutBody client:load />
+  <AboutBody />
 </Base>

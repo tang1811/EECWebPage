@@ -97,6 +97,12 @@
 .mag-item-tx p { font-size: 14px; color: var(--ink-600); line-height: 1.65; }
 @media (max-width: 700px) { .mag-item a { grid-template-columns: 120px 1fr; } .mag-item-tx { padding: 18px 20px; } .mag-item-tx p { display: none; } }
 
+/* Prevent card contents from widening individual news columns. */
+#newsGrid > [data-card] { min-width: 0; }
+@media (min-width: 1025px) {
+  #newsGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 /* Card date row (scoped: bare .news-date is the article <time> above) */
 .hl-body .news-date { font-size: 12px; font-weight: 600; color: var(--ink-500); margin-top: 10px; display: flex; align-items: center; gap: 6px; }
 .hl-body .news-date svg { width: 13px; height: 13px; color: var(--green-700); }

@@ -1,0 +1,159 @@
+---
+import Base from '../layouts/Base.astro';
+import QualityIcon from '../components/QualityIcon.astro';
+import { QUALITY_CATEGORIES, QUALITY_DOCUMENTS, QUALITY_YEARS, QUALITY_REVIEWED_DATE, getQualityDocument, formatFileSize } from '../data/quality-data';
+import '../styles/quality-assurance.css';
+
+const title = 'งานประกันคุณภาพ';
+const description = 'รายงานการประเมินตนเอง SAR แผนปฏิบัติงาน มาตรฐานสถานศึกษา และเอกสารงานประกันคุณภาพ วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง';
+const certificate = getQualityDocument('external-assurance');
+const featured = [
+  { document: getQualityDocument('sar-2567'), label: 'รายงานการประเมินตนเอง', detail: 'Self Assessment Report', number: '01' },
+  { document: getQualityDocument('plan-2569'), label: 'แผนปฏิบัติงานประจำปี', detail: 'ทิศทางและแผนการดำเนินงาน', number: '02' },
+  { document: getQualityDocument('standard-2568'), label: 'มาตรฐานสถานศึกษา', detail: 'ประกาศให้ใช้มาตรฐานการศึกษา', number: '03' },
+];
+---
+
+<Base title={title} description={description} path="/quality-assurance" og={{ title, description, image: '/assets/logo.png', type: 'website' }}>
+  <main class="qa-page">
+    <section class="qa-hero" aria-labelledby="qa-title">
+      <div class="container">
+        <nav class="qa-breadcrumb" aria-label="เส้นทางหน้าเว็บ"><a href="/">หน้าแรก</a><span aria-hidden="true">/</span><span aria-current="page">งานประกันคุณภาพ</span></nav>
+        <div class="qa-hero-grid">
+          <div class="qa-intro">
+            <span class="qa-eyebrow"><span></span> QUALITY ASSURANCE</span>
+            <h1 id="qa-title">งานประกัน<span>คุณภาพ</span></h1>
+            <p class="qa-lead">เปิดเผยข้อมูลอย่างเป็นระบบ<br />เพื่อพัฒนาคุณภาพการศึกษาอย่างต่อเนื่อง</p>
+            <p class="qa-intro-description">รวมรายงาน ผลการประเมิน และแผนพัฒนาของวิทยาลัย<br class="qa-desktop-break" /> ให้บุคลากร ผู้เรียน และผู้สนใจเข้าถึงเอกสารได้ในที่เดียว</p>
+            <a class="qa-primary" href="#documents">ค้นหาเอกสาร <QualityIcon name="arrow" /></a>
+            <div class="qa-hero-stats" aria-label="ข้อมูลคลังเอกสาร">
+              <div><strong>{QUALITY_DOCUMENTS.length}<span> รายการ</span></strong><span>เอกสารเผยแพร่</span></div>
+              <div><strong>{QUALITY_CATEGORIES.length}<span> หมวด</span></strong><span>ค้นหาได้เป็นระบบ</span></div>
+              <div><strong class="qa-year-range">2562–2569</strong><span>ปีของเอกสารในคลัง</span></div>
+            </div>
+          </div>
+          <a class="qa-accreditation" href={encodeURI(certificate.url)} target="_blank" rel="noopener noreferrer" aria-label="เปิดหนังสือรับรองการประกันคุณภาพภายนอก พ.ศ. 2565–2569 (PDF แท็บใหม่)">
+            <div class="qa-certificate-stage"><img src="/assets/quality/external-assurance.png" width="536" height="758" alt="หนังสือรับรองการประกันคุณภาพภายนอกของวิทยาลัย จาก สมศ. พ.ศ. 2565–2569" fetchpriority="high" /></div>
+            <div class="qa-certificate-caption">
+              <span class="qa-certificate-icon"><QualityIcon name="shield" /></span>
+              <div><span>การประกันคุณภาพภายนอก · สมศ.</span><strong>รับรองคุณภาพ พ.ศ. 2565–2569</strong><span class="qa-certificate-link">ดูหนังสือรับรอง <QualityIcon name="external" /></span></div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="qa-featured container" aria-labelledby="qa-featured-title">
+      <div class="qa-section-heading"><h2 id="qa-featured-title">เอกสารที่น่าสนใจ</h2><span>เลือกอ่านฉบับล่าสุดของแต่ละหมวด</span></div>
+      <div class="qa-featured-grid">
+        {featured.map(({ document: doc, label, detail, number }) => (
+          <a class="qa-feature" href={encodeURI(doc.url)} target="_blank" rel="noopener noreferrer" aria-label={`${doc.title} (PDF แท็บใหม่)`}>
+            <div class="qa-feature-top"><span>{number} / {label}</span><QualityIcon name="external" /></div>
+            <div class="qa-feature-year"><span>ปีการศึกษา</span><strong>{doc.year}</strong></div>
+            <p>{detail}</p>
+            <div class="qa-feature-bottom"><span>PDF · {doc.pages} หน้า · {formatFileSize(doc.bytes)}</span><span>เปิดอ่าน <QualityIcon name="arrow" /></span></div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="qa-library" id="documents" aria-labelledby="qa-library-title">
+      <div class="container">
+        <div class="qa-library-heading"><div><span class="qa-eyebrow">DOCUMENT LIBRARY</span><h2 id="qa-library-title">คลังเอกสารประกันคุณภาพ</h2><p>ค้นหาชื่อเอกสาร หรือเลือกหมวดและปีที่ต้องการ</p></div><span class="qa-library-total"><QualityIcon name="folder" /> {QUALITY_DOCUMENTS.length} เอกสาร</span></div>
+        <div class="qa-library-grid">
+          <aside class="qa-sidebar">
+            <div class="qa-category-panel" data-qa-controls hidden>
+              <h3>หมวดเอกสาร</h3>
+              <div class="qa-categories" role="group" aria-label="เลือกหมวดเอกสาร">
+                <button type="button" data-qa-category="all" aria-pressed="true" aria-controls="qa-results"><span>เอกสารทั้งหมด</span><span>{QUALITY_DOCUMENTS.length}</span></button>
+                {QUALITY_CATEGORIES.map((cat) => <button type="button" data-qa-category={cat.id} aria-pressed="false" aria-controls="qa-results"><span>{cat.shortLabel}</span><span>{QUALITY_DOCUMENTS.filter((doc) => doc.category === cat.id).length}</span></button>)}
+              </div>
+            </div>
+            <div class="qa-help"><QualityIcon name="document" /><h3>อ่านและบันทึกเอกสาร</h3><p>กด “เปิด PDF” เพื่ออ่านในแท็บใหม่ และบันทึกไฟล์ผ่านเมนูของตัวอ่าน PDF</p><span>ไฟล์ต้นฉบับจากเว็บไซต์วิทยาลัย tlc.ac</span></div>
+          </aside>
+          <div class="qa-documents">
+            <form class="qa-filters" data-qa-controls hidden role="search" aria-label="ค้นหาเอกสารประกันคุณภาพ">
+              <div class="qa-search-field"><label for="qa-search">ค้นหาเอกสาร</label><div><QualityIcon name="search" /><input id="qa-search" type="search" placeholder="ชื่อเอกสาร หรือคำค้น เช่น SAR" autocomplete="off" /></div></div>
+              <div class="qa-year-field"><label for="qa-year">ปีของเอกสาร</label><select id="qa-year"><option value="all">ทุกปี</option>{QUALITY_YEARS.map((year) => <option value={year}>{year}</option>)}<option value="none">ไม่ระบุปี</option></select></div>
+            </form>
+            <div class="qa-results-bar"><p id="qa-result-count" role="status" aria-live="polite" aria-atomic="true">แสดง {QUALITY_DOCUMENTS.length} จาก {QUALITY_DOCUMENTS.length} เอกสาร</p><button type="button" class="qa-reset" data-qa-reset hidden>ล้างตัวกรอง</button></div>
+            <noscript><p class="qa-noscript">แสดงเอกสารทั้งหมด เลื่อนอ่านตามหมวดด้านล่างได้เลย</p></noscript>
+            <div id="qa-results">
+              {QUALITY_CATEGORIES.map((cat) => (
+                <section class="qa-document-group" data-qa-group={cat.id} aria-labelledby={`qa-group-${cat.id}`}>
+                  <div class="qa-group-heading"><h3 id={`qa-group-${cat.id}`}>{cat.label}</h3><p>{cat.description}</p></div>
+                  <ul class="qa-document-list">
+                    {QUALITY_DOCUMENTS.filter((doc) => doc.category === cat.id).map((doc) => (
+                      <li class="qa-document" data-qa-document data-category={doc.category} data-year={doc.year ?? 'none'} data-search={`${doc.title} ${cat.label} ${cat.shortLabel} ${doc.id === 'external-assurance' ? 'สมศ. รับรอง 2565 2569' : ''} ${doc.id === 'innovation-2568' ? 'เครื่องตัดโฟมอัตโนมัติ' : ''}`}>
+                        <span class="qa-file-icon"><QualityIcon name="document" /><span>PDF</span></span>
+                        <div class="qa-document-info"><h4>{doc.title}</h4>{doc.id === 'innovation-2568' && <p class="qa-document-description">โครงการเครื่องตัดโฟมอัตโนมัติ</p>}<p class="qa-document-meta"><span>{doc.year ? `ปี ${doc.year}` : 'ไม่ระบุปีในชื่อเอกสาร'}</span><span>{doc.pages} หน้า</span><span>{formatFileSize(doc.bytes)}</span></p></div>
+                        <a class="qa-open-document" href={encodeURI(doc.url)} target="_blank" rel="noopener noreferrer" aria-label={`เปิด ${doc.title} (PDF แท็บใหม่)`}>เปิด PDF <QualityIcon name="external" /></a>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              ))}
+            </div>
+            <div class="qa-empty" id="qa-empty" hidden><QualityIcon name="search" /><h3>ไม่พบเอกสารที่ตรงกับการค้นหา</h3><p>ลองใช้คำค้นสั้นลง หรือเลือกหมวดและปีอื่น</p><button type="button" data-qa-reset>แสดงเอกสารทั้งหมด</button></div>
+            <p class="qa-source-note">ข้อมูลจากหมวดงานประกันคุณภาพของ<a href="https://tlc.ac/main.php" target="_blank" rel="noopener noreferrer">เว็บไซต์เดิมของวิทยาลัย <QualityIcon name="external" /></a><br />ตรวจสอบรายการเอกสารเมื่อ {QUALITY_REVIEWED_DATE}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="qa-contact container" aria-labelledby="qa-contact-title"><div><span class="qa-eyebrow">ติดต่อวิทยาลัย</span><h2 id="qa-contact-title">ต้องการข้อมูลเพิ่มเติม?</h2><p>สอบถามเรื่องเอกสารหรืองานประกันคุณภาพได้ที่วิทยาลัย</p></div><a href="/contact/">ช่องทางติดต่อ <QualityIcon name="arrow" /></a></section>
+  </main>
+</Base>
+
+<script>
+  const search = document.querySelector<HTMLInputElement>('#qa-search')!;
+  const year = document.querySelector<HTMLSelectElement>('#qa-year')!;
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-qa-category]')];
+  const documents = [...document.querySelectorAll<HTMLElement>('[data-qa-document]')];
+  const groups = [...document.querySelectorAll<HTMLElement>('[data-qa-group]')];
+  const resultCount = document.querySelector<HTMLElement>('#qa-result-count')!;
+  const empty = document.querySelector<HTMLElement>('#qa-empty')!;
+  const resets = [...document.querySelectorAll<HTMLButtonElement>('[data-qa-reset]')];
+  let category = 'all';
+  const normalize = (value: string) => value.normalize('NFKC').toLocaleLowerCase('th').trim();
+
+  function applyFilters(updateUrl = true) {
+    const terms = normalize(search.value).split(/\s+/).filter(Boolean);
+    let count = 0;
+    documents.forEach((doc) => {
+      const matches = (category === 'all' || doc.dataset.category === category)
+        && (year.value === 'all' || doc.dataset.year === year.value)
+        && terms.every((term) => normalize(doc.dataset.search ?? '').includes(term));
+      doc.hidden = !matches;
+      if (matches) count++;
+    });
+    groups.forEach((group) => { group.hidden = !group.querySelector('[data-qa-document]:not([hidden])'); });
+    buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.qaCategory === category)));
+    resultCount.textContent = `แสดง ${count} จาก ${documents.length} เอกสาร`;
+    empty.hidden = count !== 0;
+    resets.forEach((button) => { button.hidden = category === 'all' && year.value === 'all' && !search.value; });
+    if (updateUrl) {
+      const url = new URL(window.location.href);
+      for (const [key, value] of [['category', category === 'all' ? '' : category], ['year', year.value === 'all' ? '' : year.value], ['q', search.value.trim()]]) {
+        if (value) url.searchParams.set(key, value); else url.searchParams.delete(key);
+      }
+      window.history.replaceState(null, '', url);
+    }
+  }
+  function readUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const requestedCategory = params.get('category');
+    category = buttons.some((button) => button.dataset.qaCategory === requestedCategory) ? requestedCategory! : 'all';
+    const requestedYear = params.get('year');
+    year.value = [...year.options].some((option) => option.value === requestedYear) ? requestedYear! : 'all';
+    search.value = params.get('q') ?? '';
+    applyFilters(false);
+  }
+  buttons.forEach((button) => button.addEventListener('click', () => { category = button.dataset.qaCategory!; applyFilters(); }));
+  search.addEventListener('input', () => applyFilters());
+  year.addEventListener('change', () => applyFilters());
+  document.querySelector('.qa-filters')?.addEventListener('submit', (event) => { event.preventDefault(); applyFilters(); });
+  resets.forEach((button) => button.addEventListener('click', () => { category = 'all'; year.value = 'all'; search.value = ''; applyFilters(); search.focus(); }));
+  window.addEventListener('popstate', readUrl);
+  readUrl();
+  document.querySelectorAll<HTMLElement>('[data-qa-controls]').forEach((element) => { element.hidden = false; });
+</script>

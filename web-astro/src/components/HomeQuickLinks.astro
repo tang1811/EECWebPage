@@ -1,0 +1,109 @@
+---
+const links = [
+  {
+    label: 'โปรโมชั่น',
+    description: 'สิทธิพิเศษและโอกาสดี ๆ สำหรับคุณ',
+    href: '#promotions',
+    featured: false,
+    icon: 'M20 13.5 13.5 20a2 2 0 0 1-2.8 0L3 12.3V3h9.3l7.7 7.7a2 2 0 0 1 0 2.8ZM7.5 7.5h.01',
+  },
+  {
+    label: 'สมัครเรียน',
+    description: 'ข้อมูลและขั้นตอนการสมัครเรียน',
+    href: '/admission/',
+    featured: true,
+    icon: 'm2 9 10-5 10 5-10 5L2 9Zm4 2v6c3.5 3 8.5 3 12 0v-6m4-2v7',
+  },
+  {
+    label: 'หลักสูตร',
+    description: 'ค้นหาสาขาที่ใช่ ในเส้นทางที่ชอบ',
+    href: '/courses/',
+    featured: false,
+    icon: 'M12 5v16m0-16C9 3 5 3 2 4v15c3-1 7-1 10 2 3-3 7-3 10-2V4c-3-1-7-1-10 1Z',
+  },
+];
+---
+
+<nav class="home-quick-links" aria-label="เมนูลัดสำหรับนักเรียน">
+  <div class="container">
+    <div class="quick-links-grid">
+      {links.map((link) => (
+        <a class:list={['quick-link', { 'quick-link--featured': link.featured }]} href={link.href} aria-label={link.label}>
+          <span class="quick-link-top" aria-hidden="true">
+            <span class="quick-link-icon">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={link.icon} /></svg>
+            </span>
+            <svg class="quick-link-arrow" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+          </span>
+          <span class="quick-link-copy">
+            <strong class="quick-link-label">{link.label}</strong>
+            <span class="quick-link-description">{link.description}</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<style>
+  .home-quick-links {
+    padding: 36px 0;
+    background: var(--bg);
+  }
+  .quick-links-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .quick-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    min-width: 0;
+    min-height: 208px;
+    padding: 26px 30px;
+    color: var(--green-700);
+    background: var(--surface-card);
+    border: 1px solid var(--ink-200);
+    border-radius: 16px;
+    text-decoration: none;
+    transition: background .2s, border-color .2s;
+  }
+  .quick-link-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .quick-link-icon { display: grid; place-items: center; width: 54px; height: 54px; flex-shrink: 0; background: var(--bg-alt); border-radius: 12px; }
+  .quick-link-arrow { flex-shrink: 0; transition: transform .2s; }
+  .quick-link-copy { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .quick-link-label { font-size: clamp(24px, 2.2vw, 30px); font-weight: 600; line-height: 1.5; }
+  .quick-link-description { color: var(--ink-600); font-size: 13px; line-height: 1.7; }
+  .quick-link--featured { color: var(--surface-card); background: var(--green-700); border-color: var(--green-700); }
+  .quick-link--featured .quick-link-icon { color: var(--green-800); background: var(--accent-amber); }
+  .quick-link--featured .quick-link-arrow { color: var(--accent-amber); }
+  .quick-link--featured .quick-link-description { color: var(--green-100); }
+  .quick-link:focus-visible { outline: 3px solid var(--accent-amber); outline-offset: 4px; }
+  @media (hover: hover) {
+    .quick-link:hover { background: var(--surface-tinted); border-color: var(--green-700); }
+    .quick-link--featured:hover { background: var(--green-800); border-color: var(--green-800); }
+    .quick-link:hover .quick-link-arrow { transform: translateX(4px); }
+  }
+  @media (min-width: 1025px) {
+    .home-quick-links { padding: 20px 0; }
+    .quick-link { min-height: 152px; padding: 18px 24px; gap: 12px; }
+    .quick-link-icon { width: 40px; height: 40px; border-radius: 10px; }
+    .quick-link-icon svg { width: 24px; height: 24px; }
+    .quick-link-label { font-size: 24px; }
+    .quick-link-description { font-size: 12px; }
+  }
+  @media (min-width: 701px) and (max-width: 1024px) {
+    .quick-links-grid { gap: 16px; }
+    .quick-link { padding: 22px; }
+  }
+  @media (max-width: 700px) {
+    .home-quick-links { padding: 20px 0; }
+    .quick-links-grid { gap: 8px; }
+    .quick-link { align-items: center; justify-content: center; gap: 10px; min-height: 124px; padding: 16px 6px; border-radius: 12px; text-align: center; }
+    .quick-link-icon { width: 42px; height: 42px; border-radius: 10px; }
+    .quick-link-icon svg { width: 25px; height: 25px; }
+    .quick-link-label { font-size: clamp(14px, 3.7vw, 18px); white-space: nowrap; }
+    .quick-link-description, .quick-link-arrow { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .quick-link, .quick-link-arrow { transition: none; }
+  }
+</style>

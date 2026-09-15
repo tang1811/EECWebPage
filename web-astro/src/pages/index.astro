@@ -3,10 +3,13 @@
 // Markup parity: every class/style string replicates the old React render
 // (including Reveal's `reveal ${dirClass} ${className}` double-space output).
 import Base from '../layouts/Base.astro';
+import HomeQuickLinks from '../components/HomeQuickLinks.astro';
+import Promotions from '../components/Promotions.astro';
 import { DEFAULT_KEYWORDS } from '../config';
 import { Icon } from '../components/react/chrome-lite';
 import { FAQS } from '../data/faq-data';
 import { NEWS } from '../data/news-data';
+import { COURSES } from '../data/course-data';
 import INNOV from '../../public/assets/portfolio/innovation/innovation.json';
 import '../styles/homepage.css';
 
@@ -23,52 +26,21 @@ const FAQ_JSONLD = {
 type HpProject = { id: string; type: string; title: string; titleEn: string; cover: string; photos: string[] };
 const HP_PROJECTS = INNOV as HpProject[];
 
-// ── Hero slideshow data (verbatim homepage.tsx SLIDES) ───────
+// ── Image-only hero slideshow ─────────────────────────────
 const SLIDES = [
-  {
-    key: 'apply', img: '/assets/slide-1-apply.webp',
-    eyebrow: 'รับสมัครนักศึกษาใหม่', title: 'ปีการศึกษา 2569 เปิดรับแล้ว',
-    sub: 'ปวช. ปวส. ป.ตรี · 18 สาขา · ฟอร์มสมัครออนไลน์ 5 นาที',
-    cta: { href: '/admission/', label: 'สมัครเรียนออนไลน์' },
-    tint: 'linear-gradient(135deg, rgba(1,35,28,0.22) 0%, rgba(2,100,81,0.12) 50%, rgba(4,130,105,0.05) 100%)',
-    accent: 'var(--accent-amber)',
-  },
-  {
-    key: 'eec', img: '/assets/slide-2-eec.webp',
-    eyebrow: 'ครอบครัวเทคโน EEC', title: 'ทีมงานคุณภาพ · 30 ปี แห่งความเชี่ยวชาญ',
-    sub: 'อาจารย์มืออาชีพ + พันธมิตรนิคม EEC 50+ องค์กร · ฝึกงานจริง มีงานทำ',
-    cta: { href: '/about/', label: 'รู้จักวิทยาลัย' },
-    tint: 'linear-gradient(135deg, rgba(1,61,51,0.25) 0%, rgba(2,100,81,0.12) 60%, rgba(10,161,131,0.05) 100%)',
-    accent: 'var(--accent-amber)',
-  },
-  {
-    key: 'innovation', img: '/assets/slide-3-innovation.webp',
-    eyebrow: 'นวัตกรรมและสิ่งประดิษฐ์', title: 'ฝีมือเยี่ยมระดับชาติ',
-    sub: 'ผลงาน Smart Farm · AGV · ระบบไฟฟ้าอัจฉริยะ จากนักศึกษาและอาจารย์',
-    cta: { href: '/portfolio/', label: 'ดูผลงานทั้งหมด' },
-    tint: 'linear-gradient(135deg, rgba(28,42,78,0.22) 0%, rgba(1,61,51,0.15) 50%, rgba(4,130,105,0.05) 100%)',
-    accent: '#f5b800',
-  },
-  {
-    key: 'community', img: '/assets/slide-4-community.webp',
-    eyebrow: '12,000+ ศิษย์เก่า', title: 'ยินดีด้วยกับบัณฑิต EEC',
-    sub: 'ปลูกฝังคุณธรรมและฝีมือควบคู่กัน · มุ่งสร้างคนดี มีระเบียบวินัย',
-    cta: { href: '/about/', label: 'ปรัชญาวิทยาลัย' },
-    tint: 'linear-gradient(135deg, rgba(2,100,81,0.15) 0%, rgba(1,35,28,0.1) 60%, rgba(4,130,105,0.05) 100%)',
-    accent: '#fff',
-  },
+  { img: '/assets/slide-1-apply.webp', alt: 'บัณฑิตวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง' },
+  { img: '/assets/slide-2-eec.webp', alt: 'กิจกรรมในหอประชุมวิทยาลัย' },
+  { img: '/assets/slide-3-innovation.webp', alt: 'คณะบุคลากรหน้าอาคารอำนวยการวิทยาลัย' },
+  { img: '/assets/slide-4-community.webp', alt: 'ภาพหมู่คณะบุคลากรวิทยาลัย' },
 ];
 
 // Photo articles only — icon-card news (no image) can't fill the hl-img slot.
-const HIGHLIGHT_NEWS = NEWS.filter((n) => n.image).slice(0, 3);
+const HIGHLIGHT_NEWS = NEWS.filter((n) => n.image && !n.promotion).slice(0, 3);
 
-// SchoolWebV2 StatsBar carries a 5th stat (พันธมิตรองค์กร) that the original
-// Next port dropped. Its "16 สาขาวิชา" is deliberately left at 18: COURSES below
-// has 18 entries and the section heading reads "18 สาขาวิชา", so the design's 16
-// contradicts its own page.
+// The course count follows the enabled public catalog.
 const STATS = [
   { v: 30, s: '+', l: 'ปีแห่งประสบการณ์' },
-  { v: 18, s: '', l: 'สาขาวิชา' },
+  { v: COURSES.length, s: '', l: 'หลักสูตร' },
   { v: 12000, s: '+', l: 'ศิษย์เก่า' },
   { v: 100, s: '%', l: 'มีงานทำ / ศึกษาต่อ' },
   { v: 50, s: '+', l: 'พันธมิตรองค์กร' },
@@ -79,13 +51,6 @@ const STATS = [
 // The .marquee rules in homepage.css stay unused — as they were before,
 // and as they still are in the design's own homepage.css.
 
-const TRUST_ITEMS = [
-  { icon: 'shield', t: 'รับรองคุณภาพภายนอกโดย สมศ.', d: 'ด้านการอาชีวศึกษา · พ.ศ. 2565–2569' },
-  { icon: 'award', t: '🥇 ชนะเลิศอันดับ 1 ระดับภาค', d: 'แข่งขันฝีมือแรงงานแห่งชาติ ครั้งที่ 29' },
-  { icon: 'check', t: 'ศูนย์ทดสอบมาตรฐานฝีมือแรงงาน', d: 'ได้รับอนุญาต 4 สาขา · กรมพัฒนาฝีมือแรงงาน' },
-  { icon: 'sparkle', t: 'ประเมินตนเอง (SAR) ระดับ "ดีเลิศ"', d: 'ปีการศึกษา 2564 · มาตรฐานวิชาชีพ "ยอดเยี่ยม"' },
-];
-
 const GRAD_STATS = [
   { v: 83, s: '%', l: 'ปวส. มีงานทำ', sub: 'หลังสำเร็จการศึกษา' },
   { v: 16, s: '%', l: 'ปวส. ศึกษาต่อ', sub: 'ระดับสูงขึ้น' },
@@ -94,28 +59,8 @@ const GRAD_STATS = [
 ];
 const EMPLOYERS = ['ปตท.', 'Mitsubishi', 'Caterpillar', 'เคียวเดน', 'ซูมิเดน สตีล', 'AGC', 'ซัมมิท ออโต้บอดี้', 'อีสเทิร์น คอนทรานส์'];
 
-type Course = { code: string; slug: string; name: string; icon: string; cat: string; hot?: boolean; img?: string; color?: string };
-const COURSES: Course[] = [
-  { code: 'ปวช.', slug: 'yon', name: 'ช่างยนต์', icon: 'car', cat: 'อุตสาหกรรม', hot: true, img: '/assets/courses/yon.webp', color: '#B12B25' },
-  { code: 'ปวช.', slug: 'faifaa', name: 'ช่างไฟฟ้ากำลัง', icon: 'bolt', cat: 'อุตสาหกรรม', hot: true, img: '/assets/courses/faifaa.webp', color: '#40ABE0' },
-  { code: 'ปวช.', slug: 'gear', name: 'ช่างกลโรงงาน', icon: 'gear', cat: 'อุตสาหกรรม', img: '/assets/courses/gear.webp', color: '#FBD609' },
-  { code: 'ปวช.', slug: 'electronic', name: 'อิเล็กทรอนิกส์', icon: 'chip', cat: 'อุตสาหกรรม', img: '/assets/courses/electronic.webp' },
-  { code: 'ปวช.', slug: 'mecha', name: 'เมคคาทรอนิกส์และหุ่นยนต์', icon: 'robot', cat: 'อุตสาหกรรม', hot: true, img: '/assets/courses/mecha.webp', color: '#FBDC6B' },
-  { code: 'ปวช.', slug: 'graphic', name: 'ดิจิทัลกราฟิก', icon: 'palette', cat: 'ดิจิทัล', img: '/assets/courses/digital-graphic.webp', color: '#385BF3' },
-  { code: 'ปวช.', slug: 'biz-digital', name: 'เทคโนโลยีธุรกิจดิจิทัล', icon: 'chart', cat: 'บริหาร', img: '/assets/courses/digital-business.webp', color: '#EB559F' },
-  { code: 'ปวช.', slug: 'accounting', name: 'การบัญชี', icon: 'briefcase', cat: 'บริหาร', img: '/assets/courses/accounting.webp', color: '#7B5CA7' },
-  { code: 'ปวส.', slug: 'ps-mech', name: 'เทคนิคเครื่องกล', icon: 'car', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-mechanical.webp', color: '#B12B25' },
-  { code: 'ปวส.', slug: 'ps-electrical', name: 'ไฟฟ้า', icon: 'bolt', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-electrical.webp', color: '#40ABE0' },
-  { code: 'ปวส.', slug: 'ps-production', name: 'เทคนิคการผลิต', icon: 'gear', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-production.webp', color: '#FBD609' },
-  { code: 'ปวส.', slug: 'ps-mecha', name: 'เมคคาทรอนิกส์และหุ่นยนต์', icon: 'robot', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-mecha.webp', color: '#FBDC6B' },
-  { code: 'ปวส.', slug: 'ps-network', name: 'เครือข่ายคอมฯ & ความปลอดภัย', icon: 'network', cat: 'ดิจิทัล', img: '/assets/courses/ps-network.webp', color: '#EB559F' },
-  { code: 'ปวส.', slug: 'ps-graphic', name: 'ดิจิทัลกราฟิก', icon: 'palette', cat: 'ดิจิทัล', img: '/assets/courses/ps-graphic.webp', color: '#385BF3' },
-  { code: 'ปวส.', slug: 'ps-logistics', name: 'การจัดการโลจิสติกส์', icon: 'truck', cat: 'บริหาร', hot: true, img: '/assets/courses/ps-logistics.webp', color: '#F26530' },
-  { code: 'ปวส.', slug: 'ps-accounting', name: 'การบัญชี', icon: 'briefcase', cat: 'บริหาร', img: '/assets/courses/ps-accounting.webp', color: '#7B5CA7' },
-  { code: 'ปวส.', slug: 'ps-electronic', name: 'อิเล็กทรอนิกส์', icon: 'chip', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-electronic.webp' },
-  { code: 'ปวส.', slug: 'ps-industrial', name: 'เทคนิคอุตสาหกรรม', icon: 'shield', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-industrial.webp' },
-];
 const CATS = ['ทั้งหมด', 'อุตสาหกรรม', 'ดิจิทัล', 'บริหาร'];
+const HOME_COURSE_LIMIT = 10;
 
 const PHILOSOPHY = [
   { t: 'มุ่งสร้างคนดี', d: 'มุ่งหวังที่จะสร้างนักศึกษาให้เป็นคนดีทั้งต่อตนเองและสังคม', icon: 'users' },
@@ -139,77 +84,33 @@ const TESTIMONIALS = [
   </Fragment>
 
   <script type="application/ld+json" is:inline set:html={JSON.stringify(FAQ_JSONLD)} />
-  {/* Visually-hidden H1 for SEO crawlers; visible headings rendered by the slideshow hero. */}
+  {/* Keep the page heading accessible while the hero displays only photographs. */}
   <h1 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
     วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง — เปิดรับสมัครนักศึกษาใหม่ ปวช. ปวส. ป.ตรี ปีการศึกษา 2569
   </h1>
 
   <main>
     {/* ── Hero Slideshow ── */}
-    <section class="hero hero-slideshow " style="touch-action:pan-y;user-select:none">
+    <section class="hero hero-slideshow" aria-label="ภาพกิจกรรมวิทยาลัย" style="touch-action:pan-y;user-select:none">
       <div class="hss-stage" style="transform:none">
         {SLIDES.map((s, i) => (
-          <div class={`hss-slide ${i === 0 ? 'on' : ''} ${i === 1 ? 'next' : ''}`} aria-hidden={i !== 0 ? 'true' : 'false'}>
-            <div class="hss-bg">
-              <img src={s.img} alt="" class="hss-img" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} draggable="false" />
-              <div class="hss-tint" style={`background:${s.tint}`}></div>
-              <div class="hss-vignette"></div>
-            </div>
+          <div class:list={['hss-slide', { on: i === 0 }]} aria-hidden={i !== 0 ? 'true' : 'false'}>
+            <img src={s.img} alt={s.alt} class="hss-img" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} draggable="false" />
           </div>
         ))}
       </div>
-      <div class="container hss-inner">
-        <div class="hss-content">
-          {SLIDES.map((s, i) => (
-            <div class={`hss-copy ${i === 0 ? 'on' : ''}`} aria-hidden={i !== 0 ? 'true' : 'false'}>
-              <div class="hero-eyebrow hss-eyebrow"><span class="hero-eyebrow-dot"></span>{s.eyebrow}</div>
-              <h1 class="hero-title hss-title">{s.title}</h1>
-              <p class="hero-sub hss-sub">{s.sub}</p>
-              <div class="hero-cta hss-cta">
-                <a href={s.cta.href} class="btn btn-white btn-lg">{s.cta.label}<Icon name="arrow" className="btn-icon" /></a>
-              </div>
-            </div>
-          ))}
-        </div>
-        <div class="hss-controls">
-          <button class="hss-nav" aria-label="สไลด์ก่อนหน้า">
-            <Icon name="chevronRight" style={{ width: 22, height: 22, transform: 'rotate(180deg)' }} />
+      <div class="hss-progress" role="group" aria-label="เลือกสไลด์">
+        {SLIDES.map((_s, i) => (
+          <button type="button" class:list={['hss-prog-bar', { on: i === 0 }]} aria-label={`ไปสไลด์ ${i + 1}`} aria-pressed={i === 0 ? 'true' : 'false'}>
+            <span class="hss-prog-fill" aria-hidden="true"></span>
           </button>
-          <div class="hss-progress" role="tablist">
-            {SLIDES.map((_s, i) => (
-              <button class={`hss-prog-bar ${i === 0 ? 'on' : ''} `} aria-label={`ไปสไลด์ ${i + 1}`} role="tab">
-                <span class="hss-prog-fill"></span>
-              </button>
-            ))}
-          </div>
-          <button class="hss-nav" aria-label="สไลด์ถัดไป">
-            <Icon name="chevronRight" style={{ width: 22, height: 22 }} />
-          </button>
-        </div>
-      </div>
-      <div class="hss-counter">
-        <strong>01</strong>
-        <span>/</span>
-        <em>{String(SLIDES.length).padStart(2, '0')}</em>
+        ))}
       </div>
     </section>
 
-    {/* ── Trust band (accreditation + awards) ── */}
-    <section class="trust-band" aria-label="การรับรองและรางวัล">
-      <div class="container">
-        <div class="trust-grid">
-          {TRUST_ITEMS.map((it, i) => (
-            <div class={`reveal  trust-item`} style={`--reveal-delay:${i * 0.06}s`}>
-              <span class="trust-ic"><Icon name={it.icon} style={{ width: 22, height: 22 }} /></span>
-              <span class="trust-tx">
-                <strong>{it.t}</strong>
-                <span>{it.d}</span>
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <HomeQuickLinks />
+
+    <Promotions />
 
     {/* ── Highlights / News strip ── */}
     <section class="section section-sm highlights-section" id="highlights">
@@ -258,20 +159,20 @@ const TESTIMONIALS = [
         <div class="reveal  section-head" style="--reveal-delay:0s">
           <span class="eyebrow">หลักสูตรของเรา</span>
           <h2 class="section-title">
-            18 สาขาวิชา <span class="grad">ครอบคลุมทุกสายอาชีพ</span>
+            {COURSES.length} หลักสูตร <span class="grad">ครอบคลุมทุกสายอาชีพ</span>
           </h2>
           <p class="section-sub">เรียนกับอาจารย์ที่มีประสบการณ์จริงในอุตสาหกรรม พร้อมห้องปฏิบัติการมาตรฐาน และเครื่องมือทันสมัย</p>
         </div>
         <div class="reveal  course-filters" style="--reveal-delay:0.1s">
           {CATS.map((c, i) => (
-            <button class={`chip ${i === 0 ? 'chip-active' : ''}`} data-cat={c}>
+            <button type="button" class={`chip ${i === 0 ? 'chip-active' : ''}`} data-cat={c} aria-pressed={i === 0}>
               {c}
             </button>
           ))}
         </div>
-        <div class="course-grid card-lift">
+        <div class="course-grid card-lift" data-limit={HOME_COURSE_LIMIT}>
           {COURSES.map((c, i) => (
-            <div class="reveal reveal-scale " style={`--reveal-delay:${Math.min(i * 0.04, 0.4)}s`} data-cat={c.cat}>
+            <div class="reveal reveal-scale " style={`--reveal-delay:${Math.min(i * 0.04, 0.4)}s`} data-cat={c.cat} hidden={i >= HOME_COURSE_LIMIT}>
               <a href={`/courses/${c.slug}/`} class="course-card cc-lift" style={c.color ? `--dept:${c.color}` : undefined}>
                 {c.img && (
                   <div class="cc-photo">
@@ -292,6 +193,9 @@ const TESTIMONIALS = [
               </a>
             </div>
           ))}
+        </div>
+        <div style="margin-top:32px;text-align:center">
+          <a href="/courses/" class="btn btn-ghost">ดูหลักสูตรทั้งหมด <Icon name="arrow" className="btn-icon" /></a>
         </div>
       </div>
     </section>
@@ -478,51 +382,37 @@ const TESTIMONIALS = [
 </Base>
 
 <script>
-  // ── Hero slideshow (homepage.tsx HeroSlideshow, vanilla port) ──
+  // ── Image hero: autoplay, progress navigation, and pointer swipe ──
   function initSlideshow(): void {
     const section = document.querySelector<HTMLElement>('.hero-slideshow');
     if (!section) return;
     const stage = section.querySelector<HTMLElement>('.hss-stage');
     const slides = Array.from(section.querySelectorAll<HTMLElement>('.hss-slide'));
-    const copies = Array.from(section.querySelectorAll<HTMLElement>('.hss-copy'));
-    const bars = Array.from(section.querySelectorAll<HTMLElement>('.hss-prog-bar'));
-    const navs = Array.from(section.querySelectorAll<HTMLButtonElement>('.hss-nav'));
-    const counterEl = section.querySelector<HTMLElement>('.hss-counter strong');
+    const bars = Array.from(section.querySelectorAll<HTMLButtonElement>('.hss-prog-bar'));
     const N = slides.length;
+    if (N < 2) return;
     const DURATION = 6500;
     const SWIPE_THRESHOLD = 60;
+    section.style.setProperty('--hss-duration', `${DURATION}ms`);
 
     let idx = 0;
-    let paused = false;
     let dragActive = false;
     let dragStartX = 0;
     let dragDx = 0;
-    let suppressClick = false;
     let timer: number | undefined;
 
-    const render = () => {
-      slides.forEach((s, i) => {
-        s.classList.toggle('on', idx === i);
-        s.classList.toggle('next', idx === i - 1 || (idx === N - 1 && i === 0));
-        s.setAttribute('aria-hidden', String(idx !== i));
+    const go = (n: number) => {
+      idx = (n + N) % N;
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('on', idx === i);
+        slide.setAttribute('aria-hidden', String(idx !== i));
       });
-      copies.forEach((c, i) => {
-        c.classList.toggle('on', idx === i);
-        c.setAttribute('aria-hidden', String(idx !== i));
+      bars.forEach((bar, i) => {
+        bar.classList.toggle('on', idx === i);
+        bar.classList.toggle('done', i < idx);
+        bar.setAttribute('aria-pressed', String(idx === i));
       });
-      bars.forEach((b, i) => {
-        b.classList.toggle('on', i === idx);
-        b.classList.toggle('done', i < idx);
-        // React remounted the fill on every idx change (key={`${idx}-${i}`});
-        // recreating the node restarts the CSS progress animation identically.
-        const fill = b.querySelector('.hss-prog-fill');
-        if (fill) {
-          const fresh = document.createElement('span');
-          fresh.className = 'hss-prog-fill';
-          fill.replaceWith(fresh);
-        }
-      });
-      if (counterEl) counterEl.textContent = String(idx + 1).padStart(2, '0');
+      updateTimer();
     };
 
     const updateStage = () => {
@@ -530,36 +420,23 @@ const TESTIMONIALS = [
       if (stage) stage.style.transform = dragOffset ? `translateX(${dragOffset * 0.3}px)` : 'none';
     };
 
-    // Interval resets only when paused/drag state changes (React effect deps
-    // were [paused, drag.active] — manual go() did NOT reset the timer).
+    // Hovering keeps autoplay running; pause only while dragging the image.
     const updateTimer = () => {
       if (timer !== undefined) {
-        clearInterval(timer);
+        clearTimeout(timer);
         timer = undefined;
       }
-      if (!paused && !dragActive) {
-        timer = window.setInterval(() => {
-          idx = (idx + 1) % N;
-          render();
-        }, DURATION);
+      if (!dragActive) {
+        // Restart the visible fill and the timer together, including manual selection.
+        const fill = bars[idx]?.querySelector('.hss-prog-fill');
+        if (fill) fill.replaceWith(fill.cloneNode(true));
+        timer = window.setTimeout(() => go(idx + 1), DURATION);
       }
-    };
-
-    const go = (n: number) => {
-      idx = (n + N) % N;
-      render();
     };
 
     const endDrag = () => {
       if (!dragActive) return;
-      const dx = dragDx;
-      if (Math.abs(dx) > SWIPE_THRESHOLD) go(dx < 0 ? idx + 1 : idx - 1);
-      // Only the click synthesised from THIS gesture should be swallowed. The
-      // flag used to survive until the next CTA click, so after any swipe the
-      // first genuine tap on "สมัครเรียนออนไลน์" did nothing — clear it as soon
-      // as the gesture's own click (if any) has had its turn.
-      suppressClick = Math.abs(dx) > 8;
-      if (suppressClick) window.setTimeout(() => { suppressClick = false; }, 0);
+      if (Math.abs(dragDx) > SWIPE_THRESHOLD) go(dragDx < 0 ? idx + 1 : idx - 1);
       dragActive = false;
       dragStartX = 0;
       dragDx = 0;
@@ -569,12 +446,10 @@ const TESTIMONIALS = [
     };
 
     section.addEventListener('pointerdown', (e) => {
-      // Any new pointer gesture — including a tap on the CTA itself — starts clean.
-      suppressClick = false;
       if (e.button !== 0) return;
-      if ((e.target as HTMLElement).closest('button, a, [role="tab"]')) return;
+      if ((e.target as HTMLElement).closest('button')) return;
       dragActive = true;
-      dragStartX = e.clientX ?? 0;
+      dragStartX = e.clientX;
       dragDx = 0;
       section.classList.add('is-dragging');
       updateStage();
@@ -587,34 +462,13 @@ const TESTIMONIALS = [
     });
     section.addEventListener('pointermove', (e) => {
       if (!dragActive) return;
-      dragDx = (e.clientX ?? 0) - dragStartX;
+      dragDx = e.clientX - dragStartX;
       updateStage();
     });
     section.addEventListener('pointerup', endDrag);
     section.addEventListener('pointercancel', endDrag);
-    section.addEventListener('mouseenter', () => {
-      paused = true;
-      updateTimer();
-    });
-    section.addEventListener('mouseleave', () => {
-      paused = false;
-      if (dragActive) endDrag();
-      updateTimer();
-    });
-
-    if (navs[0]) navs[0].addEventListener('click', () => go(idx - 1));
-    if (navs[1]) navs[1].addEventListener('click', () => go(idx + 1));
-    bars.forEach((b, i) => b.addEventListener('click', () => go(i)));
-
-    // Suppress CTA navigation after a real drag (>8px), like the old onClick guard.
-    section.querySelectorAll<HTMLAnchorElement>('.hss-cta a').forEach((a) => {
-      a.addEventListener('click', (e) => {
-        if (suppressClick) {
-          e.preventDefault();
-          suppressClick = false;
-        }
-      });
-    });
+    section.addEventListener('mouseleave', endDrag);
+    bars.forEach((bar, i) => bar.addEventListener('click', () => go(i)));
 
     updateTimer();
   }
@@ -654,14 +508,26 @@ const TESTIMONIALS = [
 
   // ── Course category filter (homepage.tsx Courses) ──
   function initCourseFilter(): void {
-    const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('.course-filters .chip'));
-    const cards = Array.from(document.querySelectorAll<HTMLElement>('.course-grid [data-cat]'));
+    const grid = document.querySelector<HTMLElement>('#courses .course-grid');
+    if (!grid) return;
+    const limit = Number(grid.dataset.limit);
+    const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('#courses .course-filters .chip'));
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-cat]'));
     chips.forEach((chip) => {
       chip.addEventListener('click', () => {
         const cat = chip.dataset.cat || 'ทั้งหมด';
-        chips.forEach((c) => c.classList.toggle('chip-active', c === chip));
+        chips.forEach((c) => {
+          c.classList.toggle('chip-active', c === chip);
+          c.setAttribute('aria-pressed', String(c === chip));
+        });
+        const shown = cards.filter((card) => cat === 'ทั้งหมด' || card.dataset.cat === cat).slice(0, limit);
+        const visibleCards = new Set(shown);
         cards.forEach((card) => {
-          card.style.display = cat === 'ทั้งหมด' || card.dataset.cat === cat ? '' : 'none';
+          card.hidden = !visibleCards.has(card);
+        });
+        shown.forEach((card, i) => {
+          card.classList.add('in');
+          card.style.setProperty('--reveal-delay', `${Math.min(i * 0.04, 0.4)}s`);
         });
       });
     });
