@@ -208,5 +208,29 @@
     "file": "/assets/staff/portraits/p35.webp",
     "name": "นายไพศาล จุ้ยเคน",
     "kb": 17
+  },
+  {
+    "id": "p36",
+    "file": "/assets/staff/portraits/p36.webp",
+    "name": "อ.จิราภรณ์ อุนารัตน์",
+    "kb": 26
+  },
+  {
+    "id": "p37",
+    "file": "/assets/staff/portraits/p37.webp",
+    "name": "อ.ทนงศักดิ์ การงานดี",
+    "kb": 29
+  },
+  {
+    "id": "p38",
+    "file": "/assets/staff/portraits/p38.webp",
+    "name": "อ.ธนวัตร หนวกเนาว์",
+    "kb": 27
+  },
+  {
+    "id": "p39",
+    "file": "/assets/staff/portraits/p39.webp",
+    "name": "อ.วรรณวิภา นิราชรัมย์",
+    "kb": 27
   }
 ]

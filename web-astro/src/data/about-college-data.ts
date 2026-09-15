@@ -26,10 +26,10 @@ export const PRINCIPALS: Leader[] = [
 ];
 
 export const DEPUTIES: Leader[] = [
-  { n: 'นายมานิต หอดขุนทด', r: 'ฝ่ายวิชาการและประกันคุณภาพ', img: EXEC + 'deputy-academic-manit.webp', c: '#026451' },
-  { n: 'นายทรงพล แม้นชล', r: 'ฝ่ายกิจการนักเรียนนักศึกษา', img: EXEC + 'deputy-student-songphon.webp', c: '#385BF3' },
-  { n: 'นางสาวจิดาภา เพ็ชรรัตน์', r: 'ฝ่ายบริหาร', img: EXEC + 'deputy-admin-jidapha.webp', c: '#D6418A' },
-  { n: 'นายกอบศักดิ์ เจนวิถี', r: 'ฝ่ายปกครอง', img: EXEC + 'deputy-discipline-kobsak.webp', c: '#B12B25' },
-  { n: 'นายพงษ์ศักดิ์ ไสตะภาพ', r: 'ฝ่ายวิจัยและพัฒนาสื่อ', img: EXEC + 'deputy-research-pongsak.webp', c: '#C28A05' },
-  { n: 'นายพันธ์จิต อิ่มรอ', r: 'ฝ่ายอาคารสถานที่', img: EXEC + 'deputy-building-phanchit.webp', c: '#2D8FBF' },
+  { n: 'อ.มานิต หอดขุนทด', r: 'ฝ่ายวิชาการและประกันคุณภาพ', img: EXEC + 'deputy-academic-manit.webp', c: '#026451' },
+  { n: 'อ.ทรงพล แม้นชล', r: 'ฝ่ายกิจการนักเรียนนักศึกษา', img: EXEC + 'deputy-student-songphon.webp', c: '#385BF3' },
+  { n: 'อ.จิดาภา เพ็ชรรัตน์', r: 'ฝ่ายบริหาร', img: EXEC + 'deputy-admin-jidapha.webp', c: '#D6418A' },
+  { n: 'อ.กอบศักดิ์ เจนวิถี', r: 'ฝ่ายปกครอง', img: EXEC + 'deputy-discipline-kobsak.webp', c: '#B12B25' },
+  { n: 'อ.พงษ์ศักดิ์ ไสตะภาพ', r: 'ฝ่ายวิจัยและพัฒนาสื่อ', img: EXEC + 'deputy-research-pongsak.webp', c: '#C28A05' },
+  { n: 'อ.พันธ์จิต อิ่มรอ', r: 'ฝ่ายอาคารสถานที่', img: EXEC + 'deputy-building-phanchit.webp', c: '#2D8FBF' },
 ];

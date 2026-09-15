@@ -63,6 +63,7 @@ const TEACHERS: Department[] = [
   ]},
   { id: 'gear', name: 'ช่างกลโรงงาน', color: '#C28A05', members: [
     { name: 'นายวัฒนา คงประเสริฐ',  role: 'หัวหน้าภาคเครื่องกล', head: 'faculty', photo: TC + 'gear-head-wattana.webp' },
+    { name: 'อ.ทนงศักดิ์ การงานดี', role: 'ครูประจำแผนก' },
     { name: 'นายไพศาล จุ้ยเคน',     role: 'ครูประจำแผนก', photo: TC + 'gear-phaisan.webp' },
     { name: 'นายพงษ์พัฒน์ สาธุพันธ์', role: 'ครูประจำแผนก', photo: TC + 'gear-pongphat.webp' },
     { name: 'นายสุภวัฒน์ ลีลาด',     role: 'ครูประจำแผนก', photo: TC + 'gear-supawat.webp' },
@@ -70,14 +71,17 @@ const TEACHERS: Department[] = [
   { id: 'mecha', name: 'เมคคาทรอนิกส์และหุ่นยนต์', color: '#C9911F', members: [
     { name: 'นายนัฐสิทธิ์ เสาะขุนทด', role: 'หัวหน้าแผนก', head: 'section', photo: TC + 'mecha-head-natthasit.webp' },
     { name: 'นายอรรณพ แซ่เฮง',       role: 'ครูประจำแผนก', photo: TC + 'mecha-annop.webp' },
+    { name: 'อ.ธนวัตร หนวกเนาว์',    role: 'ครูประจำแผนก' },
   ]},
   { id: 'logis', name: 'โลจิสติกส์', color: '#0a9d80', members: [
     { name: 'นายประยูร พินิจเจริญ',    role: 'หัวหน้าแผนก', head: 'section', photo: TC + 'logis-head-prayoon.webp' },
     { name: 'นางสาวจุฑามาศ จันทร์พวง', role: 'ครูประจำแผนก', photo: TC + 'logis-juthamas.webp' },
     { name: 'นายณัฐพล มีเดช',          role: 'ครูประจำแผนก', photo: TC + 'logis-nattapon.webp' },
+    { name: 'อ.วรรณวิภา นิราชรัมย์',   role: 'ครูประจำแผนก' },
   ]},
   { id: 'com', name: 'คอมพิวเตอร์ธุรกิจ / คอมกราฟฟิก', color: '#385BF3', members: [
     { name: 'นายฆหชาร์นนท์ ยิ้มฉ่ำ',     role: 'หัวหน้าแผนก', head: 'section', photo: TC + 'com-head-kahachan.webp' },
+    { name: 'อ.จิราภรณ์ อุนารัตน์',     role: 'ครูประจำแผนก' },
     { name: 'นางสาวจีรารัตน์ รินสาร',    role: 'ครูประจำแผนก', photo: TC + 'com-jeerarat.webp' },
     { name: 'นางสาวพลอยเพทาย ปัสสายะ', role: 'ครูประจำแผนก', photo: TC + 'com-ploypethai.webp' },
     { name: 'นางสาวสุทธิพร หารลือชัย',   role: 'ครูประจำแผนก', photo: TC + 'com-sutthiporn.webp' },
@@ -90,7 +94,7 @@ const TEACHERS: Department[] = [
     { name: 'นางสาวนิตชญาภร ใจคง',   role: 'ครูประจำแผนก', photo: TC + 'account-nitchayaphon.webp' },
   ]},
   { id: 'general', name: 'สามัญ', color: '#048269', members: [
-    { name: 'นายเอกชัย แก้วทรัพย์',      role: 'หัวหน้าสายสามัญ', head: 'faculty', photo: TC + 'general-head-ekkachai.webp' },
+    { name: 'นายเอกชัย แก้วทรัพย์',      role: 'หัวหน้าแผนกสามัญ', head: 'section', photo: TC + 'general-head-ekkachai.webp' },
     { name: 'นางสาวศรสวรรค์ วงศ์ศรีกุล', role: 'ครูสายสามัญ', photo: TC + 'general-sornsawan.webp' },
   ]},
 ];
@@ -119,6 +123,8 @@ const PORTRAITS: Record<string, string> = {
   'นายวัฒนา คงประเสริฐ': 'p28', 'นายศุภวิชญ์ ทวีการไถ': 'p29', 'นายสุขใจ วงษ์คต': 'p30',
   'นายสุภวัฒน์ ลีลาด': 'p31', 'นายอรรณพ แซ่เฮง': 'p32', 'นายเอกชัย แก้วทรัพย์': 'p33',
   'นายเอนก คณฑา': 'p34', 'นายไพศาล จุ้ยเคน': 'p35',
+  'อ.จิราภรณ์ อุนารัตน์': 'p36', 'อ.ทนงศักดิ์ การงานดี': 'p37', 'อ.ธนวัตร หนวกเนาว์': 'p38',
+  'อ.วรรณวิภา นิราชรัมย์': 'p39',
 };
 function resolvePhoto(name?: string, fallback?: string): string | undefined {
   if (name) {
@@ -126,6 +132,10 @@ function resolvePhoto(name?: string, fallback?: string): string | undefined {
     if (id) return `/assets/staff/portraits/${id}.webp`;
   }
   return fallback;
+}
+
+function displayPersonnelName(name: string): string {
+  return name.replace(/^(?:นางสาว|นาย)/, 'อ.');
 }
 
 // หัวหน้าภาค pulled out of the department lists — the design shows them in
@@ -180,9 +190,9 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
         <div class="principal-grid">
           {PRINCIPALS.map((p, i) => (
             <div class={`reveal principal-card${i === 0 ? ' pc-lead' : ''}`} style={`--reveal-delay: ${i * 0.08}s`}>
-              <div class="pc-photo"><img src={resolvePhoto(p.name, p.photo)} alt={p.name} /></div>
+              <div class="pc-photo"><img src={resolvePhoto(p.name, p.photo)} alt={displayPersonnelName(p.name)} /></div>
               <div class="pc-role">{p.role}</div>
-              <div class="pc-name">{p.name}</div>
+              <div class="pc-name">{displayPersonnelName(p.name)}</div>
             </div>
           ))}
         </div>
@@ -195,11 +205,11 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
               <div class="reveal" style={`--reveal-delay: ${i * 0.06}s`}>
                 <div class="staff-card" style={`--dc: ${d.color}`}>
                   {src ? (
-                    <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={d.name || ''} /></div>
+                    <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={displayPersonnelName(d.name)} /></div>
                   ) : (
                     <div class="staff-avatar" style={`--dc: ${d.color}`}></div>
                   )}
-                  <div class="name">{d.name}</div>
+                  <div class="name">{displayPersonnelName(d.name)}</div>
                   <div class="role">{d.role}</div>
                   <div class="tag">{d.dept}</div>
                 </div>
@@ -237,15 +247,15 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
             {FACULTY_HEADS.map((m, i) => {
               const src = resolvePhoto(m.name, m.photo);
               return (
-                <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.05, 0.24)}s`} data-name={m.name} data-dept={m.deptId}>
+                <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.05, 0.24)}s`} data-name={displayPersonnelName(m.name)} data-dept={m.deptId}>
                   <div class="staff-card is-head is-faculty" style={`--dc: ${m.color}`}>
                     <span class="head-flag head-faculty"><Icon name="star" />หัวหน้าภาค</span>
                     {src ? (
-                      <div class="staff-avatar has-photo" style={`--dc: ${m.color}`}><img src={src} alt={m.name || ''} /></div>
+                      <div class="staff-avatar has-photo" style={`--dc: ${m.color}`}><img src={src} alt={displayPersonnelName(m.name)} /></div>
                     ) : (
                       <div class="staff-avatar" style={`--dc: ${m.color}`}></div>
                     )}
-                    <div class="name">{m.name}</div>
+                    <div class="name">{displayPersonnelName(m.name)}</div>
                     <div class="role">{m.role}</div>
                     <div class="tag">{m.dept}</div>
                   </div>
@@ -263,17 +273,17 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
                 const headLabel = p.head === 'faculty' ? 'หัวหน้าภาค' : p.head === 'section' ? 'หัวหน้าแผนก' : null;
                 const src = resolvePhoto(p.name, p.photo);
                 return (
-                  <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={p.name} data-dept={d.id}>
+                  <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={displayPersonnelName(p.name)} data-dept={d.id}>
                     <div class={`staff-card ${p.head ? 'is-head is-' + p.head : ''}`} style={`--dc: ${d.color}`}>
                       {headLabel && (
                         <span class={`head-flag head-${p.head}`}>{p.head === 'faculty' && <Icon name="star" />}{headLabel}</span>
                       )}
                       {src ? (
-                        <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={p.name || ''} /></div>
+                        <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={displayPersonnelName(p.name)} /></div>
                       ) : (
                         <div class="staff-avatar" style={`--dc: ${d.color}`}>{p.initial}</div>
                       )}
-                      <div class="name">{p.name}</div>
+                      <div class="name">{displayPersonnelName(p.name)}</div>
                       <div class="role">{p.role}</div>
                     </div>
                   </div>
@@ -302,14 +312,14 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
           {SUPPORT.map((m, i) => {
             const src = resolvePhoto(m.name, m.photo);
             return (
-              <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={m.name}>
+              <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={displayPersonnelName(m.name)}>
                 <div class="staff-card" style={`--dc: ${m.color}`}>
                   {src ? (
-                    <div class="staff-avatar has-photo" style={`--dc: ${m.color}`}><img src={src} alt={m.name || ''} /></div>
+                    <div class="staff-avatar has-photo" style={`--dc: ${m.color}`}><img src={src} alt={displayPersonnelName(m.name)} /></div>
                   ) : (
                     <div class="staff-avatar" style={`--dc: ${m.color}`}></div>
                   )}
-                  <div class="name">{m.name}</div>
+                  <div class="name">{displayPersonnelName(m.name)}</div>
                   <div class="role">{m.role}</div>
                 </div>
               </div>
