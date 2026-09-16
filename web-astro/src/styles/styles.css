@@ -962,7 +962,56 @@ h1, h2, h3, h4, h5 {
 }
 
 /* Brand color variants */
-.fab-green .fab-icon { background: var(--surface-card); color: var(--green-700); }
+.fab-green { --fab-brand: var(--green-700); --fab-brand-shadow: rgba(15,122,62,0.38); }
+.fab-fb    { --fab-brand: #1877f2; --fab-brand-shadow: rgba(24,119,242,0.42); }
+.fab-line  { --fab-brand: #06c755; --fab-brand-shadow: rgba(6,199,85,0.38); }
+.fab-mail  { --fab-brand: #ea4335; --fab-brand-shadow: rgba(234,67,53,0.38); }
+
+.fab-green .fab-icon,
+.fab-fb .fab-icon,
+.fab-line .fab-icon,
+.fab-mail .fab-icon {
+  background: var(--fab-brand);
+  color: #fff;
+  border-color: color-mix(in srgb, var(--fab-brand) 82%, #000);
+  box-shadow:
+    0 12px 26px -8px var(--fab-brand-shadow),
+    0 4px 8px -2px rgba(11,26,19,0.1),
+    inset 0 -2px 0 rgba(0,0,0,0.12);
+}
+
+.fab-green:not(.primary) .fab-label,
+.fab-fb:not(.primary) .fab-label,
+.fab-line:not(.primary) .fab-label,
+.fab-mail:not(.primary) .fab-label {
+  background: var(--fab-brand);
+  border-color: color-mix(in srgb, var(--fab-brand) 82%, #000);
+  box-shadow: 0 8px 22px -8px var(--fab-brand-shadow);
+}
+
+.fab-green:not(.primary) .fab-label strong,
+.fab-fb:not(.primary) .fab-label strong,
+.fab-line:not(.primary) .fab-label strong,
+.fab-mail:not(.primary) .fab-label strong {
+  color: #fff;
+}
+
+.fab-green:not(.primary) .fab-label em,
+.fab-fb:not(.primary) .fab-label em,
+.fab-line:not(.primary) .fab-label em,
+.fab-mail:not(.primary) .fab-label em {
+  color: rgba(255,255,255,0.86);
+}
+
+.fab-green:hover .fab-icon,
+.fab-fb:hover .fab-icon,
+.fab-line:hover .fab-icon,
+.fab-mail:hover .fab-icon {
+  box-shadow:
+    0 16px 32px -8px var(--fab-brand-shadow),
+    0 5px 10px -2px rgba(11,26,19,0.12),
+    inset 0 -2px 0 rgba(0,0,0,0.12);
+}
 
 /* ── Primary apply FAB: pill-shape with permanent label ──── */
 .bubble-fab.primary {
@@ -1067,7 +1116,10 @@ h1, h2, h3, h4, h5 {
 }
 
 @media (max-width: 700px) {
-  .sticky-bubble { right: 14px; bottom: 14px; }
+  .sticky-bubble {
+    right: calc(20px + env(safe-area-inset-right, 0px));
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  }
   .bubble-teaser { max-width: calc(100vw - 100px); }
   /* On mobile, show label permanently for clarity */
   .fab-label { opacity: 1; transform: translateX(0); pointer-events: auto; }
