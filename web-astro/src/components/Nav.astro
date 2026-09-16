@@ -268,6 +268,10 @@ const ICONS: Record<string, string> = {
                   )))}
                 </div>
               ))}
+              <a href="/courses/" class="mnav-sub-all">
+                <span>ดูหลักสูตรทั้งหมด ({COURSES.length} หลักสูตร)</span>
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.arrow} />
+              </a>
             </div>
           </Fragment>
         ) : it.dropdown === 'student' ? (

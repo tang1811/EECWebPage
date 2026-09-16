@@ -37,10 +37,12 @@
 .cd-fact-sub { margin: 0; font-size: 13px; line-height: 1.75; color: #b8c8c1; }
 .cd-skills { scroll-margin-top: 90px; }
 .cd-skills-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
-.cd-skill { border: 1px solid #ffffff1f; border-left: 3px solid var(--dept); border-radius: 16px; padding: 30px; background: #ffffff04; }
+.cd-skill { display: flex; flex-direction: column; border: 1px solid #ffffff1f; border-left: 3px solid var(--dept); border-radius: 16px; overflow: hidden; background: #ffffff04; }
+.cd-skill-content { flex: 1; padding: 30px; }
 .cd-skill-num { font-size: 14px; font-weight: 600; color: var(--dept-text); margin-bottom: 16px; }
 .cd-skill-t { font-size: 22px; line-height: 1.5; margin: 0 0 12px; }
 .cd-skill-d { font-size: 16px; line-height: 1.8; color: var(--cd-muted); margin: 0; }
+.cd-skill-photo { margin: 0; border-top: 1px solid var(--dept-border); }
 .cd-curr { background: #0d1e16; }
 .cd-curr-list { list-style: none; padding: 0; margin: 0; }
 .cd-curr-row { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: start; gap: 24px; border-top: 1px solid #ffffff24; padding: 28px 0; }
@@ -120,7 +122,7 @@
   .cd-fact-value { font-size: 22px; }
   .cd-fact-sub { font-size: 12px; }
   .cd-skills-grid, .cd-labs ul, .cd-related-grid { grid-template-columns: minmax(0, 1fr); }
-  .cd-skill, .cd-labs, .cd-fee-card { padding: 22px; }
+  .cd-skill-content, .cd-labs, .cd-fee-card { padding: 22px; }
   .cd-skill-t, .cd-curr-t, .cd-labs h3 { font-size: 19px; }
   .cd-skill-d, .cd-curr-sub, .cd-labs li { font-size: 15px; }
   .cd-curr-row { gap: 14px; grid-template-columns: 34px minmax(0, 1fr); padding: 22px 0; }

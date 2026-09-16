@@ -34,13 +34,16 @@ function CDFacts({ course, detail }: { course: Course; detail: CourseDetail }) {
     { label: 'ระดับการศึกษา', value: course.code, sub: isCert ? 'ประกาศนียบัตรวิชาชีพ' : isBachelor ? 'ปริญญาตรี (ต่อเนื่อง)' : 'ประกาศนียบัตรวิชาชีพชั้นสูง' },
     { label: 'ระยะเวลาเรียน', value: isCert ? '3 ปี' : '2 ปี', sub: isBachelor ? 'ปีแรกเรียน · ปีที่ 2 ฝึกงาน' : 'เรียนภาคทฤษฎีและภาคปฏิบัติ' },
     { label: 'วุฒิที่ใช้สมัคร', value: isCert ? 'ม.3' : isBachelor ? 'ปวส.' : 'ปวช. / ม.6', sub: detail.admission ?? (isCert ? 'สำเร็จการศึกษาระดับมัธยมศึกษาปีที่ 3' : 'ปวช. สายตรง หรือ ม.6 / เทียบเท่า สอบถามเงื่อนไขของสาขาที่สนใจ') },
-    { label: 'รูปแบบการเรียน', value: detail.schedule ?? (course.dualVocational ? 'ทวิภาคี' : 'ทฤษฎี + ปฏิบัติ'), sub: isBachelor ? 'เหมาะกับผู้มีงานประจำ สอบถามตารางของรอบที่สมัคร' : course.dualVocational ? 'สอบถามแผนฝึกและสถานประกอบการของรอบที่สมัคร' : 'สอบถามวันเรียนและรูปแบบฝึกงานกับวิทยาลัย' },
+    { label: 'รูปแบบการเรียน', value: detail.schedule ?? (course.dualVocational ? 'ทฤษฎี + ปฏิบัติ / รอบบ่าย หลักสูตรสำหรับคนทำงาน' : 'ทฤษฎี + ปฏิบัติ'), sub: isBachelor ? 'เหมาะกับผู้มีงานประจำ สอบถามตารางของรอบที่สมัคร' : course.dualVocational ? 'สอบถามแผนฝึกและสถานประกอบการของรอบที่สมัคร' : 'สอบถามวันเรียนและรูปแบบฝึกงานกับวิทยาลัย' },
   ];
   return <section className="cine-scene cd-facts" aria-labelledby="course-facts-title"><h2 id="course-facts-title" className="cd-small-heading">ข้อมูลหลักสูตร</h2><dl className="cd-facts-grid">{facts.map((fact) => <div key={fact.label} className="cd-fact"><dt className="cd-fact-label">{fact.label}</dt><dd className="cd-fact-value">{fact.value}</dd><dd className="cd-fact-sub">{fact.sub}</dd></div>)}</dl></section>;
 }
 
-function CDSkills({ detail }: { detail: CourseDetail }) {
-  return <section id="course-learning" className="cine-scene cd-skills"><SectionHeading label="สิ่งที่จะได้เรียน">ทักษะและความรู้<em>ของสาขานี้</em></SectionHeading><div className="cd-skills-grid">{detail.skills.map((skill, i) => <article key={skill.t} className="cd-skill"><div className="cd-skill-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</div><h3 className="cd-skill-t">{skill.t}</h3><p className="cd-skill-d">{skill.d}</p></article>)}</div></section>;
+function CDSkills({ detail, photos }: { detail: CourseDetail; photos: CoursePhoto[] }) {
+  return <section id="course-learning" className="cine-scene cd-skills">
+    <SectionHeading label="สิ่งที่จะได้เรียน">ทักษะและความรู้<em>ของสาขานี้</em></SectionHeading>
+    <CDGallery skills={detail.skills} photos={photos} />
+  </section>;
 }
 
 function CDLearning({ detail }: { detail: CourseDetail }) {
@@ -52,12 +55,13 @@ function CDLearning({ detail }: { detail: CourseDetail }) {
   </section>;
 }
 
-function CDGallery({ photos }: { photos: CoursePhoto[] }) {
+function CDGallery({ skills, photos }: { skills: CourseDetail['skills']; photos: CoursePhoto[] }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLAnchorElement | null>(null);
   const [active, setActive] = useState<number | null>(null);
+  const skillPhotos = skills.map((_, index) => photos.length > 0 ? photos[index % photos.length] : undefined);
   const close = () => dialog.current?.close();
-  const step = (direction: number) => setActive((current) => current === null ? null : (current + direction + photos.length) % photos.length);
+  const step = (direction: number) => setActive((current) => current === null ? null : (current + direction + skills.length) % skills.length);
   useEffect(() => {
     if (active === null || !dialog.current) return;
     const element = dialog.current;
@@ -70,9 +74,14 @@ function CDGallery({ photos }: { photos: CoursePhoto[] }) {
     if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || event.button !== 0) return;
     event.preventDefault(); trigger.current = event.currentTarget; setActive(index);
   };
-  return <section className="cine-scene cd-gallery">
-    <SectionHeading label="ภาพแนะนำแผนก">ภาพการเรียน<em>และงานในสาขา</em></SectionHeading>
-    <div className={`cd-gallery-grid ${photos.length === 1 ? 'cd-gallery-single' : ''}`}>{photos.map((photo, i) => <figure key={photo.src} className="cd-gallery-figure"><a className={`cd-gallery-item ${photo.kind === 'cutout' ? 'cd-photo-cutout' : ''}`} href={photo.src} onClick={(event) => openPhoto(event, i)} aria-label={`ดูภาพขนาดเต็ม: ${photo.alt}`}><img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" /><span className="cd-gallery-zoom" aria-hidden="true"><Icon name="plus" style={{ width: 18, height: 18 }} /></span></a><figcaption>{photo.alt}</figcaption></figure>)}</div>
+  return <>
+    <div className="cd-skills-grid">{skills.map((skill, i) => {
+      const photo = skillPhotos[i];
+      return <article key={skill.t} className="cd-skill">
+        <div className="cd-skill-content"><div className="cd-skill-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</div><h3 className="cd-skill-t">{skill.t}</h3><p className="cd-skill-d">{skill.d}</p></div>
+        {photo && <figure className="cd-skill-photo"><a className={`cd-gallery-item ${photo.kind === 'cutout' ? 'cd-photo-cutout' : ''}`} href={photo.src} onClick={(event) => openPhoto(event, i)} aria-label={`ดูภาพขนาดเต็ม: ${photo.alt}`}><img src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" /><span className="cd-gallery-zoom" aria-hidden="true"><Icon name="plus" style={{ width: 18, height: 18 }} /></span></a></figure>}
+      </article>;
+    })}</div>
     <dialog ref={dialog} className="cd-photo-dialog" aria-label="ภาพแนะนำแผนกขนาดเต็ม"
       onClose={() => { setActive(null); trigger.current?.focus({ preventScroll: true }); }}
       onClick={(event) => { if (event.target === event.currentTarget) close(); }}
@@ -87,9 +96,9 @@ function CDGallery({ photos }: { photos: CoursePhoto[] }) {
           else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
         }
       }}>
-      {active !== null && <div className="cd-dialog-content"><button type="button" className="cd-dialog-close" onClick={close} aria-label="ปิดภาพ">×</button><figure className="cd-dialog-photo"><img src={photos[active].src} alt={photos[active].alt} /><figcaption aria-live="polite">{photos[active].alt} · {active + 1} / {photos.length}</figcaption></figure>{photos.length > 1 && <div className="cd-dialog-controls"><button type="button" onClick={() => step(-1)} aria-label="ภาพก่อนหน้า">← ก่อนหน้า</button><button type="button" onClick={() => step(1)} aria-label="ภาพถัดไป">ถัดไป →</button></div>}</div>}
+      {active !== null && skillPhotos[active] && <div className="cd-dialog-content"><button type="button" className="cd-dialog-close" onClick={close} aria-label="ปิดภาพ">×</button><figure className="cd-dialog-photo"><img src={skillPhotos[active].src} alt={skillPhotos[active].alt} /><figcaption aria-live="polite">{skills[active].t} · {active + 1} / {skills.length}</figcaption></figure>{skills.length > 1 && <div className="cd-dialog-controls"><button type="button" onClick={() => step(-1)} aria-label="ภาพก่อนหน้า">← ก่อนหน้า</button><button type="button" onClick={() => step(1)} aria-label="ภาพถัดไป">ถัดไป →</button></div>}</div>}
     </dialog>
-  </section>;
+  </>;
 }
 
 function CDVideo({ course, detail }: { course: Course; detail: CourseDetail }) {
@@ -124,8 +133,8 @@ export default function CourseDetailBody({ course }: { course: Course }) {
   const detail = getCourseDetail(course.slug, course);
   const gallery = detail.gallery ?? (DEPT_GALLERY[course.slug] ?? []).map((src, i) => ({ src, alt: `${course.name} · ภาพการเรียน ${i + 1}` }));
   return <main className="cine-main cd-main cd-department" style={{ '--dept': course.color || '#0aa183' }}>
-    <CDHero course={course} detail={detail} /><CDFacts course={course} detail={detail} /><CDSkills detail={detail} /><CDLearning detail={detail} />
-    {gallery.length > 0 && <CDGallery photos={gallery} />}<CDVideo course={course} detail={detail} /><CDFee detail={detail} /><CDCareers detail={detail} />
+    <CDHero course={course} detail={detail} /><CDFacts course={course} detail={detail} /><CDSkills detail={detail} photos={gallery} /><CDLearning detail={detail} />
+    <CDVideo course={course} detail={detail} /><CDFee detail={detail} /><CDCareers detail={detail} />
     {detail.source && <aside className="cd-source"><p>ข้อมูลการเรียนและห้องปฏิบัติการอ้างอิงจากเอกสารแนะนำแผนกของวิทยาลัย</p><a href={`${detail.source.url}#${detail.source.pages[0]}`} target="_blank" rel="noreferrer">ดูเอกสารแนะนำแผนก (หน้า {detail.source.pages.join(', ')}) ↗</a></aside>}
     <CDRelated course={course} />
     <section className="cine-scene cd-closing"><div className="cd-closing-inner"><p className="cine-stats-eyebrow">วางแผนเรียนต่อ</p><h2 className="cine-h2">สนใจเรียน{course.name}</h2><p>สอบถามคุณสมบัติ วันเรียน ค่าใช้จ่าย และรอบรับสมัครกับวิทยาลัย</p><div className="cd-cta"><a href="/contact/" className="cine-cta-btn primary">ติดต่อสอบถาม →</a><a href="tel:038494066" className="cine-cta-btn ghost">โทร 038 494 066</a></div></div></section>

@@ -691,6 +691,16 @@ h1, h2, h3, h4, h5 {
   transition: background .15s;
 }
 .mnav-sub-item:active { background: var(--surface-card); }
+.mnav-sub-all {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 13px 14px;
+  border-top: 1px solid var(--border-soft);
+  color: var(--green-700);
+  font-size: 14px; font-weight: 700;
+  text-decoration: none;
+}
+.mnav-sub-all svg { flex-shrink: 0; }
+.mnav-sub-all:hover, .mnav-sub-all:active { background: var(--surface-card); border-radius: 8px; }
 .mnav-dot {
   width: 8px; height: 8px;
   border-radius: 50%;
@@ -758,6 +768,8 @@ h1, h2, h3, h4, h5 {
 .cine-main .mnav-item:hover, .cine-main .mnav-item:active, .cine-main .mnav-item.active { background: rgba(255,255,255,0.08); color: white; }
 .cine-main .mnav-sub { background: rgba(255,255,255,0.04); }
 .cine-main .mnav-sub-item { color: rgba(255,255,255,0.7); }
+.cine-main .mnav-sub-all { color: #8ed7b8; border-top-color: rgba(255,255,255,0.1); }
+.cine-main .mnav-sub-all:hover, .cine-main .mnav-sub-all:active { background: rgba(255,255,255,0.06); }
 .cine-main .mnav-dot { box-shadow: 0 0 0 2px #0a0a0a, 0 0 0 3px rgba(255,255,255,0.15); }
 .cine-main .mnav-foot { background: #0a0a0a; border-top-color: rgba(255,255,255,0.08); }
 .cine-main .mnav-contact a { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85); }
@@ -965,12 +977,12 @@ h1, h2, h3, h4, h5 {
 .fab-green { --fab-brand: var(--green-700); --fab-brand-shadow: rgba(15,122,62,0.38); }
 .fab-fb    { --fab-brand: #1877f2; --fab-brand-shadow: rgba(24,119,242,0.42); }
 .fab-line  { --fab-brand: #06c755; --fab-brand-shadow: rgba(6,199,85,0.38); }
-.fab-mail  { --fab-brand: #ea4335; --fab-brand-shadow: rgba(234,67,53,0.38); }
+.fab-instagram { --fab-brand: #d62976; --fab-brand-shadow: rgba(214,41,118,0.4); }
 
 .fab-green .fab-icon,
 .fab-fb .fab-icon,
 .fab-line .fab-icon,
-.fab-mail .fab-icon {
+.fab-instagram .fab-icon {
   background: var(--fab-brand);
   color: #fff;
   border-color: color-mix(in srgb, var(--fab-brand) 82%, #000);
@@ -983,7 +995,7 @@ h1, h2, h3, h4, h5 {
 .fab-green:not(.primary) .fab-label,
 .fab-fb:not(.primary) .fab-label,
 .fab-line:not(.primary) .fab-label,
-.fab-mail:not(.primary) .fab-label {
+.fab-instagram:not(.primary) .fab-label {
   background: var(--fab-brand);
   border-color: color-mix(in srgb, var(--fab-brand) 82%, #000);
   box-shadow: 0 8px 22px -8px var(--fab-brand-shadow);
@@ -992,21 +1004,21 @@ h1, h2, h3, h4, h5 {
 .fab-green:not(.primary) .fab-label strong,
 .fab-fb:not(.primary) .fab-label strong,
 .fab-line:not(.primary) .fab-label strong,
-.fab-mail:not(.primary) .fab-label strong {
+.fab-instagram:not(.primary) .fab-label strong {
   color: #fff;
 }
 
 .fab-green:not(.primary) .fab-label em,
 .fab-fb:not(.primary) .fab-label em,
 .fab-line:not(.primary) .fab-label em,
-.fab-mail:not(.primary) .fab-label em {
+.fab-instagram:not(.primary) .fab-label em {
   color: rgba(255,255,255,0.86);
 }
 
 .fab-green:hover .fab-icon,
 .fab-fb:hover .fab-icon,
 .fab-line:hover .fab-icon,
-.fab-mail:hover .fab-icon {
+.fab-instagram:hover .fab-icon {
   box-shadow:
     0 16px 32px -8px var(--fab-brand-shadow),
     0 5px 10px -2px rgba(11,26,19,0.12),

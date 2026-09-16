@@ -230,7 +230,12 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
   .sticky-bubble { right: 14px; bottom: 14px; }
   .bubble-teaser { max-width: calc(100% - 100px); font-size: 13px; padding: 8px 12px 8px 14px; }
   .fab-label { opacity: 1 !important; transform: translateX(0) !important; pointer-events: auto !important; }
-  .bubble-fab.primary { max-width: calc(100% - 96px); }
+  .bubble-fab.primary {
+    width: min(240px, calc(100vw - 40px));
+    max-width: none;
+    justify-content: space-between;
+    padding-left: 22px;
+  }
   .bubble-fab.primary .fab-label strong { font-size: 13.5px; }
   .bubble-fab.primary .fab-label em { font-size: 12px; }
 
