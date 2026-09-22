@@ -32,8 +32,8 @@ const YEAR = new Date().getFullYear();
         </div>
         <p>มุ่งสร้างคนดี มีระเบียบวินัย ก้าวไกลเทคโนโลยี ฝีมือเยี่ยม เปี่ยมคุณธรรม — สถาบันอาชีวศึกษาเอกชนชั้นนำในเขตศรีราชา ชลบุรี</p>
       </div>
-      <div>
-        <h4>เมนูหลัก</h4>
+      <details class="footer-accordion">
+        <summary>เมนูหลัก</summary>
         <ul>
           <li><a href="/">หน้าแรก</a></li>
           <li><a href="/about/">เกี่ยวกับเรา</a></li>
@@ -46,17 +46,16 @@ const YEAR = new Date().getFullYear();
           <li><a href="/portfolio/">ผลงานวิทยาลัย</a></li>
           <li><a href="/contact/">ติดต่อเรา</a></li>
         </ul>
-      </div>
-      <div>
-        <h4>สำหรับนักศึกษา</h4>
+      </details>
+      <details class="footer-accordion">
+        <summary>สำหรับนักศึกษา</summary>
         <ul>
           <li><a href="https://sc.eeccollege.com/" target="_blank" rel="noopener noreferrer">StudentCare</a></li>
           <li><a href="https://elearning.tlc.ac/" target="_blank" rel="noopener noreferrer">E-learning</a></li>
-          <li><a href="/personnel/">ทำเนียบบุคลากร</a></li>
         </ul>
-      </div>
-      <div>
-        <h4>หลักสูตร</h4>
+      </details>
+      <details class="footer-accordion">
+        <summary>หลักสูตร</summary>
         <ul>
           <li><a href="/courses/">ปวช. 2567</a></li>
           <li><a href="/courses/">ปวส. 2567</a></li>
@@ -64,12 +63,12 @@ const YEAR = new Date().getFullYear();
           <li><a href="/courses/">ทวิภาคี</a></li>
           <li><a href="/courses/">ศูนย์ทดสอบฝีมือแรงงาน</a></li>
         </ul>
-      </div>
-      <div>
+      </details>
+      <div class="footer-contact-column">
         <h4>ติดต่อเรา</h4>
         <div class="footer-contact">
           <div><svg viewBox="0 0 24 24" class="" style={CONTACT_ICON_STYLE} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.pin} />75/2 หมู่ 10 ต.ทุ่งสุขลา<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;อ.ศรีราชา จ.ชลบุรี 20230</div>
-          <div><svg viewBox="0 0 24 24" class="" style={CONTACT_ICON_STYLE} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.phone} /><strong>038-494-066</strong> · 095-070-6600</div>
+          <div><svg viewBox="0 0 24 24" class="" style={CONTACT_ICON_STYLE} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.phone} /><strong>038-494-066</strong></div>
           <div><svg viewBox="0 0 24 24" class="" style={CONTACT_ICON_STYLE} xmlns="http://www.w3.org/2000/svg" aria-hidden="true" set:html={ICONS.mail} />technologylaemchabang@gmail.com</div>
         </div>
         <div class="footer-socials" style="margin-top:18px">

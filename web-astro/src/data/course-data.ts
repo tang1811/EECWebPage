@@ -172,12 +172,36 @@ export function getCourse(slug: string): Course | undefined {
 // ปล่อยว่าง = หน้าสาขาจะถอยไปใช้คลิป mp4 ใน public/assets/courses/videos/
 // (videos.json) ถ้าไม่มีทั้งคู่จะไม่แสดงส่วนวิดีโอ
 export const COURSE_VIDEOS: Record<string, string> = {
-  yon: '', faifaa: '', gear: '', electronic: '', mecha: '',
-  graphic: '', 'biz-digital': '', accounting: '',
-  'ps-mech': '', 'ps-electrical': '', 'ps-production': '', 'ps-electronic': '',
-  'ps-mecha': '', 'ps-industrial': '', 'ps-network': '', 'ps-graphic': '',
-  'ps-logistics': '', 'ps-accounting': '',
-  'pt-electrical': '',
+  // แผนกช่างยนต์
+  yon: 'tu5T0qwLvSU',
+  'ps-mech': 'tu5T0qwLvSU',
+
+  // แผนกช่างไฟฟ้า
+  faifaa: 'bqX1FZC1FyE',
+  'ps-electrical': 'bqX1FZC1FyE',
+  'pt-electrical': 'bqX1FZC1FyE',
+
+  // แผนกช่างกลโรงงาน
+  gear: 'pj_eaP9cRvA',
+  'ps-production': 'pj_eaP9cRvA',
+
+  // แผนกเมคคาทรอนิกส์
+  mecha: '4CAl4MCK2IE',
+  'ps-mecha': '4CAl4MCK2IE',
+
+  // แผนกเทคโนโลยีดิจิทัลกราฟิก
+  graphic: 'sHDbfGXg07I',
+  'ps-graphic': 'sHDbfGXg07I',
+
+  // แผนกเทคโนโลยีธุรกิจดิจิทัล
+  'biz-digital': 'Ifp7j8i68vQ',
+
+  // แผนกบัญชี
+  accounting: '14cRisxIOJQ',
+  'ps-accounting': '14cRisxIOJQ',
+
+  // แผนกโลจิสติกส์
+  'ps-logistics': 'NH9JWMeQ5cw',
 };
 
 // วีดิโอสำรอง (แนะนำวิทยาลัยรวม) ใช้เมื่อแผนกยังไม่มีวีดิโอของตัวเอง

@@ -572,6 +572,26 @@ h1, h2, h3, h4, h5 {
   font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--green-300); margin-bottom: 18px;
 }
+.footer-accordion { min-width: 0; }
+.footer-accordion summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 44px; padding: 0 0 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+  color: var(--green-300); cursor: pointer;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  list-style: none;
+}
+.footer-accordion summary::-webkit-details-marker { display: none; }
+.footer-accordion summary::marker { content: ''; }
+.footer-accordion summary::after {
+  content: '+'; flex: none;
+  color: rgba(255,255,255,0.8); font-size: 21px; font-weight: 400;
+  line-height: 1;
+}
+.footer-accordion[open] summary { margin-bottom: 18px; }
+.footer-accordion[open] summary::after { content: '−'; }
+.footer-accordion summary:hover { color: white; }
+.footer-accordion summary:focus-visible { outline: 3px solid var(--green-300); outline-offset: 5px; }
 .footer-brand .brand-th { color: white; font-size: 14px; }
 .footer-brand .brand-en { color: rgba(255,255,255,0.6); }
 .footer-brand p { color: rgba(255,255,255,0.7); margin-top: 14px; font-size: 14px; line-height: 1.7; max-width: 320px; }
@@ -777,7 +797,15 @@ h1, h2, h3, h4, h5 {
   position: fixed; right: 24px; bottom: 24px; z-index: 60;
   display: flex; flex-direction: column; align-items: flex-end; gap: 14px;
   font-family: var(--font-th);
+  /* The fixed flex wrapper can span a large transparent rectangle when the
+     teaser or action stack is visible. Let taps pass through its empty area;
+     only the actual controls below should receive pointer input. */
+  pointer-events: none;
 }
+
+.bubble-trigger,
+.bubble-teaser,
+.bubble-fab { pointer-events: auto; }
 
 /* ── Trigger (circular FAB with chat icon) ──── */
 .bubble-trigger {
