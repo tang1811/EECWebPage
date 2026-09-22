@@ -20,3 +20,15 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Deployment
+
+For EECWebPage, every Deploy/Publish request must publish only to:
+
+```
+\\166.166.1.25\Service\EECWeb
+```
+
+Keep this as the sole deployment destination until the user explicitly asks to change it. A Git push is source-control synchronization and does not count as a Deploy/Publish. Do not publish to another host, service, or repository in response to a Deploy/Publish request.
+
+Build from this directory with `npm run build`, then copy the contents inside `dist` directly to the destination without nesting the `dist` directory. Preserve `web.config` and other server-only files, and verify the destination hashes against every build file.

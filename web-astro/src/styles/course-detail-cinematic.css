@@ -90,14 +90,6 @@
 .cd-source { text-align: center; padding: 28px 24px; background: #0b2118; color: #b8c8c1; font-size: 13px; line-height: 1.8; }
 .cd-source p { margin: 0 0 6px; }
 .cd-source a { color: #c5e3d3; text-underline-offset: 4px; }
-.cd-related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-.cd-related-card { --dept-text: color-mix(in srgb, var(--dept) 55%, white); border: 1px solid #ffffff24; border-top: 4px solid var(--dept); border-radius: 14px; overflow: hidden; color: white; text-decoration: none; background: #10211a; }
-.cd-related-card:hover { border-color: var(--dept); }
-.cd-related-img { aspect-ratio: 4 / 3; }
-.cd-related-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.cd-related-meta { padding: 22px; }
-.cd-related-code { font-size: 13px; color: var(--dept-text); }
-.cd-related-n { font-size: 20px; margin: 10px 0 0; line-height: 1.5; }
 .cd-closing { background: #0c271c; text-align: center; }
 .cd-closing-inner { max-width: 880px; margin: 0 auto; }
 .cd-closing-inner > p { color: #bbd7c9; line-height: 1.8; margin: 20px 0 28px; }
@@ -121,7 +113,7 @@
   .cd-fact { padding: 0 14px; }
   .cd-fact-value { font-size: 22px; }
   .cd-fact-sub { font-size: 12px; }
-  .cd-skills-grid, .cd-labs ul, .cd-related-grid { grid-template-columns: minmax(0, 1fr); }
+  .cd-skills-grid, .cd-labs ul { grid-template-columns: minmax(0, 1fr); }
   .cd-skill-content, .cd-labs, .cd-fee-card { padding: 22px; }
   .cd-skill-t, .cd-curr-t, .cd-labs h3 { font-size: 19px; }
   .cd-skill-d, .cd-curr-sub, .cd-labs li { font-size: 15px; }

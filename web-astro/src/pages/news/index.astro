@@ -297,6 +297,9 @@ const itemList = {
 </Base>
 
 <style>
-  .promotion-news-artwork { height: 280px; aspect-ratio: auto; }
+  .promotion-news-artwork { height: auto; aspect-ratio: 16 / 9; min-height: 0; }
+  .promotion-news-artwork :global(.promotion-artwork),
+  .promotion-news-artwork :global(.promotion-artwork > img),
+  .promotion-news-artwork :global(.promotion-placeholder) { min-height: 0; }
   .promotion-news-example { display: inline-block; margin-left: 10px; font-size: 11px; color: var(--ink-600); border: 1px solid var(--ink-200); border-radius: 4px; padding: 2px 7px; }
 </style>

@@ -38,7 +38,7 @@ const DEPARTMENTS: { t: string; s: string; tel: string; icon: string }[] = [
         </div>
         <span class="eyebrow">เรายินดีต้อนรับ</span>
         <h1>ติดต่อ<span class="grad">วิทยาลัย</span> หรือเยี่ยมชมได้ทุกวัน</h1>
-        <p>ฝ่ายงานธุรการพร้อมตอบทุกคำถาม ทั้งทางโทรศัพท์ อีเมล หรือเข้าพบที่วิทยาลัยโดยตรง</p>
+        <p>ฝ่ายงานธุรการพร้อมตอบทุกคำถาม ทั้งทางโทรศัพท์ โซเชียลมีเดีย อีเมล หรือเข้าพบที่วิทยาลัยโดยตรง</p>
         <div style="margin-top: 20px" data-live-status></div>
       </div>
     </section>
@@ -128,14 +128,38 @@ const DEPARTMENTS: { t: string; s: string; tel: string; icon: string }[] = [
                 </p>
               </div>
             </div>
-            <div class="contact-row">
-              <div class="icon" style="background: #1877f215; color: #1877f2">
-                <Icon name="facebook" style={{ width: 22, height: 22 }} />
-              </div>
-              <div>
-                <h3>โซเชียลมีเดีย</h3>
-                <a href="https://www.facebook.com/eec.engineer.laemchabang" target="_blank" rel="noopener">
-                  facebook.com/eec.engineer.laemchabang
+            <div class="contact-social-card">
+              <h3>โซเชียลมีเดีย</h3>
+              <div class="contact-social-icons">
+                <a
+                  class="contact-social-icon messenger"
+                  href="https://m.me/eec.engineer.laemchabang"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="ติดต่อผ่าน Facebook Messenger"
+                  title="Messenger"
+                >
+                  <Icon name="facebook" style={{ width: 27, height: 27 }} />
+                </a>
+                <a
+                  class="contact-social-icon line"
+                  href="https://lin.ee/y8JFdu5"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="เพิ่มเพื่อน LINE Official Account"
+                  title="LINE"
+                >
+                  <img src="/assets/line-brand-icon.png" width="48" height="48" alt="" />
+                </a>
+                <a
+                  class="contact-social-icon instagram"
+                  href="https://www.instagram.com/eec_1995?stkn=MWM4ZmZjcm96Nm9taA=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="เปิด Instagram @eec_1995"
+                  title="Instagram"
+                >
+                  <Icon name="instagram" style={{ width: 29, height: 29 }} />
                 </a>
               </div>
             </div>

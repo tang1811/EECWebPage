@@ -1,0 +1,48 @@
+---
+import { COOKIE_CONSENT_ENABLED, GA_ID } from '../config';
+import '../styles/cookie-consent.css';
+---
+
+{COOKIE_CONSENT_ENABLED && <div id="cookie-consent" data-ga-id={GA_ID || ''}>
+  <section class="cookie-banner" id="cookie-banner" aria-labelledby="cookie-banner-title" hidden>
+    <span class="cookie-eyebrow">ความเป็นส่วนตัวของคุณ</span>
+    <h2 id="cookie-banner-title">เลือกคุกกี้ที่คุณยินยอม</h2>
+    <p>เราใช้คุกกี้ที่จำเป็นเพื่อจดจำตัวเลือกของคุณ และขออนุญาตใช้ Google Analytics เพื่อวิเคราะห์การเข้าชมและปรับปรุงเว็บไซต์ คุณเลือกเฉพาะคุกกี้ที่จำเป็นได้โดยยังใช้งานเว็บไซต์ได้ตามปกติ <a href="/privacy/#cookies">อ่านนโยบายคุกกี้</a></p>
+    <div class="cookie-actions">
+      <button type="button" class="cookie-button cookie-choice" data-cookie-choice="necessary">เฉพาะคุกกี้ที่จำเป็น</button>
+      <button type="button" class="cookie-button cookie-choice" data-cookie-choice="all">ยอมรับทั้งหมด</button>
+      <button type="button" class="cookie-button" data-cookie-settings>ตั้งค่าคุกกี้</button>
+    </div>
+  </section>
+
+  <dialog id="cookie-dialog" class="cookie-dialog" aria-labelledby="cookie-dialog-title" aria-describedby="cookie-dialog-description">
+    <div class="cookie-dialog-heading">
+      <h2 id="cookie-dialog-title">ตั้งค่าคุกกี้</h2>
+      <button type="button" class="cookie-close" aria-label="ปิดการตั้งค่าคุกกี้" data-cookie-close>×</button>
+    </div>
+    <p id="cookie-dialog-description">เลือกได้ว่าจะอนุญาตให้วิเคราะห์การเข้าชมหรือไม่ เราจดจำตัวเลือกไว้ 180 วัน และคุณเปลี่ยนหรือถอนความยินยอมได้ที่หน้านโยบายความเป็นส่วนตัว</p>
+    <div class="cookie-category">
+      <div class="cookie-category-heading"><h3>คุกกี้ที่จำเป็นอย่างยิ่ง<br /><small>Strictly Necessary Cookies</small></h3><span class="cookie-required">เปิดใช้งานเสมอ</span></div>
+      <p>ใช้จดจำว่าคุณเลือกยอมรับหรือปฏิเสธคุกกี้ประเภทใด เพื่อให้เว็บไซต์เคารพตัวเลือกของคุณทุกครั้งที่กลับมา คุกกี้นี้ไม่ใช้วิเคราะห์หรือติดตามการเข้าชม</p>
+    </div>
+    <div class="cookie-category">
+      <label class="cookie-category-heading cookie-toggle" for="cookie-analytics">
+        <span><strong>คุกกี้วิเคราะห์การใช้งาน</strong><br /><small>Analytics Cookies · Google Analytics</small></span>
+        <input type="checkbox" id="cookie-analytics" />
+      </label>
+      <p>ช่วยให้ทราบว่าหน้าใดได้รับความสนใจและผู้ใช้เข้าชมเว็บไซต์อย่างไร ข้อมูลการใช้งานจะส่งไปยัง Google เมื่อคุณยินยอมเท่านั้น เราไม่เปิดคุกกี้โฆษณา</p>
+    </div>
+    <p><a href="/privacy/#cookies">รายละเอียดคุกกี้และนโยบายความเป็นส่วนตัว</a></p>
+    <div class="cookie-actions">
+      <button type="button" class="cookie-button cookie-choice" data-cookie-choice="necessary">เฉพาะคุกกี้ที่จำเป็น</button>
+      <button type="button" class="cookie-button cookie-choice" data-cookie-choice="all">ยอมรับทั้งหมด</button>
+      <button type="button" class="cookie-button" data-cookie-save>บันทึกตัวเลือก</button>
+    </div>
+    <p class="cookie-error" role="alert" data-cookie-error hidden>บันทึกตัวเลือกไม่ได้ กรุณาอนุญาตคุกกี้ของเว็บไซต์นี้ในการตั้งค่าเบราว์เซอร์ ระบบจะไม่เปิด Analytics จนกว่าจะบันทึกความยินยอมได้</p>
+  </dialog>
+  <p class="cookie-status" role="status" aria-live="polite" tabindex="-1"></p>
+</div>}
+
+<script>
+  import '../scripts/cookie-consent';
+</script>

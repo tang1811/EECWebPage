@@ -1,8 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import VideoBody from '../components/react/VideoBody';
+import { VIDEO_PAGE_ENABLED } from '../config';
 import '../styles/homepage.css';
 import '../styles/subpages.css';
+
+if (!VIDEO_PAGE_ENABLED) {
+  return Astro.redirect('/');
+}
 ---
 
 <Base

@@ -3,6 +3,7 @@
 // Content is a draft template; the notice bar asks the college's legal
 // reviewer to vet it before real publication (kept from the design).
 import Base from '../layouts/Base.astro';
+import { COOKIE_CONSENT_ENABLED } from '../config';
 import '../styles/subpages.css';
 import '../styles/privacy.css';
 
@@ -81,9 +82,17 @@ const SECTIONS: { title: string; items: string[] }[] = [
   },
   {
     title: '8. คุกกี้ (Cookies)',
-    items: [
-      'เว็บไซต์ใช้คุกกี้ที่จำเป็นต่อการทำงานของหน้าเว็บ เช่น การจดจำการตั้งค่าการแสดงผล',
-      'หากมีการใช้คุกกี้เพื่อวิเคราะห์การเข้าชม (เช่น Google Analytics) วิทยาลัยจะขอความยินยอมก่อน และผู้ใช้สามารถปิดคุกกี้ได้จากการตั้งค่าเบราว์เซอร์',
+    items: COOKIE_CONSENT_ENABLED ? [
+      'คุกกี้ที่จำเป็นอย่างยิ่ง (Strictly Necessary Cookies): eec_cookie_consent ใช้จดจำตัวเลือกยอมรับหรือปฏิเสธ Analytics พร้อมวันที่บันทึกและเวอร์ชันนโยบาย เป็นเวลา 180 วัน คุกกี้นี้ไม่ใช้ติดตามการเข้าชมและไม่มีชื่อหรือข้อมูลใบสมัคร',
+      'คุกกี้วิเคราะห์การใช้งาน (Analytics Cookies): เมื่อเปิดบริการ Google Analytics และได้รับความยินยอม เว็บไซต์จึงจะโหลดบริการและอนุญาตคุกกี้ _ga และ _ga_* เพื่อวิเคราะห์หน้าเว็บที่เข้าชมและการใช้งาน โดยตั้งอายุคุกกี้ไม่เกิน 180 วัน ข้อมูลการใช้งานจะถูกส่งไปยัง Google ซึ่งอาจประมวลผลในต่างประเทศ',
+      'Analytics ปิดไว้จนกว่าท่านจะยินยอม การเลือกเฉพาะคุกกี้ที่จำเป็นไม่กระทบการเข้าถึงข้อมูลเว็บไซต์ เราไม่เปิดคุกกี้เพื่อโฆษณาหรือการโฆษณาเฉพาะบุคคล',
+      'ท่านเปลี่ยนตัวเลือกหรือถอนความยินยอมได้ผ่านปุ่มตั้งค่าคุกกี้ในหน้านโยบายความเป็นส่วนตัวนี้ เมื่อปิด Analytics ระบบจะหยุดการวิเคราะห์ ลบคุกกี้ Analytics ที่เว็บไซต์เข้าถึงได้ และรีโหลดหน้าหากบริการกำลังทำงาน การถอนความยินยอมไม่มีผลลบข้อมูลที่ส่งไปก่อนหน้าโดยอัตโนมัติ',
+      'คุกกี้จดจำตัวเลือกใช้ SameSite=Lax และใช้ Secure เมื่อเข้าชมผ่าน HTTPS คุกกี้นี้ไม่ใช่หลักฐานเข้าสู่ระบบ ขณะปิดระบบสมัครเรียน เว็บไซต์ส่วนนี้ไม่มีคุกกี้ session สำหรับล็อกอิน หากเปิดระบบดังกล่าวจะระบุคุกกี้ที่ใช้จริงและอายุการเก็บเพิ่มเติม',
+      'เว็บไซต์ใช้ localStorage ซึ่งต่างจากคุกกี้ เพื่อจดจำตำแหน่งเล่นวิดีโอ และโค้ดระบบสมัครเรียนมีการจดจำแบบฟอร์มและสถานะเมื่อเปิดใช้งาน ผู้ใช้ล้างข้อมูลเหล่านี้ได้จากการตั้งค่าข้อมูลเว็บไซต์ในเบราว์เซอร์',
+    ] : [
+      'ขณะนี้เว็บไซต์ปิดระบบคุกกี้ความยินยอมและ Google Analytics ไว้ชั่วคราว จึงไม่มีแบนเนอร์ขอความยินยอมและไม่ส่งสถิติการเข้าชมไปยัง Google Analytics',
+      'เมื่อเข้าชมเว็บไซต์ ระบบจะลบคุกกี้ความยินยอมและคุกกี้ Analytics เดิมที่เว็บไซต์เข้าถึงได้ หากเปิด Analytics ในอนาคต จะมีระบบขอความยินยอมก่อนเริ่มวิเคราะห์การใช้งาน',
+      'การปิดระบบนี้ไม่รวมข้อมูล localStorage เช่น ตำแหน่งเล่นวิดีโอ และไม่เปลี่ยนแปลงบริการภายนอกที่ฝังในเว็บไซต์ ผู้ใช้ล้างข้อมูลเว็บไซต์ได้จากการตั้งค่าเบราว์เซอร์',
     ],
   },
   {
@@ -121,7 +130,7 @@ const revealDelay = (i: number) => Math.min(i * 0.04, 0.24);
         <span class="art-cat">PDPA</span>
         <h1>นโยบายคุ้มครองข้อมูลส่วนบุคคล</h1>
         <div class="art-meta">
-          <span><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>ปรับปรุงล่าสุด <time datetime="2026-08-06">6 สิงหาคม 2569</time></span>
+          <span><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>ปรับปรุงล่าสุด <time datetime="2026-09-21">21 กันยายน 2569</time></span>
           <span><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M12 2l9 4v6c0 5-3.5 9.5-9 10-5.5-.5-9-5-9-10V6l9-4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></svg>ตาม พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562</span>
         </div>
       </div>
@@ -138,7 +147,7 @@ const revealDelay = (i: number) => Math.min(i * 0.04, 0.24);
         </div>
         <div class="policy-list">
           {SECTIONS.map((s, i) => (
-            <div class="reveal policy-block" style={`--reveal-delay:${revealDelay(i)}s`}>
+            <div class="reveal policy-block" id={i === 7 ? 'cookies' : undefined} style={`--reveal-delay:${revealDelay(i)}s`}>
               <h2>{s.title}</h2>
               <ul>
                 {s.items.map((item) => (
@@ -148,6 +157,7 @@ const revealDelay = (i: number) => Math.min(i * 0.04, 0.24);
                   </li>
                 ))}
               </ul>
+              {i === 7 && COOKIE_CONSENT_ENABLED && <button type="button" class="btn btn-ghost" data-cookie-settings>ตั้งค่าคุกกี้ / ถอนความยินยอม</button>}
             </div>
           ))}
         </div>

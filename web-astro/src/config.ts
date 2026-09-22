@@ -7,6 +7,12 @@ export const SITE_NAME = 'วิทยาลัยเทคโนโลยีอ
 // Temporarily pause both admission entry routes. Set true and rebuild to reopen.
 export const ONLINE_ADMISSION_ENABLED = false;
 
+// Temporarily pause the experimental animated video page. Set true and rebuild to reopen.
+export const VIDEO_PAGE_ENABLED = false;
+
+// Pause the consent UI and Analytics together. Set true and rebuild to re-enable.
+export const COOKIE_CONSENT_ENABLED = false;
+
 export const DEFAULT_TITLE =
   'วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · เปิดรับสมัคร ปวช. ปวส. ป.ตรี ปีการศึกษา 2569';
 

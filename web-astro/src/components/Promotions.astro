@@ -1,7 +1,7 @@
 ---
 import { NEWS } from '../data/news-data';
 import PromotionArtwork from './PromotionArtwork.astro';
-const promotions = NEWS.filter((n) => n.promotion?.showOnHomepage).slice(0, 2);
+const promotions = NEWS.filter((n) => n.promotion?.showOnHomepage).slice(0, 1);
 ---
 
 {promotions.length > 0 && (

@@ -340,10 +340,10 @@
 .staff-card .head-flag.head-faculty {
   background: var(--dc); color: #fff;
 }
-/* หัวหน้าแผนก — soft tinted badge */
+/* หัวหน้าแผนก — dark department shade, distinct from the faculty badge */
 .staff-card .head-flag.head-section {
-  background: color-mix(in srgb, var(--dc) 13%, transparent);
-  color: color-mix(in srgb, var(--dc) 78%, #16201a);
+  background: color-mix(in srgb, var(--dc) 62%, #16201a);
+  color: #fff;
 }
 .staff-card .head-flag svg { width: 12px; height: 12px; }
 

@@ -1,12 +1,12 @@
 import type { APIRoute } from 'astro';
-import { SITE_URL } from '../config';
+import { SITE_URL, VIDEO_PAGE_ENABLED } from '../config';
 import { COURSE_SLUGS } from '../data/course-data';
 import { NEWS } from '../data/news-data';
 
 // Include only enabled course pages and public news; lastmod = build timestamp.
 const STATIC_ROUTES = [
   '', '/about', '/courses', '/tuition', '/personnel', '/portfolio', '/admission',
-  '/contact', '/video', '/study-vocational-chonburi', '/job-outcomes',
+  '/contact', ...(VIDEO_PAGE_ENABLED ? ['/video'] : []), '/study-vocational-chonburi', '/job-outcomes',
   '/admission-no-exam', '/news', '/privacy', '/quality-assurance',
 ];
 

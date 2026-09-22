@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect, type MouseEvent, type ReactNode } from 'react';
-import { COURSES, getCourseDetail, type Course, type CourseDetail, type CoursePhoto } from '../../data/course-data';
+import { getCourseDetail, type Course, type CourseDetail, type CoursePhoto } from '../../data/course-data';
 import { ONLINE_ADMISSION_ENABLED } from '../../config';
 import { Icon } from './chrome-lite';
 import GALLERY from '../../../public/assets/courses/depts/gallery.json';
@@ -121,14 +121,6 @@ function CDCareers({ detail }: { detail: CourseDetail }) {
   return <section className="cine-scene cd-careers"><div className="cd-careers-content"><SectionHeading label="เส้นทางอาชีพ">นำทักษะไปใช้<em>ในงานที่สนใจ</em></SectionHeading><ul className="cd-careers-tags">{detail.careers.map((career) => <li key={career} className="cd-career-tag">{career}</li>)}</ul></div></section>;
 }
 
-function CDRelated({ course }: { course: Course }) {
-  const candidates = COURSES.filter((candidate) => candidate.slug !== course.slug && candidate.cat === course.cat);
-  const heroSrc = getCourseDetail(course.slug, course).hero?.src;
-  const peers = candidates.filter((candidate) => heroSrc && getCourseDetail(candidate.slug, candidate).hero?.src === heroSrc);
-  const related = [...peers, ...candidates.filter((candidate) => !peers.includes(candidate))].slice(0, 3);
-  return <section className="cine-scene cd-related"><SectionHeading label="สำรวจหลักสูตร">สาขาที่เกี่ยวข้อง</SectionHeading><div className="cd-related-grid">{related.map((candidate) => <a key={candidate.slug} href={`/courses/${candidate.slug}/`} className="cd-related-card" style={{ '--dept': candidate.color || '#0aa183' }}><div className="cd-related-img"><img src={candidate.img} alt="" loading="lazy" /></div><div className="cd-related-meta"><span className="cd-related-code">{candidate.code}</span><h3 className="cd-related-n">{candidate.name}</h3></div></a>)}</div></section>;
-}
-
 export default function CourseDetailBody({ course }: { course: Course }) {
   const detail = getCourseDetail(course.slug, course);
   const gallery = detail.gallery ?? (DEPT_GALLERY[course.slug] ?? []).map((src, i) => ({ src, alt: `${course.name} · ภาพการเรียน ${i + 1}` }));
@@ -136,7 +128,6 @@ export default function CourseDetailBody({ course }: { course: Course }) {
     <CDHero course={course} detail={detail} /><CDFacts course={course} detail={detail} /><CDSkills detail={detail} photos={gallery} /><CDLearning detail={detail} />
     <CDVideo course={course} detail={detail} /><CDFee detail={detail} /><CDCareers detail={detail} />
     {detail.source && <aside className="cd-source"><p>ข้อมูลการเรียนและห้องปฏิบัติการอ้างอิงจากเอกสารแนะนำแผนกของวิทยาลัย</p><a href={`${detail.source.url}#${detail.source.pages[0]}`} target="_blank" rel="noreferrer">ดูเอกสารแนะนำแผนก (หน้า {detail.source.pages.join(', ')}) ↗</a></aside>}
-    <CDRelated course={course} />
     <section className="cine-scene cd-closing"><div className="cd-closing-inner"><p className="cine-stats-eyebrow">วางแผนเรียนต่อ</p><h2 className="cine-h2">สนใจเรียน{course.name}</h2><p>สอบถามคุณสมบัติ วันเรียน ค่าใช้จ่าย และรอบรับสมัครกับวิทยาลัย</p><div className="cd-cta"><a href="/contact/" className="cine-cta-btn primary">ติดต่อสอบถาม →</a><a href="tel:038494066" className="cine-cta-btn ghost">โทร 038 494 066</a></div></div></section>
   </main>;
 }

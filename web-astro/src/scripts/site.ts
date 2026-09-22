@@ -5,8 +5,7 @@
 // Loaded once by src/layouts/Base.astro on every page.
 //
 // MPA notes:
-// - NO SPA page_view logic — gtag('config', …) in Base.astro fires the
-//   default page_view on every full page load.
+// - CookieConsent loads GA and its page_view only after analytics consent.
 // - Elements React mounted conditionally are rendered hidden
 //   (style="display:none") by Nav.astro / StickyCTA.astro; toggling
 //   display retriggers their CSS entry animations exactly like a React
@@ -14,22 +13,7 @@
 // - Every element access is guarded: /admission pages render no chrome.
 // ─────────────────────────────────────────────────────────────
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-    dataLayer?: unknown[];
-  }
-}
-
-const GA_ID: string | undefined = import.meta.env.PUBLIC_GA_ID;
-
-// Tiny GA4 event helper (verbatim behavior of web/lib/analytics.ts track()).
-// No-op when gtag isn't loaded (dev / GA id unset).
-function track(event: string, params: Record<string, unknown> = {}): void {
-  if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
-    window.gtag('event', event, params);
-  }
-}
+import { GA_ID, track } from '../lib/analytics';
 
 // ── Reveal-on-scroll (chrome.tsx useReveal / RevealInit) ─────
 function initReveal(): void {
@@ -171,6 +155,25 @@ function initNav(): void {
   const mnavClose = drawer ? drawer.querySelector<HTMLButtonElement>('.mnav-close') : null;
   if (mnavClose) mnavClose.addEventListener('click', () => setDrawer(false));
 
+  // The drawer header acts as a home link. Keep the close button independent.
+  const mnavHead = drawer?.querySelector<HTMLElement>('.mnav-head');
+  if (mnavHead) {
+    mnavHead.setAttribute('role', 'link');
+    mnavHead.setAttribute('tabindex', '0');
+    mnavHead.setAttribute('aria-label', 'กลับหน้าแรก');
+    const goHome = (e: Event) => {
+      if ((e.target as HTMLElement | null)?.closest('.mnav-close')) return;
+      window.location.href = '/';
+    };
+    mnavHead.addEventListener('click', goHome);
+    mnavHead.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        goHome(e);
+      }
+    });
+  }
+
   // Drawer accordions (React state mobileCoursesOpen / mobileStudentOpen).
   // Both buttons' `.active` is route-based in chrome.jsx (`active === it.id`);
   // expanding an accordion only rotates the chevron and shows the sub-list.
@@ -266,7 +269,7 @@ function initConversionTracking(): void {
         track('Click_to_Call', { phone: href.replace('tel:', '') });
       } else if (/line\.me|^line:|@eec/i.test(href)) {
         track('Click_LINE_OA', { link: href });
-      } else if (/facebook\.com|messenger/i.test(href)) {
+      } else if (/facebook\.com|messenger|m\.me/i.test(href)) {
         track('Click_Messenger', { link: href });
       } else if (href === '/admission' || href.startsWith('/admission?')) {
         track('Click_Apply', { from: window.location.pathname });
