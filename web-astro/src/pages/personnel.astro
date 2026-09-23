@@ -34,6 +34,7 @@ type SupportStaff = { name: string; role: string; photo: string; color: string }
 
 // ── ผู้บริหารระดับสูง ──────────────────────────────────────
 const PRINCIPALS: Principal[] = [
+  { name: 'ดร.สัมภาษณ์ บุญจี๊ด', role: 'ผู้ก่อตั้งวิทยาลัย', photo: EX + 'founder-samphan.jpg' },
   { name: 'ดร.ยงลักษณ์ บุญจี๊ด', role: 'ผู้รับใบอนุญาต', photo: EX + 'license-yonglak.webp' },
   { name: 'อ.ภาตะวัน บุญจี๊ด',   role: 'ผู้อำนวยการ',    photo: EX + 'director-phatawan.webp' },
   { name: 'อ.ภาคภูมิ บุญจี๊ด',   role: 'ผู้จัดการ',      photo: EX + 'manager-phakphum.webp' },
@@ -144,17 +145,6 @@ function displayPersonnelName(name: string): string {
   return name.replace(/^(?:นางสาว|นาย)/, 'อ.');
 }
 
-// One summary card per faculty head, linked to every department they oversee.
-const facultyHeadsByName = new Map<string, Member & { deptIds: string[]; color: string }>();
-for (const department of TEACHERS) {
-  for (const member of department.members.filter((m) => m.head === 'faculty')) {
-    const existing = facultyHeadsByName.get(member.name);
-    if (existing) existing.deptIds.push(department.id);
-    else facultyHeadsByName.set(member.name, { ...member, deptIds: [department.id], color: department.color });
-  }
-}
-const FACULTY_HEADS = [...facultyHeadsByName.values()];
-
 // Hero stats (PersonnelBody rendered these inline).
 const STATS: { num: string; plus?: boolean; lbl: string }[] = [
   { num: String(PRINCIPALS.length), lbl: 'ผู้บริหารระดับสูง' },
@@ -193,12 +183,11 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
     <section class="section section-sm">
       <div class="container">
         <div class="reveal section-head" style="margin-bottom: 32px; --reveal-delay: 0s">
-          <span class="eyebrow">คณะผู้บริหาร</span>
-          <h2 class="section-title">ผู้นำองค์กร</h2>
+          <h2 class="section-title">คณะผู้บริหาร</h2>
         </div>
         <div class="principal-grid">
           {PRINCIPALS.map((p, i) => (
-            <div class={`reveal principal-card${i === 0 ? ' pc-lead' : ''}`} style={`--reveal-delay: ${i * 0.08}s`}>
+            <div class="reveal principal-card" style={`--reveal-delay: ${i * 0.08}s`}>
               <div class="pc-photo"><img src={resolvePhoto(p.name, p.photo)} alt={displayPersonnelName(p.name)} /></div>
               <div class="pc-role">{p.role}</div>
               <div class="pc-name">{displayPersonnelName(p.name)}</div>
@@ -250,56 +239,57 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
           </div>
         </div>
 
-        <div class="dept-block" data-dept="faculty-heads" data-unit="ภาค">
-          <div class="reveal exec-subhead" style="--reveal-delay: 0s"><span class="bar"></span><h3>หัวหน้าภาค</h3><span class="ct">{FACULTY_HEADS.length} ภาค</span></div>
-          <div class="staff-grid">
-            {FACULTY_HEADS.map((m, i) => {
-              const src = resolvePhoto(m.name, m.photo);
-              return (
-                <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.05, 0.24)}s`} data-name={displayPersonnelName(m.name)} data-depts={m.deptIds.join(' ')}>
-                  <div class="staff-card is-head is-faculty" style={`--dc: ${m.color}`}>
-                    <span class="head-flag head-faculty"><Icon name="star" />หัวหน้าภาค</span>
-                    {src ? (
-                      <div class="staff-avatar has-photo" style={`--dc: ${m.color}`}><img src={src} alt={displayPersonnelName(m.name)} /></div>
-                    ) : (
-                      <div class="staff-avatar" style={`--dc: ${m.color}`}></div>
-                    )}
-                    <div class="name">{displayPersonnelName(m.name)}</div>
-                    <div class="role">หัวหน้าภาค</div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {TEACHERS.map((d) => (
-          <div class="dept-block" data-dept={d.id}>
+        {TEACHERS.map((d) => {
+          const facultyHeads = d.members.filter((member) => member.head === 'faculty');
+          const sectionHeads = d.members.filter((member) => member.head === 'section');
+          const teachers = d.members.filter((member) => !member.head);
+          const facultyLabel = d.id === 'gear' ? 'หัวหน้าภาค / หัวหน้าแผนก' : 'หัวหน้าภาค';
+          return <div class="dept-block" data-dept={d.id}>
             <div class="dept-head" style={`--dc: ${d.color}`}><span class="bar"></span><h3>{d.name}</h3><span class="ct">{d.members.length} ท่าน</span></div>
-            <div class="staff-grid">
-              {d.members.map((p, i) => {
-                const headLabel = p.head === 'faculty' ? 'หัวหน้าภาค' : p.head === 'section' ? 'หัวหน้าแผนก' : null;
+            {facultyHeads.length > 0 && <div class="dept-staff-row"><h4>{facultyLabel}</h4><div class="staff-grid">
+              {facultyHeads.map((p, i) => {
                 const src = resolvePhoto(p.name, p.photo);
                 return (
                   <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={displayPersonnelName(p.name)} data-dept={d.id}>
-                    <div class={`staff-card ${p.head ? 'is-head is-' + p.head : ''}`} style={`--dc: ${d.color}`}>
-                      {headLabel && (
-                        <span class={`head-flag head-${p.head}`}>{p.head === 'faculty' && <Icon name="star" />}{headLabel}</span>
-                      )}
+                    <div class="staff-card is-head is-faculty" style={`--dc: ${d.color}`}>
+                      <span class="head-flag head-faculty"><Icon name="star" />{facultyLabel}</span>
                       {src ? (
                         <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={displayPersonnelName(p.name)} /></div>
                       ) : (
                         <div class="staff-avatar" style={`--dc: ${d.color}`}>{p.initial}</div>
                       )}
                       <div class="name">{displayPersonnelName(p.name)}</div>
-                      <div class="role">{p.head === 'faculty' ? 'หัวหน้าภาค' : p.head === 'section' ? 'หัวหน้าแผนก' : p.role}</div>
+                      <div class="role">{p.role}</div>
                     </div>
                   </div>
                 );
               })}
-            </div>
-          </div>
-        ))}
+            </div></div>}
+            {sectionHeads.length > 0 && <div class="dept-staff-row"><h4>หัวหน้าแผนก</h4><div class="staff-grid">
+              {sectionHeads.map((p, i) => {
+                const src = resolvePhoto(p.name, p.photo);
+                return <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={displayPersonnelName(p.name)} data-dept={d.id}>
+                  <div class="staff-card is-head is-section" style={`--dc: ${d.color}`}>
+                    <span class="head-flag head-section">หัวหน้าแผนก</span>
+                    {src ? <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={displayPersonnelName(p.name)} /></div> : <div class="staff-avatar" style={`--dc: ${d.color}`}>{p.initial}</div>}
+                    <div class="name">{displayPersonnelName(p.name)}</div><div class="role">{p.role}</div>
+                  </div>
+                </div>;
+              })}
+            </div></div>}
+            <div class="dept-staff-row"><h4>ครูประจำแผนก</h4><div class="staff-grid">
+              {teachers.map((p, i) => {
+                const src = resolvePhoto(p.name, p.photo);
+                return <div class="reveal" style={`--reveal-delay: ${Math.min(i * 0.04, 0.24)}s`} data-name={displayPersonnelName(p.name)} data-dept={d.id}>
+                  <div class="staff-card" style={`--dc: ${d.color}`}>
+                    {src ? <div class="staff-avatar has-photo" style={`--dc: ${d.color}`}><img src={src} alt={displayPersonnelName(p.name)} /></div> : <div class="staff-avatar" style={`--dc: ${d.color}`}>{p.initial}</div>}
+                    <div class="name">{displayPersonnelName(p.name)}</div><div class="role">{p.role}</div>
+                  </div>
+                </div>;
+              })}
+            </div></div>
+          </div>;
+        })}
 
         <div class="staff-empty" style="display: none">
           <Icon name="users" />

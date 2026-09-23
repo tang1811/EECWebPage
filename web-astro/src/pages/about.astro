@@ -1,9 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import AboutBody from '../components/react/AboutBody';
+import AboutStory from '../components/react/AboutStory';
 import { SITE_NAME } from '../config';
 import { COLLEGE_PHOTO } from '../data/about-canva-data';
-import '../styles/about-information.css';
+import '../styles/about-story.css';
 
 const description = 'รู้จักเทคโนแหลมฉบัง ปรัชญาวิทยาลัย การเรียน ปวช. ปวส. และปริญญาตรีต่อเนื่อง พร้อมภาพอาคาร บรรยากาศการเรียน และห้องปฏิบัติการของแต่ละแผนก';
 ---
@@ -20,5 +20,8 @@ const description = 'รู้จักเทคโนแหลมฉบัง �
   ]}
   og={{ title: `เกี่ยวกับเรา · ${SITE_NAME}`, description, image: COLLEGE_PHOTO.src }}
 >
-  <AboutBody />
+  <Fragment slot="head">
+    <link rel="preload" as="image" href={COLLEGE_PHOTO.src} fetchpriority="high" />
+  </Fragment>
+  <AboutStory client:load enhancedHistory />
 </Base>

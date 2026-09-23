@@ -44,7 +44,8 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
 
 /* [SITE] Slideshow tablet frame (701 – 1048px). */
 @media (min-width: 701px) and (max-width: 1048px) {
-  .hero.hero-slideshow { --hss-aspect-ratio: 2 / 1; }
+  .hero.hero-slideshow,
+  .about-story .about-opening { --hss-aspect-ratio: 2 / 1; }
 }
 
 /* ── Tablet landscape (1025 – 1180px) ─────────────────────── */
@@ -155,7 +156,8 @@ h1, h2, h3, h4, h5, p, li, td, th, dd, dt, figcaption, blockquote,
   .hero-scroll { display: none; }
 
   /* [SITE] Landscape frame on phones; images fill it with a proportional crop. */
-  .hero.hero-slideshow { --hss-aspect-ratio: 4 / 3; }
+  .hero.hero-slideshow,
+  .about-story .about-opening { --hss-aspect-ratio: 4 / 3; }
 
   .hero-video-layout { padding: 60px 0 40px; }
   .hero-video-card { max-width: 100%; }

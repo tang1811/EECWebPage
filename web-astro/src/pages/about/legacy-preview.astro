@@ -5,10 +5,10 @@ import { COLLEGE_PHOTO } from '../../data/about-canva-data';
 import '../../styles/about-story.css';
 ---
 
-<Base title="ทดลองดีไซน์ใหม่ · เกี่ยวกับเรา" path="/about" mono600>
+<Base title="แบบเดิม · เกี่ยวกับเรา" path="/about" mono600>
   <Fragment slot="head">
     <meta name="robots" content="noindex, nofollow" />
     <link rel="preload" as="image" href={COLLEGE_PHOTO.src} fetchpriority="high" />
   </Fragment>
-  <AboutStory client:load enhancedHistory />
+  <AboutStory client:load />
 </Base>

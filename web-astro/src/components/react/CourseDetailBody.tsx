@@ -8,6 +8,23 @@ import VIDEOS from '../../../public/assets/courses/videos/videos.json';
 const DEPT_GALLERY = GALLERY as Record<string, string[]>;
 const DEPT_VIDEO = VIDEOS as Record<string, { src: string; poster: string }>;
 
+type WebkitFullscreenElement = HTMLElement & { webkitRequestFullscreen?: () => void };
+type WebkitFullscreenVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void };
+
+function requestVideoFullscreen(element: HTMLElement, video?: HTMLVideoElement) {
+  if (document.fullscreenElement) return;
+  if (element.requestFullscreen) {
+    void element.requestFullscreen().catch(() => undefined);
+    return;
+  }
+  const webkitElement = element as WebkitFullscreenElement;
+  if (webkitElement.webkitRequestFullscreen) {
+    webkitElement.webkitRequestFullscreen();
+    return;
+  }
+  (video as WebkitFullscreenVideo | undefined)?.webkitEnterFullscreen?.();
+}
+
 function SectionHeading({ label, children }: { label: string; children: ReactNode }) {
   return <header className="cd-section-head"><p className="cine-stats-eyebrow">{label}</p><h2 className="cine-h2">{children}</h2></header>;
 }
@@ -103,11 +120,25 @@ function CDGallery({ skills, photos }: { skills: CourseDetail['skills']; photos:
 
 function CDVideo({ course, detail }: { course: Course; detail: CourseDetail }) {
   const [play, setPlay] = useState(false);
+  const [mp4Started, setMp4Started] = useState(false);
+  const frame = useRef<HTMLDivElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
+  const video = useRef<HTMLVideoElement>(null);
   const mp4 = DEPT_VIDEO[course.slug];
   const id = detail.video;
   if (!id && !mp4) return null;
+  const playYouTube = () => {
+    if (frame.current) requestVideoFullscreen(frame.current);
+    setPlay(true);
+  };
+  const playMp4 = () => {
+    if (!stage.current || !video.current) return;
+    requestVideoFullscreen(stage.current, video.current);
+    setMp4Started(true);
+    void video.current.play().catch(() => undefined);
+  };
   return <section className="cine-scene cd-video"><SectionHeading label="วิดีโอแนะนำแผนก">รู้จัก{course.name}</SectionHeading>
-    {id ? <div className="cd-video-frame">{play ? <iframe className="cd-video-embed" src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`} title={`วิดีโอแนะนำแผนก${course.name}`} allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen /> : <button type="button" className="cd-video-poster" onClick={() => setPlay(true)} aria-label={`เล่นวิดีโอแนะนำแผนก${course.name}`}><img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" /><span className="cd-video-play" aria-hidden="true">▶</span></button>}</div> : mp4 && <div className="cd-video-stage"><video controls preload="none" poster={mp4.poster} playsInline aria-label={`วิดีโอแนะนำแผนก${course.name}`}><source src={mp4.src} type="video/mp4" /></video></div>}
+    {id ? <div ref={frame} className="cd-video-frame">{play ? <iframe className="cd-video-embed" src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`} title={`วิดีโอแนะนำแผนก${course.name}`} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen /> : <button type="button" className="cd-video-poster" onClick={playYouTube} aria-label={`เล่นวิดีโอแนะนำแผนก${course.name}แบบเต็มหน้าจอ`}><img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" /><span className="cd-video-play" aria-hidden="true">▶</span></button>}</div> : mp4 && <div ref={stage} className="cd-video-stage"><video ref={video} controls preload="none" poster={mp4.poster} playsInline aria-label={`วิดีโอแนะนำแผนก${course.name}`}><source src={mp4.src} type="video/mp4" /></video>{!mp4Started && <button type="button" className="cd-video-poster cd-video-local-poster" onClick={playMp4} aria-label={`เล่นวิดีโอแนะนำแผนก${course.name}แบบเต็มหน้าจอ`}><img src={mp4.poster} alt="" /><span className="cd-video-play" aria-hidden="true">▶</span></button>}</div>}
   </section>;
 }
 
@@ -128,6 +159,6 @@ export default function CourseDetailBody({ course }: { course: Course }) {
     <CDHero course={course} detail={detail} /><CDFacts course={course} detail={detail} /><CDSkills detail={detail} photos={gallery} /><CDLearning detail={detail} />
     <CDVideo course={course} detail={detail} /><CDFee detail={detail} /><CDCareers detail={detail} />
     {detail.source && <aside className="cd-source"><p>ข้อมูลการเรียนและห้องปฏิบัติการอ้างอิงจากเอกสารแนะนำแผนกของวิทยาลัย</p><a href={`${detail.source.url}#${detail.source.pages[0]}`} target="_blank" rel="noreferrer">ดูเอกสารแนะนำแผนก (หน้า {detail.source.pages.join(', ')}) ↗</a></aside>}
-    <section className="cine-scene cd-closing"><div className="cd-closing-inner"><p className="cine-stats-eyebrow">วางแผนเรียนต่อ</p><h2 className="cine-h2">สนใจเรียน{course.name}</h2><p>สอบถามคุณสมบัติ วันเรียน ค่าใช้จ่าย และรอบรับสมัครกับวิทยาลัย</p><div className="cd-cta"><a href="/contact/" className="cine-cta-btn primary">ติดต่อสอบถาม →</a><a href="tel:038494066" className="cine-cta-btn ghost">โทร 038 494 066</a></div></div></section>
+    <section className="cine-scene cd-closing"><div className="cd-closing-inner"><p className="cine-stats-eyebrow">วางแผนเรียนต่อ</p><h2 className="cine-h2">สนใจเรียน{course.name}</h2><p>สอบถามคุณสมบัติ วันเรียน ค่าใช้จ่าย และรอบรับสมัครกับวิทยาลัย</p><div className="cd-cta"><a href="/contact/" className="cine-cta-btn primary">ติดต่อสอบถาม →</a><a href="/courses/" className="cine-cta-btn ghost">ดูหลักสูตรอื่น ๆ</a><a href="tel:038494066" className="cine-cta-btn ghost">โทร 038 494 066</a></div></div></section>
   </main>;
 }

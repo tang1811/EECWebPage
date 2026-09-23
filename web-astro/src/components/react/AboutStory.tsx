@@ -1,38 +1,25 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import { Icon } from './chrome-lite';
+import { COURSES } from '../../data/course-data';
+import { COLLEGE_PHOTO, PRACTICE_PHOTO } from '../../data/about-canva-data';
+import { TIMELINE as COLLEGE_TIMELINE, EXTENDED_TIMELINE, HISTORY_HERO, HISTORY_VIDEO, PHILOSOPHY, PRINCIPALS, DEPUTIES, type Leader } from '../../data/about-college-data';
 
-// Existing college history, philosophy, and personnel.
-const TIMELINE = [
-  { y: '2538', t: 'จุดเริ่มต้น', d: 'ก่อตั้ง 1 มี.ค. 2538 ในชื่อ "โรงเรียนเทคโนโลยีศรีราชาช่างอุตสาหกรรม" โดย ดร.สัมภาษณ์ บุญจี๊ด', img: '/assets/slide-2-eec.webp' },
-  { y: '2539', t: 'เปลี่ยนชื่อ', d: 'เปลี่ยนชื่อเป็น "โรงเรียนเทคโนโลยีแหลมฉบัง"', img: '/assets/courses/yon.webp' },
-  { y: '2554', t: 'ยกระดับ', d: 'ปรับฐานะเป็น "วิทยาลัยเทคโนโลยีแหลมฉบัง" เปิดสอน ปวส.', img: '/assets/courses/faifaa.webp' },
-  { y: '2563', t: 'เพิ่มหลักสูตร', d: 'เปิดสาขาคอมพิวเตอร์กราฟิก ประเภทวิชาศิลปกรรม', img: '/assets/courses/digital-graphic.webp' },
-  { y: '2564', t: 'ชื่อปัจจุบัน', d: 'เปลี่ยนชื่อเป็น "วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง"', img: '/assets/courses/ps-mecha.webp' },
-  { y: '2569', t: 'ปัจจุบัน', d: '18 สาขา · ศูนย์ทดสอบมาตรฐานฝีมือแรงงาน · พร้อมก้าวต่อไป', img: '/assets/slide-4-community.webp' },
-];
-
-const PHILOSOPHY = [
-  { num: '01', th: 'มุ่งสร้างคนดี', en: 'Be Good', d: 'ทั้งต่อตนเองและสังคม', img: '/assets/slide-1-apply.webp', accent: '#F26530' },
-  { num: '02', th: 'มีระเบียบวินัย', en: 'Discipline', d: 'แบบแผนการปฏิบัติตน', img: '/assets/news-3-military.webp', accent: '#40ABE0' },
-  { num: '03', th: 'ก้าวไกลเทคโนโลยี', en: 'Future-Ready', d: 'พัฒนาเทคโนโลยีให้เจริญก้าวหน้าทันยุคทันสมัย', img: '/assets/courses/ps-mecha.webp', accent: '#FBD609' },
-  { num: '04', th: 'ฝีมือเยี่ยม', en: 'Master Craft', d: 'ทักษะวิชาชีพระดับสูง พร้อมปฏิบัติงานจริง', img: '/assets/courses/ps-mechanical.webp', accent: '#B12B25' },
-  { num: '05', th: 'เปี่ยมคุณธรรม', en: 'Virtuous Mind', d: 'มีคุณธรรม จริยธรรม ค่านิยมที่ดี', img: '/assets/slide-4-community.webp', accent: '#7B5CA7' },
-];
-
-const EXEC = '/assets/staff/executives/';
-type Leader = { n: string; r: string; img: string; c: string };
-const PRINCIPALS: Leader[] = [
-  { n: 'ดร.ยงลักษณ์ บุญจี๊ด', r: 'ผู้รับใบอนุญาต', img: EXEC + 'license-yonglak.webp', c: '#026451' },
-  { n: 'อ.ภาตะวัน บุญจี๊ด', r: 'ผู้อำนวยการ', img: EXEC + 'director-phatawan.webp', c: '#1c2a4e' },
-  { n: 'อ.ภาคภูมิ บุญจี๊ด', r: 'ผู้จัดการ', img: EXEC + 'manager-phakphum.webp', c: '#8a1f2b' },
-];
-const DEPUTIES: Leader[] = [
-  { n: 'อ.มานิต หอดขุนทด', r: 'ฝ่ายวิชาการและประกันคุณภาพ', img: EXEC + 'deputy-academic-manit.webp', c: '#026451' },
-  { n: 'อ.ทรงพล แม้นชล', r: 'ฝ่ายกิจการนักเรียนนักศึกษา', img: EXEC + 'deputy-student-songphon.webp', c: '#385BF3' },
-  { n: 'อ.จิดาภา เพ็ชรรัตน์', r: 'ฝ่ายบริหาร', img: EXEC + 'deputy-admin-jidapha.webp', c: '#D6418A' },
-  { n: 'อ.กอบศักดิ์ เจนวิถี', r: 'ฝ่ายปกครอง', img: EXEC + 'deputy-discipline-kobsak.webp', c: '#B12B25' },
-  { n: 'อ.พงษ์ศักดิ์ ไสตะภาพ', r: 'ฝ่ายวิจัยและพัฒนาสื่อ', img: EXEC + 'deputy-research-pongsak.webp', c: '#C28A05' },
-  { n: 'อ.พันธ์จิต อิ่มรอ', r: 'ฝ่ายอาคารสถานที่', img: EXEC + 'deputy-building-phanchit.webp', c: '#2D8FBF' },
+const LEGACY_TIMELINE = [...COLLEGE_TIMELINE, {
+  y: '2569',
+  t: 'ปัจจุบัน',
+  d: `เปิดเผยรายละเอียด ${COURSES.length} หลักสูตรบนเว็บไซต์ พร้อมข้อมูลการเรียนและการฝึกปฏิบัติของแต่ละสาขา`,
+  img: PRACTICE_PHOTO.src,
+}];
+const ENHANCED_TIMELINE = [...EXTENDED_TIMELINE, {
+  y: '2569',
+  t: 'ปัจจุบัน',
+  d: `เปิดเผยรายละเอียด ${COURSES.length} หลักสูตรบนเว็บไซต์ พร้อมข้อมูลการเรียนและการฝึกปฏิบัติของแต่ละสาขา`,
+  img: PRACTICE_PHOTO.src,
+}];
+const HERO_SLIDES = [
+  { src: COLLEGE_PHOTO.src, alt: COLLEGE_PHOTO.alt },
+  { src: HISTORY_HERO, alt: 'ภาพวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง' },
+  { src: PRACTICE_PHOTO.src, alt: PRACTICE_PHOTO.alt },
 ];
 
 
@@ -68,23 +55,27 @@ function useReducedMotion() {
 }
 
 // One frame per scroll event batch. Transforms update directly; React state only
-// changes when the active chapter or timeline milestone changes.
+// changes when the active chapter, timeline milestone, or philosophy changes.
 function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean) {
   const [chapter, setChapter] = useState(0);
   const [milestone, setMilestone] = useState(0);
+  const [value, setValue] = useState(0);
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
     const header = document.querySelector<HTMLElement>('header.nav');
     const chapterNav = root.querySelector<HTMLElement>('.about-chapters');
     const journeyVisual = root.querySelector<HTMLElement>('.about-journey-visual');
+    const valueVisual = root.querySelector<HTMLElement>('.about-value-visual');
     const chapters = Array.from(root.querySelectorAll<HTMLElement>('[data-chapter]'));
     const milestones = Array.from(root.querySelectorAll<HTMLElement>('[data-milestone]'));
+    const values = Array.from(root.querySelectorAll<HTMLElement>('[data-value]'));
     const parallax = Array.from(root.querySelectorAll<HTMLElement>('[data-parallax]'));
     const reveal = Array.from(root.querySelectorAll<HTMLElement>('[data-about-reveal]'));
     let frame = 0;
     let headerHeight = 76;
     let milestoneMarker = 196;
+    let valueMarker = 196;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -110,6 +101,9 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
       let activeMilestone = 0;
       milestones.forEach((el, i) => { if (el.getBoundingClientRect().top <= milestoneMarker + 1) activeMilestone = i; });
       setMilestone((current) => current === activeMilestone ? current : activeMilestone);
+      let activeValue = 0;
+      values.forEach((el, i) => { if (el.getBoundingClientRect().top <= valueMarker + 1) activeValue = i; });
+      setValue((current) => current === activeValue ? current : activeValue);
       parallax.forEach((el) => {
         const bounds = el.getBoundingClientRect();
         const offset = reduced ? 0 : Math.max(-36, Math.min(36, (innerHeight / 2 - bounds.top - bounds.height / 2) * .07));
@@ -123,6 +117,7 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
       root.style.setProperty('--about-header', `${headerHeight}px`);
       root.style.setProperty('--about-chapter-height', `${chapterHeight}px`);
       const visualHeight = journeyVisual?.getBoundingClientRect().height ?? 0;
+      const valueVisualHeight = valueVisual?.getBoundingClientRect().height ?? 0;
       const stickyTop = headerHeight + chapterHeight + 24;
       const stacked = window.matchMedia('(max-width: 600px)').matches;
       // On phones, read the milestones below the pinned photo. On wider
@@ -138,6 +133,14 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
       const readingRoom = Math.max(560, innerHeight * .85);
       const tail = Math.max(step, visualHeight, innerHeight - milestoneMarker) + readingRoom;
       root.style.setProperty('--about-journey-tail', `${tail}px`);
+      valueMarker = stickyTop + (stacked ? valueVisualHeight + 24 : 20);
+      root.style.setProperty('--about-value-marker', `${valueMarker}px`);
+      const valueStep = stacked
+        ? Math.max(480, innerHeight - valueMarker + 120)
+        : Math.max(560, innerHeight - stickyTop - 32);
+      root.style.setProperty('--about-value-step', `${valueStep}px`);
+      const valueTail = Math.max(valueStep, valueVisualHeight, innerHeight - valueMarker) + readingRoom;
+      root.style.setProperty('--about-value-tail', `${valueTail}px`);
       schedule();
     };
     measure();
@@ -148,6 +151,7 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
     if (header) resize.observe(header);
     if (chapterNav) resize.observe(chapterNav);
     if (journeyVisual) resize.observe(journeyVisual);
+    if (valueVisual) resize.observe(valueVisual);
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
@@ -157,36 +161,7 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
       reveal.forEach((el) => el.classList.remove('about-pending'));
     };
   }, [rootRef, reduced]);
-  return { chapter, milestone };
-}
-
-function Stat({ target, suffix, label, reduced, useGrouping = true }: { target: number; suffix: string; label: string; reduced: boolean; useGrouping?: boolean }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el || reduced) {
-      if (el) el.textContent = target.toLocaleString('en-US', { useGrouping });
-      return;
-    }
-    let frame = 0;
-    const observer = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) return;
-      observer.disconnect();
-      const start = performance.now();
-      const tick = (now: number) => {
-        const p = Math.min(1, (now - start) / 1400);
-        el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3))).toLocaleString('en-US', { useGrouping });
-        if (p < 1) frame = requestAnimationFrame(tick);
-      };
-      frame = requestAnimationFrame(tick);
-    }, { threshold: .6 });
-    observer.observe(el);
-    return () => { observer.disconnect(); cancelAnimationFrame(frame); };
-  }, [target, reduced, useGrouping]);
-  return <div className="about-stat" data-about-reveal>
-    <strong aria-label={`${target.toLocaleString('en-US', { useGrouping })}${suffix}`}><span ref={ref} aria-hidden="true">{target.toLocaleString('en-US', { useGrouping })}</span><span aria-hidden="true" className="about-stat-suffix">{suffix}</span></strong>
-    <span>{label}</span>
-  </div>;
+  return { chapter, milestone, value };
 }
 
 function LeaderPortrait({ item, compact = false, order = 0 }: { item: Leader; compact?: boolean; order?: number }) {
@@ -196,28 +171,33 @@ function LeaderPortrait({ item, compact = false, order = 0 }: { item: Leader; co
   </article>;
 }
 
-export default function AboutStory() {
+export default function AboutStory({ enhancedHistory = false }: { enhancedHistory?: boolean }) {
   const root = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
-  const { chapter, milestone } = useStoryMotion(root, reduced);
-  const [value, setValue] = useState(0);
+  const { chapter, milestone, value } = useStoryMotion(root, reduced);
+  const [heroSlide, setHeroSlide] = useState(0);
+  const [heroDragging, setHeroDragging] = useState(false);
+  const [heroDragOffset, setHeroDragOffset] = useState(0);
+  const heroDragStart = useRef<number | null>(null);
+  const timeline = enhancedHistory ? ENHANCED_TIMELINE : LEGACY_TIMELINE;
+  useEffect(() => {
+    if (reduced) return;
+    const timer = window.setInterval(() => setHeroSlide((current) => (current + 1) % HERO_SLIDES.length), 6000);
+    return () => window.clearInterval(timer);
+  }, [reduced]);
+  const finishHeroDrag = () => {
+    if (heroDragStart.current === null) return;
+    if (Math.abs(heroDragOffset) > 60) setHeroSlide((current) => (current + (heroDragOffset < 0 ? 1 : -1) + HERO_SLIDES.length) % HERO_SLIDES.length);
+    heroDragStart.current = null;
+    setHeroDragging(false);
+    setHeroDragOffset(0);
+  };
   return (
     <main ref={root} className="about-story">
-      <section className="about-opening" aria-labelledby="about-title">
-        <div className="about-opening-image" data-parallax><img src="/assets/slide-3-innovation.webp" alt="อาคารอำนวยการและคณะบุคลากรของวิทยาลัย EEC" width="2048" height="871" fetchPriority="high" /></div>
-        <div className="about-opening-shade" />
-        <div className="about-shell about-opening-inner">
-          <div className="about-opening-top"><span>ABOUT OUR COLLEGE</span><span>EST. 1995 · LAEMCHABANG</span></div>
-          <div className="about-opening-copy">
-            <div className="about-eyebrow about-hero-enter">วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</div>
-            <h1 id="about-title"><span className="about-title-line"><span>สร้างคน<span className="about-title-period">.</span></span></span><span className="about-title-line"><span>สร้างฝีมือ<span className="about-title-period">.</span></span></span><span className="about-title-line"><span>สร้างอนาคต<span className="about-title-period">.</span></span></span></h1>
-            <p className="about-hero-enter">กว่า 30 ปีของความตั้งใจ พัฒนาคนให้มีทั้งทักษะและคุณธรรม<br className="about-wide-break" /> พร้อมเติบโตไปกับอุตสาหกรรม EEC</p>
-          </div>
-          <div className="about-opening-bottom">
-            <a href="#our-story" className="about-scroll-link"><span className="about-scroll-icon"><Icon name="arrow" /></span><span>เลื่อนเพื่อรู้จักเรา<small>DISCOVER OUR STORY</small></span></a>
-            <div className="about-anniversary"><strong>30<span>+</span></strong><span>ปีแห่งการสร้าง<br />คนคุณภาพ</span></div>
-          </div>
-        </div>
+      <section className={`about-opening ${heroDragging ? 'is-dragging' : ''}`} aria-labelledby="about-title" style={{ touchAction: 'pan-y', userSelect: 'none' }} onPointerDown={(event) => { if (event.button !== 0 || (event.target as HTMLElement).closest('button')) return; heroDragStart.current = event.clientX; setHeroDragging(true); event.currentTarget.setPointerCapture(event.pointerId); }} onPointerMove={(event) => { if (heroDragStart.current !== null) setHeroDragOffset(Math.max(-120, Math.min(120, event.clientX - heroDragStart.current))); }} onPointerUp={finishHeroDrag} onPointerCancel={finishHeroDrag} onPointerLeave={finishHeroDrag}>
+        <h1 id="about-title" className="about-sr-only">เกี่ยวกับเรา · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</h1>
+        <div className="about-hss-stage" style={{ transform: heroDragging ? `translateX(${heroDragOffset * .3}px)` : undefined }}>{HERO_SLIDES.map((slide, i) => <div key={slide.src} className={`about-hss-slide ${heroSlide === i ? 'on' : ''}`} aria-hidden={heroSlide !== i}><img src={slide.src} alt={slide.alt} loading={i === 0 ? 'eager' : 'lazy'} fetchPriority={i === 0 ? 'high' : undefined} draggable="false" /></div>)}</div>
+        <div className="about-hss-progress" role="group" aria-label="เลือกภาพแบนเนอร์">{HERO_SLIDES.map((slide, i) => <button key={slide.src} type="button" className={`${heroSlide === i ? 'on' : ''} ${i < heroSlide ? 'done' : ''}`} aria-label={`แสดงภาพแบนเนอร์ ${i + 1}`} aria-pressed={heroSlide === i} onClick={() => setHeroSlide(i)}><span aria-hidden="true" /></button>)}</div>
       </section>
 
       <nav className="about-chapters" aria-label="เนื้อหาเกี่ยวกับวิทยาลัย">
@@ -227,33 +207,25 @@ export default function AboutStory() {
         </div>
       </nav>
 
-      <section className="about-stat-band" aria-label="วิทยาลัยในตัวเลข">
-        <div className="about-shell about-stat-grid">
-          <Stat target={30} suffix="+" label="ปีแห่งประสบการณ์" reduced={reduced} />
-          <Stat target={12000} suffix="+" label="ศิษย์เก่าร่วมสร้างอนาคต" reduced={reduced} />
-          <Stat target={18} suffix="" label="สาขาวิชา" reduced={reduced} />
-          <Stat target={1995} suffix="" label="ปีที่เริ่มต้นเรื่องราวของเรา" reduced={reduced} useGrouping={false} />
-        </div>
-      </section>
-
       <section id="our-story" className="about-journey about-section" data-chapter aria-labelledby="journey-title">
         <div className="about-shell">
           <div className="about-section-heading" data-about-reveal>
             <div><span className="about-eyebrow">01 / OUR JOURNEY</span><h2 id="journey-title">จากก้าวแรก<br /><em>สู่อนาคตที่เราสร้างร่วมกัน</em></h2></div>
             <p>จาก 1 มีนาคม 2538 จนถึงวันนี้<br />เรื่องราวของวิทยาลัยที่เติบโตไปพร้อมกับ<br />คน ชุมชน และอุตสาหกรรมตะวันออก</p>
           </div>
+          {enhancedHistory && <div className="about-history-media" data-about-reveal>
+            <div className="about-history-video"><video controls preload="metadata" poster={HISTORY_HERO} aria-label="วิดีโอประวัติวิทยาลัย"><source src={HISTORY_VIDEO} type="video/mp4" />เบราว์เซอร์ของคุณไม่รองรับวิดีโอ</video></div>
+            <div className="about-history-media-copy"><span>HISTORY FILM · 01:12</span><h3>เรื่องราวที่เริ่มจาก<br />ความเชื่อในคนรุ่นใหม่</h3><p>ชมวิดีโอประวัติวิทยาลัย ก่อนเลื่อนดูหมุดหมายสำคัญตั้งแต่วันก่อตั้งจนถึงปัจจุบัน</p></div>
+          </div>}
           <div className="about-journey-grid">
             <div className="about-journey-visual">
               <div className="about-journey-frame">
-                {TIMELINE.map((item, i) => <img key={item.y} src={item.img} alt="" loading="lazy" className={milestone === i ? 'is-active' : ''} />)}
-                <span className="about-journey-count" role="img" aria-label={`ภาพที่ ${milestone + 1} จาก ${TIMELINE.length}`}>{String(milestone + 1).padStart(2, '0')} / {String(TIMELINE.length).padStart(2, '0')}</span>
-                <div className="about-journey-stamp"><span>พ.ศ.</span><strong key={TIMELINE[milestone].y}>{TIMELINE[milestone].y}</strong></div>
-                <span className="about-image-caption">ภาพบรรยากาศและการเรียนรู้ในวิทยาลัย</span>
+                {timeline.map((item, i) => <img key={item.y} src={item.img} alt="" loading="lazy" className={milestone === i ? 'is-active' : ''} />)}
               </div>
-              <nav className="about-year-links" aria-label="เลือกปีในประวัติวิทยาลัย">{TIMELINE.map((item, i) => <a key={item.y} href={`#year-${item.y}`} aria-current={milestone === i ? 'step' : undefined}>{item.y}</a>)}</nav>
+              <nav className="about-year-links" aria-label="เลือกปีในประวัติวิทยาลัย">{timeline.map((item, i) => <a key={item.y} href={`#year-${item.y}`} aria-current={milestone === i ? 'step' : undefined}>{item.y}</a>)}</nav>
             </div>
             <ol className="about-timeline">
-              {TIMELINE.map((item, i) => <li key={item.y} id={`year-${item.y}`} data-milestone className={milestone === i ? 'is-active' : ''}>
+              {timeline.map((item, i) => <li key={item.y} id={`year-${item.y}`} data-milestone className={milestone === i ? 'is-active' : ''}>
                 <div className="about-timeline-entry">
                   <span className="about-timeline-dot" aria-hidden="true" />
                   <span className="about-timeline-year">{item.y}</span>
@@ -269,15 +241,15 @@ export default function AboutStory() {
         <div className="about-shell">
           <div className="about-section-heading" data-about-reveal><div><span className="about-eyebrow">02 / WHAT WE BELIEVE</span><h2 id="values-title">เก่งในวิชาชีพ<br /><em>เติบโตอย่างมีคุณค่า</em></h2></div><p>ปรัชญา 5 ประการ<br />ที่อยู่เบื้องหลังการเรียนรู้ทุกวันของเรา</p></div>
           <div className="about-values-grid">
-            <div className="about-value-image" id="about-value-image" role="img" aria-label={`ภาพประกอบปรัชญา ${PHILOSOPHY[value].th}`}>
+            <div className="about-journey-visual about-value-visual">
+              <div className="about-journey-frame about-value-frame" role="img" aria-label={`ภาพประกอบปรัชญา ${PHILOSOPHY[value].th}`}>
               {PHILOSOPHY.map((item, i) => <img key={item.num} src={item.img} alt="" loading="lazy" className={value === i ? 'is-active' : ''} />)}
-              <div className="about-value-caption" key={value}><span>{PHILOSOPHY[value].num} / 05</span><strong>{PHILOSOPHY[value].en}</strong></div>
+              </div>
+              <nav className="about-year-links about-value-links" aria-label="เลือกปรัชญาวิทยาลัย">{PHILOSOPHY.map((item, i) => <a key={item.num} href={`#value-${item.num}`} aria-current={value === i ? 'step' : undefined}>{item.num}</a>)}</nav>
             </div>
-            <div className="about-values-list" role="group" aria-label="เลือกปรัชญาวิทยาลัย">
-              {PHILOSOPHY.map((item, i) => <button key={item.num} type="button" aria-pressed={value === i} aria-controls="about-value-image" onClick={() => setValue(i)} className={value === i ? 'is-active' : ''}>
-                <span className="about-value-number">{item.num}</span><span><strong>{item.th}</strong><small>{item.d}</small></span><Icon name="arrow" />
-              </button>)}
-            </div>
+            <ol className="about-timeline about-value-timeline">{PHILOSOPHY.map((item, i) => <li key={item.num} id={`value-${item.num}`} data-value className={value === i ? 'is-active' : ''}>
+              <div className="about-timeline-entry about-value-entry"><span className="about-timeline-dot" aria-hidden="true" /><span className="about-timeline-year">{item.num}</span><div><h3>{item.th}</h3><p>{item.d}</p><small>{item.en}</small></div></div>
+            </li>)}</ol>
           </div>
         </div>
       </section>
@@ -304,7 +276,7 @@ export default function AboutStory() {
       </section>
 
       <section className="about-closing" aria-labelledby="closing-title">
-        <div className="about-closing-photo" data-parallax><img src="/assets/slide-4-community.webp" alt="บรรยากาศการสำเร็จการศึกษาของนักศึกษา EEC" loading="lazy" /></div>
+        <div className="about-closing-photo" data-parallax><img src={PRACTICE_PHOTO.src} alt={PRACTICE_PHOTO.alt} loading="lazy" /></div>
         <div className="about-shell about-closing-inner" data-about-reveal><span className="about-eyebrow">THE NEXT CHAPTER IS YOURS</span><h2 id="closing-title">เรื่องราวบทต่อไป<br /><em>เริ่มต้นที่คุณ</em></h2><p>ร่วมเป็นส่วนหนึ่งของครอบครัว EEC<br />เปิดรับสมัครนักศึกษาใหม่ ปีการศึกษา 2569</p><div className="about-actions"><a className="about-button" href="/admission/">สมัครเรียนออนไลน์ <Icon name="arrow" /></a><a className="about-button about-button-outline" href="/courses/">ค้นหาหลักสูตรที่ใช่ <Icon name="arrow" /></a></div></div>
       </section>
     </main>

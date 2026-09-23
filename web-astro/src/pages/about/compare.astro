@@ -2,13 +2,14 @@
 import { createHash } from 'node:crypto';
 import storySource from '../../components/react/AboutStory.tsx?raw';
 import storyStyles from '../../styles/about-story.css?raw';
-const draftRevision = createHash('sha256').update(storySource).update(storyStyles).digest('hex').slice(0, 8);
+import historyData from '../../data/about-college-data.ts?raw';
+const draftRevision = createHash('sha256').update(storySource).update(storyStyles).update(historyData).digest('hex').slice(0, 8);
 const versions = [
-  { id: 'original', name: 'แบบเดิม', note: 'ใช้อยู่ในหน้า About', href: '/about/' },
-  { id: 'draft', name: 'แบบใหม่', note: 'ฉบับทดลองสำหรับเปรียบเทียบ', href: `/about/design-preview/?v=${draftRevision}` },
+  { id: 'original', name: 'แบบเดิม', note: 'ก่อนเพิ่มประวัติฉบับสมบูรณ์', href: '/about/legacy-preview/' },
+  { id: 'draft', name: 'แบบใหม่', note: 'ใช้อยู่ในหน้า About พร้อมภาพและวิดีโอ', href: `/about/?v=${draftRevision}` },
 ];
 const sections = [
-  ['opening', 'ส่วนเปิดหน้า'], ['stats', 'ตัวเลขวิทยาลัย'], ['story', 'ประวัติ'],
+  ['opening', 'ส่วนเปิดหน้า'], ['story', 'ประวัติ'],
   ['values', 'ปรัชญา'], ['vision', 'วิสัยทัศน์'], ['people', 'ผู้บริหาร'],
 ];
 ---
@@ -32,7 +33,7 @@ const sections = [
           <img src="/assets/logo.png" width="48" height="48" alt="ตราวิทยาลัย EEC" />
           <div><span class="eyebrow">EEC · DESIGN PREVIEW</span><h1>เปรียบเทียบหน้าเกี่ยวกับเรา</h1></div>
         </div>
-        <span class="current-status">หน้า About ใช้แบบเดิม</span>
+        <span class="current-status">หน้า About ใช้แบบใหม่</span>
       </header>
       <div class="compare-toolbar">
         <p>เลื่อนดูในแต่ละฝั่งเพื่อเล่นแอนิเมชัน หรือเปิดเต็มหน้าเพื่อดูรายละเอียด</p>
@@ -70,7 +71,6 @@ const sections = [
   let device = matchMedia('(max-width: 700px)').matches ? 'mobile' : 'desktop';
   const selectors: Record<string, [string, string]> = {
     opening: ['.cine-opening', '.about-opening'],
-    stats: ['.cine-stats', '.about-stat-band'],
     story: ['.cine-tl-wrap', '#our-story'],
     values: ['.cine-philo-wrap', '#our-values'],
     vision: ['.cine-vision', '#our-vision'],
