@@ -20,7 +20,7 @@ const gridItems = NEWS.filter((n) => n.slug !== NEWS_LEAD_SLUG && !NEWS_SIDE_SLU
 // full grid whenever a filter or query is active.
 const featured = [lead, ...side];
 
-const CATS = ['ทั้งหมด', 'โปรโมชั่น', 'กิจกรรม', 'ประกาศ', 'รับสมัคร', 'รางวัล', 'นศท.'];
+const CATS = ['ทั้งหมด', 'กิจกรรม', 'ประกาศ', 'รับสมัคร', 'รางวัล', 'นศท.'];
 const DESCRIPTION =
   'ข่าวสาร ประกาศ และกิจกรรมล่าสุดของวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · ปฏิทินกิจกรรมปีการศึกษา 2569';
 
@@ -57,7 +57,7 @@ const itemList = {
   og={{
     title: `ข่าวสาร & กิจกรรม · ${SITE_NAME}`,
     description: DESCRIPTION,
-    image: '/assets/news-1-sansamphan-morning.webp',
+    image: lead.image,
     type: 'website',
   }}
 >
@@ -193,7 +193,7 @@ const itemList = {
     import { NEWS_UPCOMING } from '../../data/news-data';
 
     const PAGE = 9;
-    let cat = new URLSearchParams(window.location.search).get('category') === 'promotion' ? 'โปรโมชั่น' : 'ทั้งหมด';
+    let cat = 'ทั้งหมด';
     let q = '';
     let limit = PAGE;
 

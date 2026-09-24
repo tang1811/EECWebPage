@@ -80,7 +80,7 @@ const breadcrumbJsonLd = {
         </div>
         <div class="course-grid card-lift">
           {COURSE_DATA.map((c, i) => (
-            <div class="reveal reveal-scale" style={`--reveal-delay:${Math.min(i * 0.04, 0.4)}s`} data-cat={c.cat} data-code={c.code} data-dual={c.dualVocational ? 'true' : 'false'}>
+            <div class="reveal reveal-scale" style={`--reveal-delay:${Math.min(i * 0.04, 0.4)}s`} data-cat={c.cat} data-code={c.code} data-afternoon={c.afternoon ? 'true' : 'false'}>
               <a href={`/courses/${c.slug}/`} class="course-card cc-lift" style={c.color ? `--dept:${c.color}` : undefined}>
                 {c.img && (
                   <div class="cc-photo">
@@ -93,7 +93,7 @@ const breadcrumbJsonLd = {
                 <div class="cc-body">
                   <div class="course-card-meta">
                     <span class="cc-code">{c.code} · {c.cat}</span>
-                    {c.dualVocational && <span class="course-dual-badge"><Icon name="check" style={{ width: 13, height: 13 }} /> รอบบ่าย</span>}
+                    {c.afternoon && <span class="course-dual-badge"><Icon name="check" style={{ width: 13, height: 13 }} /> รอบบ่าย</span>}
                   </div>
                   <h3 class="cc-name">{c.name}</h3>
                   <div class="cc-foot">
@@ -166,7 +166,7 @@ const breadcrumbJsonLd = {
       const shown = cards.filter((card) =>
         (level === 'ทั้งหมด' || card.dataset.code === level) &&
         (category === 'ทั้งหมด' || card.dataset.cat === category) &&
-        (!dualFilter?.checked || card.dataset.dual === 'true')
+        (!dualFilter?.checked || card.dataset.afternoon === 'true')
       );
       // Reattached cards must remain visible even if already observed by the reveal animation.
       shown.forEach((card, i) => {

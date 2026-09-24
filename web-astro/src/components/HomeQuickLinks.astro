@@ -1,12 +1,9 @@
 ---
-import { NEWS } from '../data/news-data';
-
-const featuredPromotion = NEWS.find((article) => article.promotion?.showOnHomepage);
 const links = [
   {
-    label: 'โปรโมชั่น',
-    description: 'สิทธิพิเศษและโอกาสดี ๆ สำหรับคุณ',
-    href: featuredPromotion ? `/news/${featuredPromotion.slug}/` : '/news/?category=promotion#news-filters',
+    label: 'ข่าวสาร',
+    description: 'กิจกรรมล่าสุดของวิทยาลัย',
+    href: '/news/',
     featured: false,
     icon: 'M20 13.5 13.5 20a2 2 0 0 1-2.8 0L3 12.3V3h9.3l7.7 7.7a2 2 0 0 1 0 2.8ZM7.5 7.5h.01',
   },

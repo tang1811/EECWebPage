@@ -38,7 +38,7 @@ function CDHero({ course, detail }: { course: Course; detail: CourseDetail }) {
       <h1 className="cine-h1 cd-h1"><em>{course.name}</em></h1>
       {detail.sourceName && <p className="cd-source-name">ชื่อในเอกสารแนะนำแผนก: {detail.sourceName}</p>}
       <p className="cd-overview">{detail.overview}</p>
-      <div className="cd-cta"><a href={ONLINE_ADMISSION_ENABLED ? '/admission/' : '/contact/'} className="cine-cta-btn primary">{ONLINE_ADMISSION_ENABLED ? 'สมัครเรียน' : 'สอบถามการสมัครเรียน'}<span aria-hidden="true"> →</span></a><a href="#course-learning" className="cine-cta-btn ghost">ดูสิ่งที่จะได้เรียน</a></div>
+      <div className="cd-cta"><a href={ONLINE_ADMISSION_ENABLED ? '/admission/' : '/contact/'} className="cine-cta-btn primary">{ONLINE_ADMISSION_ENABLED ? 'สมัครเรียน' : 'สอบถามการสมัครเรียน'}<span aria-hidden="true"> →</span></a><a href="/tuition/" className="cine-cta-btn ghost">ดูค่าเทอมและทุนการศึกษา</a><a href="#course-learning" className="cine-cta-btn ghost">ดูสิ่งที่จะได้เรียน</a></div>
     </div>
     {hero.src && <figure className={`cd-hero-photo ${hero.kind === 'cutout' ? 'cd-photo-cutout' : ''}`}><img src={hero.src} alt={hero.alt} width={hero.width} height={hero.height} fetchPriority="high" /><figcaption>{hero.alt}</figcaption></figure>}
   </div></section>;
@@ -51,7 +51,7 @@ function CDFacts({ course, detail }: { course: Course; detail: CourseDetail }) {
     { label: 'ระดับการศึกษา', value: course.code, sub: isCert ? 'ประกาศนียบัตรวิชาชีพ' : isBachelor ? 'ปริญญาตรี (ต่อเนื่อง)' : 'ประกาศนียบัตรวิชาชีพชั้นสูง' },
     { label: 'ระยะเวลาเรียน', value: isCert ? '3 ปี' : '2 ปี', sub: isBachelor ? 'ปีแรกเรียน · ปีที่ 2 ฝึกงาน' : 'เรียนภาคทฤษฎีและภาคปฏิบัติ' },
     { label: 'วุฒิที่ใช้สมัคร', value: isCert ? 'ม.3' : isBachelor ? 'ปวส.' : 'ปวช. / ม.6', sub: detail.admission ?? (isCert ? 'สำเร็จการศึกษาระดับมัธยมศึกษาปีที่ 3' : 'ปวช. สายตรง หรือ ม.6 / เทียบเท่า สอบถามเงื่อนไขของสาขาที่สนใจ') },
-    { label: 'รูปแบบการเรียน', value: detail.schedule ?? (course.dualVocational ? 'ทฤษฎี + ปฏิบัติ / รอบบ่าย หลักสูตรสำหรับคนทำงาน' : 'ทฤษฎี + ปฏิบัติ'), sub: isBachelor ? 'เหมาะกับผู้มีงานประจำ สอบถามตารางของรอบที่สมัคร' : course.dualVocational ? 'สอบถามแผนฝึกและสถานประกอบการของรอบที่สมัคร' : 'สอบถามวันเรียนและรูปแบบฝึกงานกับวิทยาลัย' },
+    { label: 'รูปแบบการเรียน', value: detail.schedule ?? (course.afternoon ? 'ทฤษฎี + ปฏิบัติ / รอบบ่าย หลักสูตรสำหรับคนทำงาน' : 'ทฤษฎี + ปฏิบัติ'), sub: isBachelor ? 'เหมาะกับผู้มีงานประจำ สอบถามตารางของรอบที่สมัคร' : course.afternoon ? 'สอบถามวันเรียนของรอบบ่ายกับวิทยาลัย' : 'สอบถามวันเรียนและรูปแบบฝึกงานกับวิทยาลัย' },
   ];
   return <section className="cine-scene cd-facts" aria-labelledby="course-facts-title"><h2 id="course-facts-title" className="cd-small-heading">ข้อมูลหลักสูตร</h2><dl className="cd-facts-grid">{facts.map((fact) => <div key={fact.label} className="cd-fact"><dt className="cd-fact-label">{fact.label}</dt><dd className="cd-fact-value">{fact.value}</dd><dd className="cd-fact-sub">{fact.sub}</dd></div>)}</dl></section>;
 }
@@ -159,6 +159,6 @@ export default function CourseDetailBody({ course }: { course: Course }) {
     <CDHero course={course} detail={detail} /><CDFacts course={course} detail={detail} /><CDSkills detail={detail} photos={gallery} /><CDLearning detail={detail} />
     <CDVideo course={course} detail={detail} /><CDFee detail={detail} /><CDCareers detail={detail} />
     {detail.source && <aside className="cd-source"><p>ข้อมูลการเรียนและห้องปฏิบัติการอ้างอิงจากเอกสารแนะนำแผนกของวิทยาลัย</p><a href={`${detail.source.url}#${detail.source.pages[0]}`} target="_blank" rel="noreferrer">ดูเอกสารแนะนำแผนก (หน้า {detail.source.pages.join(', ')}) ↗</a></aside>}
-    <section className="cine-scene cd-closing"><div className="cd-closing-inner"><p className="cine-stats-eyebrow">วางแผนเรียนต่อ</p><h2 className="cine-h2">สนใจเรียน{course.name}</h2><p>สอบถามคุณสมบัติ วันเรียน ค่าใช้จ่าย และรอบรับสมัครกับวิทยาลัย</p><div className="cd-cta"><a href="/contact/" className="cine-cta-btn primary">ติดต่อสอบถาม →</a><a href="/courses/" className="cine-cta-btn ghost">ดูหลักสูตรอื่น ๆ</a><a href="tel:038494066" className="cine-cta-btn ghost">โทร 038 494 066</a></div></div></section>
+    <section className="cine-scene cd-closing"><div className="cd-closing-inner"><p className="cine-stats-eyebrow">วางแผนเรียนต่อ</p><h2 className="cine-h2">สนใจเรียน{course.name}</h2><p>สอบถามคุณสมบัติ วันเรียน ค่าใช้จ่าย และรอบรับสมัครกับวิทยาลัย</p><div className="cd-cta"><a href="/contact/" className="cine-cta-btn primary">ติดต่อสอบถาม →</a><a href="/tuition/" className="cine-cta-btn ghost">ดูค่าเทอม</a><a href="/courses/" className="cine-cta-btn ghost">ดูหลักสูตรอื่น ๆ</a><a href="tel:038494066" className="cine-cta-btn ghost">โทร 038 494 066</a></div></div></section>
   </main>;
 }

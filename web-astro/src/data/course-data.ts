@@ -21,7 +21,9 @@ export type Course = {
   hot?: boolean;
   /** False disables the public page and excludes it from listings and navigation. */
   enabled?: boolean;
-  /** Existing catalog flags; pt-electrical is additionally documented on Canva page 20. */
+  /** Available in the afternoon round. */
+  afternoon?: boolean;
+  /** Existing dual vocational program designation. */
   dualVocational?: boolean;
   img?: string;
   color?: string;
@@ -59,23 +61,23 @@ export type CourseDetail = {
 const COURSE_RECORDS: Course[] = [
   { code: 'ปวช.', slug: 'yon', name: 'ช่างยนต์', icon: 'car', cat: 'อุตสาหกรรม', hot: true, dualVocational: true, img: '/assets/courses/yon.webp', color: '#B12B25' },
   { code: 'ปวช.', slug: 'faifaa', name: 'ช่างไฟฟ้ากำลัง', icon: 'bolt', cat: 'อุตสาหกรรม', hot: true, dualVocational: true, img: '/assets/courses/faifaa.webp', color: '#40ABE0' },
-  { code: 'ปวช.', slug: 'gear', name: 'ช่างกลโรงงาน', icon: 'gear', cat: 'อุตสาหกรรม', img: '/assets/courses/gear.webp', color: '#FBD609' },
+  { code: 'ปวช.', slug: 'gear', name: 'ช่างกลโรงงาน', icon: 'gear', cat: 'อุตสาหกรรม', afternoon: true, img: '/assets/courses/gear.webp', color: '#FBD609' },
   { code: 'ปวช.', slug: 'electronic', name: 'อิเล็กทรอนิกส์', icon: 'chip', cat: 'อุตสาหกรรม', enabled: false, img: '/assets/courses/electronic.webp' },
   { code: 'ปวช.', slug: 'mecha', name: 'เมคคาทรอนิกส์และหุ่นยนต์', icon: 'robot', cat: 'อุตสาหกรรม', hot: true, dualVocational: true, img: '/assets/courses/mecha.webp', color: '#FBDC6B' },
   { code: 'ปวช.', slug: 'graphic', name: 'ดิจิทัลกราฟิก', icon: 'palette', cat: 'ดิจิทัล', img: '/assets/courses/digital-graphic.webp', color: '#385BF3' },
-  { code: 'ปวช.', slug: 'biz-digital', name: 'เทคโนโลยีธุรกิจดิจิทัล', icon: 'chart', cat: 'บริหาร', img: '/assets/courses/digital-business.webp', color: '#EB559F' },
+  { code: 'ปวช.', slug: 'biz-digital', name: 'เทคโนโลยีธุรกิจดิจิทัล', icon: 'chart', cat: 'บริหาร', afternoon: true, img: '/assets/courses/digital-business.webp', color: '#EB559F' },
   { code: 'ปวช.', slug: 'accounting', name: 'การบัญชี', icon: 'briefcase', cat: 'บริหาร', img: '/assets/courses/accounting.webp', color: '#7B5CA7' },
-  { code: 'ปวส.', slug: 'ps-mech', name: 'เทคนิคเครื่องกล', icon: 'car', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-mechanical.webp', color: '#B12B25' },
-  { code: 'ปวส.', slug: 'ps-electrical', name: 'ไฟฟ้า', icon: 'bolt', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-electrical.webp', color: '#40ABE0' },
-  { code: 'ปวส.', slug: 'ps-production', name: 'เทคนิคการผลิต', icon: 'gear', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-production.webp', color: '#FBD609' },
-  { code: 'ปวส.', slug: 'ps-mecha', name: 'เมคคาทรอนิกส์และหุ่นยนต์', icon: 'robot', cat: 'อุตสาหกรรม', img: '/assets/courses/ps-mecha.webp', color: '#FBDC6B' },
+  { code: 'ปวส.', slug: 'ps-mech', name: 'เทคนิคเครื่องกล', icon: 'car', cat: 'อุตสาหกรรม', afternoon: true, img: '/assets/courses/ps-mechanical.webp', color: '#B12B25' },
+  { code: 'ปวส.', slug: 'ps-electrical', name: 'ไฟฟ้า', icon: 'bolt', cat: 'อุตสาหกรรม', afternoon: true, img: '/assets/courses/ps-electrical.webp', color: '#40ABE0' },
+  { code: 'ปวส.', slug: 'ps-production', name: 'เทคนิคการผลิต', icon: 'gear', cat: 'อุตสาหกรรม', afternoon: true, img: '/assets/courses/ps-production.webp', color: '#FBD609' },
+  { code: 'ปวส.', slug: 'ps-mecha', name: 'เมคคาทรอนิกส์และหุ่นยนต์', icon: 'robot', cat: 'อุตสาหกรรม', afternoon: true, img: '/assets/courses/ps-mecha.webp', color: '#FBDC6B' },
   { code: 'ปวส.', slug: 'ps-network', name: 'เครือข่ายคอมฯ & ความปลอดภัย', icon: 'network', cat: 'ดิจิทัล', enabled: false, img: '/assets/courses/ps-network.webp', color: '#EB559F' },
   { code: 'ปวส.', slug: 'ps-graphic', name: 'ดิจิทัลกราฟิก', icon: 'palette', cat: 'ดิจิทัล', img: '/assets/courses/ps-graphic.webp', color: '#385BF3' },
-  { code: 'ปวส.', slug: 'ps-logistics', name: 'การจัดการโลจิสติกส์', icon: 'truck', cat: 'บริหาร', hot: true, dualVocational: true, img: '/assets/courses/ps-logistics.webp', color: '#F26530' },
-  { code: 'ปวส.', slug: 'ps-accounting', name: 'การบัญชี', icon: 'briefcase', cat: 'บริหาร', img: '/assets/courses/ps-accounting.webp', color: '#7B5CA7' },
+  { code: 'ปวส.', slug: 'ps-logistics', name: 'การจัดการโลจิสติกส์', icon: 'truck', cat: 'บริหาร', hot: true, afternoon: true, dualVocational: true, img: '/assets/courses/ps-logistics.webp', color: '#F26530' },
+  { code: 'ปวส.', slug: 'ps-accounting', name: 'การบัญชี', icon: 'briefcase', cat: 'บริหาร', afternoon: true, img: '/assets/courses/ps-accounting.webp', color: '#7B5CA7' },
   { code: 'ปวส.', slug: 'ps-electronic', name: 'อิเล็กทรอนิกส์', icon: 'chip', cat: 'อุตสาหกรรม', enabled: false, img: '/assets/courses/ps-electronic.webp' },
   { code: 'ปวส.', slug: 'ps-industrial', name: 'เทคนิคอุตสาหกรรม', icon: 'shield', cat: 'อุตสาหกรรม', enabled: false, img: '/assets/courses/ps-industrial.webp' },
-  { code: 'ป.ตรี', slug: 'pt-electrical', name: 'เทคโนโลยีไฟฟ้า', icon: 'bolt', cat: 'อุตสาหกรรม', dualVocational: true, img: '/assets/courses/canva/bachelor-electrical/electrical-control-panel.jpg', color: '#40ABE0' },
+  { code: 'ป.ตรี', slug: 'pt-electrical', name: 'เทคโนโลยีไฟฟ้า', icon: 'bolt', cat: 'อุตสาหกรรม', afternoon: true, dualVocational: true, img: '/assets/courses/canva/bachelor-electrical/electrical-control-panel.jpg', color: '#40ABE0' },
 ];
 
 // Keep disabled records and their content for later reactivation. Public routes,

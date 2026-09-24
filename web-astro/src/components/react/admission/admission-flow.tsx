@@ -247,6 +247,7 @@ export function GuideScreen({ onStart, onStatus }: { onStart: () => void; onStat
         <p>ระบบรับสมัคร ปวช. ปวส. และปริญญาตรี ของวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง — กรอกได้ทุกที่ทุกเวลา</p>
         <div className="guide-cta">
           <button className="btn btn-primary btn-lg" onClick={onStart}>เริ่มสมัครเรียน <Icon name="arrow"/></button>
+          <a className="btn btn-ghost btn-lg" href="/tuition/">ดูค่าเทอมและทุนการศึกษา</a>
           <button className="btn btn-ghost btn-lg" onClick={onStatus}><Icon name="chart"/> ติดตามสถานะใบสมัคร</button>
         </div>
       </div>

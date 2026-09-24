@@ -201,6 +201,25 @@
   .qa-contact h2 { font-size: 24px; }
   .qa-contact p { font-size: 12px; line-height: 1.8; }
 }
+@media (max-width: 1024px) {
+  .qa-library-grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .qa-sidebar { position: static; }
+  .qa-categories { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+  .qa-categories button { border-color: var(--qa-border); background: white; }
+  .qa-help { display: none; }
+  .qa-document-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 16px; }
+  .qa-document { display: grid; grid-template-columns: 38px minmax(0, 1fr); align-items: start; gap: 10px 12px; min-width: 0; padding: 16px; border: 1px solid var(--qa-border); border-radius: 8px; }
+  .qa-document + .qa-document { border-top: 1px solid var(--qa-border); }
+  .qa-file-icon { width: 38px; height: 48px; margin: 0; }
+  .qa-document-info h4 { font-size: 14px; line-height: 1.55; overflow-wrap: anywhere; }
+  .qa-document-meta { font-size: 11px; line-height: 1.6; }
+  .qa-open-document { grid-column: 1 / -1; justify-self: stretch; justify-content: center; min-height: 44px; padding: 10px 14px; border-radius: 6px; background: var(--green-700); color: white; font-size: 13px; }
+  .qa-open-document:hover { background: var(--green-800); text-decoration: none; }
+}
+@media (max-width: 600px) {
+  .qa-document-list { grid-template-columns: 1fr; padding: 12px; }
+  .qa-document { padding: 14px; }
+}
 @media (prefers-reduced-motion: reduce) {
   .qa-page *, .qa-page *::before, .qa-page *::after { transition: none !important; }
 }

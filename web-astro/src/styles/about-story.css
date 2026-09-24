@@ -25,6 +25,7 @@ html:has(.about-story) { scroll-behavior: smooth; }
 .about-section-heading { display: flex; justify-content: space-between; align-items: end; gap: 48px; margin-bottom: 52px; }
 .about-story h2 { font-size: clamp(30px, 3.4vw, 48px); font-weight: 600; line-height: 1.5; margin-top: 20px; }
 .about-section-heading > p { font-size: 14px; line-height: 1.95; color: var(--ink-600); padding-bottom: 8px; }
+.about-journey-emphasis { color: var(--green-700); font-weight: 700; }
 .about-text-link { display: inline-flex; gap: 12px; align-items: center; min-height: 44px; font-size: 14px; font-weight: 500; white-space: nowrap; }
 .about-text-link:hover { text-decoration: underline; text-underline-offset: 6px; }
 .about-story [data-about-reveal] { transition: opacity .7s var(--about-ease), transform .7s var(--about-ease); transition-delay: var(--about-delay, 0ms); }
@@ -143,9 +144,10 @@ html:has(.about-story) { scroll-behavior: smooth; }
 .about-values .about-value-entry { top: var(--about-value-marker, calc(var(--about-header) + 120px)); }
 .about-values .about-timeline-dot { background: var(--green-800); border-color: var(--accent-amber); }
 .about-values .about-timeline-year { color: var(--green-200); }
-.about-values .about-timeline h3 { color: white; }
+.about-values .about-timeline h3 { color: white; line-height: 1.25; margin-bottom: 0; }
 .about-values .about-timeline p { color: var(--green-200); }
-.about-values .about-timeline small { display: block; margin-top: 12px; color: var(--accent-amber); font: 11px 'JetBrains Mono', monospace; letter-spacing: .08em; }
+.about-values .about-timeline p strong { color: white; font-weight: 600; }
+.about-values .about-timeline small { display: block; margin-bottom: 8px; color: var(--accent-amber); font: 11px 'JetBrains Mono', monospace; letter-spacing: .08em; }
 .about-values .about-timeline li.is-active :is(.about-timeline-year, h3) { color: var(--accent-amber); }
 .about-values .about-timeline li.is-active .about-timeline-dot { background: var(--accent-amber); box-shadow: 0 0 0 6px rgba(246,190,0,.14); }
 .about-value-image { position: relative; min-height: 530px; overflow: hidden; background: var(--green-900); border-radius: 3px; }
@@ -164,24 +166,19 @@ html:has(.about-story) { scroll-behavior: smooth; }
 .about-values-list button.is-active > svg, .about-values-list button:hover > svg { opacity: 1; transform: rotate(0); }
 .about-values-list button:hover { background: rgba(255,255,255,.045); }
 
-/* Vision and mission keep the college's complete wording. */
-.about-vision { background: #fff; }
-.about-vision-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-.about-vision-quote { border-left: 3px solid var(--accent-amber); padding: 12px 0 12px 30px; }
-.about-vision-quote > p { font-size: 19px; line-height: 1.95; color: var(--green-800); }
-.about-vision-quote > span { display: block; font-size: 12px; color: var(--ink-600); margin-top: 20px; }
-.about-identity { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin-top: 50px; padding: 30px 0; border-block: 1px solid var(--border-strong); }
-.about-identity > div { display: flex; gap: 24px; align-items: center; }
-.about-identity span { color: var(--green-700); font-size: 12px; white-space: nowrap; }
-.about-identity strong { font-size: 16px; font-weight: 500; }
-.about-mission-heading { display: flex; justify-content: space-between; align-items: center; gap: 24px; margin: 55px 0 25px; }
-.about-mission-heading h3 { font-size: 26px; font-weight: 500; }
-.about-mission-heading > span { font-size: 10px; letter-spacing: .12em; color: var(--ink-600); }
-.about-missions { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0 60px; }
-.about-missions li { display: flex; gap: 22px; border-bottom: 1px solid var(--border-soft); padding: 22px 0; }
-.about-missions li > span { color: var(--green-700); font: 11px 'JetBrains Mono', monospace; padding-top: 7px; }
-.about-missions h4 { font-size: 16px; font-weight: 500; }
-.about-missions p { font-size: 13px; line-height: 1.85; color: var(--ink-600); margin-top: 4px; }
+/* Identity: a prepared visual frame follows the two statements on scroll. */
+.about-identity-section { background: #fff; }
+.about-identity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+.about-identity-visual { background: #fff; }
+.about-identity-frame { aspect-ratio: 16 / 9; background: var(--green-800); }
+.about-identity-links a { flex: 1; text-align: center; }
+.about-identity-timeline li { min-height: var(--about-identity-step, 80svh); }
+.about-identity-timeline li:last-child { min-height: var(--about-identity-tail, 100svh); }
+.about-identity-timeline li[id] { scroll-margin-top: calc(var(--about-identity-marker, calc(var(--about-header) + 120px)) - 16px); }
+.about-identity-entry { top: var(--about-identity-marker, calc(var(--about-header) + 120px)); }
+.about-identity-entry blockquote { margin: 0 0 20px; color: var(--green-700); font-size: clamp(23px, 2.25vw, 34px); font-weight: 600; line-height: 1.5; }
+.about-identity-entry p { font-size: 15px; line-height: 1.95; }
+.about-identity-entry p strong { color: var(--green-700); font-weight: 600; }
 
 /* Leadership cards use the same visual language as the personnel directory. */
 .about-people { background: var(--bg-alt); }
@@ -226,7 +223,7 @@ html:has(.about-story) { scroll-behavior: smooth; }
   .about-section { padding-block: 85px; }
   .about-story #about-title { font-size: 80px; }
   .about-opening-inner { min-height: 760px; }
-  .about-journey-grid, .about-values-grid, .about-vision-intro { gap: 40px; }
+  .about-journey-grid, .about-values-grid, .about-identity-grid { gap: 40px; }
   .about-history-media { gap: 28px; }
   .about-timeline li { padding-left: 25px; }
   .about-timeline-entry { grid-template-columns: 60px 1fr; gap: 14px; }
@@ -235,7 +232,6 @@ html:has(.about-story) { scroll-behavior: smooth; }
   .about-value-image { min-height: 525px; }
   .about-values-list button { padding-inline: 15px; gap: 12px; }
   .about-values-list strong { font-size: 20px; }
-  .about-identity > div { flex-direction: column; align-items: start; gap: 10px; }
   .about-deputies { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .about-person-copy > h3 { font-size: 20px; }
 }
@@ -267,15 +263,15 @@ html:has(.about-story) { scroll-behavior: smooth; }
   .about-values-list small { font-size: 12px; }
   .about-value-caption { left: 20px; }
   .about-value-caption > strong { font-size: 30px; }
-  .about-vision-intro { gap: 32px; }
-  .about-vision-quote > p { font-size: 16px; }
-  .about-missions { column-gap: 35px; }
+  .about-identity-grid { grid-template-columns: .9fr 1.1fr; gap: 26px; }
+  .about-identity-entry blockquote { font-size: 23px; }
+  .about-identity-entry p { font-size: 13px; }
   .about-principals { gap: 18px; max-width: 620px; }
   .about-person { padding: 28px 20px 24px; }
   .about-person-copy > h3 { font-size: 18px; }
 }
 @media (max-width: 600px) {
-  .about-story { --about-header: 64px; --about-chapter-height: 78px; }
+  .about-story { --about-header: 64px; --about-chapter-height: 94px; }
   .about-shell { padding-inline: 22px; }
   .about-section { padding-block: 64px; }
   .about-eyebrow { font-size: 9px; letter-spacing: .12em; gap: 10px; }
@@ -305,7 +301,7 @@ html:has(.about-story) { scroll-behavior: smooth; }
   .about-anniversary strong span { padding-top: 7px; }
   .about-anniversary > span { font-size: 9px; }
   .about-chapter-links { padding-inline: 10px; }
-  .about-chapter-links a { flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 78px; padding: 10px 4px; font-size: 12px; line-height: 1.3; text-align: center; }
+  .about-chapter-links a { flex-direction: column; align-items: center; justify-content: center; gap: 5px; min-height: 94px; padding: 10px 4px; font-size: 12px; line-height: 1.3; text-align: center; }
   .about-chapter-links a:first-child, .about-chapter-links a:last-child { padding-inline: 4px; }
   .about-chapter-links a > span { font-size: 10px; }
   .about-journey-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -334,18 +330,12 @@ html:has(.about-story) { scroll-behavior: smooth; }
   .about-values-list button > svg { display: block; width: 18px; }
   .about-values-list strong { font-size: 21px; }
   .about-values-list small { font-size: 12px; }
-  .about-vision-intro { grid-template-columns: 1fr; gap: 32px; }
-  .about-vision-quote { padding-left: 22px; }
-  .about-vision-quote > p { font-size: 16px; }
-  .about-identity { grid-template-columns: 1fr; gap: 24px; margin-top: 30px; padding-block: 25px; }
-  .about-identity > div { gap: 7px; }
-  .about-identity strong { font-size: 14px; }
-  .about-mission-heading { align-items: start; flex-direction: column; gap: 8px; margin: 35px 0 16px; }
-  .about-mission-heading h3 { font-size: 22px; }
-  .about-missions { grid-template-columns: 1fr; }
-  .about-missions li { gap: 17px; padding-block: 18px; }
-  .about-missions h4 { font-size: 15px; }
-  .about-missions p { font-size: 12px; }
+  .about-identity-grid { grid-template-columns: 1fr; gap: 30px; }
+  .about-identity-visual { box-shadow: 0 16px 0 #fff; }
+  .about-identity-visual::before { background: #fff; }
+  .about-identity-entry { position: relative; top: auto; }
+  .about-identity-entry blockquote { font-size: 24px; margin-bottom: 14px; }
+  .about-identity-entry p { font-size: 14px; }
   .about-principals { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 100%; gap: 12px; }
   .about-person { padding: 20px 12px 18px; border-top-width: 3px; }
   .about-person-photo { max-width: 150px; margin-bottom: 14px; }

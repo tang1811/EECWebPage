@@ -157,9 +157,9 @@ h1, h2, h3, h4, h5 {
   transition: color .25s var(--ease-out), background .25s var(--ease-out);
 }
 .nav-link:hover, .nav-link.active { color: var(--green-700); background: var(--green-50); }
-/* Tighten the 8-item bar on mid-width desktops so nothing overflows.
-   Logo-only brand frees the width needed for 8 links + CTA. */
-/* 8-item bar: burger below 1080 (no readable single-line fit), logo-only
+/* Tighten the navigation bar on mid-width desktops so nothing overflows.
+   Logo-only brand frees the width needed for links + CTA. */
+/* Burger below 1080 (no readable single-line fit), logo-only
    on mid desktops, full brand + 16px only on wide screens. */
 @media (max-width: 1080px) {
   .nav-links, .nav-cta, .nav-right { display: none; }

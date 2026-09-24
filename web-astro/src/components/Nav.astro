@@ -90,6 +90,7 @@ const NAV_ITEMS: { id: string; label: string; href: string; dropdown?: string }[
   { id: 'about',    label: 'เกี่ยวกับเรา', href: '/about/' },
   { id: 'news',     label: 'ข่าวสาร',      href: '/news/' },
   { id: 'courses',  label: 'หลักสูตร',     href: '/courses/', dropdown: 'courses' },
+  { id: 'tuition',  label: 'ค่าเทอม',      href: '/tuition/' },
   { id: 'personnel',label: 'บุคลากร',      href: '/personnel/' },
   { id: 'student',  label: 'นักศึกษา',     href: '#', dropdown: 'student' },
   { id: 'quality',  label: 'ประกันคุณภาพ', href: '/quality-assurance/' },
@@ -101,7 +102,7 @@ function activeFromPath(pathname: string): string {
   if (pathname.startsWith('/quality-assurance')) return 'quality';
   if (pathname.startsWith('/news')) return 'news';
   if (pathname.startsWith('/courses')) return 'courses';
-  if (pathname.startsWith('/tuition')) return 'student';
+  if (pathname.startsWith('/tuition')) return 'tuition';
   if (pathname.startsWith('/portfolio')) return 'works';
   if (pathname.startsWith('/about')) return 'about';
   if (pathname.startsWith('/personnel')) return 'personnel';

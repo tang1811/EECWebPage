@@ -17,29 +17,36 @@ const ENHANCED_TIMELINE = [...EXTENDED_TIMELINE, {
   img: PRACTICE_PHOTO.src,
 }];
 const HERO_SLIDES = [
-  { src: COLLEGE_PHOTO.src, alt: COLLEGE_PHOTO.alt },
-  { src: HISTORY_HERO, alt: 'ภาพวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง' },
-  { src: PRACTICE_PHOTO.src, alt: PRACTICE_PHOTO.alt },
+  { src: '/assets/about/banner/about-1.webp', alt: 'อาคารอำนวยการวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง' },
+  { src: '/assets/about/banner/about-2.webp', alt: 'นักศึกษาและบุคลากรในพื้นที่กิจกรรมของวิทยาลัย' },
+  { src: '/assets/about/banner/about-3.webp', alt: 'พระพุทธรูปประจำวิทยาลัย' },
+  { src: '/assets/about/banner/about-4.webp', alt: 'นักศึกษาร่วมกิจกรรมในหอประชุมวิทยาลัย' },
 ];
 
 
 const CHAPTERS = [
   { id: 'our-story', label: 'เรื่องราวของเรา' },
   { id: 'our-values', label: 'ปรัชญาวิทยาลัย' },
-  { id: 'our-vision', label: 'วิสัยทัศน์' },
+  { id: 'our-identity', label: 'เอกลักษณ์และอัตลักษณ์' },
   { id: 'our-people', label: 'ทีมผู้บริหาร' },
 ];
-const MISSIONS = [
-  ['พัฒนาสมรรถนะวิชาชีพ', 'ตรงความต้องการสถานประกอบการ'],
-  ['ทักษะศตวรรษที่ 21', '(3R8C) ตามหลักเศรษฐกิจพอเพียง'],
-  ['ปลูกฝังคุณธรรม', 'จริยธรรม และจิตสำนึกอนุรักษ์'],
-  ['หลักสูตรฐานสมรรถนะ', 'ตรงความต้องการตลาดแรงงาน'],
-  ['สรรหาและพัฒนาครู', 'ให้มีคุณธรรมและความรู้'],
-  ['พัฒนาอาคารและห้องปฏิบัติการ', 'สื่อ เทคโนโลยี ตามไทยแลนด์ 4.0'],
-  ['บริหารตามหลักธรรมาภิบาล', ''],
-  ['ความร่วมมือระบบทวิภาคี', 'กับสถานประกอบการ'],
-  ['ส่งเสริมนวัตกรรม', 'สิ่งประดิษฐ์ งานวิจัย เผยแพร่สู่สาธารณะ'],
-  ['ศูนย์บ่มเพาะ', 'ผู้ประกอบการอาชีวศึกษา'],
+const IDENTITIES = [
+  {
+    id: 'identity-character',
+    label: 'เอกลักษณ์',
+    image: '/assets/about/identity-character.jpg',
+    imageAlt: 'นักศึกษาฝึกประกอบวงจรอิเล็กทรอนิกส์',
+    quote: 'เทคโนโลยีดี ฝีมือเยี่ยม เปี่ยมคุณธรรม',
+    description: 'การจัดการเรียนการสอนทุกรายวิชามุ่งพัฒนาผู้เรียนทุกคนให้มีความสามารถด้านเทคโนโลยี มีความรู้และสมรรถนะตามหลักสูตรในสาขาวิชาที่เรียน รวมถึงสมรรถนะที่เกี่ยวข้อง มีระเบียบวินัยและมีน้ำใจดี เป็นที่ต้องการของสถานประกอบการ และสามารถประกอบอาชีพอิสระได้อย่างมีคุณภาพ',
+  },
+  {
+    id: 'identity-graduate',
+    label: 'อัตลักษณ์',
+    image: '/assets/about/identity-graduate.jpg',
+    imageAlt: 'ครูให้คำแนะนำนักศึกษาฝึกปฏิบัติกับเครื่องจักรในห้องปฏิบัติการ',
+    quote: 'ทักษะเทคโนโลยีดี มีคุณธรรม',
+    description: 'เมื่อจบการศึกษาจากวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง ผู้เรียนสามารถทำงานในสาขาวิชาที่เรียน พร้อมบูรณาการความรู้ในสาขาที่เกี่ยวข้องได้อย่างมีประสิทธิภาพ มีทักษะทางเทคโนโลยี มีคุณธรรม มีความรับผิดชอบและมีน้ำใจดี เป็นที่ต้องการของสถานประกอบการ และสามารถประกอบอาชีพอิสระได้อย่างดี',
+  },
 ];
 
 function useReducedMotion() {
@@ -60,6 +67,7 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
   const [chapter, setChapter] = useState(0);
   const [milestone, setMilestone] = useState(0);
   const [value, setValue] = useState(0);
+  const [identity, setIdentity] = useState(0);
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -67,15 +75,18 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
     const chapterNav = root.querySelector<HTMLElement>('.about-chapters');
     const journeyVisual = root.querySelector<HTMLElement>('.about-journey-visual');
     const valueVisual = root.querySelector<HTMLElement>('.about-value-visual');
+    const identityVisual = root.querySelector<HTMLElement>('.about-identity-visual');
     const chapters = Array.from(root.querySelectorAll<HTMLElement>('[data-chapter]'));
     const milestones = Array.from(root.querySelectorAll<HTMLElement>('[data-milestone]'));
     const values = Array.from(root.querySelectorAll<HTMLElement>('[data-value]'));
+    const identities = Array.from(root.querySelectorAll<HTMLElement>('[data-identity]'));
     const parallax = Array.from(root.querySelectorAll<HTMLElement>('[data-parallax]'));
     const reveal = Array.from(root.querySelectorAll<HTMLElement>('[data-about-reveal]'));
     let frame = 0;
     let headerHeight = 76;
     let milestoneMarker = 196;
     let valueMarker = 196;
+    let identityMarker = 196;
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -104,6 +115,9 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
       let activeValue = 0;
       values.forEach((el, i) => { if (el.getBoundingClientRect().top <= valueMarker + 1) activeValue = i; });
       setValue((current) => current === activeValue ? current : activeValue);
+      let activeIdentity = 0;
+      identities.forEach((el, i) => { if (el.getBoundingClientRect().top <= identityMarker + 1) activeIdentity = i; });
+      setIdentity((current) => current === activeIdentity ? current : activeIdentity);
       parallax.forEach((el) => {
         const bounds = el.getBoundingClientRect();
         const offset = reduced ? 0 : Math.max(-36, Math.min(36, (innerHeight / 2 - bounds.top - bounds.height / 2) * .07));
@@ -118,6 +132,7 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
       root.style.setProperty('--about-chapter-height', `${chapterHeight}px`);
       const visualHeight = journeyVisual?.getBoundingClientRect().height ?? 0;
       const valueVisualHeight = valueVisual?.getBoundingClientRect().height ?? 0;
+      const identityVisualHeight = identityVisual?.getBoundingClientRect().height ?? 0;
       const stickyTop = headerHeight + chapterHeight + 24;
       const stacked = window.matchMedia('(max-width: 600px)').matches;
       // On phones, read the milestones below the pinned photo. On wider
@@ -141,6 +156,13 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
       root.style.setProperty('--about-value-step', `${valueStep}px`);
       const valueTail = Math.max(valueStep, valueVisualHeight, innerHeight - valueMarker) + readingRoom;
       root.style.setProperty('--about-value-tail', `${valueTail}px`);
+      identityMarker = stickyTop + (stacked ? identityVisualHeight + 24 : 20);
+      root.style.setProperty('--about-identity-marker', `${identityMarker}px`);
+      const identityStep = stacked
+        ? Math.max(560, innerHeight - identityMarker + 180)
+        : Math.max(640, innerHeight - stickyTop - 32);
+      root.style.setProperty('--about-identity-step', `${identityStep}px`);
+      root.style.setProperty('--about-identity-tail', `${Math.max(identityStep, identityVisualHeight, innerHeight - identityMarker) + readingRoom}px`);
       schedule();
     };
     measure();
@@ -152,6 +174,7 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
     if (chapterNav) resize.observe(chapterNav);
     if (journeyVisual) resize.observe(journeyVisual);
     if (valueVisual) resize.observe(valueVisual);
+    if (identityVisual) resize.observe(identityVisual);
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
@@ -161,7 +184,7 @@ function useStoryMotion(rootRef: RefObject<HTMLElement | null>, reduced: boolean
       reveal.forEach((el) => el.classList.remove('about-pending'));
     };
   }, [rootRef, reduced]);
-  return { chapter, milestone, value };
+  return { chapter, milestone, value, identity };
 }
 
 function LeaderPortrait({ item, compact = false, order = 0 }: { item: Leader; compact?: boolean; order?: number }) {
@@ -174,7 +197,7 @@ function LeaderPortrait({ item, compact = false, order = 0 }: { item: Leader; co
 export default function AboutStory({ enhancedHistory = false }: { enhancedHistory?: boolean }) {
   const root = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
-  const { chapter, milestone, value } = useStoryMotion(root, reduced);
+  const { chapter, milestone, value, identity } = useStoryMotion(root, reduced);
   const [heroSlide, setHeroSlide] = useState(0);
   const [heroDragging, setHeroDragging] = useState(false);
   const [heroDragOffset, setHeroDragOffset] = useState(0);
@@ -210,7 +233,7 @@ export default function AboutStory({ enhancedHistory = false }: { enhancedHistor
       <section id="our-story" className="about-journey about-section" data-chapter aria-labelledby="journey-title">
         <div className="about-shell">
           <div className="about-section-heading" data-about-reveal>
-            <div><span className="about-eyebrow">01 / OUR JOURNEY</span><h2 id="journey-title">จากก้าวแรก<br /><em>สู่อนาคตที่เราสร้างร่วมกัน</em></h2></div>
+            <div><span className="about-eyebrow">01 / OUR JOURNEY</span><h2 id="journey-title">จากก้าวแรก เทคโนโลยีแหลมฉบัง<br />สู่อนาคตที่เราสร้างร่วมกัน <strong className="about-journey-emphasis">วิทยาลัยอีอีซี เอ็นจิเนีย แหลมฉบัง</strong></h2></div>
             <p>จาก 1 มีนาคม 2538 จนถึงวันนี้<br />เรื่องราวของวิทยาลัยที่เติบโตไปพร้อมกับ<br />คน ชุมชน และอุตสาหกรรมตะวันออก</p>
           </div>
           {enhancedHistory && <div className="about-history-media" data-about-reveal>
@@ -248,21 +271,33 @@ export default function AboutStory({ enhancedHistory = false }: { enhancedHistor
               <nav className="about-year-links about-value-links" aria-label="เลือกปรัชญาวิทยาลัย">{PHILOSOPHY.map((item, i) => <a key={item.num} href={`#value-${item.num}`} aria-current={value === i ? 'step' : undefined}>{item.num}</a>)}</nav>
             </div>
             <ol className="about-timeline about-value-timeline">{PHILOSOPHY.map((item, i) => <li key={item.num} id={`value-${item.num}`} data-value className={value === i ? 'is-active' : ''}>
-              <div className="about-timeline-entry about-value-entry"><span className="about-timeline-dot" aria-hidden="true" /><span className="about-timeline-year">{item.num}</span><div><h3>{item.th}</h3><p>{item.d}</p><small>{item.en}</small></div></div>
+              <div className="about-timeline-entry about-value-entry"><span className="about-timeline-dot" aria-hidden="true" /><span className="about-timeline-year">{item.num}</span><div><h3>{item.th}</h3><small lang="en">{item.en}</small><p><strong>หมายถึง</strong> {item.d}</p></div></div>
             </li>)}</ol>
           </div>
         </div>
       </section>
 
-      <section id="our-vision" className="about-vision about-section" data-chapter aria-labelledby="vision-title">
+      <section id="our-identity" className="about-identity-section about-section" data-chapter aria-labelledby="identity-title">
         <div className="about-shell">
-          <div className="about-vision-intro">
-            <div data-about-reveal><span className="about-eyebrow">03 / VISION & MISSION</span><h2 id="vision-title">สถานศึกษา<em>คุณธรรม</em><br />ที่มีคุณภาพ</h2></div>
-            <div className="about-vision-quote" data-about-reveal><p>“เป็นสถานศึกษาคุณธรรมที่มีคุณภาพตามมาตรฐานอาชีวศึกษา ผู้เรียนมีความรู้และทักษะวิชาชีพตามนโยบายประเทศไทย 4.0 เป็นที่ต้องการของสถานประกอบการ”</p><span>วิสัยทัศน์ของวิทยาลัย</span></div>
+          <div className="about-section-heading" data-about-reveal>
+            <div><span className="about-eyebrow">03 / IDENTITY</span><h2 id="identity-title">เอกลักษณ์<br /><em>และอัตลักษณ์</em></h2></div>
+            <p>สิ่งที่วิทยาลัยมุ่งสร้าง<br />และคุณลักษณะที่ผู้เรียนได้รับ</p>
           </div>
-          <div className="about-identity" data-about-reveal><div><span>เอกลักษณ์</span><strong>เทคโนโลยีดี ฝีมือเยี่ยม เปี่ยมคุณธรรม</strong></div><div><span>อัตลักษณ์</span><strong>ทักษะเทคโนโลยีดี มีคุณธรรม</strong></div></div>
-          <div className="about-mission-heading" data-about-reveal><h3>10 พันธกิจที่เราขับเคลื่อน</h3><span>OUR COMMITMENTS</span></div>
-          <ol className="about-missions">{MISSIONS.map(([title, text], i) => <li key={title} data-about-reveal style={{ '--about-delay': `${(i % 2) * 70}ms` }}><span>{String(i + 1).padStart(2, '0')}</span><div><h4>{title}</h4>{text && <p>{text}</p>}</div></li>)}</ol>
+          <div className="about-identity-grid">
+            <div className="about-journey-visual about-identity-visual">
+              <div className="about-journey-frame about-identity-frame">
+                {IDENTITIES.map((item, i) => <img key={item.id} src={item.image} alt={item.imageAlt} loading="lazy" aria-hidden={identity !== i} className={identity === i ? 'is-active' : ''} />)}
+              </div>
+              <nav className="about-year-links about-identity-links" aria-label="เลือกหัวข้อเอกลักษณ์และอัตลักษณ์">
+                {IDENTITIES.map((item, i) => <a key={item.id} href={`#${item.id}`} aria-current={identity === i ? 'step' : undefined}>{String(i + 1).padStart(2, '0')} / {item.label}</a>)}
+              </nav>
+            </div>
+            <ol className="about-timeline about-identity-timeline">
+              {IDENTITIES.map((item, i) => <li key={item.id} id={item.id} data-identity className={identity === i ? 'is-active' : ''}>
+                <div className="about-timeline-entry about-identity-entry"><span className="about-timeline-dot" aria-hidden="true" /><span className="about-timeline-year">{String(i + 1).padStart(2, '0')}</span><div><h3>{item.label}</h3><blockquote>“{item.quote}”</blockquote><p><strong>หมายถึง</strong> {item.description}</p></div></div>
+              </li>)}
+            </ol>
+          </div>
         </div>
       </section>
 

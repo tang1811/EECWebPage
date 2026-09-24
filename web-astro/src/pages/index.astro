@@ -4,7 +4,6 @@
 // (including Reveal's `reveal ${dirClass} ${className}` double-space output).
 import Base from '../layouts/Base.astro';
 import HomeQuickLinks from '../components/HomeQuickLinks.astro';
-import Promotions from '../components/Promotions.astro';
 import { DEFAULT_KEYWORDS } from '../config';
 import { Icon } from '../components/react/chrome-lite';
 import { FAQS } from '../data/faq-data';
@@ -28,14 +27,13 @@ const HP_PROJECTS = INNOV as HpProject[];
 
 // ── Image-only hero slideshow ─────────────────────────────
 const SLIDES = [
-  { img: '/assets/slide-1-apply.webp', alt: 'บัณฑิตวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง' },
-  { img: '/assets/slide-2-eec.webp', alt: 'กิจกรรมในหอประชุมวิทยาลัย' },
-  { img: '/assets/slide-3-innovation.webp', alt: 'คณะบุคลากรหน้าอาคารอำนวยการวิทยาลัย' },
-  { img: '/assets/slide-4-community.webp', alt: 'ภาพหมู่คณะบุคลากรวิทยาลัย' },
+  { img: '/assets/home-banner/banner-1.webp', alt: 'แบนเนอร์เปิดรับสมัครนักศึกษา ปีการศึกษา 2570', graphic: true },
+  { img: '/assets/home-banner/banner-2.webp', alt: 'ภาพอาคารอำนวยการวิทยาลัย', graphic: false },
+  { img: '/assets/home-banner/banner-3.webp', alt: 'แบนเนอร์แนะนำหลักสูตรปีการศึกษา 2570', graphic: true },
+  { img: '/assets/home-banner/banner-4-assembly.webp', alt: 'นักศึกษาและบุคลากรรวมตัวในพื้นที่กิจกรรมของวิทยาลัย', graphic: false },
 ];
 
-// Photo articles only — icon-card news (no image) can't fill the hl-img slot.
-const HIGHLIGHT_NEWS = NEWS.filter((n) => n.image && !n.promotion).slice(0, 3);
+const HIGHLIGHT_NEWS = NEWS.filter((n) => n.image && !n.promotion).slice(0, 4);
 
 // The course count follows the enabled public catalog.
 const STATS = [
@@ -81,7 +79,7 @@ const TESTIMONIALS = [
 
 <Base keywords={DEFAULT_KEYWORDS} path="">
   <Fragment slot="head">
-    <link rel="preload" as="image" href="/assets/slide-1-apply.webp" fetchpriority="high" />
+    <link rel="preload" as="image" href={SLIDES[0].img} fetchpriority="high" />
   </Fragment>
 
   <script type="application/ld+json" is:inline set:html={JSON.stringify(FAQ_JSONLD)} />
@@ -95,7 +93,7 @@ const TESTIMONIALS = [
     <section class="hero hero-slideshow" aria-label="ภาพกิจกรรมวิทยาลัย" style="touch-action:pan-y;user-select:none">
       <div class="hss-stage" style="transform:none">
         {SLIDES.map((s, i) => (
-          <div class:list={['hss-slide', { on: i === 0 }]} aria-hidden={i !== 0 ? 'true' : 'false'}>
+          <div class:list={['hss-slide', { on: i === 0, 'hss-slide--graphic': s.graphic }]} aria-hidden={i !== 0 ? 'true' : 'false'}>
             <img src={s.img} alt={s.alt} class="hss-img" loading={i === 0 ? 'eager' : 'lazy'} fetchpriority={i === 0 ? 'high' : 'auto'} draggable="false" />
           </div>
         ))}
@@ -110,8 +108,6 @@ const TESTIMONIALS = [
     </section>
 
     <HomeQuickLinks />
-
-    <Promotions />
 
     {/* ── Highlights / News strip ── */}
     <section class="section section-sm highlights-section" id="highlights">

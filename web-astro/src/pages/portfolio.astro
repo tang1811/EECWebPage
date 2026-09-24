@@ -2,11 +2,16 @@
 import Base from '../layouts/Base.astro';
 import '../styles/homepage.css';
 import '../styles/subpages.css';
+import '../styles/portfolio-evidence.css';
 import { Icon } from '../components/react/chrome-lite';
 import INNOV from '../../public/assets/portfolio/innovation/innovation.json';
+import EVIDENCE from '../data/portfolio-evidence.json';
 
 type Project = { id: string; type: string; title: string; titleEn: string; desc: string; cover: string; photos: string[] };
 const PROJECTS = INNOV as Project[];
+const { students, college, teachers, archive } = EVIDENCE;
+const teacherCoaches = teachers.filter((item) => item.role === 'ครูผู้ฝึกซ้อม' || item.role === 'ครูผู้ควบคุม');
+const teacherActivities = teachers.filter((item) => item.role !== 'ครูผู้ฝึกซ้อม' && item.role !== 'ครูผู้ควบคุม');
 
 // ── Skill-standard test center (สพร.) ───────────────────────
 const trades = [
@@ -31,9 +36,9 @@ const trades = [
           <Icon name="chevronRight" style={{ width: 12, height: 12 }} />
           <span>ผลงานวิทยาลัย</span>
         </div>
-        <span class="eyebrow">นวัตกรรม · สิ่งประดิษฐ์ · งานวิจัย</span>
+        <span class="eyebrow">ผลงานจริง · เกียรติบัตรจริง</span>
         <h1>ผลงาน<span class="grad">ฝีมือเยี่ยม</span> จากครูและนักศึกษา</h1>
-        <p>รวมผลงานนวัตกรรม สิ่งประดิษฐ์ งานสร้างสรรค์ และงานวิจัยของนักศึกษา ปีการศึกษา 2568 — รวมงานวิจัยกรณีศึกษาจากสถานประกอบการจริงในเขต EEC</p>
+        <p>ชมผลงานนวัตกรรมปี 2568 และรางวัลนักศึกษา ผลงานวิทยาลัย และบทบาทครูจากเกียรติบัตรปีการศึกษา 2567</p>
       </div>
     </section>
 
@@ -91,10 +96,117 @@ const trades = [
       ))}
     </section>
 
+    <section class="section pf-evidence-section" id="awards-2567">
+      <div class="container">
+        <div class="section-head pf-evidence-head">
+          <span class="eyebrow">เกียรติบัตรปีการศึกษา 2567</span>
+          <h2 class="section-title">รางวัลนักศึกษา <span class="grad">พร้อมหลักฐานจริง</span></h2>
+          <p class="section-sub">{students.length} เกียรติบัตรจากการแข่งขันทักษะวิชาชีพ แยกตามระดับการศึกษา กดที่รายการเพื่อดูใบประกาศ</p>
+        </div>
+        <div class="pf-evidence-filters" role="group" aria-label="กรองรางวัลนักศึกษาตามระดับการศึกษา">
+          <button type="button" class="pf-evidence-filter is-active" data-level="all" aria-pressed="true">ทั้งหมด <span>{students.length}</span></button>
+          <button type="button" class="pf-evidence-filter" data-level="ปวช." aria-pressed="false">ปวช. <span>{students.filter((item) => item.level === 'ปวช.').length}</span></button>
+          <button type="button" class="pf-evidence-filter" data-level="ปวส." aria-pressed="false">ปวส. <span>{students.filter((item) => item.level === 'ปวส.').length}</span></button>
+        </div>
+        <div class="pf-evidence-grid" id="student-evidence">
+          {students.map((item) => (
+            <a class="pf-evidence-card pf-proof-link" href={item.image} data-level={item.level} data-proof-title={`${item.name} · ${item.award}`} aria-label={`ดูเกียรติบัตร ${item.name} ${item.award} ${item.skill}`}>
+              <img src={item.image} alt="" loading="lazy" width="110" height="78" />
+              <span class="pf-evidence-content">
+                <span class="pf-evidence-topline"><span>{item.level} · {item.department}</span><strong>{item.award}</strong></span>
+                <span class="pf-evidence-name">{item.name}</span>
+                <span class="pf-evidence-skill">{item.skill}</span>
+                <span class="pf-evidence-scope">{item.scope} · ปีการศึกษา {item.year}</span>
+              </span>
+              <span class="pf-evidence-arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section pf-evidence-section pf-evidence-alt" id="college-awards-2567">
+      <div class="container">
+        <div class="section-head pf-evidence-head">
+          <span class="eyebrow">ผลการดำเนินงานของวิทยาลัย · 2567</span>
+          <h2 class="section-title">ผลงาน<span class="grad">ระดับสถานศึกษา</span></h2>
+        </div>
+        <div class="pf-evidence-grid pf-evidence-college-grid">
+          {college.map((item) => (
+            <a class="pf-evidence-card pf-proof-link" href={item.image} data-proof-title={`${item.title} · ${item.award}`} aria-label={`ดูเกียรติบัตร ${item.title} ${item.award}`}>
+              <img src={item.image} alt="" loading="lazy" width="110" height="78" />
+              <span class="pf-evidence-content">
+                <span class="pf-evidence-topline"><span>ผลงานวิทยาลัย</span><strong>{item.award}</strong></span>
+                <span class="pf-evidence-name">{item.title}</span>
+                <span class="pf-evidence-skill">{item.detail}</span>
+              </span>
+              <span class="pf-evidence-arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section pf-evidence-section" id="teacher-work-2567">
+      <div class="container">
+        <div class="section-head pf-evidence-head">
+          <span class="eyebrow">ครูและบุคลากร · 2567</span>
+          <h2 class="section-title">ครูผู้ฝึกซ้อม <span class="grad">และพัฒนาวิชาชีพ</span></h2>
+          <p class="section-sub">เกียรติบัตรระบุบทบาทครูในรายการแข่งขัน รวมถึงการร่วมเป็นกรรมการและการพัฒนาวิชาชีพ</p>
+        </div>
+        <h3 class="pf-evidence-subhead">ครูผู้ฝึกซ้อมและผู้ควบคุม <span>{teacherCoaches.length} รายการ</span></h3>
+        <div class="pf-evidence-grid">
+          {teacherCoaches.map((item) => (
+            <a class="pf-evidence-card pf-proof-link" href={item.image} data-proof-title={`${item.name} · ${item.role}`} aria-label={`ดูเกียรติบัตร ${item.name} ${item.role} ${item.skill}`}>
+              <img src={item.image} alt="" loading="lazy" width="110" height="78" />
+              <span class="pf-evidence-content">
+                <span class="pf-evidence-topline"><span>{item.level}</span><strong>{item.role}</strong></span>
+                <span class="pf-evidence-name">{item.name}</span>
+                <span class="pf-evidence-skill">{item.skill}</span>
+                <span class="pf-evidence-scope">{item.scope} · ปีการศึกษา {item.year}</span>
+              </span>
+              <span class="pf-evidence-arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+        <h3 class="pf-evidence-subhead pf-evidence-subhead-spaced">บทบาทและการพัฒนาวิชาชีพ</h3>
+        <div class="pf-evidence-grid">
+          {teacherActivities.map((item) => (
+            <a class="pf-evidence-card pf-proof-link" href={item.image} data-proof-title={`${item.name} · ${item.role}`} aria-label={`ดูเกียรติบัตร ${item.name} ${item.role}`}>
+              <img src={item.image} alt="" loading="lazy" width="110" height="78" />
+              <span class="pf-evidence-content">
+                <span class="pf-evidence-topline"><span>ปี {item.year}</span><strong>{item.role}</strong></span>
+                <span class="pf-evidence-name">{item.name}</span>
+                <span class="pf-evidence-skill">{item.skill}</span>
+                <span class="pf-evidence-scope">{item.scope}</span>
+              </span>
+              <span class="pf-evidence-arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+        <div class="pf-evidence-archive">
+          <span>จากเอกสารชุดเดียวกัน · ปีการศึกษา 2566</span>
+          {archive.map((item) => (
+            <a class="pf-proof-link" href={item.image} data-proof-title={`${item.name} · ${item.award}`} aria-label={`ดูเกียรติบัตรปี 2566 ${item.name}`}>
+              {item.name} · {item.award} · {item.skill} <span aria-hidden="true">↗</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <dialog class="pf-proof-dialog" id="portfolio-proof-dialog" aria-label="ภาพเกียรติบัตร">
+      <div class="pf-proof-dialog-inner">
+        <button type="button" class="pf-proof-close" aria-label="ปิดภาพเกียรติบัตร">✕</button>
+        <img alt="" />
+        <div class="pf-proof-dialog-footer"><span></span><a href="#" target="_blank" rel="noopener">เปิดภาพขนาดเต็ม ↗</a></div>
+      </div>
+    </dialog>
+
     <section class="section pf-awards-section">
       <div class="container">
         <div class="reveal  section-head" style="text-align:center;--reveal-delay:0s">
-          <span class="eyebrow">รางวัลระดับชาติ</span>
+          <span class="eyebrow">รางวัลย้อนหลัง · ปี 2565</span>
           <h2 class="section-title">ฝีมือที่ <span class="grad">พิสูจน์บนเวทีจริง</span></h2>
         </div>
         <div class="reveal reveal-scale pf-award-hero" style="--reveal-delay:0s">
@@ -228,4 +340,37 @@ const trades = [
     else if (e.key === 'ArrowRight') step(1);
     else if (e.key === 'ArrowLeft') step(-1);
   });
+
+  const levelFilters = document.querySelectorAll<HTMLButtonElement>('.pf-evidence-filter');
+  const studentCards = document.querySelectorAll<HTMLElement>('#student-evidence .pf-evidence-card');
+  levelFilters.forEach((filter) => {
+    filter.addEventListener('click', () => {
+      const level = filter.dataset.level;
+      levelFilters.forEach((button) => {
+        const active = button === filter;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+      studentCards.forEach((card) => { card.hidden = level !== 'all' && card.dataset.level !== level; });
+    });
+  });
+
+  const proofDialog = document.querySelector<HTMLDialogElement>('#portfolio-proof-dialog');
+  const proofImage = proofDialog?.querySelector<HTMLImageElement>('img');
+  const proofTitle = proofDialog?.querySelector<HTMLElement>('.pf-proof-dialog-footer span');
+  const fullImageLink = proofDialog?.querySelector<HTMLAnchorElement>('.pf-proof-dialog-footer a');
+  document.querySelectorAll<HTMLAnchorElement>('.pf-proof-link').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      if (!proofDialog || !proofImage || !proofTitle || !fullImageLink || event.ctrlKey || event.metaKey || event.shiftKey) return;
+      event.preventDefault();
+      const title = link.dataset.proofTitle || 'เกียรติบัตร';
+      proofImage.src = link.href;
+      proofImage.alt = `เกียรติบัตร ${title}`;
+      proofTitle.textContent = title;
+      fullImageLink.href = link.href;
+      proofDialog.showModal();
+    });
+  });
+  proofDialog?.querySelector('.pf-proof-close')?.addEventListener('click', () => proofDialog.close());
+  proofDialog?.addEventListener('click', (event) => { if (event.target === proofDialog) proofDialog.close(); });
 </script>

@@ -3,21 +3,25 @@ import Base from '../layouts/Base.astro';
 import '../styles/homepage.css';
 import '../styles/subpages.css';
 import '../styles/tuition.css';
+import { ONLINE_ADMISSION_ENABLED } from '../config';
 
-type Row = { level: string; sub: string; perTerm: string; installment: string; perYear: string };
+type TuitionGroup = 'บริหารธุรกิจ' | 'ช่างอุตสาหกรรม';
+type Row = { group: TuitionGroup; level: string; sub: string; perTerm: string; installment: string; perYear: string };
 
 // อัตราค่าเล่าเรียน ปีการศึกษา 2569 (จากประกาศวิทยาลัย) — ต่อภาคเรียน
 const TUITION_ROWS: Row[] = [
-  { level: 'ปวช. บริหารธุรกิจ', sub: 'รอบเช้า', perTerm: '17,000', installment: '3,400 × 5 งวด', perYear: '34,000' },
-  { level: 'ปวช. บริหารธุรกิจ', sub: 'รอบบ่าย', perTerm: '10,300', installment: '2,060 × 5 งวด', perYear: '20,600' },
-  { level: 'ปวช. ช่างอุตสาหกรรม', sub: 'รอบเช้า', perTerm: '19,000', installment: '3,800 × 5 งวด', perYear: '38,000' },
-  { level: 'ปวช. ช่างอุตสาหกรรม', sub: 'รอบบ่าย', perTerm: '12,300', installment: '2,460 × 5 งวด', perYear: '24,600' },
-  { level: 'ปวช. (อายุเกิน 25 ปี)', sub: 'รอบบ่าย', perTerm: '19,000', installment: '3,800 × 5 งวด', perYear: '38,000' },
-  { level: 'ปวส. บริหารธุรกิจ', sub: 'รอบเช้า', perTerm: '21,000', installment: '4,200 × 5 งวด', perYear: '42,000' },
-  { level: 'ปวส. บริหารธุรกิจ', sub: 'รอบบ่าย', perTerm: '18,300', installment: '3,660 × 5 งวด', perYear: '36,600' },
-  { level: 'ปวส. ช่างอุตสาหกรรม', sub: 'รอบเช้า', perTerm: '26,000', installment: '5,200 × 5 งวด', perYear: '52,000' },
-  { level: 'ปวส. ช่างอุตสาหกรรม', sub: 'รอบบ่าย', perTerm: '20,300', installment: '4,060 × 5 งวด', perYear: '40,600' },
+  { group: 'บริหารธุรกิจ', level: 'ปวช.', sub: 'รอบเช้า', perTerm: '17,000', installment: '3,400 × 5 งวด', perYear: '34,000' },
+  { group: 'บริหารธุรกิจ', level: 'ปวช.', sub: 'รอบบ่าย', perTerm: '10,300', installment: '2,060 × 5 งวด', perYear: '20,600' },
+  { group: 'ช่างอุตสาหกรรม', level: 'ปวช.', sub: 'รอบเช้า', perTerm: '19,000', installment: '3,800 × 5 งวด', perYear: '38,000' },
+  { group: 'ช่างอุตสาหกรรม', level: 'ปวช.', sub: 'รอบบ่าย', perTerm: '12,300', installment: '2,460 × 5 งวด', perYear: '24,600' },
+  { group: 'ช่างอุตสาหกรรม', level: 'ปวช. (อายุเกิน 25 ปี)', sub: 'รอบบ่าย', perTerm: '19,000', installment: '3,800 × 5 งวด', perYear: '38,000' },
+  { group: 'บริหารธุรกิจ', level: 'ปวส.', sub: 'รอบเช้า', perTerm: '21,000', installment: '4,200 × 5 งวด', perYear: '42,000' },
+  { group: 'บริหารธุรกิจ', level: 'ปวส.', sub: 'รอบบ่าย', perTerm: '18,300', installment: '3,660 × 5 งวด', perYear: '36,600' },
+  { group: 'ช่างอุตสาหกรรม', level: 'ปวส.', sub: 'รอบเช้า', perTerm: '26,000', installment: '5,200 × 5 งวด', perYear: '52,000' },
+  { group: 'ช่างอุตสาหกรรม', level: 'ปวส.', sub: 'รอบบ่าย', perTerm: '20,300', installment: '4,060 × 5 งวด', perYear: '40,600' },
 ];
+const TUITION_GROUPS: TuitionGroup[] = ['บริหารธุรกิจ', 'ช่างอุตสาหกรรม'];
+const applyHref = ONLINE_ADMISSION_ENABLED ? '/admission/' : '/contact/';
 
 const AID = [
   {
@@ -81,49 +85,84 @@ const SHOTS = [
     </section>
 
     <section class="container tu-section">
-      <div class="contentcard tu-table-card">
-        <h2>อัตราค่าเล่าเรียน ปีการศึกษา 2569</h2>
-        <div class="tu-table-wrap">
-          <table class="tu-table">
-            <thead>
-              <tr>
-                <th>หลักสูตร</th>
-                <th>ค่าเทอม / ภาคเรียน</th>
-                <th>ผ่อนชำระ</th>
-                <th>ต่อปี (2 ภาคเรียน)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {TUITION_ROWS.map((r) => (
-                <tr>
-                  <td>
-                    <strong>{r.level}</strong>
-                    <span class="tu-sub">{r.sub}</span>
-                  </td>
-                  <td class="tu-num">{r.perTerm} ฿</td>
-                  <td class="tu-note">{r.installment}</td>
-                  <td class="tu-num">{r.perYear} ฿</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p class="tu-fine">
-          * ชำระค่าเทอมเต็มจำนวน หรือชำระงวดแรกในวันสมัคร · ผ่อนชำระไม่เกินวันที่ 15 ของทุกเดือน · ผ่อนได้ · กู้ กยศ. ได้ — สอบถามฝ่ายการเงิน 038-494-066
-        </p>
-      </div>
-
       <div class="tu-gallery">
         <h2 class="tu-h2">ประกาศค่าเทอม (ต้นฉบับ)</h2>
         <p class="tu-gallery-sub">คลิกที่รูปเพื่อดูขนาดเต็ม</p>
         <div class="tu-gallery-grid">
-          {SHOTS.map((s) => (
+          {SHOTS.map((s, i) => (
             <button type="button" class="tu-gallery-item" aria-label={`ดูประกาศค่าเทอม ${s.label}`}>
-              <img src={s.src} alt={`ประกาศค่าเทอม ${s.label}`} loading="lazy" />
+              <img src={s.src} alt={`ประกาศค่าเทอม ${s.label}`} loading={i === 0 ? 'eager' : 'lazy'} />
               <span class="tu-gallery-cap">{s.label}</span>
             </button>
           ))}
         </div>
+      </div>
+
+      <div class="contentcard tu-table-card">
+        <h2>อัตราค่าเล่าเรียน ปีการศึกษา 2569</h2>
+        <div class="tu-table-groups">
+          {TUITION_GROUPS.map((group) => (
+            <section class="tu-table-group" aria-label={`ค่าเทอมหมวด${group}`}>
+              <h3>{group}</h3>
+              <div class="tu-table-wrap">
+                <table class="tu-table">
+                  <thead>
+                    <tr>
+                      <th scope="col">หลักสูตร</th>
+                      <th scope="col">ค่าเทอม / ภาคเรียน</th>
+                      <th scope="col">ผ่อนชำระ</th>
+                      <th scope="col">ต่อปี (2 ภาคเรียน)</th>
+                      <th scope="col">สมัครเรียน</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {TUITION_ROWS.filter((r) => r.group === group).map((r) => (
+                      <tr>
+                        <td>
+                          <strong>{r.level}</strong>
+                          <span class="tu-sub">{r.sub}</span>
+                        </td>
+                        <td class="tu-num">{r.perTerm} ฿</td>
+                        <td class="tu-note">{r.installment}</td>
+                        <td class="tu-num">{r.perYear} ฿</td>
+                        <td><a class="tu-apply" href={applyHref} aria-label={`สมัครเรียน ${r.level} ${group} ${r.sub}`}>สมัครเรียน</a></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div class="tu-mobile-cards">
+                {TUITION_ROWS.filter((r) => r.group === group).map((r) => (
+                  <article class="tu-fee-card">
+                    <div class="tu-fee-card-head">
+                      <strong>{r.level}</strong>
+                      <span>{r.sub}</span>
+                    </div>
+                    <dl>
+                      <div class="tu-fee-card-primary">
+                        <dt>ค่าเทอม / ภาคเรียน</dt>
+                        <dd>{r.perTerm} ฿</dd>
+                      </div>
+                      <div>
+                        <dt>ผ่อนชำระ</dt>
+                        <dd>{r.installment}</dd>
+                      </div>
+                      <div>
+                        <dt>ต่อปี (2 ภาคเรียน)</dt>
+                        <dd>{r.perYear} ฿</dd>
+                      </div>
+                    </dl>
+                    <a class="tu-apply" href={applyHref} aria-label={`สมัครเรียน ${r.level} ${group} ${r.sub}`}>สมัครเรียน</a>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+        <p class="tu-fine">
+          * ชำระค่าเทอมเต็มจำนวน หรือชำระงวดแรกในวันสมัคร · ผ่อนชำระไม่เกินวันที่ 15 ของทุกเดือน · ผ่อนได้ · กู้ กยศ. ได้ — สอบถามฝ่ายการเงิน 038-494-066
+        </p>
+        {!ONLINE_ADMISSION_ENABLED && <p class="tu-apply-note">ขณะนี้สมัครเรียนผ่านเจ้าหน้าที่วิทยาลัยได้จากปุ่มสมัครเรียนในตาราง</p>}
       </div>
 
       <h2 class="tu-h2">ทุน &amp; ทางเลือกชำระเงิน</h2>
@@ -152,7 +191,7 @@ const SHOTS = [
           <p>สมัครออนไลน์ใช้เวลาไม่กี่นาที ทีมงานพร้อมช่วยเรื่องทุนและการผ่อนชำระ</p>
         </div>
         <div class="tu-cta-actions">
-          <a href="/admission/" class="btn-primary">สมัครเรียนออนไลน์</a>
+          <a href={applyHref} class="btn-primary">{ONLINE_ADMISSION_ENABLED ? 'สมัครเรียนออนไลน์' : 'ติดต่อสมัครเรียน'}</a>
           <a href="tel:038494066" class="btn-ghost">โทรถามฝ่ายการเงิน</a>
         </div>
       </div>

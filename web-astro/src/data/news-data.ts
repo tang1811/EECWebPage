@@ -3,7 +3,7 @@
 // news-data.js: lead story first, then the rest as laid out on /news/.
 // Photo articles set `image`; announcement-style articles set `tone` + `icon`
 // and render as tinted icon cards (no photo).
-import { PROMOTION_ARTICLES } from './promotion-data';
+import HOME_EVENT_NEWS from './home-event-news.json';
 
 export type NewsArticle = {
   slug: string;
@@ -208,10 +208,6 @@ const FALLBACK_NEWS: NewsArticle[] = [
   },
 ];
 
-// /news/ magazine layout: lead story + two side stories (design NEWS_LEAD_ID / NEWS_SIDE_IDS).
-const FALLBACK_LEAD_SLUG = 'sansamphan-69-morning';
-const FALLBACK_SIDE_SLUGS = ['military-fitness-test-69', 'admission-2570-quota'];
-
 // Upcoming-events calendar on /news/ (design NEWS_UPCOMING).
 const FALLBACK_UPCOMING: UpcomingEvent[] = [
   { d: '14', m: 'ส.ค.', t: 'กิจกรรมวันแม่แห่งชาติ', s: 'พิธีถวายพระพรและมอบเกียรติบัตรแม่ดีเด่น', when: '08:00 น. · หอประชุม', start: '2026-08-14T08:00', end: '2026-08-14T11:00', loc: 'หอประชุมวิทยาลัย' },
@@ -220,15 +216,15 @@ const FALLBACK_UPCOMING: UpcomingEvent[] = [
   { d: '26', m: 'ก.ย.', t: 'EEC Open House 2569', s: 'เปิดบ้านแนะแนว ชมโรงฝึกงานทุกแผนกวิชา', when: '09:00-15:00 น.', start: '2026-09-26T09:00', end: '2026-09-26T15:00', loc: 'วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง' },
 ];
 
-// Exported names/types are frozen — 4 files import them. CMS data wins when present.
+// The four supplied event folders lead the site news. The optional CMS still
+// supplies the existing articles; promotions stay unpublished until available.
 const editorialNews: NewsArticle[] = cms ? (cms.news as NewsArticle[]) : FALLBACK_NEWS;
-// A CMS entry with the same slug replaces its local example.
 export const NEWS: NewsArticle[] = [
-  ...PROMOTION_ARTICLES.filter((n) => !editorialNews.some((article) => article.slug === n.slug)),
-  ...editorialNews,
+  ...(HOME_EVENT_NEWS as NewsArticle[]),
+  ...editorialNews.filter((article) => !article.promotion && !HOME_EVENT_NEWS.some((event) => event.slug === article.slug)),
 ];
-export const NEWS_LEAD_SLUG: string = cms ? cms.leadSlug : FALLBACK_LEAD_SLUG;
-export const NEWS_SIDE_SLUGS: string[] = cms ? cms.sideSlugs : FALLBACK_SIDE_SLUGS;
+export const NEWS_LEAD_SLUG: string = HOME_EVENT_NEWS[0].slug;
+export const NEWS_SIDE_SLUGS: string[] = HOME_EVENT_NEWS.slice(1, 3).map((event) => event.slug);
 export const NEWS_UPCOMING: UpcomingEvent[] = cms
   ? (cms.upcoming as UpcomingEvent[])
   : FALLBACK_UPCOMING;
