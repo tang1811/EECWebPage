@@ -28,15 +28,45 @@ export const EXTENDED_TIMELINE = [
 ];
 
 export const PHILOSOPHY = [
-  { num: '01', th: 'มุ่งสร้างคนดี', en: 'Be Good', d: 'มุ่งหวังที่จะสร้างผู้เรียนให้เป็นคนดี ทั้งต่อตนเองและสังคม', img: '/assets/slide-1-apply.webp', accent: '#F26530' },
-  { num: '02', th: 'มีระเบียบวินัย', en: 'Discipline', d: 'ความมีระเบียบแบบแผนและวินัย เพื่อเป็นแนวทางการปฏิบัติของผู้เรียน', img: '/assets/news-3-military.webp', accent: '#40ABE0' },
-  { num: '03', th: 'ก้าวไกลเทคโนโลยี', en: 'Future-Ready', d: 'ความสามารถในการพัฒนาเทคโนโลยีให้เจริญก้าวหน้าทันยุคทันสมัย', img: '/assets/courses/ps-mecha.webp', accent: '#FBD609' },
-  { num: '04', th: 'ฝีมือเยี่ยม', en: 'Master Craft', d: 'มีฝีมือและทักษะทางวิชาชีพ เพื่อพัฒนาตนเองและสังคมให้ก้าวไกล', img: '/assets/courses/ps-mechanical.webp', accent: '#B12B25' },
-  { num: '05', th: 'เปี่ยมคุณธรรม', en: 'Virtuous Mind', d: 'มีคุณธรรม จริยธรรม และค่านิยมที่ดีงาม ยึดถือวัฒนธรรมและประเพณีอันดีงามในการดำรงชีวิต', img: '/assets/slide-4-community.webp', accent: '#7B5CA7' },
+  {
+    num: '01', th: 'มุ่งสร้างคนดี', en: 'Be Good', d: 'มุ่งหวังที่จะสร้างผู้เรียนให้เป็นคนดี ทั้งต่อตนเองและสังคม', accent: '#F26530',
+    images: [
+      { src: '/assets/about/philosophy/goodness-1.webp', alt: 'นักศึกษาร่วมกิจกรรมธนาคารความดีที่วัด', width: 2048, height: 1147 },
+      { src: '/assets/about/philosophy/goodness-2.webp', alt: 'นักศึกษาและครูร่วมทำบุญตักบาตร', width: 1280, height: 960 },
+    ],
+  },
+  {
+    num: '02', th: 'มีระเบียบวินัย', en: 'Discipline', d: 'ความมีระเบียบแบบแผนและวินัย เพื่อเป็นแนวทางการปฏิบัติของผู้เรียน', accent: '#40ABE0',
+    images: [
+      { src: '/assets/about/philosophy/discipline-1-enhanced.webp', alt: 'ครูและนักศึกษาเข้าแถวร่วมกิจกรรมในวิทยาลัย', width: 1254, height: 1254 },
+      { src: '/assets/about/philosophy/discipline-2.webp', alt: 'นักศึกษายืนเข้าแถวอย่างเป็นระเบียบในลานวิทยาลัย', width: 1128, height: 751 },
+    ],
+  },
+  {
+    num: '03', th: 'ก้าวไกลเทคโนโลยี', en: 'Future-Ready', d: 'ความสามารถในการพัฒนาเทคโนโลยีให้เจริญก้าวหน้าทันยุคทันสมัย', accent: '#FBD609',
+    images: [
+      { src: '/assets/about/philosophy/technology-1.webp', alt: 'นักศึกษาฝึกประกอบวงจรอิเล็กทรอนิกส์และหุ่นยนต์', width: 2753, height: 1523 },
+      { src: '/assets/about/philosophy/technology-2.webp', alt: 'นักศึกษาเรียนรู้ระบบเครือข่ายคอมพิวเตอร์', width: 5388, height: 3416 },
+    ],
+  },
+  {
+    num: '04', th: 'ฝีมือเยี่ยม', en: 'Master Craft', d: 'มีฝีมือและทักษะทางวิชาชีพ เพื่อพัฒนาตนเองและสังคมให้ก้าวไกล', accent: '#B12B25',
+    images: [
+      { src: '/assets/about/philosophy/craftsmanship-1.webp', alt: 'นักศึกษาฝึกติดตั้งสายสัญญาณเครือข่าย', width: 1567, height: 1044 },
+      { src: '/assets/about/philosophy/craftsmanship-2.webp', alt: 'นักศึกษาฝึกติดตั้งเครื่องปรับอากาศพร้อมอุปกรณ์ป้องกัน', width: 1477, height: 1108 },
+    ],
+  },
+  {
+    num: '05', th: 'เปี่ยมคุณธรรม', en: 'Virtuous Mind', d: 'มีคุณธรรม จริยธรรม และค่านิยมที่ดีงาม ยึดถือวัฒนธรรมและประเพณีอันดีงามในการดำรงชีวิต', accent: '#7B5CA7',
+    images: [
+      { src: '/assets/about/philosophy/virtue-1.webp', alt: 'นักศึกษาและครูถ่ายภาพร่วมกันในวิทยาลัย', width: 1567, height: 1045 },
+      { src: '/assets/about/philosophy/virtue-2.webp', alt: 'นักศึกษาร่วมกิจกรรมจิตอาสาเก็บขยะริมชายหาด', width: 1653, height: 928 },
+    ],
+  },
 ];
 
 export const PRINCIPALS: Leader[] = [
-  { n: 'ดร.สัมภาษณ์ บุญจี๊ด', r: 'ผู้ก่อตั้งวิทยาลัย', img: EXEC + 'founder-samphan.jpg', c: '#026451' },
+  { n: 'ดร.สัมภาษณ์ บุญจี๊ด', r: 'ผู้ก่อตั้งวิทยาลัย', img: EXEC + 'founder-samphan.webp', c: '#026451' },
   { n: 'ดร.ยงลักษณ์ บุญจี๊ด', r: 'ผู้รับใบอนุญาต', img: EXEC + 'license-yonglak.webp', c: '#026451' },
   { n: 'อ.ภาตะวัน บุญจี๊ด', r: 'ผู้อำนวยการ', img: EXEC + 'director-phatawan.webp', c: '#1c2a4e' },
   { n: 'อ.ภาคภูมิ บุญจี๊ด', r: 'ผู้จัดการ', img: EXEC + 'manager-phakphum.webp', c: '#8a1f2b' },

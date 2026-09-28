@@ -35,7 +35,7 @@ const departments: Record<string, Department> = {
       { t: 'เรียนรู้หลักการ', d: 'ศึกษาทฤษฎีเครื่องยนต์และระบบไฟฟ้ายานยนต์ เพื่อเข้าใจการทำงานก่อนลงมือปฏิบัติ' },
       { t: 'ฝึกปฏิบัติในสถานีงาน', d: 'ฝึกซ่อมบำรุง ถอดประกอบ และตรวจวิเคราะห์กับเครื่องยนต์และอุปกรณ์ประจำแผนก' },
     ],
-    images: ['underbody-practice.jpg', 'common-rail.jpg', 'diesel-diagnostic.jpg', 'engine-workshop.jpg', 'tire-balancing.jpg', 'motorcycle-station.jpg', 'chassis-station.jpg', 'small-gasoline-engine.jpg'],
+    images: ['underbody-practice.webp', 'common-rail.webp', 'diesel-diagnostic.webp', 'engine-workshop.webp', 'tire-balancing.webp', 'motorcycle-station.webp', 'chassis-station.webp', 'small-gasoline-engine.webp'],
     overrides: { 'ps-mech': { sourceName: 'เทคนิคยานยนต์' } },
   },
   electrical: {
@@ -53,7 +53,7 @@ const departments: Record<string, Department> = {
       { t: 'ทฤษฎีระบบไฟฟ้า', d: 'เรียนหลักการติดตั้งและซ่อมบำรุงระบบไฟฟ้า ระบบแสงสว่าง และการควบคุมเครื่องกลไฟฟ้า' },
       { t: 'ปฏิบัติงานไฟฟ้าและปรับอากาศ', d: 'ฝึกใช้เครื่องมือวัด ติดตั้งอุปกรณ์ และทดสอบระบบในห้องปฏิบัติการ' },
     ],
-    images: ['electrical-practice.jpg', 'aircon-indoor-unit.jpg', 'aircon-measuring-tools.jpg', 'electrical-workbenches.jpg', 'electrical-lab-practice.jpg', 'electricity-meters.jpg', 'student-wiring-panel.jpg', 'wire-stripping.jpg'],
+    images: ['electrical-practice.webp', 'aircon-indoor-unit.webp', 'aircon-measuring-tools.webp', 'electrical-workbenches.webp', 'electrical-lab-practice.webp', 'electricity-meters.webp', 'student-wiring-panel.webp', 'wire-stripping.webp'],
     overrides: { 'ps-electrical': { sourceName: 'ช่างไฟฟ้ากำลัง' } },
   },
   production: {
@@ -66,7 +66,7 @@ const departments: Record<string, Department> = {
       { t: 'เรียนรู้กระบวนการผลิต', d: 'ศึกษาหลักการทำงานของเครื่องจักร การผลิต และการจัดการคุณภาพ' },
       { t: 'ฝึกกับเครื่องจักร', d: 'ฝึกอ่านแบบ ทำชิ้นงาน ประกอบ และดูแลเครื่องจักรในห้องปฏิบัติการ' },
     ],
-    images: ['machine-practice.jpg', 'drilling-practice.jpg', 'grinding-practice.jpg', 'cnc-control.jpg', 'cnc-router.jpg', 'welding-practice.jpg'],
+    images: ['machine-practice.webp', 'drilling-practice.webp', 'grinding-practice.webp', 'cnc-control.webp', 'cnc-router.webp', 'welding-practice.webp'],
     overrides: {
       gear: {
         overview: 'ปวช. ช่างกลโรงงาน เน้นพื้นฐานงานผลิตและการใช้เครื่องจักร ฝึกงานกลึง กัด เจาะ ลับคมตัด อ่านแบบและเขียนแบบ ควบคู่กับการประกอบและซ่อมบำรุงเครื่องจักรกล',
@@ -104,7 +104,7 @@ const departments: Record<string, Department> = {
       { t: 'พื้นฐานที่เชื่อมกัน', d: 'เรียนหลักการด้านเครื่องกล อิเล็กทรอนิกส์ คอมพิวเตอร์ และระบบควบคุม' },
       { t: 'ออกแบบและลงมือสร้าง', d: 'นำความรู้มาฝึกออกแบบและสร้างระบบเมคคาทรอนิกส์ในงานปฏิบัติ' },
     ],
-    images: ['robot-lab.jpg', 'automation-lab.jpg', 'student-robot.png'],
+    images: ['robot-lab.webp', 'automation-lab.webp', 'student-robot.webp'],
   },
   logistics: {
     slugs: ['ps-logistics'], pages: [67, 68, 69, 70],
@@ -121,7 +121,7 @@ const departments: Record<string, Department> = {
       { t: 'หลักการจัดการโลจิสติกส์', d: 'เรียนทฤษฎีการขนส่ง คลังสินค้า และความเชื่อมโยงของซัพพลายเชน' },
       { t: 'ฝึกวางแผนและจัดการ', d: 'ฝึกงานเอกสาร การแพ็คสินค้า การใช้ระบบคลังสินค้า และการคำนวณต้นทุน' },
     ],
-    images: ['warehouse-packages.jpg', 'logistics-person.png'],
+    images: ['warehouse-packages.webp', 'logistics-person.webp'],
   },
   accounting: {
     slugs: ['accounting', 'ps-accounting'], pages: [75, 76, 77, 78],
@@ -138,7 +138,7 @@ const departments: Record<string, Department> = {
       { t: 'เข้าใจหลักการบัญชี', d: 'เรียนการจัดทำรายงาน การวิเคราะห์ และระบบข้อมูลทางบัญชีและการเงิน' },
       { t: 'ฝึกปฏิบัติและสื่อสารข้อมูล', d: 'ฝึกในห้องปฏิบัติการบัญชีและห้องเรียนจำลอง พร้อมพัฒนาทักษะคอมพิวเตอร์และการทำงานร่วมกัน' },
     ],
-    images: ['accounting-practice.jpg', 'accounting-person.png'],
+    images: ['accounting-practice.webp', 'accounting-person.webp'],
   },
   'digital-graphic': {
     slugs: ['graphic', 'ps-graphic'], pages: [83, 84, 85, 86],
@@ -155,7 +155,7 @@ const departments: Record<string, Department> = {
       { t: 'เรียนหลักการและเครื่องมือ', d: 'เรียนพื้นฐานกราฟิกและฝึกใช้โปรแกรมออกแบบที่เกี่ยวข้องกับการผลิตสื่อ' },
       { t: 'สร้างสื่อผ่านโครงงาน', d: 'ฝึกออกแบบชิ้นงาน ทำงานเป็นทีม และนำเสนอผลงานจากแนวคิดสู่สื่อที่ใช้งานได้' },
     ],
-    images: ['graphic-student.png'],
+    images: ['graphic-student.webp'],
   },
   'digital-business': {
     slugs: ['biz-digital'], pages: [89, 92, 93, 94, 95],
@@ -172,7 +172,7 @@ const departments: Record<string, Department> = {
       { t: 'สารสนเทศกับงานธุรกิจ', d: 'เรียนการใช้คอมพิวเตอร์ ฐานข้อมูล และระบบโปรแกรมเพื่อแก้ปัญหาทางธุรกิจ' },
       { t: 'โครงการและงานปฏิบัติ', d: 'นำความรู้ไปใช้ในโครงการหรือการฝึกงาน พร้อมฝึกติดตั้งและดูแลระบบคอมพิวเตอร์' },
     ],
-    images: ['computer-hardware.jpg', 'digital-business-person.png'],
+    images: ['computer-hardware.webp', 'digital-business-person.webp'],
   },
   'bachelor-electrical': {
     slugs: ['pt-electrical'], pages: [19, 20, 21, 22, 23, 24],
@@ -189,7 +189,7 @@ const departments: Record<string, Department> = {
       { t: 'ปีที่ 1 · ทฤษฎีและปฏิบัติ', d: 'เรียนระบบไฟฟ้าอุตสาหกรรม ระบบควบคุมและพลังงาน ควบคู่กับการติดตั้งและทดสอบในห้องปฏิบัติการ' },
       { t: 'ปีที่ 2 · ฝึกงานแบบทวิภาคี', d: 'ฝึกงานจริงในสถานประกอบการ เพื่อนำความรู้และทักษะไฟฟ้าไปใช้กับงานอาชีพ' },
     ],
-    images: ['electrical-control-panel.jpg', 'plc-training-kit.jpg', 'aircon-installation.jpg', 'building-wiring-practice.jpg', 'aircon-gauges.jpg'],
+    images: ['electrical-control-panel.webp', 'plc-training-kit.webp', 'aircon-installation.webp', 'building-wiring-practice.webp', 'aircon-gauges.webp'],
     overrides: {
       'pt-electrical': {
         admission: 'ผู้จบ ปวส. สาขาที่เกี่ยวข้องกับไฟฟ้า อิเล็กทรอนิกส์ หรือเครื่องกลไฟฟ้า',
@@ -205,6 +205,12 @@ export function getDepartmentContent(slug: string): Partial<CourseDetail> {
   if (!entry) return {};
   const [id, department] = entry;
   const gallery = department.images.map((filename) => {
+    // The editor's media library returns public URLs. Preserve the older
+    // indexed filenames while allowing selected and newly uploaded photos.
+    if (/^(?:\/assets\/|https?:\/\/)/i.test(filename)) {
+      const knownPhoto = Object.values(photoIndex).find((photo) => photo.src === filename);
+      return knownPhoto ?? { src: filename, alt: 'ภาพประกอบการเรียนรู้ของแผนกวิชา', kind: 'photo' as const };
+    }
     const photo = photoIndex[`${id}/${filename}`];
     if (!photo) throw new Error(`Missing department photo: ${id}/${filename}`);
     return photo;

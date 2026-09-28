@@ -115,7 +115,7 @@ function LoginGate({ onLogin }: { onLogin: () => void }) {
           style={{ background: '#fff', borderRadius: 20, padding: '34px 30px', boxShadow: '0 20px 60px rgba(2,100,81,.12)', border: '1px solid #e3ece7' }}
         >
           <div className="pt-login-brand" style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 18 }}>
-            <img src="/assets/logo.png" alt="" style={{ width: 46, height: 46, objectFit: 'contain' }} />
+            <img src="/assets/logo.webp" alt="" style={{ width: 46, height: 46, objectFit: 'contain' }} />
             <div style={{ display: 'flex', flexDirection: 'column', lineHeight: 1.25 }}>
               <b style={{ fontSize: 16, color: PT_PRIMARY }}>EEC Admission</b>
               <span style={{ fontSize: 12.5, color: '#66766c' }}>พอร์ทัลผู้สมัคร</span>
@@ -289,7 +289,7 @@ export default function PortalApp() {
       {/* Sidebar */}
       <aside className="pt-side">
         <div className="pt-side-brand">
-          <img src="/assets/logo.png" alt="" />
+          <img src="/assets/logo.webp" alt="" />
           <div className="bt"><b>EEC Admission</b><span>พอร์ทัลผู้สมัคร</span></div>
         </div>
         <div className="pt-id">

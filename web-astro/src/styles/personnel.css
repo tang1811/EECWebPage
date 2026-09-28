@@ -2,53 +2,26 @@
    Personnel page — บุคลากร
    ──────────────────────────────────────────────────────────── */
 
-/* ── Hero with team photo background ────────────────────── */
-.ppl-hero {
-  background-image:
-    linear-gradient(0deg, rgba(1,35,28,0.55) 0%, rgba(1,35,28,0.0) 45%),
-    url('/assets/slide-4-community.webp');
-  background-size: cover;
-  background-position: center 38%;
-  border-bottom: none;
-  padding: 104px 0 72px;
+/* Keep the full group photo visible; all page content follows below it. */
+.ppl-banner { background: var(--green-900); }
+.ppl-banner img { display: block; width: 100%; height: auto; }
+.page-hero.ppl-hero {
+  padding: clamp(36px, 5vw, 72px) 0 20px;
+  background: var(--bg-alt);
+  border-bottom: 0;
 }
-/* dark scrim so the white text stays legible over the photo */
-.ppl-hero::before {
-  background: linear-gradient(102deg,
-    rgba(1,35,28,0.95) 0%,
-    rgba(1,35,28,0.82) 36%,
-    rgba(1,35,28,0.52) 66%,
-    rgba(1,35,28,0.30) 100%);
-}
-.ppl-hero .crumbs,
-.ppl-hero .crumbs a { color: rgba(255,255,255,0.72); }
-.ppl-hero .crumbs a:hover { color: #fff; }
-.ppl-hero .eyebrow {
-  background: rgba(255,255,255,0.12);
-  color: var(--green-200);
-  border: 1px solid rgba(255,255,255,0.18);
-  backdrop-filter: blur(4px);
-}
-.ppl-hero .eyebrow::before { background: var(--green-300); }
-.ppl-hero h1 { color: #fff; }
-.ppl-hero h1 .grad {
-  background: linear-gradient(90deg, #7adac4 0%, #38c0a3 100%);
-  -webkit-background-clip: text; background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.ppl-hero p { color: rgba(255,255,255,0.85); }
-/* stat cards float on the photo */
-.ppl-hero .ppl-stat {
-  background: rgba(255,255,255,0.97);
-  box-shadow: 0 16px 40px -16px rgba(1,35,28,0.5);
-}
+.page-hero.ppl-hero::before { content: none; }
 
 /* ── Stat strip ─────────────────────────────────────────── */
+.ppl-stats-section {
+  padding: 12px 0 48px;
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border-soft);
+}
 .ppl-stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
-  margin-top: 36px;
 }
 .ppl-stat {
   background: var(--surface-card);
@@ -411,9 +384,14 @@
   .principal-card .pc-name { font-size: 14px; }
 }
 @media (max-width: 1024px) {
-  .ppl-stats { grid-template-columns: repeat(2, 1fr); }
+  .ppl-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 700px) {
+  .page-hero.ppl-hero { padding: 30px 0 12px; }
+  .ppl-stats-section { padding: 16px 0 32px; }
+  .ppl-stats { gap: 12px; }
+  .ppl-stat { padding: 18px 16px; }
+  .ppl-stat .num { font-size: 32px; }
   .exec-deputies { grid-template-columns: 1fr; }
   .staff-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
   .staff-card { padding: 18px 12px; }
@@ -427,7 +405,6 @@
   .support-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 400px) {
-  .ppl-stats { grid-template-columns: 1fr 1fr; }
   .staff-grid { gap: 9px; }
   .staff-card { padding: 14px 9px; }
 }

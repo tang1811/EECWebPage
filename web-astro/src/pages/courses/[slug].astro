@@ -52,11 +52,11 @@ const videoJsonLd = (ytid || video) && {
   '@type': 'VideoObject',
   name: `รีวิวแผนก ${course.name} · ${COLLEGE_NAME}`,
   description: `บรรยากาศการเรียนและการฝึกปฏิบัติจริงของสาขา${course.name} ${course.code}`,
-  thumbnailUrl: ytid ? `https://i.ytimg.com/vi/${ytid}/maxresdefault.jpg` : `${SITE_URL}${video.poster}`,
+  thumbnailUrl: ytid ? `${SITE_URL}/assets/courses/videos/youtube/${ytid}.webp` : `${SITE_URL}${video.poster}`,
   ...(ytid
     ? { embedUrl: `https://www.youtube-nocookie.com/embed/${ytid}` }
     : { contentUrl: `${SITE_URL}${video.src}` }),
-  publisher: { '@type': 'Organization', name: COLLEGE_NAME, logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/logo.png` } },
+  publisher: { '@type': 'Organization', name: COLLEGE_NAME, logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/logo.webp` } },
 };
 ---
 
@@ -67,11 +67,11 @@ const videoJsonLd = (ytid || video) && {
   og={{
     title: `${title} · วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง`,
     description: detail.overview,
-    image: detail.hero?.src || course.img || '/assets/logo.png',
+    image: detail.hero?.src || course.img || '/assets/logo.webp',
   }}
 >
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(courseJsonLd)} />
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbJsonLd)} />
-  {videoJsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(videoJsonLd)} />}
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(courseJsonLd).replaceAll('<', '\\u003c')} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbJsonLd).replaceAll('<', '\\u003c')} />
+  {videoJsonLd && <script type="application/ld+json" is:inline set:html={JSON.stringify(videoJsonLd).replaceAll('<', '\\u003c')} />}
   <CourseDetailBody client:load course={course} />
 </Base>

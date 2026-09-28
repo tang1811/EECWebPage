@@ -34,7 +34,7 @@ type SupportStaff = { name: string; role: string; photo: string; color: string }
 
 // ── ผู้บริหารระดับสูง ──────────────────────────────────────
 const PRINCIPALS: Principal[] = [
-  { name: 'ดร.สัมภาษณ์ บุญจี๊ด', role: 'ผู้ก่อตั้งวิทยาลัย', photo: EX + 'founder-samphan.jpg' },
+  { name: 'ดร.สัมภาษณ์ บุญจี๊ด', role: 'ผู้ก่อตั้งวิทยาลัย', photo: EX + 'founder-samphan.webp' },
   { name: 'ดร.ยงลักษณ์ บุญจี๊ด', role: 'ผู้รับใบอนุญาต', photo: EX + 'license-yonglak.webp' },
   { name: 'อ.ภาตะวัน บุญจี๊ด',   role: 'ผู้อำนวยการ',    photo: EX + 'director-phatawan.webp' },
   { name: 'อ.ภาคภูมิ บุญจี๊ด',   role: 'ผู้จัดการ',      photo: EX + 'manager-phakphum.webp' },
@@ -161,13 +161,22 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
   keywords={['บุคลากร วิทยาลัยแหลมฉบัง', 'ครูผู้สอน EEC Engineer', 'คณะผู้บริหาร อาชีวศึกษา ศรีราชา']}
 >
   <main>
-    {/* Hero */}
+    <div class="ppl-banner">
+      <img src="/assets/slide-4-community.webp" alt="คณะบุคลากรวิทยาลัยถ่ายภาพร่วมกันหน้าอาคารอำนวยการ" width="2048" height="871" />
+    </div>
+
+    {/* Introduction below the banner */}
     <section class="page-hero ppl-hero">
       <div class="container page-hero-inner">
         <div class="crumbs"><a href="/">หน้าแรก</a><Icon name="chevronRight" style={{ width: 12, height: 12 }} /><span>บุคลากร</span></div>
         <span class="eyebrow">ทำเนียบบุคลากร</span>
         <h1>ทีมงานเบื้องหลัง<span class="grad">ช่างฝีมือ</span>ทุกคน</h1>
         <p>คณะผู้บริหาร ครูผู้สอนทุกแผนกวิชา และบุคลากรสายสนับสนุน ที่ทุ่มเทพัฒนานักศึกษาให้พร้อมสู่โลกการทำงานจริง</p>
+      </div>
+    </section>
+
+    <section class="ppl-stats-section" aria-label="สรุปจำนวนบุคลากร">
+      <div class="container">
         <div class="ppl-stats">
           {STATS.map((s, i) => (
             <div class="reveal ppl-stat" style={`--reveal-delay: ${i * 0.07}s`}>

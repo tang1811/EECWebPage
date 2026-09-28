@@ -6,7 +6,7 @@ const departmentPhotos = photos as { [Key in keyof typeof photos]: CoursePhoto }
 // Source pages and original asset metadata remain in research/canva-departments.
 export const CANVA_SOURCE = 'https://www.canva.com/design/DAGD2vsgA_g/HYv35U7NJk1JuDL6CuzJuw/view';
 export const COLLEGE_PHOTO = {
-  src: '/assets/courses/canva/college/college-building.jpg',
+  src: '/assets/courses/canva/college/college-building.webp',
   alt: 'อาคารวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบังและบริเวณด้านหน้า',
   width: 1479,
   height: 1109,
@@ -21,14 +21,14 @@ export const ABOUT_LEVELS = [
   .filter((level) => level.courses.length > 0);
 
 const departmentGroups = [
-  { name: 'ช่างยนต์', group: 'ช่างอุตสาหกรรม', slugs: ['yon', 'ps-mech'], photo: departmentPhotos['automotive/engine-workshop.jpg'], illustration: false },
-  { name: 'ไฟฟ้ากำลัง', group: 'ช่างอุตสาหกรรม', slugs: ['faifaa', 'ps-electrical'], photo: departmentPhotos['electrical/electrical-workbenches.jpg'], illustration: false },
-  { name: 'ช่างกลโรงงานและเทคนิคการผลิต', group: 'ช่างอุตสาหกรรม', slugs: ['gear', 'ps-production'], photo: departmentPhotos['production/cnc-router.jpg'], illustration: false },
-  { name: 'เมคคาทรอนิกส์และหุ่นยนต์', group: 'ช่างอุตสาหกรรม', slugs: ['mecha', 'ps-mecha'], photo: departmentPhotos['mechatronics/robot-lab.jpg'], illustration: false },
-  { name: 'การจัดการโลจิสติกส์', group: 'พาณิชยกรรม', slugs: ['ps-logistics'], photo: departmentPhotos['logistics/warehouse-packages.jpg'], illustration: true },
-  { name: 'การบัญชี', group: 'พาณิชยกรรม', slugs: ['accounting', 'ps-accounting'], photo: departmentPhotos['accounting/accounting-practice.jpg'], illustration: true },
-  { name: 'ดิจิทัลกราฟิก', group: 'ศิลปกรรม', slugs: ['graphic', 'ps-graphic'], photo: departmentPhotos['digital-graphic/graphic-student.png'], illustration: true },
-  { name: 'เทคโนโลยีธุรกิจดิจิทัล', group: 'พาณิชยกรรม', slugs: ['biz-digital'], photo: departmentPhotos['digital-business/computer-hardware.jpg'], illustration: true },
+  { name: 'ช่างยนต์', group: 'ช่างอุตสาหกรรม', slugs: ['yon', 'ps-mech'], photo: departmentPhotos['automotive/engine-workshop.webp'], illustration: false },
+  { name: 'ไฟฟ้ากำลัง', group: 'ช่างอุตสาหกรรม', slugs: ['faifaa', 'ps-electrical'], photo: departmentPhotos['electrical/electrical-workbenches.webp'], illustration: false },
+  { name: 'ช่างกลโรงงานและเทคนิคการผลิต', group: 'ช่างอุตสาหกรรม', slugs: ['gear', 'ps-production'], photo: departmentPhotos['production/cnc-router.webp'], illustration: false },
+  { name: 'เมคคาทรอนิกส์และหุ่นยนต์', group: 'ช่างอุตสาหกรรม', slugs: ['mecha', 'ps-mecha'], photo: departmentPhotos['mechatronics/robot-lab.webp'], illustration: false },
+  { name: 'การจัดการโลจิสติกส์', group: 'พาณิชยกรรม', slugs: ['ps-logistics'], photo: departmentPhotos['logistics/warehouse-packages.webp'], illustration: true },
+  { name: 'การบัญชี', group: 'พาณิชยกรรม', slugs: ['accounting', 'ps-accounting'], photo: departmentPhotos['accounting/accounting-practice.webp'], illustration: true },
+  { name: 'ดิจิทัลกราฟิก', group: 'ศิลปกรรม', slugs: ['graphic', 'ps-graphic'], photo: departmentPhotos['digital-graphic/graphic-student.webp'], illustration: true },
+  { name: 'เทคโนโลยีธุรกิจดิจิทัล', group: 'พาณิชยกรรม', slugs: ['biz-digital'], photo: departmentPhotos['digital-business/computer-hardware.webp'], illustration: true },
 ];
 
 export const ABOUT_DEPARTMENTS = departmentGroups.map((department) => {
@@ -38,7 +38,7 @@ export const ABOUT_DEPARTMENTS = departmentGroups.map((department) => {
   return { ...department, courses, labs: detail.labs ?? [], source: detail.source };
 }).filter((department) => department !== null);
 
-export const PRACTICE_PHOTO = departmentPhotos['automotive/underbody-practice.jpg'];
-export const BACHELOR_PHOTO = departmentPhotos['bachelor-electrical/plc-training-kit.jpg'];
+export const PRACTICE_PHOTO = departmentPhotos['automotive/underbody-practice.webp'];
+export const BACHELOR_PHOTO = departmentPhotos['bachelor-electrical/plc-training-kit.webp'];
 export const BACHELOR_COURSE = getCourse('pt-electrical');
 export const BACHELOR_DETAIL = BACHELOR_COURSE && getCourseDetail(BACHELOR_COURSE.slug, BACHELOR_COURSE);

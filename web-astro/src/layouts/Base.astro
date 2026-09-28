@@ -54,10 +54,10 @@ const canonical = `${SITE_URL}${path}/`;
 const ogTitle = og?.title ?? DEFAULT_OG.title;
 const ogDescription = og?.description ?? DEFAULT_OG.description;
 const ogUrl = og ? canonical : `${SITE_URL}/`;
-const ogImage = `${SITE_URL}${og?.image ?? '/assets/logo.png'}`;
+const ogImage = `${SITE_URL}${og?.image ?? '/assets/logo.webp'}`;
 const ogType = og ? og.type : 'website';
 // Preview builds (PUBLIC_PREVIEW=1): noindex + visible draft ribbon.
-const isPreview = Boolean(import.meta.env.PUBLIC_PREVIEW);
+const isPreview = import.meta.env.PUBLIC_PREVIEW === '1';
 
 // mobile.css says of itself "loaded LAST so it wins over page CSS", and Astro
 // cannot deliver that: a layout's imports are bundled ahead of the page's, so
@@ -82,7 +82,7 @@ const mobileCssHref = `/styles/mobile.css?v=${createHash('sha256')
     <meta name="description" content={description} />
     {keywords && keywords.length > 0 && <meta name="keywords" content={keywords.join(',')} />}
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/assets/logo.png" />
+    <link rel="icon" type="image/webp" href="/assets/logo.webp" />
     <meta property="og:title" content={ogTitle} />
     <meta property="og:description" content={ogDescription} />
     <meta property="og:url" content={ogUrl} />
@@ -107,7 +107,7 @@ const mobileCssHref = `/styles/mobile.css?v=${createHash('sha256')
         />
       )
     }
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(ORG_JSONLD)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(ORG_JSONLD).replaceAll('<', '\\u003c')} />
     <slot name="head" />
   </head>
   <body>

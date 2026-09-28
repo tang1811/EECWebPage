@@ -77,7 +77,7 @@ const COURSE_RECORDS: Course[] = [
   { code: 'ปวส.', slug: 'ps-accounting', name: 'การบัญชี', icon: 'briefcase', cat: 'บริหาร', afternoon: true, img: '/assets/courses/ps-accounting.webp', color: '#7B5CA7' },
   { code: 'ปวส.', slug: 'ps-electronic', name: 'อิเล็กทรอนิกส์', icon: 'chip', cat: 'อุตสาหกรรม', enabled: false, img: '/assets/courses/ps-electronic.webp' },
   { code: 'ปวส.', slug: 'ps-industrial', name: 'เทคนิคอุตสาหกรรม', icon: 'shield', cat: 'อุตสาหกรรม', enabled: false, img: '/assets/courses/ps-industrial.webp' },
-  { code: 'ป.ตรี', slug: 'pt-electrical', name: 'เทคโนโลยีไฟฟ้า', icon: 'bolt', cat: 'อุตสาหกรรม', afternoon: true, dualVocational: true, img: '/assets/courses/canva/bachelor-electrical/electrical-control-panel.jpg', color: '#40ABE0' },
+  { code: 'ป.ตรี', slug: 'pt-electrical', name: 'เทคโนโลยีไฟฟ้า', icon: 'bolt', cat: 'อุตสาหกรรม', afternoon: true, dualVocational: true, img: '/assets/courses/canva/bachelor-electrical/electrical-control-panel.webp', color: '#40ABE0' },
 ];
 
 // Keep disabled records and their content for later reactivation. Public routes,

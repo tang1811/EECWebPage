@@ -621,7 +621,7 @@ export function PrintPage({ form, appNo }: PortalCtx) {
       </div>
       <div className="pt-sheet">
         <div className="pt-sheet-head">
-          <img src="/assets/logo.png" alt="" />
+          <img src="/assets/logo.webp" alt="" />
           <div><h2>ใบสมัครเข้าศึกษา</h2><p>วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · ปีการศึกษา 2569</p></div>
           <div className="pt-sheet-no"><span>เลขที่ใบสมัคร</span><b>{appNo}</b></div>
         </div>

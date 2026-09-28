@@ -50,10 +50,8 @@ const STATS = [
 // and as they still are in the design's own homepage.css.
 
 const GRAD_STATS = [
-  { v: 83, s: '%', l: 'ปวส. มีงานทำ', sub: 'หลังสำเร็จการศึกษา' },
   { v: 16, s: '%', l: 'ปวส. ศึกษาต่อ', sub: 'ระดับสูงขึ้น' },
   { v: 89, s: '%', l: 'ปวช. ศึกษาต่อ', sub: 'ต่อ ปวส. / ป.ตรี' },
-  { v: 12500, s: '฿', l: 'เงินเดือนเริ่มต้น', sub: 'เฉลี่ย (ปวส.) ต่อเดือน' },
 ];
 const EMPLOYERS = ['ปตท.', 'Mitsubishi', 'Caterpillar', 'เคียวเดน', 'ซูมิเดน สตีล', 'AGC', 'ซัมมิท ออโต้บอดี้', 'อีสเทิร์น คอนทรานส์'];
 
@@ -82,7 +80,7 @@ const TESTIMONIALS = [
     <link rel="preload" as="image" href={SLIDES[0].img} fetchpriority="high" />
   </Fragment>
 
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(FAQ_JSONLD)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(FAQ_JSONLD).replaceAll('<', '\\u003c')} />
   {/* Keep the page heading accessible while the hero displays only photographs. */}
   <h1 style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
     วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง — เปิดรับสมัครนักศึกษาใหม่ ปวช. ปวส. ป.ตรี ปีการศึกษา 2569
@@ -255,7 +253,7 @@ const TESTIMONIALS = [
           </div>
         </div>
         <p class="grad-foot">
-          * ข้อมูลผู้สำเร็จการศึกษา ปีการศึกษา 2565 จากการสำรวจภาวะการมีงานทำ/ศึกษาต่อ เฉพาะผู้ที่ติดตามได้ 268 คน (ปวช. 138 · ปวส. 130)
+          * ข้อมูลผู้สำเร็จการศึกษา ปีการศึกษา 2568 จากการสำรวจภาวะการมีงานทำ/ศึกษาต่อ
         </p>
       </div>
     </section>

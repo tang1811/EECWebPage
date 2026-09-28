@@ -13,67 +13,29 @@
 // <Nav /> on /admission routes, so the old pathname-null check is gone.
 // Icons are inlined verbatim from chrome.tsx Icon (kebab-case SVG attrs).
 
-import { COURSES, getCourse } from '../data/course-data';
+import { COURSES } from '../data/course-data';
 
 type Branch = { name: string; slug: string; color?: string };
 type Level = { level: string; levelEn: string; color: string; groups: { cat: string; items: Branch[] }[] };
 
-const NAV_COURSE_MENU: Level[] = [
-  {
-    level: 'ปวช.', levelEn: 'Vocational Cert.', color: '#026451',
-    groups: [
-      { cat: 'อุตสาหกรรม', items: [
-        { name: 'ช่างยนต์', slug: 'yon', color: '#B12B25' },
-        { name: 'ช่างไฟฟ้ากำลัง', slug: 'faifaa', color: '#40ABE0' },
-        { name: 'ช่างกลโรงงาน', slug: 'gear', color: '#FBD609' },
-        { name: 'อิเล็กทรอนิกส์', slug: 'electronic', color: '#0aa183' },
-        { name: 'เมคคาทรอนิกส์และหุ่นยนต์', slug: 'mecha', color: '#FBDC6B' },
-      ] },
-      { cat: 'ดิจิทัล', items: [
-        { name: 'ดิจิทัลกราฟิก', slug: 'graphic', color: '#385BF3' },
-      ] },
-      { cat: 'บริหาร', items: [
-        { name: 'เทคโนโลยีธุรกิจดิจิทัล', slug: 'biz-digital', color: '#EB559F' },
-        { name: 'การบัญชี', slug: 'accounting', color: '#7B5CA7' },
-      ] },
-    ],
-  },
-  {
-    level: 'ปวส.', levelEn: 'Higher Cert.', color: '#048269',
-    groups: [
-      { cat: 'อุตสาหกรรม', items: [
-        { name: 'เทคนิคเครื่องกล', slug: 'ps-mech', color: '#B12B25' },
-        { name: 'ไฟฟ้า', slug: 'ps-electrical', color: '#40ABE0' },
-        { name: 'เทคนิคการผลิต', slug: 'ps-production', color: '#FBD609' },
-        { name: 'อิเล็กทรอนิกส์', slug: 'ps-electronic', color: '#0aa183' },
-        { name: 'เมคคาทรอนิกส์และหุ่นยนต์', slug: 'ps-mecha', color: '#FBDC6B' },
-        { name: 'เทคนิคอุตสาหกรรม', slug: 'ps-industrial', color: '#0aa183' },
-      ] },
-      { cat: 'ดิจิทัล', items: [
-        { name: 'เครือข่ายคอมฯ & ความปลอดภัย', slug: 'ps-network', color: '#EB559F' },
-        { name: 'ดิจิทัลกราฟิก', slug: 'ps-graphic', color: '#385BF3' },
-      ] },
-      { cat: 'บริหาร', items: [
-        { name: 'การจัดการโลจิสติกส์', slug: 'ps-logistics', color: '#F26530' },
-        { name: 'การบัญชี', slug: 'ps-accounting', color: '#7B5CA7' },
-      ] },
-    ],
-  },
-  {
-    level: 'ป.ตรี', levelEn: 'Bachelor', color: '#7B5CA7',
-    groups: [
-      { cat: 'เทคโนโลยีบัณฑิต', items: [
-        { name: 'เทคโนโลยีไฟฟ้า', slug: 'pt-electrical', color: '#40ABE0' },
-      ] },
-    ],
-  },
-].map((level) => ({
-  ...level,
-  groups: level.groups.map((group) => ({
-    ...group,
-    items: group.items.filter((item) => getCourse(item.slug)),
-  })).filter((group) => group.items.length > 0),
-})).filter((level) => level.groups.length > 0);
+// Course names, visibility, colors and new records follow the shared catalog.
+const NAV_LEVELS = [
+  { level: 'ปวช.', levelEn: 'Vocational Cert.', color: '#026451' },
+  { level: 'ปวส.', levelEn: 'Higher Cert.', color: '#048269' },
+  { level: 'ป.ตรี', levelEn: 'Bachelor', color: '#7B5CA7' },
+];
+const NAV_COURSE_MENU: Level[] = NAV_LEVELS.map((level) => {
+  const records = COURSES.filter((course) => course.code === level.level);
+  const categories = [...new Set(records.map((course) => course.cat))];
+  return {
+    ...level,
+    groups: categories.map((category) => ({
+      cat: level.level === 'ป.ตรี' ? 'เทคโนโลยีบัณฑิต' : category,
+      items: records.filter((course) => course.cat === category)
+        .map((course) => ({ name: course.name, slug: course.slug, color: course.color })),
+    })),
+  };
+}).filter((level) => level.groups.length > 0);
 
 // ext: opens in a new tab with the external-link arrow; internal items keep a
 // chevron and normal navigation (SchoolWebV2 design chrome).
@@ -131,7 +93,7 @@ const ICONS: Record<string, string> = {
 <header class="nav  ">
   <div class="container nav-inner">
     <a href="/" class="brand" aria-label="EEC Engineer Laemchabang Home">
-      <img src="/assets/logo.png" alt="EEC Engineer Laemchabang crest" />
+      <img src="/assets/logo.webp" alt="EEC Engineer Laemchabang crest" />
       <div class="brand-text">
         <span class="brand-th"><span>วิทยาลัยเทคโนโลยี</span> <span>อีอีซี</span> <span>เอ็นจิเนีย</span> <span>แหลมฉบัง</span></span>
         <span class="brand-en">EEC Engineer Laemchabang · Sriracha</span>
@@ -236,7 +198,7 @@ const ICONS: Record<string, string> = {
 <aside class="mnav-drawer" role="dialog" aria-label="เมนูหลัก" style="display:none">
   <div class="mnav-head">
     <div class="mnav-brand">
-      <img src="/assets/logo.png" alt="" />
+      <img src="/assets/logo.webp" alt="" />
       <div>
         <div class="mnav-brand-th">อีอีซี เอ็นจิเนีย แหลมฉบัง</div>
         <div class="mnav-brand-en">Laemchabang</div>

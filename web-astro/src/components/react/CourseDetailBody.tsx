@@ -30,7 +30,7 @@ function SectionHeading({ label, children }: { label: string; children: ReactNod
 }
 
 function CDHero({ course, detail }: { course: Course; detail: CourseDetail }) {
-  const hero: CoursePhoto = detail.hero ?? { src: course.img || '/assets/logo.png', alt: `ภาพประกอบสาขา${course.name}` };
+  const hero: CoursePhoto = detail.hero ?? { src: course.img || '/assets/logo.webp', alt: `ภาพประกอบสาขา${course.name}` };
   return <section className="cine-scene cd-hero"><div className="cd-hero-shell">
     <div className="cd-hero-content">
       <nav className="cd-crumbs" aria-label="เส้นทางหน้าเว็บ"><a href="/">หน้าแรก</a><span>·</span><a href="/courses/">หลักสูตร</a><span>·</span><span>{course.code}</span></nav>
@@ -138,7 +138,7 @@ function CDVideo({ course, detail }: { course: Course; detail: CourseDetail }) {
     void video.current.play().catch(() => undefined);
   };
   return <section className="cine-scene cd-video"><SectionHeading label="วิดีโอแนะนำแผนก">รู้จัก{course.name}</SectionHeading>
-    {id ? <div ref={frame} className="cd-video-frame">{play ? <iframe className="cd-video-embed" src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`} title={`วิดีโอแนะนำแผนก${course.name}`} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen /> : <button type="button" className="cd-video-poster" onClick={playYouTube} aria-label={`เล่นวิดีโอแนะนำแผนก${course.name}แบบเต็มหน้าจอ`}><img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" /><span className="cd-video-play" aria-hidden="true">▶</span></button>}</div> : mp4 && <div ref={stage} className="cd-video-stage"><video ref={video} controls preload="none" poster={mp4.poster} playsInline aria-label={`วิดีโอแนะนำแผนก${course.name}`}><source src={mp4.src} type="video/mp4" /></video>{!mp4Started && <button type="button" className="cd-video-poster cd-video-local-poster" onClick={playMp4} aria-label={`เล่นวิดีโอแนะนำแผนก${course.name}แบบเต็มหน้าจอ`}><img src={mp4.poster} alt="" /><span className="cd-video-play" aria-hidden="true">▶</span></button>}</div>}
+    {id ? <div ref={frame} className="cd-video-frame">{play ? <iframe className="cd-video-embed" src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`} title={`วิดีโอแนะนำแผนก${course.name}`} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen /> : <button type="button" className="cd-video-poster" onClick={playYouTube} aria-label={`เล่นวิดีโอแนะนำแผนก${course.name}แบบเต็มหน้าจอ`}><img src={`/assets/courses/videos/youtube/${id}.webp`} alt="" loading="lazy" /><span className="cd-video-play" aria-hidden="true">▶</span></button>}</div> : mp4 && <div ref={stage} className="cd-video-stage"><video ref={video} controls preload="none" poster={mp4.poster} playsInline aria-label={`วิดีโอแนะนำแผนก${course.name}`}><source src={mp4.src} type="video/mp4" /></video>{!mp4Started && <button type="button" className="cd-video-poster cd-video-local-poster" onClick={playMp4} aria-label={`เล่นวิดีโอแนะนำแผนก${course.name}แบบเต็มหน้าจอ`}><img src={mp4.poster} alt="" /><span className="cd-video-play" aria-hidden="true">▶</span></button>}</div>}
   </section>;
 }
 

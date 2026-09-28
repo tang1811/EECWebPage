@@ -12,13 +12,13 @@ import { NEWS, NEWS_LEAD_SLUG, NEWS_SIDE_SLUGS, NEWS_UPCOMING, getNews } from '.
 import { SITE_URL, SITE_NAME } from '../../config';
 import type { NewsArticle } from '../../data/news-data';
 
-const lead = getNews(NEWS_LEAD_SLUG)!;
-const side = NEWS_SIDE_SLUGS.map((s) => getNews(s)!);
+const lead = getNews(NEWS_LEAD_SLUG);
+const side = NEWS_SIDE_SLUGS.map((s) => getNews(s)).filter((n): n is NewsArticle => Boolean(n));
 const gridItems = NEWS.filter((n) => n.slug !== NEWS_LEAD_SLUG && !NEWS_SIDE_SLUGS.includes(n.slug));
 // Lead/side stories also render as hidden grid cards so category chips and
 // search can reach them — the client script swaps the magazine block for the
 // full grid whenever a filter or query is active.
-const featured = [lead, ...side];
+const featured = [lead, ...side].filter((n): n is NewsArticle => Boolean(n));
 
 const CATS = ['ทั้งหมด', 'กิจกรรม', 'ประกาศ', 'รับสมัคร', 'รางวัล', 'นศท.'];
 const DESCRIPTION =
@@ -57,12 +57,12 @@ const itemList = {
   og={{
     title: `ข่าวสาร & กิจกรรม · ${SITE_NAME}`,
     description: DESCRIPTION,
-    image: lead.image,
+    image: lead?.image ?? '/assets/logo.webp',
     type: 'website',
   }}
 >
   <main class="news-page">
-    <script type="application/ld+json" is:inline set:html={JSON.stringify(itemList)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(itemList).replaceAll('<', '\\u003c')} />
 
     <section class="news-top">
       <div class="container">
@@ -76,7 +76,7 @@ const itemList = {
       </div>
     </section>
 
-    <section class="section section-sm" style="padding-top:0" id="newsMag">
+    {lead && <section class="section section-sm" style="padding-top:0" id="newsMag">
       <div class="container">
         <div class="mag">
           <div class="reveal mag-lead">
@@ -110,7 +110,8 @@ const itemList = {
           </div>
         </div>
       </div>
-    </section>
+    </section>}
+    {NEWS.length === 0 && <div class="container"><p role="status">ยังไม่มีข่าวสารในขณะนี้</p></div>}
 
     <section class="section section-sm" style="padding-top:24px">
       <div class="container">

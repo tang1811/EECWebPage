@@ -1302,7 +1302,7 @@ export default function VideoBody() {
     <main className="video-shell" data-video-root data-screen-label="t=0s" style={videoShell}>
       <header className="video-bar" style={videoBar}>
         <div className="brand" style={barBrand}>
-          <img src="/assets/logo.png" alt="" style={barBrandImg} />
+          <img src="/assets/logo.webp" alt="" style={barBrandImg} />
           <div>
             <div className="name" style={barName}>วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง</div>
             <div className="tag" style={barTag}>ทัวร์วิทยาลัย · 1 นาที · กด ⎵ เพื่อหยุด/เล่น</div>

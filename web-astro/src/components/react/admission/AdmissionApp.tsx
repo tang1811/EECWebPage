@@ -190,7 +190,7 @@ export default function AdmissionApp() {
     <div className="adm" data-dir="a" style={themeStyle}>
       <header className="adm-top">
         <a className="adm-brand" href="/" aria-label="หน้าแรกวิทยาลัย">
-          <img src="/assets/logo.png" alt=""/>
+          <img src="/assets/logo.webp" alt=""/>
           <span className="adm-brand-tx">
             <span className="adm-brand-th">วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย</span>
             <span className="adm-brand-en">Admission · รับสมัครออนไลน์ 2569</span>

@@ -47,8 +47,8 @@ const breadcrumbJsonLd = {
     'โลจิสติกส์',
   ]}
 >
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(itemListJsonLd)} />
-  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbJsonLd)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(itemListJsonLd).replaceAll('<', '\\u003c')} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbJsonLd).replaceAll('<', '\\u003c')} />
   <main>
     <section class="section courses-catalog" id="courses">
       <div class="container">

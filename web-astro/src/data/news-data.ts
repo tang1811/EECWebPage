@@ -1,12 +1,9 @@
-// News / activity articles — shared data (plain module, importable by server pages
-// and the client homepage). Editorial order mirrors the SchoolWebV2 design's
-// news-data.js: lead story first, then the rest as laid out on /news/.
-// Photo articles set `image`; announcement-style articles set `tone` + `icon`
-// and render as tinted icon cards (no photo).
-import HOME_EVENT_NEWS from './home-event-news.json';
+// Shared authoritative news content, edited by EECWebAdmin.
+import SITE_NEWS from './site-news.json';
 
 export type NewsArticle = {
   slug: string;
+  published?: boolean; // False hides a draft from production builds.
   tag: string;
   title: string;
   date: string;        // ISO for <time> + sorting
@@ -38,196 +35,14 @@ export type UpcomingEvent = {
   loc: string;
 };
 
-// Optional CMS export written by the back office. When src/data/news-cms.json
-// exists (gitignored), its contents replace the hardcoded fallback data below.
-// import.meta.glob tolerates the file being absent (empty module map).
-type NewsCmsExport = {
-  news: NewsArticle[];
-  leadSlug: string;
-  sideSlugs: string[];
-  upcoming: UpcomingEvent[];
-};
 
-const mods = import.meta.glob('./news-cms.json', { eager: true }) as Record<
-  string,
-  { default: NewsCmsExport }
->;
-const cms: NewsCmsExport | undefined = mods['./news-cms.json']?.default;
-
-const FALLBACK_NEWS: NewsArticle[] = [
-  {
-    slug: 'sansamphan-69-morning',
-    tag: 'กิจกรรม',
-    title: 'สานสัมพันธ์ 69 · ต้อนรับนักศึกษาใหม่ทั้งสองรอบ',
-    date: '2026-05-20',
-    dateLabel: '20 พฤษภาคม 2569',
-    image: '/assets/news-1-sansamphan-morning.webp',
-    objectPosition: 'center 24%',
-    excerpt: 'เชื่อมมิตรภาพรุ่นพี่รุ่นน้องผ่านกิจกรรมกลุ่มสัมพันธ์ พร้อมแนะนำแผนกวิชาและระบบดูแลช่วยเหลือนักศึกษาตลอดปีการศึกษา',
-    body: [
-      'วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง จัดกิจกรรมสานสัมพันธ์ประจำปีการศึกษา 2569 เพื่อต้อนรับนักศึกษาใหม่ระดับ ปวช. และ ปวส. โดยแบ่งการจัดกิจกรรมออกเป็นรอบเช้าและรอบบ่าย เพื่อให้นักศึกษาทุกแผนกวิชาได้เข้าร่วมอย่างทั่วถึง',
-      'กิจกรรมประกอบด้วยการแนะนำผู้บริหาร ครูที่ปรึกษา และหัวหน้าแผนกวิชาแต่ละสาขา ต่อด้วยกิจกรรมกลุ่มสัมพันธ์ที่ให้รุ่นพี่นำรุ่นน้องทำภารกิจร่วมกัน เพื่อสร้างความคุ้นเคยและลดความกังวลในการเริ่มต้นชีวิตนักศึกษาอาชีวศึกษา',
-      'ในช่วงท้ายของกิจกรรม งานกิจการนักเรียนได้ชี้แจงระบบดูแลช่วยเหลือนักศึกษา ช่องทางติดต่อครูที่ปรึกษา และแนวปฏิบัติด้านระเบียบวินัย พร้อมเปิดรับสมัครสมาชิกชมรมต่าง ๆ ของวิทยาลัย',
-    ],
-  },
-  {
-    slug: 'sansamphan-69-afternoon',
-    tag: 'กิจกรรม',
-    title: 'มิตรภาพดีด้วยรอยยิ้มและเสียงหัวเราะ (รอบบ่าย)',
-    date: '2026-05-20',
-    dateLabel: '20 พฤษภาคม 2569',
-    // No real afternoon photo exists (the source upload duplicated the morning
-    // poster, and news-2-sansamphan-afternoon.webp actually contains the นศท.
-    // fitness-test poster) — reuse the สานสัมพันธ์ poster with a lower crop
-    // until a real afternoon photo is provided.
-    image: '/assets/news-1-sansamphan-morning.webp',
-    objectPosition: 'center 60%',
-    excerpt: 'ปิดท้ายกิจกรรมสานสัมพันธ์รอบบ่ายด้วยเกมกลุ่มสัมพันธ์และการแนะนำชมรมของทุกแผนกวิชา',
-    body: [
-      'กิจกรรมสานสัมพันธ์รอบบ่ายเน้นกิจกรรมนันทนาการที่ให้นักศึกษาใหม่ได้ทำงานเป็นทีม ทั้งเกมประสานงานและการแข่งขันย่อยระหว่างแผนกวิชา',
-      'บรรยากาศเต็มไปด้วยรอยยิ้มและเสียงหัวเราะ โดยมีรุ่นพี่จากองค์การนักวิชาชีพในอนาคตแห่งประเทศไทย (อวท.) เป็นผู้นำกิจกรรมตลอดช่วงบ่าย',
-    ],
-  },
-  {
-    // Slug predates the redesign — kept so the live /news/military-fitness-test-69/
-    // URL survives (design id: nasathor-fitness-test).
-    slug: 'military-fitness-test-69',
-    tag: 'นศท.',
-    title: 'ทดสอบสมรรถภาพทางกาย นศท. ชั้นปีที่ 1',
-    date: '2026-06-12',
-    dateLabel: '12 มิถุนายน 2569',
-    image: '/assets/news-3-military.webp',
-    objectPosition: 'center 20%',
-    excerpt: 'นักศึกษาวิชาทหารชั้นปีที่ 1 เข้ารับการทดสอบสมรรถภาพประจำปีการศึกษา 2569',
-    body: [
-      'นักศึกษาวิชาทหาร (นศท.) ชั้นปีที่ 1 ของวิทยาลัย เข้ารับการทดสอบสมรรถภาพทางกายประจำปีการศึกษา 2569 ประกอบด้วยการดันพื้น ลุกนั่ง และวิ่งระยะไกล ตามเกณฑ์ของหน่วยบัญชาการรักษาดินแดน',
-      'ครูฝึกได้เน้นย้ำเรื่องการอบอุ่นร่างกายและการดูแลสุขภาพก่อนการทดสอบ พร้อมให้คำแนะนำการฝึกซ้อมสำหรับนักศึกษาที่ต้องปรับปรุงผลการทดสอบ',
-    ],
-  },
-  {
-    slug: 'admission-2570-quota',
-    tag: 'รับสมัคร',
-    title: 'เปิดรับสมัครนักศึกษาใหม่ ปีการศึกษา 2570 รอบโควตา',
-    date: '2026-08-01',
-    dateLabel: '1 สิงหาคม 2569',
-    image: '/assets/slide-1-apply.webp',
-    objectPosition: 'center 45%',
-    excerpt: 'รอบโควตาเรียนดีและความสามารถพิเศษ ยื่นใบสมัครออนไลน์ได้ถึง 30 กันยายน 2569',
-    body: [
-      'วิทยาลัยเปิดรับสมัครนักศึกษาใหม่ปีการศึกษา 2570 รอบโควตา สำหรับผู้สนใจเรียนระดับ ปวช. และ ปวส. ทั้ง 18 สาขาวิชา โดยแบ่งเป็นโควตาเรียนดีและโควตาความสามารถพิเศษด้านกีฬา ดนตรี และสิ่งประดิษฐ์',
-      'ผู้สมัครรอบโควตาจะได้รับสิทธิ์พิจารณาทุนเรียนดีและส่วนลดค่าแรกเข้า 1,000 บาท สามารถยื่นใบสมัครออนไลน์ได้ถึงวันที่ 30 กันยายน 2569',
-      'สอบถามรายละเอียดเพิ่มเติมได้ที่งานธุรการ โทร 038-494-066 หรือดูอัตราค่าเล่าเรียนและทุนการศึกษาได้ที่หน้าค่าเทอม & ทุนการศึกษา',
-    ],
-  },
-  {
-    slug: 'final-exam-schedule-1-2569',
-    tag: 'ประกาศ',
-    title: 'ตารางสอบปลายภาคเรียนที่ 1/2569',
-    date: '2026-07-30',
-    dateLabel: '30 กรกฎาคม 2569',
-    tone: 'navy',
-    icon: 'book',
-    excerpt: 'สอบระหว่างวันที่ 5-12 กันยายน 2569 ตรวจสอบห้องสอบและเลขที่นั่งได้ที่งานวัดผล',
-    body: [
-      'งานวัดผลและประเมินผลประกาศตารางสอบปลายภาคเรียนที่ 1 ปีการศึกษา 2569 กำหนดสอบระหว่างวันที่ 5-12 กันยายน 2569',
-      'นักศึกษาสามารถตรวจสอบห้องสอบ เลขที่นั่งสอบ และรายวิชาที่ต้องเข้าสอบได้ที่บอร์ดหน้างานวัดผล หรือสอบถามครูที่ปรึกษาประจำห้อง',
-      'ผู้ที่มีเวลาเรียนไม่ครบร้อยละ 80 ต้องยื่นคำร้องขอมีสิทธิ์สอบล่วงหน้าอย่างน้อย 3 วันทำการก่อนวันสอบ',
-    ],
-  },
-  {
-    slug: 'robot-regional-2569',
-    tag: 'รางวัล',
-    title: 'รองชนะเลิศ การแข่งขันหุ่นยนต์ระดับภาค',
-    date: '2026-07-15',
-    dateLabel: '15 กรกฎาคม 2569',
-    tone: 'amber',
-    icon: 'award',
-    excerpt: 'ทีมเมคคาทรอนิกส์คว้ารางวัลรองชนะเลิศอันดับ 1 การแข่งขันหุ่นยนต์อาชีวศึกษา ภาคตะวันออก',
-    body: [
-      'ทีมนักศึกษาแผนกวิชาเมคคาทรอนิกส์ ระดับ ปวส. คว้ารางวัลรองชนะเลิศอันดับ 1 จากการแข่งขันหุ่นยนต์อาชีวศึกษา ระดับภาคตะวันออก',
-      'ผลงานที่ส่งเข้าแข่งขันเป็นหุ่นยนต์ลำเลียงชิ้นงานอัตโนมัติ ควบคุมด้วย PLC ร่วมกับระบบเซนเซอร์ตรวจจับตำแหน่ง ซึ่งพัฒนาต่อยอดจากโครงงานในรายวิชาปฏิบัติ',
-      'ทีมจะเป็นตัวแทนภาคตะวันออกเข้าร่วมการแข่งขันระดับชาติในลำดับถัดไป',
-    ],
-  },
-  {
-    slug: 'mou-dvt-2569',
-    tag: 'ประกาศ',
-    title: 'ลงนาม MOU ทวิภาคีกับสถานประกอบการในนิคมฯ',
-    date: '2026-07-03',
-    dateLabel: '3 กรกฎาคม 2569',
-    tone: 'navy',
-    icon: 'briefcase',
-    excerpt: 'ขยายความร่วมมือทวิภาคีเพิ่มอีก 6 บริษัท รองรับนักศึกษาฝึกอาชีพกว่า 120 อัตรา',
-    body: [
-      'วิทยาลัยลงนามบันทึกข้อตกลงความร่วมมือ (MOU) การจัดการอาชีวศึกษาระบบทวิภาคีกับสถานประกอบการในนิคมอุตสาหกรรมแหลมฉบังและพื้นที่ EEC เพิ่มอีก 6 แห่ง',
-      'ความร่วมมือครั้งนี้รองรับนักศึกษาเข้าฝึกอาชีพกว่า 120 อัตรา ครอบคลุมสาขาช่างยนต์ ไฟฟ้ากำลัง เมคคาทรอนิกส์ เทคนิคการผลิต และโลจิสติกส์',
-      'นักศึกษาในระบบทวิภาคีจะได้รับเบี้ยเลี้ยงระหว่างฝึกอาชีพ และมีโอกาสได้รับการบรรจุเป็นพนักงานหลังสำเร็จการศึกษา',
-    ],
-  },
-  {
-    slug: 'safety-training-pws',
-    tag: 'กิจกรรม',
-    title: 'อบรมความปลอดภัยในงานช่างสำหรับ ปวส.',
-    date: '2026-06-24',
-    dateLabel: '24 มิถุนายน 2569',
-    tone: 'green',
-    icon: 'shield',
-    excerpt: 'อบรมมาตรฐานความปลอดภัยและการใช้อุปกรณ์ป้องกันส่วนบุคคลก่อนออกฝึกประสบการณ์จริง',
-    body: [
-      'งานทวิภาคีจัดอบรมความปลอดภัยในงานช่างให้นักศึกษาระดับ ปวส. ก่อนออกฝึกประสบการณ์วิชาชีพในสถานประกอบการ',
-      'เนื้อหาครอบคลุมการประเมินความเสี่ยงในพื้นที่ปฏิบัติงาน การใช้อุปกรณ์ป้องกันส่วนบุคคล (PPE) และขั้นตอนปฏิบัติเมื่อเกิดเหตุฉุกเฉิน',
-    ],
-  },
-  {
-    slug: 'internship-orientation-1',
-    tag: 'กิจกรรม',
-    title: 'ปฐมนิเทศนักศึกษาฝึกงาน ภาคเรียนที่ 1',
-    date: '2026-06-18',
-    dateLabel: '18 มิถุนายน 2569',
-    tone: 'green',
-    icon: 'users',
-    excerpt: 'ชี้แจงระเบียบการฝึกงาน การประเมินผล และการรายงานตัวกับสถานประกอบการ',
-    body: [
-      'วิทยาลัยจัดปฐมนิเทศนักศึกษาก่อนออกฝึกงานในภาคเรียนที่ 1 ปีการศึกษา 2569 เพื่อชี้แจงระเบียบปฏิบัติ การบันทึกสมุดฝึกงาน และเกณฑ์การประเมินผล',
-      'ครูนิเทศจะเข้าเยี่ยมนักศึกษาที่สถานประกอบการอย่างน้อยภาคเรียนละ 2 ครั้ง พร้อมช่องทางติดต่อกรณีต้องการความช่วยเหลือเร่งด่วน',
-    ],
-  },
-  {
-    slug: 'smart-farm-gold-2569',
-    tag: 'รางวัล',
-    title: 'ผลงานสิ่งประดิษฐ์คว้าเหรียญทองระดับจังหวัด',
-    date: '2026-06-06',
-    dateLabel: '6 มิถุนายน 2569',
-    tone: 'amber',
-    icon: 'chip',
-    excerpt: 'Mini Smart Farm ระบบควบคุมอัตโนมัติ จากแผนกช่างไฟฟ้ากำลัง ได้รับรางวัลเหรียญทอง',
-    body: [
-      'ผลงาน Mini Smart Farm ระบบควบคุมโรงเรือนอัตโนมัติ จากแผนกวิชาช่างไฟฟ้ากำลัง ได้รับรางวัลเหรียญทองจากการประกวดสิ่งประดิษฐ์คนรุ่นใหม่ ระดับจังหวัด',
-      'ผลงานใช้ไมโครคอนโทรลเลอร์ควบคุมการให้น้ำและระบายอากาศตามค่าความชื้นและอุณหภูมิ พร้อมแสดงผลผ่านแอปพลิเคชันบนมือถือ',
-    ],
-  },
-];
-
-// Upcoming-events calendar on /news/ (design NEWS_UPCOMING).
-const FALLBACK_UPCOMING: UpcomingEvent[] = [
-  { d: '14', m: 'ส.ค.', t: 'กิจกรรมวันแม่แห่งชาติ', s: 'พิธีถวายพระพรและมอบเกียรติบัตรแม่ดีเด่น', when: '08:00 น. · หอประชุม', start: '2026-08-14T08:00', end: '2026-08-14T11:00', loc: 'หอประชุมวิทยาลัย' },
-  { d: '22', m: 'ส.ค.', t: 'ประชุมผู้ปกครอง ภาคเรียนที่ 1/2569', s: 'รายงานผลการเรียนและแนวทางดูแลนักศึกษา', when: '09:00 น. · หอประชุม', start: '2026-08-22T09:00', end: '2026-08-22T12:00', loc: 'หอประชุมวิทยาลัย' },
-  { d: '05', m: 'ก.ย.', t: 'สอบปลายภาคเรียนที่ 1/2569', s: 'สอบระหว่างวันที่ 5-12 กันยายน 2569', when: 'ตามตารางสอบ', start: '2026-09-05T08:30', end: '2026-09-12T16:00', loc: 'อาคารเรียนวิทยาลัย' },
-  { d: '26', m: 'ก.ย.', t: 'EEC Open House 2569', s: 'เปิดบ้านแนะแนว ชมโรงฝึกงานทุกแผนกวิชา', when: '09:00-15:00 น.', start: '2026-09-26T09:00', end: '2026-09-26T15:00', loc: 'วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง' },
-];
-
-// The four supplied event folders lead the site news. The optional CMS still
-// supplies the existing articles; promotions stay unpublished until available.
-const editorialNews: NewsArticle[] = cms ? (cms.news as NewsArticle[]) : FALLBACK_NEWS;
-export const NEWS: NewsArticle[] = [
-  ...(HOME_EVENT_NEWS as NewsArticle[]),
-  ...editorialNews.filter((article) => !article.promotion && !HOME_EVENT_NEWS.some((event) => event.slug === article.slug)),
-];
-export const NEWS_LEAD_SLUG: string = HOME_EVENT_NEWS[0].slug;
-export const NEWS_SIDE_SLUGS: string[] = HOME_EVENT_NEWS.slice(1, 3).map((event) => event.slug);
-export const NEWS_UPCOMING: UpcomingEvent[] = cms
-  ? (cms.upcoming as UpcomingEvent[])
-  : FALLBACK_UPCOMING;
-
-export const NEWS_SLUGS = NEWS.map((n) => n.slug);
-export const getNews = (slug: string) => NEWS.find((n) => n.slug === slug);
+const showDrafts = import.meta.env.PUBLIC_PREVIEW === '1';
+export const NEWS: NewsArticle[] = (SITE_NEWS.news as NewsArticle[]).filter(article => showDrafts || article.published !== false);
+export const NEWS_LEAD_SLUG: string = NEWS.some(article => article.slug === SITE_NEWS.leadSlug)
+  ? SITE_NEWS.leadSlug : NEWS[0]?.slug ?? '';
+const requestedSideSlugs = SITE_NEWS.sideSlugs as string[];
+const validSideSlugs = [...new Set(requestedSideSlugs)].filter(slug => slug !== NEWS_LEAD_SLUG && NEWS.some(article => article.slug === slug));
+export const NEWS_SIDE_SLUGS: string[] = [...validSideSlugs, ...NEWS.map(article => article.slug).filter(slug => slug !== NEWS_LEAD_SLUG && !validSideSlugs.includes(slug))].slice(0, Math.min(2, requestedSideSlugs.length));
+export const NEWS_UPCOMING: UpcomingEvent[] = SITE_NEWS.upcoming as UpcomingEvent[];
+export const NEWS_SLUGS = NEWS.map(article => article.slug);
+export const getNews = (slug: string) => NEWS.find(article => article.slug === slug);
