@@ -2,9 +2,9 @@
    Personnel page — บุคลากร
    ──────────────────────────────────────────────────────────── */
 
-/* Keep the full group photo visible; all page content follows below it. */
-.ppl-banner { background: var(--green-900); }
-.ppl-banner img { display: block; width: 100%; height: auto; }
+/* Match the About page banner dimensions and keep the people visible. */
+.ppl-banner { width: 100%; aspect-ratio: 3 / 1; min-height: 0; padding: 0; overflow: hidden; background: var(--green-900); }
+.ppl-banner img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center bottom; }
 .page-hero.ppl-hero {
   padding: clamp(36px, 5vw, 72px) 0 20px;
   background: var(--bg-alt);
