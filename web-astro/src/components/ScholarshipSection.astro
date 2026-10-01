@@ -1,0 +1,94 @@
+---
+import { SCHOLARSHIPS, scholarshipHref } from '../data/scholarships';
+import ScholarshipTeaser from './ScholarshipTeaser.astro';
+
+interface Props { context: 'home' | 'tuition' }
+const { context } = Astro.props;
+const detailed = context === 'tuition';
+const money = (value: number) => value.toLocaleString('th-TH');
+---
+
+<section id="scholarships" class:list={['scholarships', { 'scholarships-home': !detailed }]} aria-labelledby="scholarships-title">
+  <div class:list={{ container: !detailed }}>
+    <div class="scholarships-heading">
+      <div>
+        {detailed && <span class="scholarships-eyebrow">โอกาสทางการศึกษา · ปีการศึกษา 2570</span>}
+        <h2 id="scholarships-title">ทุนการศึกษา &amp; ส่วนลดสมัครเรียน</h2>
+        {detailed && <p>เลือกโอกาสที่เหมาะกับคุณ พร้อมตรวจคุณสมบัติและกำหนดชำระเงิน</p>}
+      </div>
+    </div>
+    <div class="scholarships-grid">
+      {SCHOLARSHIPS.map((offer) => !detailed ? (
+        <ScholarshipTeaser title={offer.title} href={scholarshipHref(offer)} image={offer.image} />
+      ) : (
+        <article class:list={['scholarship-card', { 'scholarship-promotion': offer.category === 'โปรโมชั่น' }]}>
+          <div class="scholarship-labels"><span>{offer.category}</span><span>{offer.seats} คนตามประกาศ</span></div>
+          <h3>{offer.title}</h3>
+          <p class="scholarship-audience">{offer.audience}</p>
+          <p class="scholarship-benefit">{offer.benefit}</p>
+          <p class="scholarship-badge">{offer.badge}</p>
+          <dl class="scholarship-dates">
+            <div><dt>ช่วงรับสมัคร</dt><dd>{offer.period}</dd></div>
+            <div><dt>ชำระครบภายใน</dt><dd><time datetime={offer.endDate}>{offer.deadline}</time></dd></div>
+          </dl>
+          {detailed && (
+            <>
+              <div class="scholarship-fees">
+                <h4>ยอดชำระตามประกาศ · รอบเช้า</h4>
+                <dl>{offer.fees.map((row) => <div><dt>{row.course}</dt><dd>{money(row.payable)} บาท</dd></div>)}</dl>
+              </div>
+              <ul class="scholarship-eligibility">{offer.eligibility.map((item) => <li>{item}</li>)}</ul>
+            </>
+          )}
+          <p class="scholarship-note">ชำระครั้งเดียว · ต้องเรียนครบ 1 ปีการศึกษา<br />การรับสิทธิ์เป็นไปตามคุณสมบัติและเงื่อนไขในประกาศ</p>
+          <div class="scholarship-actions">
+            <a class="scholarship-detail-link" href={scholarshipHref(offer)} aria-label={`รายละเอียดและเงื่อนไข ${offer.title}`}>รายละเอียดและเงื่อนไข <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      ))}
+    </div>
+    {detailed && <p class="scholarships-footnote">จำนวนที่รับเป็นจำนวนตามประกาศ กรุณาติดต่อวิทยาลัยเพื่อตรวจสอบสิทธิ์และจำนวนคงเหลือ <a href="tel:038494066">038-494-066</a></p>}
+  </div>
+</section>
+
+<style>
+  .scholarships { scroll-margin-top: 108px; color: var(--ink-900, #142b24); }
+  .scholarships-home { padding: 52px 0; background: #f5f4e9; border-bottom: 1px solid #e2e7dd; }
+  .scholarships-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 24px; }
+  .scholarships-eyebrow { font-size: 13px; font-weight: 700; color: #466052; }
+  .scholarships-heading h2 { font-size: clamp(25px, 3vw, 34px); line-height: 1.35; margin: 8px 0; }
+  .scholarships-heading p { margin: 0; color: #526359; font-size: 15px; line-height: 1.7; }
+  .scholarships-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .scholarship-card { padding: 28px; border: 1px solid #d7e4dc; border-top: 4px solid #0c6149; border-radius: 16px; background: #fff; display: flex; flex-direction: column; min-width: 0; }
+  .scholarship-promotion { border-top-color: #b18728; }
+  .scholarship-labels { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px; color: #56635c; }
+  .scholarship-labels span:first-child { color: #0b5842; font-weight: 700; }
+  .scholarship-card h3 { font-size: clamp(22px, 2.4vw, 27px); line-height: 1.45; margin: 18px 0 6px; }
+  .scholarship-audience { margin: 0; font-size: 14px; color: #53645a; line-height: 1.7; }
+  .scholarship-benefit { color: #09533e; font-size: clamp(23px, 2.4vw, 29px); font-weight: 800; line-height: 1.4; margin: 24px 0 4px; }
+  .scholarship-badge { margin: 0 0 20px; font-size: 13px; color: #5b665f; }
+  .scholarship-dates { margin: 0; padding-top: 16px; border-top: 1px solid #e3e9e5; display: grid; gap: 12px; }
+  .scholarship-dates dt { font-size: 12px; color: #647269; }
+  .scholarship-dates dd { margin: 2px 0 0; font-size: 15px; font-weight: 600; line-height: 1.6; }
+  .scholarship-fees { padding: 16px; margin-top: 20px; background: #f2f7f3; border-radius: 10px; }
+  .scholarship-fees h4 { font-size: 14px; margin: 0 0 12px; }
+  .scholarship-fees dl { margin: 0; display: grid; gap: 8px; }
+  .scholarship-fees dl div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; }
+  .scholarship-fees dd { margin: 0; font-weight: 700; white-space: nowrap; color: #075342; }
+  .scholarship-eligibility { font-size: 14px; line-height: 1.8; padding-left: 20px; margin: 18px 0 0; }
+  .scholarship-eligibility li + li { margin-top: 6px; }
+  .scholarship-note { font-size: 12px; color: #59685e; line-height: 1.8; margin: 20px 0; }
+  .scholarship-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: auto; }
+  .scholarship-detail-link { display: flex; justify-content: space-between; align-items: center; gap: 20px; border-radius: 8px; padding: 12px 16px; background: #064d3d; color: white; font-size: 14px; font-weight: 700; }
+  .scholarship-detail-link:hover { background: #09654e; }
+  .scholarships-footnote { margin: 18px 0 0; color: #5a685e; font-size: 12px; line-height: 1.8; }
+  .scholarships-footnote a { font-weight: 700; text-decoration: underline; }
+  a:focus-visible { outline: 3px solid #b18728; outline-offset: 4px; }
+  @media (max-width: 800px) { .scholarships-heading { align-items: flex-start; flex-direction: column; gap: 14px; } }
+  @media (max-width: 640px) {
+    .scholarships-grid { grid-template-columns: 1fr; gap: 18px; }
+    .scholarship-card { padding: 22px; }
+    .scholarships-home { padding: 36px 0; }
+    .scholarship-detail-link { width: 100%; min-height: 44px; }
+  }
+</style>

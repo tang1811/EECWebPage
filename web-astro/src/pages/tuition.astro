@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import ScholarshipSection from '../components/ScholarshipSection.astro';
 import '../styles/homepage.css';
 import '../styles/subpages.css';
 import '../styles/tuition.css';
@@ -22,6 +23,10 @@ const TUITION_ROWS: Row[] = [
 ];
 const TUITION_GROUPS: TuitionGroup[] = ['บริหารธุรกิจ', 'ช่างอุตสาหกรรม'];
 const applyHref = ONLINE_ADMISSION_ENABLED ? '/admission/' : '/contact/';
+
+// ปิดสองส่วนนี้ชั่วคราว เปลี่ยนเป็น true เมื่อต้องการเปิดแสดงอีกครั้ง
+const SHOW_FINANCIAL_AID = false;
+const SHOW_APPLICATION_STEPS = false;
 
 const AID = [
   {
@@ -81,6 +86,7 @@ const SHOTS = [
           โปร่งใส ตรวจสอบได้ — ค่าเล่าเรียนทุกระดับ พร้อมทางเลือกทุน กยศ. ผ่อนชำระ
           และสิทธิเรียนฟรี 15 ปี เพื่อให้ทุกคนเข้าถึงการเรียนสายอาชีพได้จริง
         </p>
+        <a class="tu-scholarship-jump" href="#scholarships">ดูทุนและส่วนลดสมัครเรียน ปี 2570 ↓</a>
       </div>
     </section>
 
@@ -165,25 +171,35 @@ const SHOTS = [
         {!ONLINE_ADMISSION_ENABLED && <p class="tu-apply-note">ขณะนี้สมัครเรียนผ่านเจ้าหน้าที่วิทยาลัยได้จากปุ่มสมัครเรียนในตาราง</p>}
       </div>
 
-      <h2 class="tu-h2">ทุน &amp; ทางเลือกชำระเงิน</h2>
-      <div class="tu-aid-grid">
-        {AID.map((a) => (
-          <div class="contentcard tu-aid">
-            <h3>{a.title}</h3>
-            <p>{a.desc}</p>
-          </div>
-        ))}
-      </div>
+      <ScholarshipSection context="tuition" />
 
-      <h2 class="tu-h2">ขั้นตอนสมัคร &amp; ชำระเงิน</h2>
-      <ol class="tu-steps">
-        {STEPS.map((s, i) => (
-          <li>
-            <span class="tu-step-n">{i + 1}</span>
-            <span>{s}</span>
-          </li>
-        ))}
-      </ol>
+      {SHOW_FINANCIAL_AID && (
+        <>
+          <h2 class="tu-h2">ทุน &amp; ทางเลือกชำระเงิน</h2>
+          <div class="tu-aid-grid">
+            {AID.map((a) => (
+              <div class="contentcard tu-aid">
+                <h3>{a.title}</h3>
+                <p>{a.desc}</p>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
+      {SHOW_APPLICATION_STEPS && (
+        <>
+          <h2 class="tu-h2">ขั้นตอนสมัคร &amp; ชำระเงิน</h2>
+          <ol class="tu-steps">
+            {STEPS.map((s, i) => (
+              <li>
+                <span class="tu-step-n">{i + 1}</span>
+                <span>{s}</span>
+              </li>
+            ))}
+          </ol>
+        </>
+      )}
 
       <div class="tu-cta">
         <div>

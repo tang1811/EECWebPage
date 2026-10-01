@@ -1,5 +1,6 @@
 // Shared authoritative news content, edited by EECWebAdmin.
 import SITE_NEWS from './site-news.json';
+import { SCHOLARSHIPS } from './scholarships';
 
 export type NewsArticle = {
   slug: string;
@@ -15,6 +16,7 @@ export type NewsArticle = {
   gallery?: string[];  // extra images shown after the cover (click-to-zoom)
   excerpt: string;
   body: string[];      // paragraphs
+  scholarshipSlug?: string; // Structured scholarship terms.
   promotion?: {
     isExample: boolean;
     showOnHomepage: boolean;
@@ -37,7 +39,22 @@ export type UpcomingEvent = {
 
 
 const showDrafts = import.meta.env.PUBLIC_PREVIEW === '1';
-export const NEWS: NewsArticle[] = (SITE_NEWS.news as NewsArticle[]).filter(article => showDrafts || article.published !== false);
+const scholarshipNews: NewsArticle[] = SCHOLARSHIPS.map((offer) => ({
+  slug: offer.slug,
+  scholarshipSlug: offer.slug,
+  image: offer.image,
+  gallery: offer.gallery,
+  tag: offer.category,
+  title: `${offer.title} ปีการศึกษา 2570`,
+  date: '2026-09-30',
+  dateLabel: '30 กันยายน 2569',
+  tone: offer.category === 'ทุนการศึกษา' ? 'green' : 'amber',
+  icon: 'award',
+  excerpt: offer.excerpt,
+  body: [offer.excerpt],
+}));
+export const NEWS: NewsArticle[] = [...scholarshipNews, ...(SITE_NEWS.news as NewsArticle[])]
+  .filter(article => showDrafts || article.published !== false);
 export const NEWS_LEAD_SLUG: string = NEWS.some(article => article.slug === SITE_NEWS.leadSlug)
   ? SITE_NEWS.leadSlug : NEWS[0]?.slug ?? '';
 const requestedSideSlugs = SITE_NEWS.sideSlugs as string[];

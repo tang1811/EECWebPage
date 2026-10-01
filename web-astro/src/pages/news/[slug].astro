@@ -1,6 +1,9 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PromotionArtwork from '../../components/PromotionArtwork.astro';
+import ScholarshipDetail from '../../components/ScholarshipDetail.astro';
+import ScholarshipTeaser from '../../components/ScholarshipTeaser.astro';
+import { SCHOLARSHIPS } from '../../data/scholarships';
 import '../../styles/homepage.css';
 import '../../styles/subpages.css';
 import '../../styles/news.css';
@@ -15,9 +18,11 @@ const COLLEGE = 'วิทยาลัยเทคโนโลยีอีอี
 
 const { slug } = Astro.params as { slug: string };
 const n = getNews(slug)!;
+const scholarship = SCHOLARSHIPS.find((offer) => offer.slug === n.scholarshipSlug);
 
 // Icon-card articles (tone/icon, no photo) render without a cover/lightbox.
 const images = n.image ? [n.image, ...(n.gallery ?? [])] : [];
+const galleryImages = scholarship ? images.slice(1) : images;
 const more = NEWS.filter((x) => x.slug !== slug && x.image).slice(0, 2);
 
 const jsonLd = {
@@ -68,15 +73,15 @@ const breadcrumb = {
         )}
         {n.promotion && !n.image && <div class="promotion-detail-placeholder"><PromotionArtwork title={n.title} tone={n.promotion.tone} /></div>}
         {images.length > 0 && (
-          <button type="button" class:list={['news-cover', 'news-cover-btn', { 'promotion-detail-cover': n.promotion }]} aria-label="ดูรูปขนาดเต็ม">
+          <button type="button" class:list={['news-cover', 'news-cover-btn', { 'promotion-detail-cover': n.promotion || scholarship }]} aria-label="ดูรูปขนาดเต็ม">
             <img src={images[0]} alt={n.title} style={n.objectPosition ? `object-position:${n.objectPosition}` : undefined} />
             <span class="news-cover-zoom" aria-hidden="true">⤢</span>
           </button>
         )}
         {images.length > 1 && (
-          <div class="news-thumbs">
-            {images.map((src, i) => (
-              <button type="button" class="news-thumb" aria-label={`ดูรูปที่ ${i + 1}`}>
+          <div class:list={['news-thumbs', { 'scholarship-gallery': scholarship }]} data-separate-cover={scholarship ? 'true' : undefined}>
+            {galleryImages.map((src, i) => (
+              <button type="button" class="news-thumb" aria-label={`ดูรูปที่ ${i + (scholarship ? 2 : 1)}`}>
                 <img src={src} alt="" loading="lazy" />
               </button>
             ))}
@@ -86,6 +91,7 @@ const breadcrumb = {
         <div class="news-body">
           {n.body.map((p) => <p>{p}</p>)}
         </div>
+        {scholarship && <ScholarshipDetail offer={scholarship} />}
         {n.promotion && <div class="promotion-contact"><a class="btn btn-primary" href="/contact/">สอบถามข้อมูลกับวิทยาลัย <span aria-hidden="true">↗</span></a></div>}
         <a href="/news/" class="news-back">← กลับไปหน้าข่าวสารทั้งหมด</a>
       </div>
@@ -96,7 +102,9 @@ const breadcrumb = {
         <div class="container">
           <h2 class="news-more-head">ข่าวอื่น ๆ</h2>
           <div class="news-more-grid">
-            {more.map((m) => (
+            {more.map((m) => m.scholarshipSlug ? (
+              <ScholarshipTeaser title={m.title} image={m.image} href={`/news/${m.slug}/`} />
+            ) : (
               <a href={`/news/${m.slug}/`} class="news-card">
                 <div class="news-card-img"><img src={m.image} alt={m.title} loading="lazy" style={m.objectPosition ? `object-position:${m.objectPosition}` : undefined} /></div>
                 <div class="news-card-body">
@@ -121,9 +129,11 @@ const breadcrumb = {
       const coverImg = cover.querySelector('img');
       const thumbsWrap = document.querySelector<HTMLElement>('.news-thumbs');
       const thumbs = Array.from(document.querySelectorAll<HTMLButtonElement>('.news-thumb'));
+      const separateCover = thumbsWrap?.dataset.separateCover === 'true';
+      const coverSrc = coverImg?.getAttribute('src') ?? '';
       const images: string[] = thumbs.length
-        ? thumbs.map((b) => b.querySelector('img')?.getAttribute('src') ?? '')
-        : [coverImg?.getAttribute('src') ?? ''];
+        ? [...(separateCover ? [coverSrc] : []), ...thumbs.map((b) => b.querySelector('img')?.getAttribute('src') ?? '')]
+        : [coverSrc];
       const alt = coverImg?.getAttribute('alt') ?? '';
       // In the old React tree the overlay renders right after the thumbs (or the
       // cover button when there is a single image), before .news-cover-hint.
@@ -133,6 +143,8 @@ const breadcrumb = {
       let overlay: HTMLDivElement | null = null;
       let stageImg: HTMLImageElement | null = null;
       let caption: HTMLElement | null = null;
+      let returnFocus: HTMLElement | null = null;
+      let previousOverflow = '';
 
       const render = () => {
         if (active === null || !stageImg) return;
@@ -141,10 +153,12 @@ const breadcrumb = {
       };
 
       const close = () => {
+        if (active === null) return;
         active = null;
         overlay?.remove();
         window.removeEventListener('keydown', onKey);
-        document.body.style.overflow = '';
+        document.body.style.overflow = previousOverflow;
+        returnFocus?.focus({ preventScroll: true });
       };
 
       const step = (d: number) => {
@@ -154,14 +168,24 @@ const breadcrumb = {
       };
 
       const onKey = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') close();
-        else if (e.key === 'ArrowRight') step(1);
-        else if (e.key === 'ArrowLeft') step(-1);
+        if (e.key === 'Tab' && overlay) {
+          const buttons = Array.from(overlay.querySelectorAll<HTMLButtonElement>('button'));
+          const current = buttons.findIndex((button) => button === document.activeElement);
+          const next = current < 0
+            ? (e.shiftKey ? buttons.length - 1 : 0)
+            : (current + (e.shiftKey ? -1 : 1) + buttons.length) % buttons.length;
+          e.preventDefault();
+          buttons[next]?.focus({ preventScroll: true });
+        } else if (['Escape', 'ArrowRight', 'ArrowLeft'].includes(e.key)) {
+          e.preventDefault();
+          if (e.key === 'Escape') close();
+          else step(e.key === 'ArrowRight' ? 1 : -1);
+        }
       };
 
       const build = () => {
         overlay = document.createElement('div');
-        overlay.className = 'pf-lb';
+        overlay.className = 'pf-lb news-lightbox';
         overlay.setAttribute('role', 'dialog');
         overlay.setAttribute('aria-modal', 'true');
         overlay.setAttribute('aria-label', 'รูปข่าวขนาดเต็ม');
@@ -208,15 +232,18 @@ const breadcrumb = {
       const open = (i: number) => {
         if (!overlay) build();
         if (!overlay) return;
+        returnFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+        previousOverflow = document.body.style.overflow;
         active = i;
         render();
         anchor.insertAdjacentElement('afterend', overlay);
         window.addEventListener('keydown', onKey);
         document.body.style.overflow = 'hidden';
+        overlay.querySelector<HTMLButtonElement>('.pf-lb-close')?.focus({ preventScroll: true });
       };
 
       cover.addEventListener('click', () => open(0));
-      thumbs.forEach((b, i) => b.addEventListener('click', () => open(i)));
+      thumbs.forEach((b, i) => b.addEventListener('click', () => open(i + (separateCover ? 1 : 0))));
     }
   </script>
 </Base>
@@ -230,6 +257,11 @@ const breadcrumb = {
   .promotion-detail-placeholder { max-width: 560px; height: 340px; border-radius: var(--r-md); overflow: hidden; margin: 24px auto 36px; }
   .news-cover.promotion-detail-cover { aspect-ratio: auto; background: var(--ink-50); }
   .news-cover.promotion-detail-cover img { height: auto; max-height: 850px; object-fit: contain; }
+  .news-thumbs.scholarship-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .scholarship-gallery .news-thumb { width: 100%; height: auto; border-radius: 12px; background: #f3f5f1; }
+  .scholarship-gallery .news-thumb img { display: block; width: 100%; height: auto; object-fit: contain; }
+  .scholarship-gallery .news-thumb:focus-visible { outline: 3px solid var(--green-700); outline-offset: 3px; }
+  @media (max-width: 600px) { .news-thumbs.scholarship-gallery { grid-template-columns: 1fr; gap: 16px; } }
   .promotion-contact { margin: 25px 0; }
   @media (max-width: 600px) { .promotion-detail-placeholder { height: 280px; } .promotion-summary { padding: 20px; } }
 </style>

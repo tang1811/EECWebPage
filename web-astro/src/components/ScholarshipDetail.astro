@@ -1,0 +1,101 @@
+---
+import { SCHOLARSHIP_DOCUMENTS, type Scholarship } from '../data/scholarships';
+interface Props { offer: Scholarship }
+const { offer } = Astro.props;
+const money = (value: number) => value.toLocaleString('th-TH');
+---
+
+<div class="scholarship-detail">
+  <div class="scholarship-summary">
+    <p class="scholarship-kind">{offer.badge} · รอบเช้า</p>
+    <strong>{offer.benefit}</strong>
+    <dl>
+      <div><dt>สำหรับ</dt><dd>{offer.audience}</dd></div>
+      <div><dt>ช่วงสมัครและชำระเงิน</dt><dd>{offer.period}</dd></div>
+      <div><dt>จำนวนที่รับตามประกาศ</dt><dd>{offer.seats} คน · สอบถามจำนวนคงเหลือกับวิทยาลัย</dd></div>
+    </dl>
+  </div>
+
+  <section aria-labelledby="scholarship-eligibility">
+    <h2 id="scholarship-eligibility">คุณสมบัติผู้สมัคร</h2>
+    <ul>{offer.eligibility.map((item) => <li>{item}</li>)}</ul>
+  </section>
+
+  <section aria-labelledby="scholarship-amounts">
+    <h2 id="scholarship-amounts">สิทธิประโยชน์และยอดชำระ</h2>
+    <p>สำหรับรอบเช้า ตามหลักสูตรและยอดที่ระบุในประกาศ</p>
+    <p class="scholarship-table-hint" aria-hidden="true">เลื่อนตารางซ้าย–ขวาเพื่อดูยอดครบทุกช่อง ↔</p>
+    <div class="scholarship-table-wrap" role="region" aria-label="ตารางสิทธิประโยชน์ เลื่อนแนวนอนเพื่อดูครบทุกคอลัมน์" tabindex="0">
+      <table>
+        <caption>จำนวนเงินตามประกาศ (บาท)</caption>
+        <thead><tr><th scope="col">หลักสูตร</th><th scope="col">ยอดเต็ม</th><th scope="col">ส่วนลด</th><th scope="col">ยอดชำระ</th></tr></thead>
+        <tbody>{offer.fees.map((row) => <tr><th scope="row">{row.course}</th><td>{money(row.full)}</td><td>{money(row.discount)}</td><td><strong>{money(row.payable)}</strong></td></tr>)}</tbody>
+      </table>
+    </div>
+    <p class="scholarship-small">ส่วนลดในตารางเป็นจำนวนที่ต้องชำระคืนหากไม่เป็นไปตามเงื่อนไขการเรียนครบ 1 ปีการศึกษา</p>
+  </section>
+
+  {offer.continuation && <section class="scholarship-continuation" aria-labelledby="scholarship-continuation"><h2 id="scholarship-continuation">เงื่อนไขรับทุนต่อเนื่อง</h2><p>{offer.continuation}</p></section>}
+
+  <section aria-labelledby="scholarship-documents">
+    <h2 id="scholarship-documents">เอกสารที่ใช้สมัคร</h2>
+    <ul>{SCHOLARSHIP_DOCUMENTS.map((item) => <li>{item}</li>)}</ul>
+    <p>ส่งวุฒิการศึกษาฉบับจริงภายในวันที่ <time datetime="2027-04-20">20 เมษายน 2570</time></p>
+  </section>
+
+  <section aria-labelledby="scholarship-conditions">
+    <h2 id="scholarship-conditions">เงื่อนไขการชำระเงินและการรับสิทธิ์</h2>
+    <ol>{offer.conditions.map((item) => <li>{item}</li>)}</ol>
+  </section>
+
+  <section class="scholarship-source" aria-labelledby="scholarship-source">
+    <h2 id="scholarship-source">ติดต่อสมัครเรียน</h2>
+    <p>ติดต่อวิทยาลัยเพื่อตรวจสอบคุณสมบัติ จำนวนที่ว่าง และช่องทางชำระเงินก่อนสมัคร</p>
+    <div class="scholarship-links">
+      <a class="scholarship-primary" href="/contact/">ติดต่อสมัครเรียน</a>
+      <a href="tel:038494066">โทร 038-494-066</a>
+    </div>
+  </section>
+  <a class="scholarship-back" href="/tuition/#scholarships">← ดูทุนและส่วนลดทั้งหมดในหน้าค่าเทอม</a>
+</div>
+
+<style>
+  .scholarship-detail { margin: 28px 0; font-size: 16px; line-height: 1.8; color: var(--ink-700, #344b40); }
+  .scholarship-summary { background: #edf5ef; border: 1px solid #d4e4d9; border-radius: 16px; padding: 28px; }
+  .scholarship-kind { margin: 0 0 8px; font-size: 13px; color: #466b55; font-weight: 700; }
+  .scholarship-summary > strong { display: block; font-size: clamp(25px, 4vw, 34px); line-height: 1.4; color: #064d3d; }
+  .scholarship-summary dl { margin: 20px 0 0; display: grid; gap: 12px; }
+  .scholarship-summary dt { font-size: 13px; color: #567260; }
+  .scholarship-summary dd { margin: 0; font-weight: 600; }
+  section { margin-top: 32px; }
+  h2 { font-size: 23px; line-height: 1.5; color: var(--ink-900, #142b24); margin: 0 0 12px; }
+  p { margin: 0 0 12px; }
+  ul, ol { padding-left: 24px; margin: 0; }
+  li + li { margin-top: 10px; }
+  .scholarship-table-wrap { overflow-x: auto; overscroll-behavior-x: contain; border: 1px solid #dbe5de; border-radius: 12px; }
+  .scholarship-table-hint { display: none; font-size: 13px; color: #57665c; }
+  table { border-collapse: collapse; width: 100%; min-width: 540px; font-size: 15px; }
+  caption { padding: 10px 16px; text-align: left; font-size: 13px; background: #f5f7f3; }
+  th, td { padding: 14px 16px; border-top: 1px solid #dbe5de; text-align: right; white-space: nowrap; }
+  th:first-child { text-align: left; }
+  thead { background: #edf5ef; }
+  tbody th { font-weight: 500; }
+  td:last-child { color: #07533e; background: #f7faf7; }
+  .scholarship-small { font-size: 13px; margin-top: 12px; color: #57665c; }
+  .scholarship-continuation { padding: 22px; border-left: 4px solid #b18728; background: #fcf8ec; }
+  .scholarship-continuation p { margin-bottom: 0; }
+  .scholarship-source { padding-top: 28px; border-top: 1px solid #dde4de; }
+  .scholarship-links { display: flex; align-items: center; flex-wrap: wrap; gap: 14px 24px; }
+  .scholarship-links a, .scholarship-back { color: #07533e; text-decoration: underline; text-underline-offset: 4px; font-size: 14px; font-weight: 700; }
+  .scholarship-links .scholarship-primary { background: #064d3d; color: white; padding: 12px 18px; border-radius: 8px; text-decoration: none; }
+  .scholarship-back { display: inline-block; margin-top: 28px; }
+  a:focus-visible, .scholarship-table-wrap:focus-visible { outline: 3px solid #b18728; outline-offset: 4px; }
+  @media (max-width: 640px) {
+    .scholarship-summary { padding: 22px; }
+    .scholarship-detail { font-size: 15px; }
+    .scholarship-table-hint { display: block; }
+    .scholarship-links { align-items: stretch; flex-direction: column; gap: 10px; }
+    .scholarship-links a { display: flex; align-items: center; justify-content: center; min-height: 44px; }
+    .scholarship-back { display: flex; align-items: center; min-height: 44px; }
+  }
+</style>

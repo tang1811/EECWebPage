@@ -47,6 +47,36 @@
 .news-thumb:hover { border-color: var(--green-700); }
 .news-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
+/* Keep the image and touch controls separate on small or landscape screens. */
+@media (max-width: 800px), (max-height: 600px) {
+  .news-lightbox {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: minmax(0, 1fr) 48px;
+    gap: 16px;
+    padding: max(76px, calc(env(safe-area-inset-top) + 60px)) max(12px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  }
+  .news-lightbox .pf-lb-stage {
+    grid-area: 1 / 1 / 2 / -1;
+    justify-self: center;
+    min-width: 0;
+    min-height: 0;
+    max-width: 100%;
+    max-height: 100%;
+    align-items: center;
+  }
+  .news-lightbox .pf-lb-stage img {
+    width: auto;
+    height: auto;
+    max-height: calc(100vh - 204px);
+    max-height: calc(100dvh - 204px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+  .news-lightbox .pf-lb-close { top: max(12px, env(safe-area-inset-top)); right: max(12px, env(safe-area-inset-right)); }
+  .news-lightbox .pf-lb-nav { position: static; transform: none; width: 48px; height: 48px; }
+  .news-lightbox .pf-lb-prev { grid-area: 2 / 1; justify-self: end; }
+  .news-lightbox .pf-lb-next { grid-area: 2 / 2; justify-self: start; }
+}
+
 /* ────────────────────────────────────────────────────────────
    /news/ redesign (SchoolWebV2 newpages.css port)
    Renames vs the design to dodge collisions with the article

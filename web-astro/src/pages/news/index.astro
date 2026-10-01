@@ -1,28 +1,24 @@
 ---
 // /news/ — magazine-style listing (SchoolWebV2 design news.html port).
-// Lead + two side stories, category chips + text search over the grid,
-// upcoming-events calendar with .ics download. Filtering is client-side;
+// Lead + two side stories, category chips + text search over the grid.
+// Filtering is client-side;
 // every card is server-rendered so crawlers see all links.
 import Base from '../../layouts/Base.astro';
 import PromotionArtwork from '../../components/PromotionArtwork.astro';
+import ScholarshipTeaser from '../../components/ScholarshipTeaser.astro';
 import '../../styles/homepage.css';
 import '../../styles/subpages.css';
 import '../../styles/news.css';
-import { NEWS, NEWS_LEAD_SLUG, NEWS_SIDE_SLUGS, NEWS_UPCOMING, getNews } from '../../data/news-data';
+import { NEWS, NEWS_LEAD_SLUG, NEWS_SIDE_SLUGS, getNews } from '../../data/news-data';
 import { SITE_URL, SITE_NAME } from '../../config';
 import type { NewsArticle } from '../../data/news-data';
 
 const lead = getNews(NEWS_LEAD_SLUG);
 const side = NEWS_SIDE_SLUGS.map((s) => getNews(s)).filter((n): n is NewsArticle => Boolean(n));
-const gridItems = NEWS.filter((n) => n.slug !== NEWS_LEAD_SLUG && !NEWS_SIDE_SLUGS.includes(n.slug));
-// Lead/side stories also render as hidden grid cards so category chips and
-// search can reach them — the client script swaps the magazine block for the
-// full grid whenever a filter or query is active.
-const featured = [lead, ...side].filter((n): n is NewsArticle => Boolean(n));
 
-const CATS = ['ทั้งหมด', 'กิจกรรม', 'ประกาศ', 'รับสมัคร', 'รางวัล', 'นศท.'];
+const CATS = ['ทั้งหมด', 'กิจกรรม', 'ประกาศ', 'รับสมัคร', 'ทุนการศึกษา', 'โปรโมชั่น', 'รางวัล', 'นศท.'];
 const DESCRIPTION =
-  'ข่าวสาร ประกาศ และกิจกรรมล่าสุดของวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · ปฏิทินกิจกรรมปีการศึกษา 2569';
+  'ข่าวสาร ประกาศ และกิจกรรมล่าสุดของวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · ปีการศึกษา 2569';
 
 // Tinted icon-card SVG bodies (from the design's news.html), keyed by NewsArticle.icon.
 const ICONS: Record<string, string> = {
@@ -57,7 +53,7 @@ const itemList = {
   og={{
     title: `ข่าวสาร & กิจกรรม · ${SITE_NAME}`,
     description: DESCRIPTION,
-    image: lead?.image ?? '/assets/logo.webp',
+    image: lead?.image || '/assets/logo.webp',
     type: 'website',
   }}
 >
@@ -72,7 +68,7 @@ const itemList = {
           <span>ข่าวสาร &amp; กิจกรรม</span>
         </div>
         <h1>ข่าวสาร &amp; <span class="grad">กิจกรรม</span></h1>
-        <p>ความเคลื่อนไหวของนักศึกษา ประกาศจากฝ่ายวิชาการ และปฏิทินสำคัญประจำปีการศึกษา 2569</p>
+        <p>ความเคลื่อนไหวของนักศึกษา ประกาศจากฝ่ายวิชาการ และกิจกรรมประจำปีการศึกษา 2569</p>
       </div>
     </section>
 
@@ -80,8 +76,10 @@ const itemList = {
       <div class="container">
         <div class="mag">
           <div class="reveal mag-lead">
-            <a href={`/news/${lead.slug}/`}>
-              <img src={lead.image} alt="" style={lead.objectPosition ? `object-position:${lead.objectPosition}` : undefined} />
+            {lead.scholarshipSlug ? (
+              <ScholarshipTeaser title={lead.title} image={lead.image} href={`/news/${lead.slug}/`} />
+            ) : <a href={`/news/${lead.slug}/`}>
+              <img src={lead.image || '/assets/logo.webp'} alt="" style={lead.image ? `object-position:${lead.objectPosition ?? 'center'}` : 'object-fit:contain;padding:32px;background:var(--green-50)'} />
               <div class="mag-lead-body">
                 <span class="mag-flag">
                   <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M12 2l2.4 7.6L22 12l-7.6 2.4L12 22l-2.4-7.6L2 12l7.6-2.4L12 2zM18 4l.9 2.1L21 7l-2.1.9L18 10l-.9-2.1L15 7l2.1-.9L18 4z" fill="currentColor"/></svg>ข่าวเด่น
@@ -91,20 +89,22 @@ const itemList = {
                 <p>{lead.excerpt}</p>
                 <span class="mag-link">อ่านข่าวเต็ม <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
               </div>
-            </a>
+            </a>}
           </div>
           <div class="mag-side">
             {side.map((n, i) => (
               <div class="reveal mag-item" style={`--reveal-delay:${0.08 * (i + 1)}s`}>
-                <a href={`/news/${n.slug}/`}>
-                  <div class="mag-item-img"><img src={n.image} alt="" loading="lazy" style={n.objectPosition ? `object-position:${n.objectPosition}` : undefined} /></div>
+                {n.scholarshipSlug ? (
+                  <ScholarshipTeaser title={n.title} image={n.image} href={`/news/${n.slug}/`} />
+                ) : <a href={`/news/${n.slug}/`}>
+                  <div class="mag-item-img"><img src={n.image || '/assets/logo.webp'} alt="" loading="lazy" style={n.image ? `object-position:${n.objectPosition ?? 'center'}` : 'object-fit:contain;padding:12px;background:var(--green-50)'} /></div>
                   <div class="mag-item-tx">
                     <span class="mag-meta">{n.tag} · <time datetime={n.date}>{n.dateLabel}</time></span>
                     <h3>{n.title}</h3>
                     <p>{n.excerpt}</p>
                     <span class="mag-link">อ่านต่อ <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                   </div>
-                </a>
+                </a>}
               </div>
             ))}
           </div>
@@ -131,9 +131,11 @@ const itemList = {
         </div>
 
         <div class="highlights-grid" id="newsGrid">
-          {[...featured.map((n) => ({ n, feat: true })), ...gridItems.map((n) => ({ n, feat: false }))].map(({ n, feat }, i) => (
-            <div class="reveal" style={`--reveal-delay:${revealDelay(feat ? 0 : i - featured.length)}s`} data-card data-cat={n.tag} data-text={searchText(n)} data-featured={feat ? 'true' : undefined} hidden={feat}>
-              <a href={`/news/${n.slug}/`} class={n.tone ? `hl-card hl-tone-${n.tone}` : 'hl-card'}>
+          {NEWS.map((n, i) => (
+            <div class="reveal" style={`--reveal-delay:${revealDelay(i)}s`} data-card data-cat={n.tag} data-text={searchText(n)}>
+              {n.scholarshipSlug ? (
+                <ScholarshipTeaser title={n.title} image={n.image} href={`/news/${n.slug}/`} />
+              ) : <a href={`/news/${n.slug}/`} class={n.tone ? `hl-card hl-tone-${n.tone}` : 'hl-card'}>
                 {n.promotion ? (
                   <div class="hl-img promotion-news-artwork"><PromotionArtwork image={n.image} title={n.title} tone={n.promotion.tone} /></div>
                 ) : n.image ? (
@@ -152,7 +154,7 @@ const itemList = {
                   </div>
                   <span class="hl-arrow">อ่านต่อ <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>
                 </div>
-              </a>
+              </a>}
             </div>
           ))}
         </div>
@@ -163,38 +165,13 @@ const itemList = {
       </div>
     </section>
 
-    <section class="section section-sm" style="background:var(--bg-alt);padding-top:64px;padding-bottom:72px">
-      <div class="container">
-        <div class="reveal section-head" style="margin-bottom:32px">
-          <span class="eyebrow">ปฏิทินกิจกรรม</span>
-          <h2 class="section-title">กำลังจะถึง</h2>
-        </div>
-        <div class="cal-list">
-          {NEWS_UPCOMING.map((ev, i) => (
-            <div class="reveal cal-item" style={`--reveal-delay:${i * 0.06}s`}>
-              <div class="cal-date"><strong>{ev.d}</strong><span>{ev.m}</span></div>
-              <div class="cal-tx"><h3>{ev.t}</h3><p>{ev.s}</p></div>
-              <div class="cal-right">
-                <span class="cal-when">{ev.when}</span>
-                <button class="cal-add" type="button" data-ics={i}>
-                  <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>เพิ่มลงปฏิทิน
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
   </main>
 
   <script>
-    // Category chips + text search + load-more over the server-rendered grid,
-    // and .ics download for the upcoming-events calendar (design news-data.js
-    // downloadICS). Vanilla port — same behavior as the design's inline script.
-    import { NEWS_UPCOMING } from '../../data/news-data';
+    // Category chips + text search + load-more over the server-rendered grid.
 
     const PAGE = 9;
-    let cat = 'ทั้งหมด';
+    let cat = new URLSearchParams(window.location.search).get('category') === 'promotion' ? 'โปรโมชั่น' : 'ทั้งหมด';
     let q = '';
     let limit = PAGE;
 
@@ -209,17 +186,15 @@ const itemList = {
 
     const apply = () => {
       if (!empty || !more || !btnMore || !clear) return;
-      // While a filter/search is active the magazine block gives way to the
-      // grid, and the lead/side (featured) cards join the filterable pool —
-      // otherwise the นศท./รับสมัคร chips could never match anything.
+      // The grid includes every article, including the stories featured above.
+      // Hide the magazine block during filtering to keep results focused.
       const filtering = cat !== 'ทั้งหมด' || !!q;
       chipRow?.querySelectorAll<HTMLButtonElement>('button').forEach((button) => {
         button.classList.toggle('chip-active', button.dataset.cat === cat);
         button.setAttribute('aria-pressed', String(button.dataset.cat === cat));
       });
       if (mag) mag.hidden = filtering;
-      const pool = filtering ? cards : cards.filter((c) => !c.dataset.featured);
-      const matched = pool.filter(
+      const matched = cards.filter(
         (c) => (cat === 'ทั้งหมด' || c.dataset.cat === cat) && (!q || (c.dataset.text ?? '').includes(q))
       );
       cards.forEach((c) => { c.hidden = true; });
@@ -256,41 +231,6 @@ const itemList = {
     btnMore?.addEventListener('click', () => {
       limit += PAGE;
       apply();
-    });
-
-    const downloadICS = (ev: (typeof NEWS_UPCOMING)[number]) => {
-      const stamp = (s: string) => s.replace(/[-:]/g, '') + '00';
-      const ics = [
-        'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//EEC Engineer Laemchabang//TH', 'CALSCALE:GREGORIAN',
-        // RFC 5545 requires a VTIMEZONE for every referenced TZID (classic
-        // Outlook rejects the file without it). Thailand is fixed UTC+7.
-        'BEGIN:VTIMEZONE', 'TZID:Asia/Bangkok',
-        'BEGIN:STANDARD', 'DTSTART:19700101T000000', 'TZOFFSETFROM:+0700', 'TZOFFSETTO:+0700', 'TZNAME:+07', 'END:STANDARD',
-        'END:VTIMEZONE',
-        'BEGIN:VEVENT',
-        `UID:${ev.start}-eec@laemchabang`,
-        `DTSTAMP:${stamp(new Date().toISOString().slice(0, 16))}Z`,
-        `DTSTART;TZID=Asia/Bangkok:${stamp(ev.start)}`,
-        `DTEND;TZID=Asia/Bangkok:${stamp(ev.end)}`,
-        `SUMMARY:${ev.t}`,
-        `DESCRIPTION:${ev.s}`,
-        `LOCATION:${ev.loc}`,
-        'END:VEVENT', 'END:VCALENDAR',
-      ].join('\r\n');
-      const url = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${ev.start.slice(0, 10)}-eec.ics`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 100);
-    };
-    document.querySelectorAll<HTMLButtonElement>('[data-ics]').forEach((b) => {
-      b.addEventListener('click', () => {
-        const ev = NEWS_UPCOMING[Number(b.dataset.ics)];
-        if (ev) downloadICS(ev);
-      });
     });
 
     apply();

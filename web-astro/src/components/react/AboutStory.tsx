@@ -17,10 +17,10 @@ const ENHANCED_TIMELINE = [...EXTENDED_TIMELINE, {
   img: PRACTICE_PHOTO.src,
 }];
 const HERO_BANNER = {
-  src: '/assets/about/banner/about-assembly.webp',
+  src: '/assets/about/banner/about-assembly-sharpened-2x.webp',
   alt: 'นักศึกษาและบุคลากรเข้าแถวร่วมกิจกรรมในลานอเนกประสงค์ของวิทยาลัย',
-  width: 1128,
-  height: 751,
+  width: 2256,
+  height: 1502,
 };
 
 

@@ -4,6 +4,7 @@
 // (including Reveal's `reveal ${dirClass} ${className}` double-space output).
 import Base from '../layouts/Base.astro';
 import HomeQuickLinks from '../components/HomeQuickLinks.astro';
+import ScholarshipSection from '../components/ScholarshipSection.astro';
 import { DEFAULT_KEYWORDS } from '../config';
 import { Icon } from '../components/react/chrome-lite';
 import { FAQS } from '../data/faq-data';
@@ -33,7 +34,7 @@ const SLIDES = [
   { img: '/assets/home-banner/banner-4-assembly.webp', alt: 'นักศึกษาและบุคลากรรวมตัวในพื้นที่กิจกรรมของวิทยาลัย', graphic: false },
 ];
 
-const HIGHLIGHT_NEWS = NEWS.filter((n) => n.image && !n.promotion).slice(0, 4);
+const HIGHLIGHT_NEWS = NEWS.filter((n) => !n.promotion && !n.scholarshipSlug).slice(0, 4);
 
 // The course count follows the enabled public catalog.
 const STATS = [
@@ -107,6 +108,8 @@ const TESTIMONIALS = [
 
     <HomeQuickLinks />
 
+    <ScholarshipSection context="home" />
+
     {/* ── Highlights / News strip ── */}
     <section class="section section-sm highlights-section" id="highlights">
       <div class="container">
@@ -119,7 +122,7 @@ const TESTIMONIALS = [
             <div class="reveal  " style={`--reveal-delay:${i * 0.08}s`}>
               <a href={`/news/${n.slug}/`} class="hl-card">
                 <div class="hl-img hl-img-photo">
-                  <img src={n.image} alt={n.title} loading="lazy" style={`object-position:${n.objectPosition}`} />
+                  <img src={n.image || '/assets/logo.webp'} alt={n.title} loading="lazy" style={n.image ? `object-position:${n.objectPosition ?? 'center'}` : 'object-fit:contain;padding:24px;background:var(--green-50)'} />
                 </div>
                 <div class="hl-body">
                   <span class="hl-tag" style="font-size:16px">{n.tag}</span>
