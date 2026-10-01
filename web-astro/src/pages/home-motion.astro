@@ -1,0 +1,230 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE_NAME, ONLINE_ADMISSION_ENABLED } from '../config';
+import { COURSES } from '../data/course-data';
+import { NEWS } from '../data/news-data';
+import { SCHOLARSHIPS, scholarshipHref } from '../data/scholarships';
+import gallery from '../../public/assets/courses/depts/gallery.json';
+import projects from '../../public/assets/portfolio/innovation/innovation.json';
+import '../styles/home-motion.css';
+
+const applyHref = ONLINE_ADMISSION_ENABLED ? '/admission/' : '/contact/';
+const photos = gallery as Record<string, string[]>;
+const featured = ['yon', 'mecha', 'graphic', 'faifaa', 'biz-digital', 'ps-logistics'];
+const courses = [...COURSES].sort((a, b) => {
+  const rank = (slug: string) => featured.includes(slug) ? featured.indexOf(slug) : featured.length;
+  return rank(a.slug) - rank(b.slug);
+});
+const news = NEWS.filter((item) => !item.scholarshipSlug && !item.promotion).slice(0, 3);
+const orbitCards = [
+  { image: '/assets/courses/depts/yon/g1.webp', title: 'ฝีมือที่สร้างได้', label: 'AUTOMOTIVE', href: '/courses/yon/', tilt: -9, speed: -.045 },
+  { image: '/assets/courses/canva/mechatronics/robot-lab.webp', title: 'คิดให้ไกล ลงมือให้จริง', label: 'ROBOTICS', href: '/courses/mecha/', tilt: 8, speed: -.075 },
+  { image: '/assets/courses/depts/graphic/g1.webp', title: 'ไอเดียของคุณ มีที่ไป', label: 'CREATIVE', href: '/courses/graphic/', tilt: 7, speed: -.035 },
+  { image: '/assets/portfolio/innovation/contest-1.webp', title: 'เติบโตไปด้วยกัน', label: 'OUR COMMUNITY', href: '/portfolio/', tilt: -7, speed: -.055 },
+  { image: '/assets/portfolio/innovation/foam-cutter-1.webp', title: 'จากห้องเรียน สู่ผลงาน', label: 'MADE BY STUDENTS', href: '/portfolio/', tilt: -5, speed: -.025 },
+  { image: '/assets/news/events-2569/cover-dance/img_9434.webp', title: 'ทุกความชอบ เป็นไปได้', label: 'CAMPUS LIFE', href: '/news/cover-dance/', tilt: 6, speed: -.04 },
+];
+---
+
+<Base title="เริ่มต้นอนาคตด้วยฝีมือของคุณ" path="/home-motion" chrome={false}
+  description="ค้นหาหลักสูตรที่ใช่ เรียนรู้จากการลงมือทำ และเติบโตไปด้วยกันที่วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง">
+  <meta slot="head" name="robots" content="noindex, follow" />
+  <div class="hm-page">
+    <a class="hm-skip" href="#hm-main">ข้ามไปยังเนื้อหา</a>
+    <header class="hm-header">
+      <nav class="hm-nav" aria-label="เมนูหลัก">
+        <a href="/" class="hm-brand">
+          <img src="/assets/logo.webp" alt="" width="42" height="42" />
+          <span>EEC ENGINEER<small>LAEMCHABANG COLLEGE</small></span>
+        </a>
+        <div class="hm-desktop-nav">
+          <a href="#hm-courses">หลักสูตร</a>
+          <a href="#hm-projects">ผลงานนักศึกษา</a>
+          <a href="#hm-scholarships">ทุนการศึกษา</a>
+          <a href="#hm-news">รอบรั้ว EEC</a>
+        </div>
+        <a class="hm-button hm-button-green hm-nav-apply" href={applyHref}>สมัครเรียน <span aria-hidden="true">↗</span></a>
+        <details class="hm-mobile-menu">
+          <summary aria-label="เปิดหรือปิดเมนู"><span></span><span></span></summary>
+          <div>
+            <a href="#hm-courses">หลักสูตร</a><a href="#hm-projects">ผลงานนักศึกษา</a>
+            <a href="#hm-scholarships">ทุนการศึกษา</a><a href="#hm-news">รอบรั้ว EEC</a>
+            <a href={applyHref}>ติดต่อสมัครเรียน ↗</a>
+          </div>
+        </details>
+      </nav>
+    </header>
+
+    <main id="hm-main">
+      <section class="hm-hero" aria-labelledby="hm-hero-title">
+        <div class="hm-hero-content">
+          <a href="#hm-scholarships" class="hm-pill"><i aria-hidden="true"></i> เปิดรับสมัครนักศึกษาใหม่ ปี 2570 <span aria-hidden="true">↗</span></a>
+          <p class="hm-hero-eyebrow">YOUR SKILLS. YOUR FUTURE.</p>
+          <h1 id="hm-hero-title">เรียนรู้จากการลงมือ<br /><span class="hm-highlight">สร้างอนาคตด้วยฝีมือ
+            <svg viewBox="0 0 540 30" preserveAspectRatio="none" aria-hidden="true"><path d="M8 20 Q245 -3 530 15 M25 26 Q280 7 505 24" /></svg>
+          </span></h1>
+          <p class="hm-hero-description">เปลี่ยนสิ่งที่ชอบ ให้เป็นทักษะที่ใช่<br />เรียนรู้จากการลงมือทำ แล้วสร้างอนาคตในแบบของคุณ</p>
+          <div class="hm-hero-actions">
+            <a href="#hm-courses" class="hm-button hm-button-green">ค้นหาหลักสูตรที่ใช่ <span aria-hidden="true">↗</span></a>
+            <a href={applyHref} class="hm-button hm-button-outline">ปรึกษาเรื่องเรียน <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="hm-levels"><span>ปวช.</span><i></i><span>ปวส.</span><i></i><span>ปริญญาตรี</span></div>
+        </div>
+        <div class="hm-orbit" aria-label="ค้นพบชีวิตการเรียนรู้ที่ EEC">
+          {orbitCards.map((card, i) => (
+            <div class={'hm-orbit-position hm-orbit-' + (i + 1)} data-hm-parallax={card.speed} style={'--card-tilt:' + card.tilt + 'deg;--float-delay:' + (-i * 1.1) + 's'}>
+              <a href={card.href} class="hm-orbit-card">
+                <img src={card.image} alt="" width="300" height="250" loading={i < 2 ? 'eager' : 'lazy'} />
+                <span class="hm-orbit-caption"><small>{card.label}</small><strong>{card.title}</strong><span aria-hidden="true">↗</span></span>
+              </a>
+            </div>
+          ))}
+        </div>
+        <div class="hm-hero-bottom">
+          <span class="hm-location"><i aria-hidden="true"></i> แหลมฉบัง · ศรีราชา · ชลบุรี</span>
+          <a href="#hm-intro" class="hm-scroll-cue"><span aria-hidden="true">↓</span> เลื่อนเพื่อค้นพบ</a>
+          <button class="hm-motion-toggle" type="button" aria-pressed="false" hidden>
+            <span data-hm-motion-symbol aria-hidden="true">Ⅱ</span><span data-hm-motion-label>หยุดภาพเคลื่อนไหว</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="hm-intro hm-wrap" id="hm-intro" aria-labelledby="hm-intro-title">
+        <div data-hm-reveal>
+          <p class="hm-eyebrow"><span>01 / DISCOVER EEC</span></p>
+          <h2 id="hm-intro-title">ยิ่งได้ลอง<br />ยิ่งค้นพบ<span class="hm-text-green">ตัวเอง.</span></h2>
+        </div>
+        <div class="hm-intro-right" data-hm-reveal>
+          <p>ที่วิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง<br class="hm-desktop-break" /> เราเชื่อว่าทักษะเกิดจากการลงมือทำ เปิดพื้นที่ให้คุณได้เรียนรู้ ทดลอง และสร้างผลงานของตัวเอง</p>
+          <dl class="hm-facts">
+            <div><dt>ก่อตั้งเมื่อปี พ.ศ.</dt><dd>2538</dd></div>
+            <div><dt>หลักสูตรที่เปิดสอน</dt><dd><span data-hm-count={COURSES.length}>{COURSES.length}</span><span class="hm-fact-unit">หลักสูตร</span></dd></div>
+            <div><dt>เส้นทางการเรียนรู้</dt><dd><span data-hm-count="3">3</span><span class="hm-fact-unit">ระดับ</span></dd></div>
+          </dl>
+          <a href="/about/" class="hm-text-link">รู้จักวิทยาลัยของเรา <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+
+      <section class="hm-courses" id="hm-courses" aria-labelledby="hm-courses-title">
+        <div class="hm-wrap">
+          <div class="hm-section-heading" data-hm-reveal>
+            <div><p class="hm-eyebrow">02 / FIND YOUR PATH</p><h2 id="hm-courses-title">เลือกทางที่ชอบ<br />แล้วไปให้<span class="hm-text-yellow">สุดทาง</span></h2></div>
+            <div class="hm-heading-aside"><p>ช่างฝีมือ นักสร้างสรรค์ หรือเจ้าของธุรกิจ<br />ทุกเส้นทางเริ่มต้นได้ที่นี่</p><a class="hm-text-link" href="/courses/">ดูหลักสูตรทั้งหมด <span aria-hidden="true">↗</span></a></div>
+          </div>
+          <div class="hm-course-toolbar">
+            <div class="hm-filters" role="group" aria-label="เลือกกลุ่มหลักสูตร" hidden>
+              {['ทั้งหมด', 'อุตสาหกรรม', 'ดิจิทัล', 'บริหาร'].map((cat, i) => <button type="button" data-hm-filter={cat} aria-pressed={i === 0 ? 'true' : 'false'}>{cat}</button>)}
+            </div>
+            <p class="hm-course-count" aria-live="polite" aria-atomic="true">หลักสูตรแนะนำ</p>
+          </div>
+          <div class="hm-course-grid">
+            {courses.map((course, i) => (
+              <a href={'/courses/' + course.slug + '/'} class="hm-course-card" data-hm-course={course.cat} hidden={i >= 6} data-hm-reveal style={'--reveal-delay:' + (i % 3) * 65 + 'ms'}>
+                <div class="hm-course-photo"><img src={photos[course.slug]?.[0] || course.img} alt="" loading="lazy" width="600" height="420" /><span class="hm-course-level">{course.code}</span></div>
+                <div class="hm-course-copy"><p>{course.cat}</p><h3>{course.name}</h3><span class="hm-round-arrow" aria-hidden="true">↗</span></div>
+              </a>
+            ))}
+          </div>
+          <div class="hm-course-more"><a href="/courses/" class="hm-button hm-button-outline">สำรวจทั้ง {COURSES.length} หลักสูตร <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </section>
+
+      <section class="hm-projects hm-wrap" id="hm-projects" aria-labelledby="hm-projects-title">
+        <div class="hm-project-intro">
+          <p class="hm-eyebrow">03 / MADE BY OUR STUDENTS</p>
+          <h2 id="hm-projects-title">ให้ผลงาน<br />เล่าเรื่อง<span class="hm-text-green">ฝีมือ.</span></h2>
+          <p class="hm-project-description">จากไอเดียในห้องเรียน สู่ชิ้นงานที่จับต้องได้<br />นี่คือเรื่องราวของคนที่กล้าลงมือ</p>
+          <a href="/portfolio/" class="hm-text-link">พบกับผลงานนักศึกษา <span aria-hidden="true">↗</span></a>
+          <div class="hm-project-progress" aria-hidden="true"><span data-hm-project-number>01</span><div><i></i></div><small>03</small></div>
+          <span class="hm-project-note">LEARNING BY DOING, EVERY DAY.</span>
+        </div>
+        <div class="hm-project-list">
+          {projects.slice(0, 3).map((project, i) => (
+            <article class="hm-project-card" data-hm-project={i} data-hm-reveal>
+              <a href="/portfolio/">
+                <div class="hm-project-photo">
+                  <img src={project.cover} alt="" loading="lazy" width="800" height="600" />
+                  <span class="hm-project-index" aria-hidden="true">{'0' + (i + 1)}</span>
+                  <span class="hm-project-sticker">{project.type} <span aria-hidden="true">↗</span></span>
+                </div>
+                <div class="hm-project-copy"><h3>{project.title}</h3><p>{project.desc}</p></div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="hm-campus" aria-labelledby="hm-campus-title">
+        <img class="hm-campus-image" src="/assets/home-banner/banner-4-assembly.webp" alt="บรรยากาศนักศึกษาและกิจกรรมภายในวิทยาลัย" loading="lazy" width="1600" height="900" />
+        <div class="hm-campus-copy hm-wrap" data-hm-reveal>
+          <p class="hm-eyebrow">MORE THAN A CLASSROOM</p>
+          <h2 id="hm-campus-title">มีพื้นที่ให้ลอง<br />มีคนพร้อมให้<span>เติบโต.</span></h2>
+          <a href="/about/" class="hm-button hm-button-yellow">สัมผัสชีวิตที่ EEC <span aria-hidden="true">↗</span></a>
+        </div>
+        <span class="hm-campus-caption">EEC ENGINEER · LAEMCHABANG</span>
+      </section>
+
+      <section class="hm-scholarships hm-wrap" id="hm-scholarships" aria-labelledby="hm-scholarships-title">
+        <div class="hm-section-heading" data-hm-reveal>
+          <div><p class="hm-eyebrow">04 / OPPORTUNITIES FOR YOU</p><h2 id="hm-scholarships-title">เติมโอกาส<br />ให้ทุก<span class="hm-text-green">ความตั้งใจ.</span></h2></div>
+          <div class="hm-heading-aside"><p>ทุนการศึกษา & ส่วนลดสมัครเรียน<br />ปีการศึกษา 2570</p><a href="/news/" class="hm-text-link">ดูประกาศรับสมัครทั้งหมด <span aria-hidden="true">↗</span></a></div>
+        </div>
+        <div class="hm-scholarship-grid">
+          {SCHOLARSHIPS.map((offer, i) => (
+            <a href={scholarshipHref(offer)} class={'hm-scholarship-card hm-scholarship-' + i} data-hm-reveal>
+              <div class="hm-scholarship-image"><img src={offer.image} alt={'โปสเตอร์ ' + offer.title} width="600" height="800" loading="lazy" /></div>
+              <div class="hm-scholarship-copy">
+                <div class="hm-scholarship-meta"><span>{offer.category}</span><span>รับ {offer.seats} คน</span></div>
+                <h3>{offer.title}</h3><p class="hm-scholarship-audience">{offer.audience}</p>
+                <p class="hm-scholarship-benefit">{offer.benefit}</p>
+                <p class="hm-scholarship-deadline">สมัครภายใน {offer.deadline}</p>
+                <span class="hm-card-action">ดูรายละเอียดและเงื่อนไข <span class="hm-round-arrow" aria-hidden="true">↗</span></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="hm-news hm-wrap" id="hm-news" aria-labelledby="hm-news-title">
+        <div class="hm-section-heading" data-hm-reveal>
+          <div><p class="hm-eyebrow">05 / WHAT'S HAPPENING</p><h2 id="hm-news-title">รอบรั้ว <span class="hm-text-green">EEC.</span></h2></div>
+          <a href="/news/" class="hm-text-link">ข่าวสารและกิจกรรมทั้งหมด <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="hm-news-grid">
+          {news.map((item, i) => (
+            <a href={'/news/' + item.slug + '/'} class="hm-news-card" data-hm-reveal style={'--reveal-delay:' + i * 65 + 'ms'}>
+              <div class="hm-news-image"><img src={item.image} alt="" loading="lazy" width="600" height="420" /><span class="hm-round-arrow" aria-hidden="true">↗</span></div>
+              <div class="hm-news-meta"><span>{item.tag}</span><time datetime={item.date}>{item.dateLabel}</time></div>
+              <h3>{item.title}</h3><p>{item.excerpt}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+    </main>
+    <footer class="hm-ending" id="hm-ending">
+      <div class="hm-ending-panel">
+        <div class="hm-ending-mosaic" aria-hidden="true">
+          {[...orbitCards, orbitCards[2], orbitCards[0]].map((card) => (
+            <img src={card.image} alt="" width="360" height="300" loading="lazy" />
+          ))}
+        </div>
+        <div class="hm-ending-inner">
+          <section class="hm-final" aria-labelledby="hm-final-title">
+            <p class="hm-eyebrow">YOUR NEXT CHAPTER STARTS HERE</p>
+            <h2 id="hm-final-title">อนาคตของคุณ<br />เริ่มลงมือได้<span class="hm-text-yellow">วันนี้.</span></h2>
+            <p class="hm-final-description">เรียนรู้ ลงมือทำ เติบโตไปด้วยกันที่ EEC</p>
+            <div class="hm-final-actions"><a href={applyHref} class="hm-button hm-button-yellow">เริ่มต้นเส้นทางของคุณ <span aria-hidden="true">↗</span></a><a href="tel:038494066">คุยกับเรา 038-494-066 <span aria-hidden="true">↗</span></a></div>
+          </section>
+          <div class="hm-footer">
+            <div class="hm-footer-top"><div><p>{SITE_NAME}</p><p>แหลมฉบัง · ศรีราชา · ชลบุรี</p></div><a href="/contact/" class="hm-text-link">ติดต่อและการเดินทาง <span aria-hidden="true">↗</span></a></div>
+            <div class="hm-footer-bottom"><small>© {new Date().getFullYear()} EEC Engineer Laemchabang</small><nav aria-label="เมนูท้ายหน้า"><a href="/">หน้าแรก</a><a href="/privacy/">ความเป็นส่วนตัว</a><a href="#hm-main">กลับด้านบน ↑</a></nav></div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Base>
+<script>
+  import '../scripts/home-motion';
+</script>
