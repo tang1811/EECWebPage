@@ -103,6 +103,12 @@ const TEACHERS: Department[] = [
     { name: 'นางสาวสุมาลี หดคำ',      role: 'หัวหน้าแผนกบัญชี', head: 'section', photo: TC + 'account-head-sumalee.webp' },
     { name: 'นางสาวนิตชญาภร ใจคง',   role: 'ครูประจำแผนก', photo: TC + 'account-nitchayaphon.webp' },
   ]},
+  { id: 'admin-finance', name: 'งานธุรการและการเงิน', color: '#026451', members: [
+    { name: 'นางสาวจิดาภา เพ็ชรรัตน์', role: 'หัวหน้าแผนกงานธุรการและการเงิน', head: 'section', photo: EX + 'deputy-admin-jidapha.webp' },
+    { name: 'นางกัลยา เรืองฤทธิ์', role: 'ครูประจำแผนก', photo: SP + 'finance-kanlaya.webp' },
+    { name: 'นางสาวสุพัฒน์ ชุ่มมุณีรัตน์', role: 'ครูประจำแผนก', photo: SP + 'registrar-suphat.webp' },
+    { name: 'นางสาวศรสวรรค์ วงศ์ศรีกุล', role: 'ครูประจำแผนก' },
+  ]},
 ];
 
 // ── สายสนับสนุน ──────────────────────────────────────────
@@ -142,21 +148,21 @@ function resolvePhoto(name?: string, fallback?: string): string | undefined {
 }
 
 function displayPersonnelName(name: string): string {
-  return name.replace(/^(?:นางสาว|นาย)/, 'อ.');
+  return name.replace(/^(?:นางสาว|นาง|นาย)/, 'อ.');
 }
 
 // Hero stats (PersonnelBody rendered these inline).
 const STATS: { num: string; plus?: boolean; lbl: string }[] = [
   { num: String(PRINCIPALS.length), lbl: 'ผู้บริหารระดับสูง' },
   { num: String(DEPUTIES.length), lbl: 'รองผู้อำนวยการ' },
-  { num: String(totalTeachers), plus: true, lbl: 'ครูผู้สอน 7 แผนก' },
+  { num: String(totalTeachers), plus: true, lbl: 'ครูและบุคลากร ' + TEACHERS.length + ' แผนก' },
   { num: String(SUPPORT.length), lbl: 'สายสนับสนุน' },
 ];
 ---
 
 <Base
   title="บุคลากร"
-  description="ทำเนียบบุคลากรวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · คณะผู้บริหาร รองผู้อำนวยการ ครูผู้สอน 7 แผนกวิชา และบุคลากรสายสนับสนุน"
+  description={'ทำเนียบบุคลากรวิทยาลัยเทคโนโลยีอีอีซี เอ็นจิเนีย แหลมฉบัง · คณะผู้บริหาร รองผู้อำนวยการ ครูและบุคลากร ' + TEACHERS.length + ' แผนก และบุคลากรสายสนับสนุน'}
   path="/personnel"
   keywords={['บุคลากร วิทยาลัยแหลมฉบัง', 'ครูผู้สอน EEC Engineer', 'คณะผู้บริหาร อาชีวศึกษา ศรีราชา']}
 >
@@ -231,8 +237,8 @@ const STATS: { num: string; plus?: boolean; lbl: string }[] = [
     <section class="section section-sm" style="background: var(--bg-alt)">
       <div class="container">
         <div class="reveal section-head" style="margin-bottom: 24px; --reveal-delay: 0s">
-          <span class="eyebrow">คณะครู</span>
-          <h2 class="section-title">ครูผู้สอนแยกตามแผนก</h2>
+          <span class="eyebrow">คณะครูและบุคลากร</span>
+          <h2 class="section-title">ครูและบุคลากรแยกตามแผนก</h2>
         </div>
         <div class="staff-toolbar">
           <div class="staff-search">

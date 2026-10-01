@@ -19,7 +19,7 @@ const money = (value: number) => value.toLocaleString('th-TH');
     </div>
     <div class="scholarships-grid">
       {SCHOLARSHIPS.map((offer) => !detailed ? (
-        <ScholarshipTeaser title={offer.title} href={scholarshipHref(offer)} image={offer.image} />
+        <ScholarshipTeaser title={offer.title} href={scholarshipHref(offer)} image={offer.image} linkedCard />
       ) : (
         <article class:list={['scholarship-card', { 'scholarship-promotion': offer.category === 'โปรโมชั่น' }]}>
           <div class="scholarship-labels"><span>{offer.category}</span><span>{offer.seats} คนตามประกาศ</span></div>
